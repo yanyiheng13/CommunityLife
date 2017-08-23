@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        buildConfigField "boolean", "isDebug", "${ISDEBUG}"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile(
+            deps.support_v4,
+            deps.appcompat_v7,
+            deps.support_design
+    )
+    compile(
+            deps.rxjava,
+            deps.rxandroid,
+            deps.rxlifecycle,
+            deps.rxlifecycle_android,
+            deps.rxlifecycle_components,
+            deps.retrofit,
+            deps.retrofit_gson,
+            deps.retrofit_rxjava,
+            deps.okhttp,
+            deps.okhttp_log,
+            deps.butterknife
+    )
+//    compile project(':libtool')
+}
