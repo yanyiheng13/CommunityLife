@@ -1,3 +1,5 @@
+package com.community.life.ui;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 

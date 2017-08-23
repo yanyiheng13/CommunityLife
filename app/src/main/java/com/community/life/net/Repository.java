@@ -28,7 +28,7 @@ public class Repository implements MvpModel {
 
 
     private Repository() {
-//        InputStream[] inputStreams = new InputStream[]{LeApplication.mApplication.getResources().openRawResource(R.raw.le2017)};
+//        InputStream[] inputStreams = new InputStream[]{com.community.life.LeApplication.mApplication.getResources().openRawResource(R.raw.le2017)};
 
         mBuilder = new RetrofitHelper.Builder().baseUrl(BuildConfig.api_url).sslKeyStream(null).debug(BuildConfig.DEBUG);
         mRemoteService = mBuilder.build().create(RemoteService
