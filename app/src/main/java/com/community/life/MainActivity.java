@@ -2,13 +2,17 @@ package com.community.life;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.community.life.ui.BaseActivity;
@@ -17,6 +21,7 @@ import com.community.life.ui.fragment.HomeFragment;
 import com.community.life.ui.fragment.MaintainFragment;
 import com.community.life.ui.fragment.MineFragment;
 import com.community.life.ui.fragment.UnlockingFragment;
+import com.community.life.util.UiTitleBarUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +38,8 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     //底部导航控件
     @BindView(R.id.tabLayout)
     TabLayout mBottomView;
+    @BindView(R.id.virtual_status_bar)
+    View mStatusBar;
 
     private Fragment oldFragment;
 
@@ -45,6 +52,8 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UiTitleBarUtil uiTitleBarUtil = new UiTitleBarUtil(this);
+        uiTitleBarUtil.setTransparentBar(Color.BLACK, 30);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
@@ -58,7 +67,10 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
             mBottomView.addTab(mBottomView.newTab().setCustomView(getCustomTabView(i)));
         }
         mBottomView.addOnTabSelectedListener(this);
+        mStatusBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mStatausBarHeight));
+        mStatusBar.setVisibility(View.GONE);
         setCurrentTab(2);
+        setTabTextIcon(2);
     }
 
     private View getCustomTabView(int position) {
@@ -112,8 +124,14 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        setCurrentTab(tab.getPosition());
-        setTabTextIcon(tab.getPosition());
+        int position = tab.getPosition();
+        if (position == 2) {
+            mStatusBar.setVisibility(View.GONE);
+        } else {
+            mStatusBar.setVisibility(View.VISIBLE);
+        }
+        setCurrentTab(position);
+        setTabTextIcon(position);
     }
 
     @Override
@@ -133,7 +151,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     private void setTabTextIcon(int position) {
         setCurrentTab(position);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             if (i == position) {
                 mImageArray[i].setSelected(true);
                 mTxtArray[i].setSelected(true);
@@ -142,5 +160,20 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
                 mTxtArray[i].setSelected(false);
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected boolean isCalculateHeight() {
+        return true;
+    }
+
+    @Override
+    protected boolean isTitleBarSetting() {
+        return false;
     }
 }

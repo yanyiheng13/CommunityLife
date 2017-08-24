@@ -7,7 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.community.life.MainActivity">
-
+    <View
+        android:id="@+id/virtual_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/colorTitleBar"/>
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"

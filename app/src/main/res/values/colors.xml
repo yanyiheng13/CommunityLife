@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#44B82A</color>
+    <color name="colorPrimaryDark">#44B82A</color>
+    <color name="colorAccent">#44B82A</color>
 
     <color name="colorTitleBar">#404040</color>
     <color name="colorTitleBg">#5B5B5B</color>
 
-    <color name="colorLine">#FFE7E7E7</color>
+    <color name="colorLine">#FFA7A7A7</color>
+    <color name="colorLoginTxt">#FF727272</color>
     <color name="colorTextUnSelect">#FF7F7F7F</color>
     <color name="colorTextSelect">#44B82A</color>
+
+    <color name="colorWeChatLoginBg">#3fcf65</color>
+    <color name="colorPhoneLoginBg">#26abff</color>
+
+    <color name="main_bg">#f3f3f3</color>
 </resources>
