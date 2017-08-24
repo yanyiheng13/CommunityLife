@@ -2,7 +2,7 @@ package com.community.life;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
+//import android.support.multidex.MultiDex;
 
 
 public class LeApplication extends Application {
@@ -23,6 +23,6 @@ public class LeApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MultiDex.install(base);
+//        MultiDex.install(base);
     }
 }

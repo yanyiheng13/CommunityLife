@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">CommunityLife</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">缴费</string>
+    <string name="title_maintain">维修</string>
+    <string name="title_unlocking">开锁</string>
+    <string name="title_complain">投诉</string>
+    <string name="title_mine">我的</string>
+
+    <string name="txt_splash_show">邑生活社区服务APP</string>
 </resources>
