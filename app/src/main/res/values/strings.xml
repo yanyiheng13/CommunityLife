@@ -15,5 +15,13 @@
     <string name="input_code">请输入验证码</string>
     <string name="code_login">验证并登录</string>
 
+    <string name="mine_wechat_nick">微信昵称:s%</string>
+    <string name="current_property">当前物业</string>
+    <string name="account_certification">账号认证</string>
+    <string name="account_authorise">账号授权</string>
+    <string name="pay_recode">缴费记录</string>
+    <string name="about_us">关于我们</string>
+    <string name="exit_login">退出登录</string>
+
     <string name="txt_splash_show">邑生活社区服务APP</string>
 </resources>

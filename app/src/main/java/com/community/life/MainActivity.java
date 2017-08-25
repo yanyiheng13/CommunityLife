@@ -7,21 +7,22 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.community.life.ui.BaseActivity;
 import com.community.life.ui.fragment.ComplainFragment;
-import com.community.life.ui.fragment.HomeFragment;
+import com.community.life.ui.fragment.PayFragment;
 import com.community.life.ui.fragment.MaintainFragment;
 import com.community.life.ui.fragment.MineFragment;
-import com.community.life.ui.fragment.UnlockingFragment;
+import com.community.life.ui.fragment.HomeFragment;
 import com.community.life.util.UiTitleBarUtil;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,7 +70,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         mBottomView.addOnTabSelectedListener(this);
         mStatusBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mStatausBarHeight));
         mStatusBar.setVisibility(View.GONE);
-        setCurrentTab(2);
+        selectTab(2);
         setTabTextIcon(2);
     }
 
@@ -96,13 +97,13 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         if (currentFragment == null) {
             switch (position) {
                 case 0:
-                    currentFragment = new HomeFragment();
+                    currentFragment = new PayFragment();
                     break;
                 case 1:
                     currentFragment = new MaintainFragment();
                     break;
                 case 2:
-                    currentFragment = new UnlockingFragment();
+                    currentFragment = new HomeFragment();
                     break;
                 case 3:
                     currentFragment = new ComplainFragment();
@@ -121,6 +122,15 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         ft.commitAllowingStateLoss();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (oldFragment != null) {
+            oldFragment.onActivityResult(requestCode, resultCode, data);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+    }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
@@ -130,8 +140,8 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         } else {
             mStatusBar.setVisibility(View.VISIBLE);
         }
-        setCurrentTab(position);
         setTabTextIcon(position);
+        setCurrentTab(position);
     }
 
     @Override
@@ -176,4 +186,21 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     protected boolean isTitleBarSetting() {
         return false;
     }
+
+    private void selectTab(int position) {
+        try {
+            Method selectTab = mBottomView.getClass().getDeclaredMethod("selectTab", TabLayout.Tab.class);
+            selectTab.setAccessible(true);
+            try {
+                selectTab.invoke(mBottomView, mBottomView.getTabAt(position));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -6,11 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.community.life.MainActivity;
 import com.community.life.R;
-import com.community.life.ui.view.TitleView;
+import com.community.life.ui.view.WithBackTitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +27,7 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.title_view)
-    TitleView mTitleView;
+    WithBackTitleView mTitleView;
 
     @BindView(R.id.login_phone_edit)
     EditText mEditPhone;

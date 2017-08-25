@@ -3,6 +3,7 @@ package com.community.life.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.community.life.R;
 import com.community.life.ui.BaseFragment;
 
 /**
@@ -17,7 +18,13 @@ import com.community.life.ui.BaseFragment;
 public class HomeFragment extends BaseFragment {
 
     @Override
+    public int inflateId() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
 }

@@ -6,8 +6,10 @@
 
     <color name="colorTitleBar">#404040</color>
     <color name="colorTitleBg">#5B5B5B</color>
+    <color name="colorTitleName">#332d23</color>
 
     <color name="colorLine">#FFA7A7A7</color>
+    <color name="pic_bg">#f6f6f6</color>
     <color name="colorLoginTxt">#FF727272</color>
     <color name="colorTextUnSelect">#FF7F7F7F</color>
     <color name="colorTextSelect">#44B82A</color>
@@ -16,4 +18,5 @@
     <color name="colorPhoneLoginBg">#26abff</color>
 
     <color name="main_bg">#f3f3f3</color>
+    <color name="color_mine_txt">#332d23</color>
 </resources>
