@@ -9,10 +9,12 @@
     <color name="colorTitleName">#332d23</color>
 
     <color name="colorLine">#FFA7A7A7</color>
+    <color name="colorMaintainNum">#b7b7b7</color>
     <color name="pic_bg">#f6f6f6</color>
     <color name="colorLoginTxt">#FF727272</color>
     <color name="colorTextUnSelect">#FF7F7F7F</color>
     <color name="colorTextSelect">#44B82A</color>
+    <color name="colorMaintain">#10c451</color>
 
     <color name="colorWeChatLoginBg">#3fcf65</color>
     <color name="colorPhoneLoginBg">#26abff</color>

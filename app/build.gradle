@@ -44,6 +44,7 @@ dependencies {
     apt deps.butterknifeCompiler
     compile deps.rxjava
     compile deps.rxandroid
+    compile deps.recyclerview_adapter
     compile project(':libframework')
     compile project(':picture_library')
 }

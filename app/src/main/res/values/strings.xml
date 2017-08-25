@@ -22,6 +22,13 @@
     <string name="pay_recode">缴费记录</string>
     <string name="about_us">关于我们</string>
     <string name="exit_login">退出登录</string>
+    <string name="click_to_maintain">点击报修</string>
+    <string name="maintain">报修</string>
+
+
+    <string name="maintain_order_number">单号  %s</string>
+    <string name="maintain_date">日期  %s</string>
+
 
     <string name="txt_splash_show">邑生活社区服务APP</string>
 </resources>

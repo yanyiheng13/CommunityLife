@@ -24,6 +24,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.MaintainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".ui.SplashActivity"

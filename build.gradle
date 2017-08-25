@@ -15,6 +15,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -62,6 +63,7 @@ ext.deps = [
         glide              : 'com.github.bumptech.glide:glide:4.0.0',
         umeng_analytics    : 'com.umeng.analytics:analytics:6.0.3',
         photoview          : 'com.github.chrisbanes.photoview:library:1.2.4',
+        recyclerview_adapter : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.4',
 
 ]
 

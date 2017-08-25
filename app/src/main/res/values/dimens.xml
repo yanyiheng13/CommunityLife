@@ -5,6 +5,7 @@
     <dimen name="main_tab_height">52dp</dimen>
     <dimen name="title_height">50dp</dimen>
 
+    <dimen name="font_14">14sp</dimen>>
     <dimen name="font_15">15sp</dimen>>
     <dimen name="font_16">16sp</dimen>>
     <dimen name="font_17">17sp</dimen>>
