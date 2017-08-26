@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CommunityLife</string>
+    <string name="app_name">邑生活</string>
     <string name="title_home">缴费</string>
     <string name="title_maintain">维修</string>
     <string name="title_unlocking">开锁</string>
@@ -15,7 +15,9 @@
     <string name="input_code">请输入验证码</string>
     <string name="code_login">验证并登录</string>
 
-    <string name="mine_wechat_nick">微信昵称:s%</string>
+    <string name="mine_wechat_nick">微信昵称:%s</string>
+    <string name="wechat_num">微信公众号:%s</string>
+    <string name="version">版本:%s</string>
     <string name="current_property">当前物业</string>
     <string name="account_certification">账号认证</string>
     <string name="account_authorise">账号授权</string>
@@ -24,10 +26,27 @@
     <string name="exit_login">退出登录</string>
     <string name="click_to_maintain">点击报修</string>
     <string name="maintain">报修</string>
+    <string name="complain_advice">投诉建议</string>
+    <string name="question_des">问题描述</string>
+    <string name="sure_submit">确认提交</string>
+    <string name="maintain_progress">维修进度</string>
+    <string name="feedback_progress">反馈进度</string>
+    <string name="tip_maintain">维修价格请参考物业公告</string>
+    <string name="maintain_phone">如有疑问请联系物业管理公司 电话：400-2135-8465</string>
+    <string name="cant_resolve">无法解决</string>
+    <string name="click_complain">点击投诉</string>
+    <string name="very_nice">非常满意</string>
+    <string name="contact_us">联系我们:</string>
+    <string name="phone">电话:</string>
+    <string name="profile">简介:</string>
+    <string name="profile_content">邑生活是全球领先的综合智慧生态方案提供商。公司通过为全球 160多个国家和地区的电信运营商和企业网客户提供创新技术与产品 解决方案，让全世界用户享有语音、数据、多媒体、无线宽带等全方 位沟通。
+        \n邑生活拥有通信业界最完整的、端到端的产品线和融合解决方案， 通过全系列的无线、有线、业务、终端产品和专业通信服务，灵活满 足全球不同运营商和企业网客户的差异化需求以及快速创新的追求。
+        \n目前，邑生活已全面服务于全球主流运营商及企业网客户，智能 终端发货量位居全国前四，并被誉为“智慧城市的标杆企业”。</string>
 
 
     <string name="maintain_order_number">单号  %s</string>
     <string name="maintain_date">日期  %s</string>
+    <string name="app_copy">Copyright © 2017 邑生活版权所有</string>
 
 
     <string name="txt_splash_show">邑生活社区服务APP</string>

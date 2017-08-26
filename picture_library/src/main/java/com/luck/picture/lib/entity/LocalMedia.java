@@ -28,6 +28,8 @@ public class LocalMedia implements Serializable {
     private int width;
     private int height;
 
+    public boolean isAddPic;
+
     public LocalMedia() {
 
     }

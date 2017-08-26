@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +28,8 @@ import butterknife.OnClick;
 public class WithBackTitleView extends LinearLayout {
     @BindView(R.id.title_text)
     TextView mTitle;
+    @BindView(R.id.title_icon_img)
+    ImageView mImageIcon;
 
     public WithBackTitleView(Context context) {
         this(context, null);
@@ -43,10 +47,21 @@ public class WithBackTitleView extends LinearLayout {
         ButterKnife.bind(this, this);
     }
 
-    public void setText(int txtId) {
+    public WithBackTitleView setText(int txtId) {
         if (txtId != 0) {
             mTitle.setText(txtId);
         }
+        return this;
+    }
+
+    public WithBackTitleView setImageResource(int drawableId) {
+        if (drawableId != 0) {
+            mImageIcon.setVisibility(VISIBLE);
+            mImageIcon.setImageResource(drawableId);
+        } else {
+            mImageIcon.setVisibility(View.GONE);
+        }
+        return this;
     }
 
     @OnClick(R.id.rl_title_back)

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +15,7 @@ import com.community.life.R;
 import com.community.life.model.MaintainBean;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.MaintainActivity;
+import com.community.life.ui.MaintainProgressActivity;
 import com.community.life.ui.view.IconTitleView;
 
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class MaintainFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new BaseQuickAdapter<MaintainBean, BaseViewHolder>(R.layout.view_maintain_item) {
             @Override
-            protected void convert(BaseViewHolder helper, MaintainBean item) {
+            protected void convert(BaseViewHolder helper, final MaintainBean item) {
                 View viewGap = helper.getView(R.id.maintain_top_gap_view);
                 if (helper.getPosition() == 0) {
                     viewGap.setVisibility(View.VISIBLE);
@@ -79,14 +81,21 @@ public class MaintainFragment extends BaseFragment {
                 //维修状态
                 TextView tvStatus = helper.getView(R.id.maintain_item_status_tv);
                 tvStatus.setText(statusDes);
+
+                helper.getView(R.id.view_maintain_item_root).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MaintainProgressActivity.newIntent(getContext(), item, 1);
+                    }
+                });
             }
         };
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_maintain_add, null);
-        mAdapter.addFooterView(view);
-        view.setOnClickListener(new View.OnClickListener() {
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_maintain_add, null);
+        mAdapter.addFooterView(footView);
+        footView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaintainActivity.newIntent(MaintainFragment.this.getContext());
+                MaintainActivity.newIntent(MaintainFragment.this.getContext(), 1);
             }
         });
 

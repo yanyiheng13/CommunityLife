@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.community.life.R;
+import com.community.life.ui.AboutUsActivity;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.view.IconTitleView;
 import com.luck.picture.lib.PictureSelector;
@@ -142,6 +144,24 @@ public class MineFragment extends BaseFragment {
                             .into(mImageHead);
                     break;
             }
+        }
+    }
+
+    @OnClick({R.id.mine_about_us_ll, R.id.mine_pay_record_ll, R.id.mine_account_authorise_ll})
+    public void onMineItemClick(View view) {
+        switch (view.getId()) {
+            //缴费记录
+            case R.id.mine_pay_record_ll:
+                break;
+            //账号授权
+            case R.id.mine_account_authorise_ll:
+                break;
+            //关于我们
+            case R.id.mine_about_us_ll:
+                AboutUsActivity.newIntent(getContext());
+                break;
+            default:
+                break;
         }
     }
 

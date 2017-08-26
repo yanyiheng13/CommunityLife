@@ -18,7 +18,9 @@
 
     <color name="colorWeChatLoginBg">#3fcf65</color>
     <color name="colorPhoneLoginBg">#26abff</color>
+    <color name="colorBorder">#9a9a9a</color>
+    <color name="colorDarkRed">#ec4800</color>
 
-    <color name="main_bg">#f3f3f3</color>
+    <color name="main_bg">#e6e6e6</color>
     <color name="color_mine_txt">#332d23</color>
 </resources>

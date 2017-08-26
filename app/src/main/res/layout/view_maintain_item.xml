@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
+    android:id="@+id/view_maintain_item_root"
     xmlns:tools="http://schemas.android.com/tools">
     <View
         android:id="@+id/maintain_top_gap_view"
