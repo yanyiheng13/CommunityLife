@@ -1,9 +1,12 @@
 package com.community.life.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -31,12 +34,14 @@ import butterknife.BindView;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class ComplainFragment extends BaseFragment {
+public class ComplainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.title_view)
     IconTitleView mTitleView;
     @BindView(R.id.maintain_recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.maintain_swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private BaseQuickAdapter<MaintainBean, BaseViewHolder> mAdapter;
     private List<MaintainBean> mListMaintain;
@@ -51,6 +56,11 @@ public class ComplainFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         //设置标题title和标题资源
         mTitleView.setText(R.string.title_complain).setImageResource(R.mipmap.title_complain);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new BaseQuickAdapter<MaintainBean, BaseViewHolder>(R.layout.view_maintain_item) {
             @Override
@@ -120,5 +130,15 @@ public class ComplainFragment extends BaseFragment {
         mAdapter.setNewData(mListMaintain);
         mAdapter.loadMoreEnd(false);
 
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 2000);
     }
 }

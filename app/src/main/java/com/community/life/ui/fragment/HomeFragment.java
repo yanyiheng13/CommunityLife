@@ -1,13 +1,25 @@
 package com.community.life.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.community.life.R;
+import com.community.life.ui.AnnouncementActivity;
 import com.community.life.ui.BaseFragment;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
- * 功能说明：
+ * 功能说明： 首页  也就是第三个tab
  *
  * @author： Yiheng Yan
  * @email： yanyiheng@le.com
@@ -16,6 +28,30 @@ import com.community.life.ui.BaseFragment;
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
 public class HomeFragment extends BaseFragment {
+    @BindView(R.id.home_top_img)
+    ImageView mImageTop;
+
+    @BindView(R.id.home_announcement_more_rl)
+    RelativeLayout mRlMore;
+
+    @BindView(R.id.home_announcement_brief_ll)
+    LinearLayout mRlBrief;
+
+    //三条公告的父布局 当公告显示个数低于三条的话控制隐藏
+    @BindView(R.id.home_announcement_one_ll)
+    LinearLayout mLlBriefOne;
+    @BindView(R.id.home_announcement_two_ll)
+    LinearLayout mLlBriefTwo;
+    @BindView(R.id.home_announcement_three_ll)
+    LinearLayout mLlBriefThree;
+
+    //三条公告
+    @BindView(R.id.home_announcement_one_tv)
+    TextView mTvBriefOne;
+    @BindView(R.id.home_announcement_two_tv)
+    TextView mTvBriefTwo;
+    @BindView(R.id.home_announcement_three_tv)
+    TextView mTvBriefThree;
 
     @Override
     public int inflateId() {
@@ -25,6 +61,35 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        //获取屏幕宽高
+        WindowManager wm = (WindowManager) getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+        //设置顶部图片的宽高
+        if (mImageTop.getLayoutParams() != null) {
+            mImageTop.getLayoutParams().height = (int)(1161 / 1620.0 * width);
+        }
+        if (mRlMore.getLayoutParams() != null) {
+            mRlMore.getLayoutParams().height = (int)(161 / 1620.0 * width);
+        }
+        if (mRlBrief.getLayoutParams() != null) {
+            mRlBrief.getLayoutParams().height = (int)(758 / 1620.0 * width);
+        }
+    }
+
+    @OnClick({R.id.home_announcement_more_rl, R.id.home_announcement_key_img})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_announcement_more_rl:
+                AnnouncementActivity.newIntent(getContext());
+                break;
+            case R.id.home_announcement_key_img:
+                break;
+            default:
+                break;
+        }
     }
 
 }

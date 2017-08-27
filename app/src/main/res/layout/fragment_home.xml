@@ -1,10 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+  <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+     >
 
     <ImageView
+        android:id="@+id/home_top_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/bg_unlocking" />
-</LinearLayout>
+        android:background="@mipmap/icon_home_top" />
+    <RelativeLayout
+        android:id="@+id/home_announcement_more_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_top_img"
+        android:background="@mipmap/icon_home_two"
+        >
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerVertical="true"
+         android:text="@string/announcement"
+         android:textColor="@color/colorLoginTxt"
+         android:textSize="@dimen/font_18"
+         android:textStyle="bold"
+         android:layout_marginLeft="25dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/more"
+            android:textColor="@color/colorLoginTxt"
+            android:textSize="@dimen/font_14"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="5dp"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/home_announcement_brief_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_announcement_more_rl"
+        android:background="@mipmap/icon_home_three"
+        android:orientation="vertical"
+        >
+       <LinearLayout
+           android:id="@+id/home_announcement_one_ll"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+           android:orientation="horizontal"
+           android:layout_marginLeft="25dp">
+           <ImageView
+               android:layout_width="3dp"
+               android:layout_height="3dp"
+               android:background="@drawable/icon_dot"
+               android:layout_gravity="center_vertical"/>
+           <TextView
+               android:id="@+id/home_announcement_one_tv"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="物业公司接管后,完成小区封闭管理的目标"
+               android:textColor="@color/colorLoginTxt"
+               android:textSize="@dimen/font_14"
+               android:layout_marginRight="25dp"
+               android:layout_marginLeft="5dp"
+               android:layout_alignParentRight="true"/>
+       </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_announcement_two_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="25dp">
+            <ImageView
+                android:layout_width="3dp"
+                android:layout_height="3dp"
+                android:background="@drawable/icon_dot"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/home_announcement_two_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="物业公司接管后,完成小区封闭管理的目标"
+                android:textColor="@color/colorLoginTxt"
+                android:textSize="@dimen/font_14"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentRight="true"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_announcement_three_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="25dp">
+            <ImageView
+                android:layout_width="3dp"
+                android:layout_height="3dp"
+                android:background="@drawable/icon_dot"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/home_announcement_three_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="物业公司接管后,完成小区封闭管理的目标"
+                android:textColor="@color/colorLoginTxt"
+                android:textSize="@dimen/font_14"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentRight="true"/>
+        </LinearLayout>
+    </LinearLayout>
+      <ImageView
+          android:id="@+id/home_announcement_key_img"
+          android:layout_width="110dp"
+          android:layout_height="110dp"
+          android:src="@mipmap/icon_home_key"
+          android:scaleType="centerCrop"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="-30dp"
+          android:layout_below="@id/home_announcement_brief_ll"/>
+</RelativeLayout>
+</ScrollView>

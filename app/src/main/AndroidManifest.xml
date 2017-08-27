@@ -34,8 +34,12 @@
 
         <activity android:name=".ui.MaintainProgressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.AnnouncementActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.AboutUsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.TransactionRecordsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity

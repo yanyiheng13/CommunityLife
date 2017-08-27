@@ -14,7 +14,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.community.life.R;
 import com.community.life.ui.AboutUsActivity;
 import com.community.life.ui.BaseFragment;
+import com.community.life.ui.TransactionRecordsActivity;
 import com.community.life.ui.view.IconTitleView;
+import com.community.life.ui.view.PropertyAddressView;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
@@ -51,6 +53,10 @@ public class MineFragment extends BaseFragment {
     //微信号
     @BindView(R.id.mine_wechat_num_tv)
     TextView mTvWeChatNum;
+
+    @BindView(R.id.mine_property_view)
+    PropertyAddressView mAddressView;
+
     //已选中的图片
     private List<LocalMedia> selectList = new ArrayList<>();
     @Override
@@ -63,6 +69,7 @@ public class MineFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         //设置标题和标题icon
         mTitleView.setImageResource(R.mipmap.title_mine).setText(R.string.title_mine);
+        mAddressView.updateData();
     }
 
     @OnClick(R.id.mine_head_img)
@@ -152,6 +159,7 @@ public class MineFragment extends BaseFragment {
         switch (view.getId()) {
             //缴费记录
             case R.id.mine_pay_record_ll:
+                TransactionRecordsActivity.newIntent(getContext());
                 break;
             //账号授权
             case R.id.mine_account_authorise_ll:

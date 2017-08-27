@@ -30,6 +30,7 @@
     <string name="question_des">问题描述</string>
     <string name="sure_submit">确认提交</string>
     <string name="maintain_progress">维修进度</string>
+    <string name="maintain_complete">维修完成</string>
     <string name="feedback_progress">反馈进度</string>
     <string name="tip_maintain">维修价格请参考物业公告</string>
     <string name="maintain_phone">如有疑问请联系物业管理公司 电话：400-2135-8465</string>
@@ -46,6 +47,20 @@
 
     <string name="maintain_order_number">单号  %s</string>
     <string name="maintain_date">日期  %s</string>
+    <string name="transaction_money">缴费 %s 元</string>
+    <string name="origin_money">原价 %s </string>
+    <string name="change_address">点击切换地址</string>
+    <string name="more">更多...</string>
+    <string name="announcement">公告</string>
+    <string name="yuan">元</string>
+    <string name="system_announcement">系统公告</string>
+    <string name="community_announcement">小区公告</string>
+
+    <string name="pay_money">缴费金额</string>
+    <string name="pay_much">缴费数量</string>
+    <string name="pay_time_month">一个月</string>
+    <string name="pay_time_quarter">一季度</string>
+    <string name="pay_time_year">一年</string>
     <string name="app_copy">Copyright © 2017 邑生活版权所有</string>
 
 

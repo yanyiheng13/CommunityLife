@@ -2,21 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/main_bg">
+    android:orientation="vertical">
 
-    <com.community.life.ui.view.IconTitleView
+    <com.community.life.ui.view.WithBackTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/maintain_swipe_refresh"
+        android:id="@+id/transaction_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/maintain_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/transaction_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-
 </LinearLayout>

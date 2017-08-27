@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:id="@+id/view_transaction_item_root"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <View
+        android:id="@+id/transaction_top_gap_view"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/main_bg"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/transaction_item_order_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/maintain_order_number"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="16dp"
+        android:textSize="@dimen/font_15"
+        android:layout_below="@id/transaction_top_gap_view"
+        android:textColor="@color/colorMaintainNum"/>
+
+    <RelativeLayout
+        android:id="@+id/transaction_item_bottom_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@id/transaction_item_order_tv"
+        >
+        <TextView
+            android:id="@+id/transaction_item_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/maintain_date"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:textSize="@dimen/font_15"
+            android:textColor="@color/colorMaintainNum"/>
+
+
+        <TextView
+            android:id="@+id/transaction_item_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/transaction_money"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
+            android:lines="1"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/transaction_item_date_tv"
+            android:ellipsize="end"
+            android:textSize="@dimen/font_18"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorLoginTxt"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/transaction_item_bottom_rl"
+        android:background="@color/colorLine"/>
+</RelativeLayout>
