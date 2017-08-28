@@ -78,6 +78,9 @@
     <string name="te_num">手机号</string>
     <string name="my_address">我的地址</string>
     <string name="submit_info">提交信息</string>
+    <string name="families">家庭成员</string>
+    <string name="tenant">租客</string>
+    <string name="delete">删除</string>
     <string name="app_copy">Copyright © 2017 邑生活版权所有</string>
 
 
