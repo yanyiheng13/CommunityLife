@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.community.life.R;
 import com.community.life.ui.AboutUsActivity;
 import com.community.life.ui.BaseFragment;
+import com.community.life.ui.CertificationActivity;
 import com.community.life.ui.TransactionRecordsActivity;
 import com.community.life.ui.view.IconTitleView;
 import com.community.life.ui.view.PropertyAddressView;
@@ -154,12 +155,15 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.mine_about_us_ll, R.id.mine_pay_record_ll, R.id.mine_account_authorise_ll})
+    @OnClick({R.id.mine_about_us_ll, R.id.mine_pay_record_ll, R.id.mine_account_authorise_ll, R.id.mine_account_certification_ll})
     public void onMineItemClick(View view) {
         switch (view.getId()) {
             //缴费记录
             case R.id.mine_pay_record_ll:
                 TransactionRecordsActivity.newIntent(getContext());
+                break;
+            case R.id.mine_account_certification_ll:
+                CertificationActivity.newIntent(getContext());
                 break;
             //账号授权
             case R.id.mine_account_authorise_ll:

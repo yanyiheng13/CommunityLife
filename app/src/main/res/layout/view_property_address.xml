@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_10"
-                    android:textColor="#5d5d5d"
+                    android:textColor="#d5d5d5"
                     android:layout_alignParentRight="true"
                     android:text="@string/change_address"
                     android:layout_marginRight="16dp"

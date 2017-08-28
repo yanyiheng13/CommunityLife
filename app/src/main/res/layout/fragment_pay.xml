@@ -149,20 +149,162 @@
                <com.community.life.ui.view.PropertyAddressView
                    android:id="@+id/pay_property_address"
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content"/>
+                   android:layout_height="wrap_content"
+                   />
                <View
                    android:layout_width="match_parent"
                    android:layout_height="1px"
                    android:background="@color/line_color"/>
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@android:color/white"
+                   android:paddingLeft="16dp"
+                   android:paddingRight="16dp"
+                   android:paddingTop="12dp"
+                   android:paddingBottom="12dp"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:text="@string/name"/>
+                   <TextView
+                       android:id="@+id/pay_name_tv"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:layout_alignParentRight="true"
+                       android:text="大卫"/>
+               </RelativeLayout>
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@android:color/white"
+                   android:paddingLeft="16dp"
+                   android:paddingRight="16dp"
+                   android:paddingTop="12dp"
+                   android:paddingBottom="12dp"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:text="@string/construction_area"/>
+                   <TextView
+                       android:id="@+id/pay_square_meters_tv"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:layout_alignParentRight="true"
+                       android:text="@string/square_meters"/>
+               </RelativeLayout>
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@android:color/white"
+                   android:paddingLeft="16dp"
+                   android:paddingRight="16dp"
+                   android:paddingTop="12dp"
+                   android:paddingBottom="12dp"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:text="@string/construction_area"/>
+                   <TextView
+                       android:id="@+id/pay_money_unit_tv"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:layout_alignParentRight="true"
+                       android:text="@string/by_square_meters"/>
+               </RelativeLayout>
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@android:color/white"
+                   android:paddingLeft="16dp"
+                   android:paddingRight="16dp"
+                   android:paddingTop="12dp"
+                   android:paddingBottom="12dp"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:text="@string/property_money_date"/>
+                   <TextView
+                       android:id="@+id/pay_money_date_tv"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:layout_centerVertical="true"
+                       android:textSize="@dimen/font_16"
+                       android:layout_alignParentRight="true"
+                       android:text="2017-08-12"/>
+               </RelativeLayout>
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="1px"
+                   android:layout_marginTop="20dp"
+                   android:background="@color/line_color"/>
                <LinearLayout
                    android:layout_width="match_parent"
-                   android:layout_height="200dp"
+                   android:layout_height="wrap_content"
                    android:background="@android:color/white"
-                   android:orientation="horizontal">
-
+                   android:paddingLeft="16dp"
+                   android:paddingRight="16dp"
+                   android:paddingBottom="30dp"
+                   android:orientation="horizontal"
+                   >
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:textSize="@dimen/font_14"
+                       android:text="@string/maintain_phone"/>
+                   <TextView
+                       android:id="@+id/pay_phone_num_tv"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/colorLoginTxt"
+                       android:textSize="@dimen/font_16"
+                       android:paddingTop="5dp"
+                       android:paddingBottom="10dp"
+                       android:autoLink="phone"
+                       android:text="@string/phone_num"/>
                </LinearLayout>
 
            </LinearLayout>
+            <TextView
+                android:id="@+id/pay_next_tv"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_wechat_login"
+                android:textSize="@dimen/font_20"
+                android:gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="50dp"
+                android:text="@string/next_step"
+                />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

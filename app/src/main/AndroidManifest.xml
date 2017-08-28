@@ -36,10 +36,14 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.AnnouncementActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.CertificationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.AboutUsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.TransactionRecordsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.AddAddressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity

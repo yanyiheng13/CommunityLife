@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.community.life.R;
@@ -43,6 +44,8 @@ public class PropertyAddressView extends LinearLayout {
     //地址容器
     @BindView(R.id.property_address_content_ll)
     LinearLayout mLlAddressContain;
+    @BindView(R.id.property_change_arrow_rl)
+    RelativeLayout mRlArrowBg;
     //布局载入器
     private LayoutInflater mInflater;
 
@@ -72,6 +75,28 @@ public class PropertyAddressView extends LinearLayout {
         for (int i = 0; i < 2; i++) {
             View view = mInflater.inflate(R.layout.view_property_address_item, null);
             TextView tv = (TextView) view.findViewById(R.id.property_address_item_tv);
+            ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);
+            view.setVisibility(GONE);
+            view.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            mListView.add(view);
+            mLlAddressContain.addView(view);
+        }
+
+    }
+    public void updateData(boolean isShow) {
+        mListView.clear();
+        mLlAddressContain.removeAllViews();
+        mRlArrowBg.setBackgroundColor(0xFFFFFFFF);
+        for (int i = 0; i < 2; i++) {
+            View view = mInflater.inflate(R.layout.view_property_address_item, null);
+            TextView tv = (TextView) view.findViewById(R.id.property_address_item_tv);
+            ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);
+            if (isShow) { imgStatus.setVisibility(VISIBLE); }
             view.setVisibility(GONE);
             view.setOnClickListener(new OnClickListener() {
                 @Override
@@ -98,6 +123,10 @@ public class PropertyAddressView extends LinearLayout {
 
     public void goneIcon() {
         mIconImg.setVisibility(View.GONE);
+    }
+
+    public void goneTxt() {
+        mTvAddress.setVisibility(GONE);
     }
 
     @OnClick({R.id.property_change_arrow_rl})
