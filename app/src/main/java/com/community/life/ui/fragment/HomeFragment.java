@@ -53,6 +53,9 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.home_announcement_three_tv)
     TextView mTvBriefThree;
 
+    @BindView(R.id.home_top_address_tv)
+    TextView mTvTopAddress;
+
     @Override
     public int inflateId() {
         return R.layout.fragment_home;
@@ -79,13 +82,15 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.home_announcement_more_rl, R.id.home_announcement_key_img})
+    @OnClick({R.id.home_announcement_more_rl, R.id.home_announcement_key_img, R.id.home_top_key_img})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_announcement_more_rl:
                 AnnouncementActivity.newIntent(getContext());
                 break;
             case R.id.home_announcement_key_img:
+                break;
+            case R.id.home_top_key_img:
                 break;
             default:
                 break;

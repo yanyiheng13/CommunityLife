@@ -4,82 +4,86 @@
     android:layout_height="wrap_content"
     android:background="@color/main_bg"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/mine_account_property_rl"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@android:color/white"
+        android:paddingLeft="16dp">
+
+        <ImageView
+            android:id="@+id/property_icon_img"
+            android:layout_width="25dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_property" />
+
+        <TextView
+            android:id="@+id/property_icon_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/property_icon_img"
+            android:text="@string/current_property"
+            android:textColor="@color/color_mine_txt"
+            android:textSize="@dimen/font_16" />
+
         <RelativeLayout
-            android:id="@+id/mine_account_property_rl"
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:background="@android:color/white"
-            android:paddingLeft="16dp">
+            android:id="@+id/property_change_arrow_rl"
+            android:layout_width="60dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@color/main_bg">
 
             <ImageView
-                android:id="@+id/property_icon_img"
-                android:layout_width="25dp"
-                android:layout_height="28dp"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="8dp"
-                android:src="@mipmap/icon_property" />
+                android:id="@+id/property_change_arrow_img"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/icon_arrow" />
 
-            <TextView
-                android:id="@+id/property_icon_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/property_icon_img"
-                android:text="@string/current_property"
-                android:textColor="@color/color_mine_txt"
-                android:textSize="@dimen/font_16" />
-                <RelativeLayout
-                    android:id="@+id/property_change_arrow_rl"
-                    android:layout_width="60dp"
-                    android:layout_height="32dp"
-                    android:layout_centerVertical="true"
-                    android:background="@color/main_bg"
-                    android:layout_marginRight="16dp"
-                    android:layout_alignParentRight="true"
-                    >
-                    <ImageView
-                        android:id="@+id/property_change_arrow_img"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/icon_arrow"/>
-
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_10"
-                    android:textColor="#d5d5d5"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/change_address"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_below="@id/property_change_arrow_rl"/>
-            <TextView
-                android:id="@+id/property_address_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_13"
-                android:textColor="#838383"
-                android:layout_toRightOf="@id/property_icon_tv"
-                android:layout_toLeftOf="@id/property_change_arrow_rl"
-                android:text="天津市南开街道南开小区\n9号楼3单元402"
-                android:layout_marginRight="10dp"
-                android:lineSpacingExtra="5dp"
-                android:layout_marginLeft="8dp"
-                android:gravity="right"
-                android:ellipsize="end"
-                android:layout_marginTop="2dp"
-                android:lines="2"
-               android:layout_centerVertical="true"/>
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/property_address_content_ll"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/property_change_arrow_rl"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/change_address"
+            android:textColor="#d5d5d5"
+            android:textSize="@dimen/font_10" />
+
+        <TextView
+            android:id="@+id/property_address_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@id/property_change_arrow_rl"
+            android:layout_toRightOf="@id/property_icon_tv"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:lineSpacingExtra="5dp"
+            android:lines="2"
+            android:text="天津市南开街道南开小区\n9号楼3单元402"
+            android:textColor="#838383"
+            android:textSize="@dimen/font_13" />
+    </RelativeLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/property_address_content_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
 </LinearLayout>

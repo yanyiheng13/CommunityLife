@@ -45,6 +45,10 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.AddAddressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.AuthorizationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.AddPeopleActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".ui.SplashActivity"

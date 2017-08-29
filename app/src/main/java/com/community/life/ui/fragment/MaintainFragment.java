@@ -1,5 +1,7 @@
 package com.community.life.ui.fragment;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -74,22 +76,34 @@ public class MaintainFragment extends BaseFragment implements SwipeRefreshLayout
                 helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.time));//设置时间
                 helper.setText(R.id.maintain_item_des_tv, item.des);//设置描述
                 helper.setText(R.id.maintain_item_order_tv, String.format(getString(R.string.maintain_order_number), item.orderNum));//设置订单号
+
+                Drawable d = MaintainFragment.this.getContext().getResources().getDrawable(R.drawable.bg_maintain_status);
+                GradientDrawable customBackGround = (GradientDrawable)d;
                 String statusDes = "";
+                int color = 0XFFF39D77;
                 switch (item.status) {
                     case "1":
                         statusDes = "待处理";
+                        color = 0XFFF39D77;
                         break;
                     case "2":
                         statusDes = "有问题";
+                        color = 0XFFE8641B;
                         break;
                     case "3":
                         statusDes = "已解决";
+                        color = 0XFF3FA343;
                         break;
                     default:
                         break;
                 }
+
                 //维修状态
                 TextView tvStatus = helper.getView(R.id.maintain_item_status_tv);
+                if (customBackGround != null) {
+                    customBackGround.setColor(color);
+                }
+                tvStatus.setBackground(customBackGround);
                 tvStatus.setText(statusDes);
 
                 helper.getView(R.id.view_maintain_item_root).setOnClickListener(new View.OnClickListener() {

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.community.life.R;
+import com.community.life.ui.view.NoLineTextView;
 import com.community.life.ui.view.WithBackTitleView;
 
 import butterknife.BindView;
@@ -30,10 +31,10 @@ public class AboutUsActivity extends BaseActivity {
     TextView mTvVersion;
     //电话1
     @BindView(R.id.about_us_phone1_tv)
-    TextView mTvPhoneOne;
+    NoLineTextView mTvPhoneOne;
     //电话2
     @BindView(R.id.about_us_phone2_tv)
-    TextView mTvPhoneTwo;
+    NoLineTextView mTvPhoneTwo;
     //微信公众号
     @BindView(R.id.about_us_wechat_tv)
     TextView mTvWeChatNum;

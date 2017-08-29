@@ -58,6 +58,7 @@
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
             tools:text="有问题"
+            android:minEms="3"
             android:background="@drawable/bg_maintain_status"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_14"/>

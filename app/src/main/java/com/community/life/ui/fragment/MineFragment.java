@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.community.life.R;
 import com.community.life.ui.AboutUsActivity;
+import com.community.life.ui.AuthorizationActivity;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.CertificationActivity;
 import com.community.life.ui.TransactionRecordsActivity;
@@ -167,6 +168,7 @@ public class MineFragment extends BaseFragment {
                 break;
             //账号授权
             case R.id.mine_account_authorise_ll:
+                AuthorizationActivity.newIntent(getContext());
                 break;
             //关于我们
             case R.id.mine_about_us_ll:

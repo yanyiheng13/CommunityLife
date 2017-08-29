@@ -49,8 +49,7 @@ public class AnnouncementActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announcement);
         ButterKnife.bind(this);
-        //TODO: 这里公告的图标没有切  需要后期替换
-        mTitleView.setText(R.string.announcement).setImageResource(R.mipmap.icon_pay_record);
+        mTitleView.setText(R.string.announcement).setImageResource(R.mipmap.icon_notice_light);
         setCurrentTab(0);
     }
 

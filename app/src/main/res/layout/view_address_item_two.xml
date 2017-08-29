@@ -63,20 +63,20 @@
         android:scaleType="centerCrop"
         android:visibility="gone"
         android:src="@mipmap/icon_certification"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorLine"
-        android:layout_below="@id/property_address_item_tv"/>
     <TextView
         android:id="@+id/property_address_delete"
         android:layout_width="70dp"
-        android:layout_height="match_parent"
+        android:layout_height="62dp"
         android:textSize="@dimen/font_15"
         android:textColor="@color/white"
         android:text="@string/delete"
         android:gravity="center"
-        android:layout_gravity="right"
-        android:visibility="gone"
+        android:visibility="invisible"
+        android:layout_alignParentRight="true"
         android:background="#e8641b"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorLine"
+        android:layout_below="@id/property_address_delete"/>
 </RelativeLayout>

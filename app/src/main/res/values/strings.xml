@@ -19,6 +19,7 @@
     <string name="wechat_num">微信公众号:%s</string>
     <string name="version">版本:%s</string>
     <string name="current_property">当前物业</string>
+    <string name="property_address">物业地址</string>
     <string name="account_certification">账号认证</string>
     <string name="account_authorise">账号授权</string>
     <string name="pay_recode">缴费记录</string>
@@ -41,9 +42,9 @@
     <string name="contact_us">联系我们:</string>
     <string name="phone">电话:</string>
     <string name="profile">简介:</string>
-    <string name="profile_content">邑生活是全球领先的综合智慧生态方案提供商。公司通过为全球 160多个国家和地区的电信运营商和企业网客户提供创新技术与产品 解决方案，让全世界用户享有语音、数据、多媒体、无线宽带等全方 位沟通。
-        \n邑生活拥有通信业界最完整的、端到端的产品线和融合解决方案， 通过全系列的无线、有线、业务、终端产品和专业通信服务，灵活满 足全球不同运营商和企业网客户的差异化需求以及快速创新的追求。
-        \n目前，邑生活已全面服务于全球主流运营商及企业网客户，智能 终端发货量位居全国前四，并被誉为“智慧城市的标杆企业”。</string>
+    <string name="profile_content">　　邑生活是全球领先的综合智慧生态方案提供商。公司通过为全球 160多个国家和地区的电信运营商和企业网客户提供创新技术与产品 解决方案，让全世界用户享有语音、数据、多媒体、无线宽带等全方 位沟通。
+        \n　　邑生活拥有通信业界最完整的、端到端的产品线和融合解决方案， 通过全系列的无线、有线、业务、终端产品和专业通信服务，灵活满 足全球不同运营商和企业网客户的差异化需求以及快速创新的追求。
+        \n　　目前，邑生活已全面服务于全球主流运营商及企业网客户，智能 终端发货量位居全国前四，并被誉为“智慧城市的标杆企业”。</string>
 
 
     <string name="maintain_order_number">单号  %s</string>
@@ -71,7 +72,8 @@
     <string name="next_step">下一步</string>
     <string name="phone_num_txt">手机号</string>
     <string name="wechat_num_txt">微信号</string>
-    <string name="add_address">+ 添加地址</string>
+    <string name="add_address">+　添加地址</string>
+    <string name="add_peoples">+　添加人员</string>
     <string name="add_address_no">添加地址</string>
     <string name="add_name">姓　名</string>
     <string name="certification_num">身份证</string>
@@ -81,6 +83,8 @@
     <string name="families">家庭成员</string>
     <string name="tenant">租客</string>
     <string name="delete">删除</string>
+    <string name="sure_add">确认添加</string>
+    <string name="add_people">添加人员</string>
     <string name="app_copy">Copyright © 2017 邑生活版权所有</string>
 
 

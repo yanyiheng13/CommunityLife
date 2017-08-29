@@ -45,6 +45,9 @@ public class PropertyAddressView extends LinearLayout {
     //地址容器
     @BindView(R.id.property_address_content_ll)
     LinearLayout mLlAddressContain;
+    //地址容器
+    @BindView(R.id.mine_account_property_rl)
+    RelativeLayout mRlGroup;
     @BindView(R.id.property_change_arrow_rl)
     RelativeLayout mRlArrowBg;
     //布局载入器
@@ -121,12 +124,13 @@ public class PropertyAddressView extends LinearLayout {
             ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);//R.mipmap.icon_binded  R.mipmap.icon_not_bind
             final TextView imgDelete = (TextView) view.findViewById(R.id.property_address_delete);//R.mipmap.icon_binded  R.mipmap.icon_not_bind
             final ImageView imgArrow = (ImageView) view.findViewById(R.id.property_arrow_img);
-            view.setVisibility(GONE);
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (imgArrow.isEnabled()) {
                         translationX(imgDelete);
+                    } else {
+                        imgDelete.setVisibility(View.INVISIBLE);
                     }
                     imgArrow.setEnabled(!imgArrow.isEnabled());
                 }
@@ -163,8 +167,18 @@ public class PropertyAddressView extends LinearLayout {
         return this;
     }
 
+    public PropertyAddressView goneGroup() {
+        mRlGroup.setVisibility(View.GONE);
+        return this;
+    }
+
     public PropertyAddressView goneIcon() {
         mIconImg.setVisibility(View.GONE);
+        return this;
+    }
+
+    public PropertyAddressView setText(int id) {
+        mTvLeft.setText(id);
         return this;
     }
 
