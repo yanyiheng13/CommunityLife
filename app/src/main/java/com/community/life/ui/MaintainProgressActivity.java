@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.community.life.R;
-import com.community.life.model.MaintainBean;
+import com.community.life.model.MaintainDta;
 import com.community.life.ui.view.WithBackTitleView;
 
 import butterknife.BindView;
@@ -39,17 +39,17 @@ public class MaintainProgressActivity extends BaseActivity {
     TextView mTvComplete;
 
     private int mType = 0;//1 维修进度  2 反馈进度
-    private MaintainBean mMaintainBean;
+    private MaintainDta mMaintainBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             mType = getIntent().getIntExtra("type", 0);
-            mMaintainBean = (MaintainBean) getIntent().getSerializableExtra("maintain");
+            mMaintainBean = (MaintainDta) getIntent().getSerializableExtra("maintain");
         } else {
             mType = savedInstanceState.getInt("type", 0);
-            mMaintainBean = (MaintainBean) savedInstanceState.getSerializable("maintain");
+            mMaintainBean = (MaintainDta) savedInstanceState.getSerializable("maintain");
         }
         setContentView(R.layout.activity_maintain_progress);
         ButterKnife.bind(this);
@@ -76,7 +76,7 @@ public class MaintainProgressActivity extends BaseActivity {
         }
     }
 
-    public static void newIntent(Context context, MaintainBean bean, int type) {
+    public static void newIntent(Context context, MaintainDta bean, int type) {
         Intent intent = new Intent(context, MaintainProgressActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("maintain", bean);

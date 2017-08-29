@@ -30,7 +30,7 @@ import butterknife.BindView;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class AnnouncementFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AnnouncementFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.announcement_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.announcement_swipe_refresh)
@@ -38,6 +38,9 @@ public class AnnouncementFragment extends BaseFragment implements SwipeRefreshLa
 
     private BaseQuickAdapter<AnnouncementBean, BaseViewHolder> mAdapter;
     private List<AnnouncementBean> mListMaintain;
+
+    private boolean isLoadMore, isRefresh;
+
     @Override
     public int inflateId() {
         return R.layout.fragment_announcement_list;
@@ -67,7 +70,7 @@ public class AnnouncementFragment extends BaseFragment implements SwipeRefreshLa
                 });
             }
         };
-
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         mListMaintain = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -89,5 +92,11 @@ public class AnnouncementFragment extends BaseFragment implements SwipeRefreshLa
                 }
             }
         }, 2000);
+    }
+
+    //上拉加载更多
+    @Override
+    public void onLoadMoreRequested() {
+
     }
 }

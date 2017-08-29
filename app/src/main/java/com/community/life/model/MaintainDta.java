@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class MaintainBean extends BaseBean implements Serializable {
+public class MaintainDta implements Serializable {
     public String orderNum;
     public String time;
     public String des;

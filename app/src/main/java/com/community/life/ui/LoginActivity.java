@@ -9,6 +9,9 @@ import android.widget.EditText;
 
 import com.community.life.MainActivity;
 import com.community.life.R;
+import com.community.life.model.LoginData;
+import com.community.life.mvp.LoginPresent;
+import com.community.life.mvp.contract.LoginContract;
 import com.community.life.ui.view.WithBackTitleView;
 
 import butterknife.BindView;
@@ -24,7 +27,7 @@ import butterknife.OnClick;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity<LoginPresent> implements LoginContract.View{
 
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
@@ -48,13 +51,16 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.login_get_code_tv, R.id.btn_login})
+    @OnClick({R.id.login_get_code_tv, R.id.btn_login, R.id.login_by_voice_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_get_code_tv:
                 break;
             case R.id.btn_login:
                 MainActivity.newIntent(this);
+                break;
+            //语音短信验证码
+            case R.id.login_by_voice_tv:
                 break;
             default:
                 break;
@@ -64,5 +70,15 @@ public class LoginActivity extends BaseActivity {
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onSuccessLogin(LoginData loginData) {
+
+    }
+
+    @Override
+    public void onFailureLogin(String code, String msg) {
+
     }
 }

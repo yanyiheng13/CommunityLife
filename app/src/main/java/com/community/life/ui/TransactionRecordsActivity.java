@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class TransactionRecordsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class TransactionRecordsActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
     //标题
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
@@ -81,6 +81,7 @@ public class TransactionRecordsActivity extends BaseActivity implements SwipeRef
                 });
             }
         };
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         mRecordList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -106,5 +107,11 @@ public class TransactionRecordsActivity extends BaseActivity implements SwipeRef
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, TransactionRecordsActivity.class);
         context.startActivity(intent);
+    }
+
+    //上拉加载更多
+    @Override
+    public void onLoadMoreRequested() {
+
     }
 }

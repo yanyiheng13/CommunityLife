@@ -2,6 +2,7 @@ package com.community.life.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.community.life.R;
+import com.community.life.model.HomeData;
+import com.community.life.mvp.HomePresenter;
+import com.community.life.mvp.contract.HomeContract;
 import com.community.life.ui.AnnouncementActivity;
 import com.community.life.ui.BaseFragment;
+import com.community.life.ui.view.LoadingDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,7 +32,7 @@ import butterknife.OnClick;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
     @BindView(R.id.home_top_img)
     ImageView mImageTop;
 
@@ -80,6 +85,14 @@ public class HomeFragment extends BaseFragment {
         if (mRlBrief.getLayoutParams() != null) {
             mRlBrief.getLayoutParams().height = (int)(758 / 1620.0 * width);
         }
+//        getPresenter().getHomeWork();
+        LoadingDialog.show(getContext());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LoadingDialog.hide();
+            }
+        }, 5000);
     }
 
     @OnClick({R.id.home_announcement_more_rl, R.id.home_announcement_key_img, R.id.home_top_key_img})
@@ -97,4 +110,13 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onSuccessWork(HomeData homeData) {
+
+    }
+
+    @Override
+    public void onFailureWork(String code, String msg) {
+
+    }
 }

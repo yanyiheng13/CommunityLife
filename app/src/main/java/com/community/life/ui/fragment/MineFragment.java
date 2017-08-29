@@ -12,6 +12,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.community.life.R;
+import com.community.life.model.PersonData;
+import com.community.life.mvp.PersonInfoPresenter;
+import com.community.life.mvp.contract.PersonInfoContract;
 import com.community.life.ui.AboutUsActivity;
 import com.community.life.ui.AuthorizationActivity;
 import com.community.life.ui.BaseFragment;
@@ -40,7 +43,7 @@ import butterknife.OnClick;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment<PersonInfoPresenter> implements PersonInfoContract.View {
     @BindView(R.id.title_view)
     IconTitleView mTitleView;
     //用户头像
@@ -180,5 +183,13 @@ public class MineFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onSuccessPerson(PersonData data) {
 
+    }
+
+    @Override
+    public void onFailurePerson(String code, String msg) {
+
+    }
 }

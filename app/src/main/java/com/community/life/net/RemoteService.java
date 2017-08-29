@@ -26,7 +26,7 @@ public interface RemoteService {
 
     //1.首页业绩信息详情
     @GET("/promotion/marketingO2o/indexCommission/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> homeWork(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
+    Flowable<ResponseBody> home(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //2.首页产品列表
     @GET("/promotion/marketingO2o/products/{version}/{appkey}/{token}")
     Flowable<ResponseBody> homeList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
@@ -44,7 +44,7 @@ public interface RemoteService {
     Flowable<ResponseBody> personInfo(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //6.我的店铺列表
     @GET("/promotion/marketingO2o/stores/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> myStoreList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
+    Flowable<ResponseBody> login(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //7.店铺人员列表
     @GET("/promotion/marketingO2o/clerks/{version}/{appkey}/{token}/{leparID}/{currentPageNo}/{pageSize}")
     Flowable<ResponseBody> storePeopleList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
@@ -52,8 +52,8 @@ public interface RemoteService {
                                            @Path("pageSize") String pageSize);
     //8.移除店员
     @GET("/promotion/marketingO2o/removeClerk/{version}/{appkey}/{token}/{leparID}/{userID}")
-    Flowable<ResponseBody> removeStaff(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
-                                       @Path("leparID") String leparID, @Path("userID") String userID);
+    Flowable<ResponseBody> maintain(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
+                                    @Path("leparID") String leparID, @Path("userID") String userID);
     //9.修改店员所属门店
     @GET("/promotion/marketingO2o/modifyClerkStore/{version}/{appkey}/{token}/{userID}/{aimLeparID}/{leparID}")
     Flowable<ResponseBody> modifyStaffStore(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,

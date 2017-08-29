@@ -16,7 +16,10 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.community.life.R;
-import com.community.life.model.MaintainBean;
+import com.community.life.model.ComplainData;
+import com.community.life.model.MaintainDta;
+import com.community.life.mvp.ComplainPresenter;
+import com.community.life.mvp.contract.ComplainContract;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.MaintainActivity;
 import com.community.life.ui.MaintainProgressActivity;
@@ -36,7 +39,7 @@ import butterknife.BindView;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class ComplainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ComplainFragment extends BaseFragment<ComplainPresenter> implements ComplainContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.title_view)
     IconTitleView mTitleView;
@@ -45,8 +48,8 @@ public class ComplainFragment extends BaseFragment implements SwipeRefreshLayout
     @BindView(R.id.maintain_swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private BaseQuickAdapter<MaintainBean, BaseViewHolder> mAdapter;
-    private List<MaintainBean> mListMaintain;
+    private BaseQuickAdapter<MaintainDta, BaseViewHolder> mAdapter;
+    private List<MaintainDta> mListMaintain;
 
     @Override
     public int inflateId() {
@@ -64,9 +67,9 @@ public class ComplainFragment extends BaseFragment implements SwipeRefreshLayout
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new BaseQuickAdapter<MaintainBean, BaseViewHolder>(R.layout.view_maintain_item) {
+        mAdapter = new BaseQuickAdapter<MaintainDta, BaseViewHolder>(R.layout.view_maintain_item) {
             @Override
-            protected void convert(BaseViewHolder helper, final MaintainBean item) {
+            protected void convert(BaseViewHolder helper, final MaintainDta item) {
                 View viewGap = helper.getView(R.id.maintain_top_gap_view);
                 if (helper.getPosition() == 0) {
                     viewGap.setVisibility(View.VISIBLE);
@@ -129,7 +132,7 @@ public class ComplainFragment extends BaseFragment implements SwipeRefreshLayout
         mRecyclerView.setAdapter(mAdapter);
         mListMaintain = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            MaintainBean maintainBean = new MaintainBean();
+            MaintainDta maintainBean = new MaintainDta();
             maintainBean.des = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
             maintainBean.orderNum = "100055522";
             if (i % 3 == 0) {
@@ -155,5 +158,15 @@ public class ComplainFragment extends BaseFragment implements SwipeRefreshLayout
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         }, 2000);
+    }
+
+    @Override
+    public void onSuccessComplain(ComplainData complainData) {
+
+    }
+
+    @Override
+    public void onErrorComplain(String code, String msg) {
+
     }
 }

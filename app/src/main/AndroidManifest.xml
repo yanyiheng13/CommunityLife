@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.community.life">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,38 +26,38 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.community.life.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.LoginSelectActivity"
+        <activity android:name="com.community.life.ui.LoginSelectActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.LoginActivity"
+        <activity android:name="com.community.life.ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.MaintainActivity"
+        <activity android:name="com.community.life.ui.MaintainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.MaintainProgressActivity"
+        <activity android:name="com.community.life.ui.MaintainProgressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.AnnouncementActivity"
+        <activity android:name="com.community.life.ui.AnnouncementActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.CertificationActivity"
+        <activity android:name="com.community.life.ui.CertificationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.AboutUsActivity"
+        <activity android:name="com.community.life.ui.AboutUsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.TransactionRecordsActivity"
+        <activity android:name="com.community.life.ui.TransactionRecordsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.AddAddressActivity"
+        <activity android:name="com.community.life.ui.AddAddressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.AuthorizationActivity"
+        <activity android:name="com.community.life.ui.AuthorizationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.AddPeopleActivity"
+        <activity android:name="com.community.life.ui.AddPeopleActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.community.life.ui.SplashActivity"
             android:theme="@style/splash_style">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
