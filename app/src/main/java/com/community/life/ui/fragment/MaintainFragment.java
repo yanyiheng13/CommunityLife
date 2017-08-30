@@ -16,12 +16,12 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.community.life.R;
-import com.community.life.model.MaintainDta;
+import com.community.life.model.MaintainData;
 import com.community.life.mvp.MaintainPresenter;
 import com.community.life.mvp.contract.MaintainContract;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.MaintainActivity;
-import com.community.life.ui.MaintainProgressActivity;
+import com.community.life.ui.ProgressActivity;
 import com.community.life.ui.view.EmptyView;
 import com.community.life.ui.view.IconTitleView;
 
@@ -50,8 +50,8 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
 
-    private BaseQuickAdapter<MaintainDta, BaseViewHolder> mAdapter;
-    private List<MaintainDta> mListMaintain;
+    private BaseQuickAdapter<MaintainData, BaseViewHolder> mAdapter;
+    private List<MaintainData> mListMaintain = new ArrayList<>();
 
     @Override
     public int inflateId() {
@@ -69,9 +69,9 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new BaseQuickAdapter<MaintainDta, BaseViewHolder>(R.layout.view_maintain_item) {
+        mAdapter = new BaseQuickAdapter<MaintainData, BaseViewHolder>(R.layout.view_maintain_item) {
             @Override
-            protected void convert(BaseViewHolder helper, final MaintainDta item) {
+            protected void convert(BaseViewHolder helper, final MaintainData item) {
                 View viewGap = helper.getView(R.id.maintain_top_gap_view);
                 if (helper.getPosition() == 0) {
                     viewGap.setVisibility(View.VISIBLE);
@@ -114,7 +114,7 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
                 helper.getView(R.id.view_maintain_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MaintainProgressActivity.newIntent(getContext(), item, 1);
+                        ProgressActivity.newIntent(getContext(), item, 1);
                     }
                 });
             }
@@ -129,9 +129,41 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
         });
 
         mRecyclerView.setAdapter(mAdapter);
-        mListMaintain = new ArrayList<>();
+        mAdapter.loadMoreEnd(false);
+        mEmptyView.onStart();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().maintain("", "", "");
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().maintain("", "", "");
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onSuccessMaintain(MaintainData maintainBean) {
+
+    }
+
+    @Override
+    public void onFailureMaintain(String code, String msg) {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+        mEmptyView.onSuccess();
+        mSwipeRefreshLayout.setRefreshing(false);
+        mListMaintain.clear();
         for (int i = 0; i < 10; i++) {
-            MaintainDta maintainBean = new MaintainDta();
+            MaintainData maintainBean = new MaintainData();
             maintainBean.des = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
             maintainBean.orderNum = "100055522";
             if (i % 3 == 0) {
@@ -145,28 +177,6 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
             mListMaintain.add(maintainBean);
         }
         mAdapter.setNewData(mListMaintain);
-        mAdapter.loadMoreEnd(false);
-
-    }
-
-    @Override
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 2000);
-    }
-
-    @Override
-    public void onSuccessMaintain(MaintainDta maintainBean) {
-
-    }
-
-    @Override
-    public void onFailureMaintain(String code, String msg) {
-
     }
 
     @Override

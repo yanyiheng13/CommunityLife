@@ -1,6 +1,6 @@
 package com.community.life.mvp.contract;
 
-import com.community.life.model.MaintainDta;
+import com.community.life.model.MaintainData;
 import com.sai.framework.mvp.MvpView;
 
 /**
@@ -15,7 +15,7 @@ import com.sai.framework.mvp.MvpView;
 public class MaintainContract {
 
     public interface View extends MvpView {
-        void onSuccessMaintain(MaintainDta maintainBean);
+        void onSuccessMaintain(MaintainData maintainBean);
         void onFailureMaintain(String code, String msg);
     }
 }

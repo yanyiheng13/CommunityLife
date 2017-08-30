@@ -151,6 +151,7 @@ public class MaintainActivity extends BaseActivity {
         };
         View headView = LayoutInflater.from(this).inflate(R.layout.view_maintain_head, null);
         mEtDes = (EditText) headView.findViewById(R.id.miantain_et);
+        mEtDes.clearFocus();
         mAdapter.addHeaderView(headView);
 
         View footView = LayoutInflater.from(this).inflate(R.layout.view_maintain_foot, null);

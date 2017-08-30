@@ -17,12 +17,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.community.life.R;
 import com.community.life.model.ComplainData;
-import com.community.life.model.MaintainDta;
+import com.community.life.model.MaintainData;
 import com.community.life.mvp.ComplainPresenter;
 import com.community.life.mvp.contract.ComplainContract;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.MaintainActivity;
-import com.community.life.ui.MaintainProgressActivity;
+import com.community.life.ui.ProgressActivity;
+import com.community.life.ui.view.EmptyView;
 import com.community.life.ui.view.IconTitleView;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import butterknife.BindView;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class ComplainFragment extends BaseFragment<ComplainPresenter> implements ComplainContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class ComplainFragment extends BaseFragment<ComplainPresenter> implements EmptyView.OnDataLoadStatusListener, ComplainContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.title_view)
     IconTitleView mTitleView;
@@ -48,8 +49,11 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
     @BindView(R.id.maintain_swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private BaseQuickAdapter<MaintainDta, BaseViewHolder> mAdapter;
-    private List<MaintainDta> mListMaintain;
+    private BaseQuickAdapter<MaintainData, BaseViewHolder> mAdapter;
+    private List<MaintainData> mListMaintain = new ArrayList<>();
+
+    @BindView(R.id.empty_view)
+    EmptyView mEmptyView;
 
     @Override
     public int inflateId() {
@@ -66,10 +70,11 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
+        mEmptyView.setOnDataLoadStatusListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new BaseQuickAdapter<MaintainDta, BaseViewHolder>(R.layout.view_maintain_item) {
+        mAdapter = new BaseQuickAdapter<MaintainData, BaseViewHolder>(R.layout.view_maintain_item) {
             @Override
-            protected void convert(BaseViewHolder helper, final MaintainDta item) {
+            protected void convert(BaseViewHolder helper, final MaintainData item) {
                 View viewGap = helper.getView(R.id.maintain_top_gap_view);
                 if (helper.getPosition() == 0) {
                     viewGap.setVisibility(View.VISIBLE);
@@ -113,7 +118,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
                 helper.getView(R.id.view_maintain_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MaintainProgressActivity.newIntent(getContext(), item, 2);
+                        ProgressActivity.newIntent(getContext(), item, 2);
                     }
                 });
             }
@@ -130,9 +135,42 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
         });
 
         mRecyclerView.setAdapter(mAdapter);
-        mListMaintain = new ArrayList<>();
+        mAdapter.loadMoreEnd(false);
+        mEmptyView.onStart();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().complain("", "", "", "", "", "");
+            }
+        }, 1000);
+
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().complain("", "", "", "", "", "");
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onSuccessComplain(ComplainData complainData) {
+
+    }
+
+    @Override
+    public void onErrorComplain(String code, String msg) {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+        mEmptyView.onSuccess();
+        mSwipeRefreshLayout.setRefreshing(false);
+        mListMaintain.clear();
         for (int i = 0; i < 10; i++) {
-            MaintainDta maintainBean = new MaintainDta();
+            MaintainData maintainBean = new MaintainData();
             maintainBean.des = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
             maintainBean.orderNum = "100055522";
             if (i % 3 == 0) {
@@ -146,27 +184,10 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
             mListMaintain.add(maintainBean);
         }
         mAdapter.setNewData(mListMaintain);
-        mAdapter.loadMoreEnd(false);
-
     }
 
     @Override
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 2000);
-    }
-
-    @Override
-    public void onSuccessComplain(ComplainData complainData) {
-
-    }
-
-    @Override
-    public void onErrorComplain(String code, String msg) {
+    public void onDataLoadAgain() {
 
     }
 }

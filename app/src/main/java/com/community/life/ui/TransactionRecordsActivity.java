@@ -14,7 +14,11 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.community.life.R;
-import com.community.life.model.TransactionRecordsBean;
+import com.community.life.model.AnnouncementData;
+import com.community.life.model.TransactionData;
+import com.community.life.mvp.TransactionPresenter;
+import com.community.life.mvp.contract.TransactionContract;
+import com.community.life.ui.view.EmptyView;
 import com.community.life.ui.view.WithBackTitleView;
 
 import java.util.ArrayList;
@@ -32,7 +36,7 @@ import butterknife.ButterKnife;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class TransactionRecordsActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
+public class TransactionRecordsActivity extends BaseActivity<TransactionPresenter> implements TransactionContract.View, EmptyView.OnDataLoadStatusListener, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
     //标题
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
@@ -42,8 +46,13 @@ public class TransactionRecordsActivity extends BaseActivity implements BaseQuic
     @BindView(R.id.transaction_recycler_view)
     RecyclerView mRecyclerView;
 
-    private List<TransactionRecordsBean> mRecordList;
-    private BaseQuickAdapter<TransactionRecordsBean, BaseViewHolder> mAdapter;
+    @BindView(R.id.empty_view)
+    EmptyView mEmptyView;
+
+    private boolean isRefresh, isLoadMore;
+
+    private List<TransactionData> mRecordList = new ArrayList<>();
+    private BaseQuickAdapter<TransactionData, BaseViewHolder> mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,11 +66,12 @@ public class TransactionRecordsActivity extends BaseActivity implements BaseQuic
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mEmptyView.setOnDataLoadStatusListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new BaseQuickAdapter<TransactionRecordsBean, BaseViewHolder>(R.layout.view_recoder_item) {
+        mAdapter = new BaseQuickAdapter<TransactionData, BaseViewHolder>(R.layout.view_recoder_item) {
             @Override
-            protected void convert(BaseViewHolder helper, final TransactionRecordsBean item) {
+            protected void convert(BaseViewHolder helper, final TransactionData item) {
                 View viewGap = helper.getView(R.id.transaction_top_gap_view);
                 if (helper.getPosition() == 0) {
                     viewGap.setVisibility(View.VISIBLE);
@@ -76,32 +86,37 @@ public class TransactionRecordsActivity extends BaseActivity implements BaseQuic
                 helper.getView(R.id.view_transaction_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        MaintainProgressActivity.newIntent(getContext(), item, 1);
+//                        ProgressActivity.newIntent(getContext(), item, 1);
                     }
                 });
             }
         };
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
-        mRecordList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            TransactionRecordsBean recordsBean = new TransactionRecordsBean();
-            recordsBean.money = "4,000";
-            recordsBean.orderNum = "100055522";
-            recordsBean.time = "2017-08-12";
-            mRecordList.add(recordsBean);
-        }
-        mAdapter.setNewData(mRecordList);
+
+        mEmptyView.onStart();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().transaction("", "", "", "", "", "");
+            }
+        }, 1000);
     }
 
     @Override
     public void onRefresh() {
+        if (isLoadMore) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            return;
+        }
+        isRefresh = true;
+        isLoadMore = false;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
+                getPresenter().transaction("", "", "", "", "", "");
             }
-        }, 2000);
+        }, 1000);
     }
 
     public static void newIntent(Context context) {
@@ -112,6 +127,69 @@ public class TransactionRecordsActivity extends BaseActivity implements BaseQuic
     //上拉加载更多
     @Override
     public void onLoadMoreRequested() {
+        if (isRefresh) {
+            return;
+        }
+        isLoadMore = true;
+        isRefresh = false;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().transaction("", "", "", "", "", "");
+            }
+        }, 1000);
+    }
 
+    @Override
+    public void onDataLoadAgain() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().transaction("", "", "", "", "", "");
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onSuccess(TransactionData transactionData) {
+
+    }
+
+    @Override
+    public void onFailure(String code, String msg) {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+        mSwipeRefreshLayout.setRefreshing(false);
+        mEmptyView.onSuccess();
+        if (isLoadMore) {
+            List<TransactionData> list = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                TransactionData recordsBean = new TransactionData();
+                recordsBean.money = "4,000";
+                recordsBean.orderNum = "100055522";
+                recordsBean.time = "2017-08-12";
+                list.add(recordsBean);
+            }
+//            if ("1".equals(mStaffList.isLastPage)) {
+//                mAdapter.loadMoreEnd(true);
+//            } else {
+//                mAdapter.setEnableLoadMore(true);
+//            }
+            mAdapter.addData(list);
+            mAdapter.loadMoreEnd(false);
+        } else {
+            mRecordList.clear();
+            for (int i = 0; i < 10; i++) {
+                TransactionData recordsBean = new TransactionData();
+                recordsBean.money = "4,000";
+                recordsBean.orderNum = "100055522";
+                recordsBean.time = "2017-08-12";
+                mRecordList.add(recordsBean);
+            }
+            mAdapter.setNewData(mRecordList);
+        }
+        isRefresh = false;
+        isLoadMore = false;
     }
 }

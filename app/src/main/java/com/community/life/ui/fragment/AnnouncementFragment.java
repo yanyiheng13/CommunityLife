@@ -76,7 +76,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
                 helper.getView(R.id.view_announcement_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        MaintainProgressActivity.newIntent(getContext(), item, 1);
+//                        ProgressActivity.newIntent(getContext(), item, 1);
                     }
                 });
             }
@@ -90,7 +90,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
             public void run() {
                 getPresenter().announcement("", "", "", "", "", "", "");
             }
-        }, 2000);
+        }, 1000);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
             public void run() {
                 getPresenter().announcement("", "", "", "", "", "", "");
             }
-        }, 2000);
+        }, 1000);
     }
 
     //上拉加载更多
@@ -122,7 +122,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
             public void run() {
                 getPresenter().announcement("", "", "", "", "", "", "");
             }
-        }, 2000);
+        }, 1000);
 
     }
 
@@ -188,6 +188,6 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
             public void run() {
                 getPresenter().announcement("", "", "", "", "", "", "");
             }
-        }, 2000);
+        }, 1000);
     }
 }

@@ -85,14 +85,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         if (mRlBrief.getLayoutParams() != null) {
             mRlBrief.getLayoutParams().height = (int)(758 / 1620.0 * width);
         }
-//        getPresenter().getHomeWork();
-        LoadingDialog.show(getContext());
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                LoadingDialog.hide();
-            }
-        }, 5000);
     }
 
     @OnClick({R.id.home_announcement_more_rl, R.id.home_announcement_key_img, R.id.home_top_key_img})

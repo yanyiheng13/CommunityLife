@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -36,11 +37,11 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        mAnimation = new RotateAnimation(0f,360f,Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-        mAnimation.setDuration(600);
-        mAnimation.setRepeatCount(Integer.MAX_VALUE);
-        mAnimation.setFillAfter(true);
+        mAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        mAnimation.setRepeatCount(Animation.INFINITE);
+        mAnimation.setRepeatMode(Animation.RESTART);
         mAnimation.setInterpolator(new LinearInterpolator());
+        mAnimation.setDuration(800);
         mImageLoading.startAnimation(mAnimation);
 
         new Handler().postDelayed(new Runnable() {

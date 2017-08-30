@@ -3,7 +3,7 @@ package com.community.life.model;
 import java.io.Serializable;
 
 /**
- * 功能说明： 维修列表的item
+ * 功能说明： 维修进度
  *
  * @author: Yiheng Yan
  * @Email: yanyiheng86@163.com
@@ -11,7 +11,8 @@ import java.io.Serializable;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class MaintainDta implements Serializable {
+public class MaintainProgressData implements Serializable {
+
     public String orderNum;
     public String time;
     public String des;

@@ -18,8 +18,8 @@ import com.sai.framework.mvp.BasePresenter;
  */
 public class ComplainPresenter extends BasePresenter<Repository, ComplainContract.View> {
 
-   public void personWorkList(String version, String appkey, String token, String month, String pageSize, String currentPageNo) {
-       new RxHelper().view(getRootView()).load(getModel().getRemote().personWorkList(version, appkey, token, month, pageSize, currentPageNo)).callBack(new RxHelper
+   public void complain(String version, String appkey, String token, String month, String pageSize, String currentPageNo) {
+       new RxHelper().view(getRootView()).load(getModel().getRemote().complain(version, appkey, token, month, pageSize, currentPageNo)).callBack(new RxHelper
                .CallBackAdapter<BaseBean<ComplainData>>(BaseBean.class) {
 
            @Override

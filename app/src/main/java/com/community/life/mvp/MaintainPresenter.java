@@ -2,7 +2,7 @@ package com.community.life.mvp;
 
 
 import com.community.life.model.BaseBean;
-import com.community.life.model.MaintainDta;
+import com.community.life.model.MaintainData;
 import com.community.life.mvp.contract.MaintainContract;
 import com.community.life.net.Repository;
 import com.community.life.net.rx.RxHelper;
@@ -21,9 +21,9 @@ public class MaintainPresenter extends BasePresenter<Repository, MaintainContrac
 
     public void maintain(String version, String appkey, String token) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().maintain(version, appkey, token, "", "")).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<MaintainDta>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<MaintainData>>(BaseBean.class) {
             @Override
-            public void onSuccess(String response, BaseBean<MaintainDta> result) {
+            public void onSuccess(String response, BaseBean<MaintainData> result) {
                 getRootView().onSuccessMaintain(result.data);
             }
 

@@ -36,9 +36,10 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name="com.community.life.ui.MaintainActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name="com.community.life.ui.MaintainProgressActivity"
+        <activity android:name="com.community.life.ui.ProgressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.community.life.ui.AnnouncementActivity"
             android:theme="@style/AppTheme.NoActionBar"/>

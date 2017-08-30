@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class TransactionRecordsBean extends BaseBean implements Serializable {
+public class TransactionData implements Serializable {
 
     public String time;
     public String orderNum;

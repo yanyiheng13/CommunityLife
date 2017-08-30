@@ -32,8 +32,8 @@ public interface RemoteService {
     Flowable<ResponseBody> homeList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //3.个人业绩列表
     @GET("/promotion/marketingO2o/personalPerformance/{version}/{appkey}/{token}/{month}/{pageSize}/{currentPageNo}")
-    Flowable<ResponseBody> personWorkList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
-                                          @Path("month") String month, @Path("pageSize") String pageSize, @Path("currentPageNo") String currentPageNo);
+    Flowable<ResponseBody> complain(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
+                                    @Path("month") String month, @Path("pageSize") String pageSize, @Path("currentPageNo") String currentPageNo);
     //4.团队业绩列表
     @GET("/promotion/marketingO2o/teamPerformance/{version}/{appkey}/{token}/{type}/{month}/{pageSize}/{currentPageNo}")
     Flowable<ResponseBody> announcement(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
@@ -47,9 +47,9 @@ public interface RemoteService {
     Flowable<ResponseBody> login(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //7.店铺人员列表
     @GET("/promotion/marketingO2o/clerks/{version}/{appkey}/{token}/{leparID}/{currentPageNo}/{pageSize}")
-    Flowable<ResponseBody> storePeopleList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
-                                           @Path("leparID") String leparID, @Path("currentPageNo") String currentPageNo,
-                                           @Path("pageSize") String pageSize);
+    Flowable<ResponseBody> transaction(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
+                                       @Path("leparID") String leparID, @Path("currentPageNo") String currentPageNo,
+                                       @Path("pageSize") String pageSize);
     //8.移除店员
     @GET("/promotion/marketingO2o/removeClerk/{version}/{appkey}/{token}/{leparID}/{userID}")
     Flowable<ResponseBody> maintain(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
@@ -81,18 +81,18 @@ public interface RemoteService {
     Flowable<ResponseBody> customerStoreList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //14.团队客户----》获取全部店员列表
     @GET("/promotion/marketingO2o/clerks/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> customerStaffList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
+    Flowable<ResponseBody> statistic(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
 
     //15.客户详情
-    @GET("/promotion/marketingO2o/customer/{version}/{appkey}/{token}/{userID}")
-    Flowable<ResponseBody> customerDetail(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token, @Path("userID") String userID);
+    @GET("/promotion/marketingO2o/customer/{version}/")
+    Flowable<ResponseBody> noSolve(@Path("version") String version);
 
     //16.店铺详情
     @GET("/promotion/marketingO2o/managerStore/{version}/{appkey}/{token}/{storeID}")
-    Flowable<ResponseBody> storeDetail(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token, @Path("storeID") String storeID);
+    Flowable<ResponseBody> complainProgress(@Path("token") String token, @Path("storeID") String storeID);
 
     //17.短链
     @FormUrlEncoded
     @POST("/promotion/marketingO2o/shorturl/add/v1/{appkey}")
-    Flowable<ResponseBody> shortUrl(@Path("appkey") String appkey, @FieldMap Map<String, String> map);
+    Flowable<ResponseBody> maintainProgress(@Path("appkey") String appkey, @FieldMap Map<String, String> map);
 }
