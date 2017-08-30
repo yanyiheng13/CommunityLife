@@ -35,6 +35,9 @@ public class MaintainProgressActivity extends BaseActivity {
     @BindView(R.id.maintain_detail_order_tv)
     TextView mTvOrderNum;
 
+    @BindView(R.id.maintain_phone_num_tv)
+    TextView mTvPhone;
+
     @BindView(R.id.maintain_cant_complete_tv)
     TextView mTvComplete;
 

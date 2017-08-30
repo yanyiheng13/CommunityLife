@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class AnnouncementBean extends BaseBean implements Serializable {
+public class AnnouncementData extends BaseBean implements Serializable {
     public String time;
     public String content;
 }

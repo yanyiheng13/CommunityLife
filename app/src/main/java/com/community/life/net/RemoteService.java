@@ -36,7 +36,7 @@ public interface RemoteService {
                                           @Path("month") String month, @Path("pageSize") String pageSize, @Path("currentPageNo") String currentPageNo);
     //4.团队业绩列表
     @GET("/promotion/marketingO2o/teamPerformance/{version}/{appkey}/{token}/{type}/{month}/{pageSize}/{currentPageNo}")
-    Flowable<ResponseBody> teamWorkList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
+    Flowable<ResponseBody> announcement(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,
                                         @Path("type") String type, @Path("month") String month,
                                         @Path("pageSize") String pageSize, @Path("currentPageNo") String currentPageNo);
     //5.个人详细信息

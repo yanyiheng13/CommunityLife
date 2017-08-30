@@ -10,11 +10,6 @@ import android.view.View;
 
 import com.community.life.R;
 import com.community.life.ui.fragment.AnnouncementFragment;
-import com.community.life.ui.fragment.ComplainFragment;
-import com.community.life.ui.fragment.HomeFragment;
-import com.community.life.ui.fragment.MaintainFragment;
-import com.community.life.ui.fragment.MineFragment;
-import com.community.life.ui.fragment.PayFragment;
 import com.community.life.ui.view.WithBackTitleView;
 
 import butterknife.BindView;
@@ -83,10 +78,10 @@ public class AnnouncementActivity extends BaseActivity {
         if (currentFragment == null) {
             switch (position) {
                 case 0:
-                    currentFragment = new AnnouncementFragment();
+                    currentFragment = AnnouncementFragment.newIntent(1);
                     break;
                 case 1:
-                    currentFragment = new AnnouncementFragment();
+                    currentFragment = AnnouncementFragment.newIntent(2);
                     break;
             }
             ft.add(R.id.content, currentFragment, String.valueOf(position));

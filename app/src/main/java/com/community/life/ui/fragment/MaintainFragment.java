@@ -22,6 +22,7 @@ import com.community.life.mvp.contract.MaintainContract;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.MaintainActivity;
 import com.community.life.ui.MaintainProgressActivity;
+import com.community.life.ui.view.EmptyView;
 import com.community.life.ui.view.IconTitleView;
 
 import java.util.ArrayList;
@@ -38,13 +39,16 @@ import butterknife.BindView;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class MaintainFragment extends BaseFragment<MaintainPresenter> implements SwipeRefreshLayout.OnRefreshListener, MaintainContract.View {
+public class MaintainFragment extends BaseFragment<MaintainPresenter> implements EmptyView.OnDataLoadStatusListener, SwipeRefreshLayout.OnRefreshListener, MaintainContract.View {
     @BindView(R.id.title_view)
     IconTitleView mTitleView;
     @BindView(R.id.maintain_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.maintain_swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.empty_view)
+    EmptyView mEmptyView;
 
     private BaseQuickAdapter<MaintainDta, BaseViewHolder> mAdapter;
     private List<MaintainDta> mListMaintain;
@@ -162,6 +166,11 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
 
     @Override
     public void onFailureMaintain(String code, String msg) {
+
+    }
+
+    @Override
+    public void onDataLoadAgain() {
 
     }
 }
