@@ -71,7 +71,7 @@ public interface RemoteService {
                                     @Path("leparID") String leparID);
     //11.获取所有门店
     @GET("/promotion/marketingO2o/queryMyStore/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> getAllStore(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
+    Flowable<ResponseBody> verificationCode(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
 
     //11.客户列表
     @GET("/promotion/marketingO2o/customerDetails/{version}/{appkey}/{token}/{type}/{pageSize}/{pageNo}/{assistantID}/{storeID}")

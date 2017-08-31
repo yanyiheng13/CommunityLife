@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.community.life.R;
+import com.community.life.model.PayInfoData;
+import com.community.life.mvp.PayPresenter;
+import com.community.life.mvp.contract.PayContract;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.view.IconTitleView;
 import com.community.life.ui.view.PropertyAddressView;
@@ -22,7 +25,7 @@ import butterknife.OnClick;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class PayFragment extends BaseFragment {
+public class PayFragment extends BaseFragment<PayPresenter> implements PayContract.View {
 
     @BindView(R.id.title_view)
     IconTitleView mTitleView;
@@ -95,4 +98,13 @@ public class PayFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onSuccessPay(PayInfoData payInfoData) {
+
+    }
+
+    @Override
+    public void onFailurePay(String code, String msg) {
+
+    }
 }

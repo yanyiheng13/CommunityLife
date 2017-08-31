@@ -8,16 +8,16 @@
   <LinearLayout
       android:id="@+id/ll_login_wechat"
       android:layout_width="match_parent"
-      android:layout_height="50dp"
+      android:layout_height="48dp"
       android:orientation="horizontal"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
-      android:layout_marginTop="220dp"
+      android:layout_marginTop="210dp"
       android:gravity="center"
       android:background="@drawable/bg_wechat_login">
       <ImageView
-          android:layout_width="40dp"
-          android:layout_height="40dp"
+          android:layout_width="34dp"
+          android:layout_height="34dp"
           android:scaleType="centerCrop"
           android:layout_gravity="center_vertical"
           android:src="@mipmap/icon_login_wechat"/>
@@ -25,23 +25,23 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:textColor="@android:color/white"
-          android:textSize="@dimen/font_28"
+          android:textSize="@dimen/font_20"
           android:layout_marginLeft="20dp"
           android:text="@string/wechat_login"/>
   </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_login_phone"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:orientation="horizontal"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="48dp"
         android:gravity="center"
         android:background="@drawable/bg_phone_login">
         <ImageView
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="34dp"
+            android:layout_height="33dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/icon_login_phone"/>
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/font_28"
+            android:textSize="@dimen/font_20"
             android:layout_marginLeft="16dp"
             android:text="@string/phone_login"/>
     </LinearLayout>

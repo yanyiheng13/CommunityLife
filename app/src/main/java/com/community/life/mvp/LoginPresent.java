@@ -3,6 +3,7 @@ package com.community.life.mvp;
 
 import com.community.life.LeApplication;
 import com.community.life.model.BaseBean;
+import com.community.life.model.IsOkData;
 import com.community.life.model.LoginData;
 import com.community.life.mvp.contract.LoginContract;
 import com.community.life.net.Repository;
@@ -35,4 +36,28 @@ public class LoginPresent extends BasePresenter<Repository, LoginContract.View> 
             }
         }).application(LeApplication.mApplication).start();
     }
+
+    /**
+     * 短信验证码
+     * @param version
+     * @param appkey
+     * @param token
+     */
+    public void verificationCode(String version, String appkey, String token) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().verificationCode(version, appkey, token)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<IsOkData>>(BaseBean.class) {
+            @Override
+            public void onSuccess(String response, BaseBean<IsOkData> result) {
+                getRootView().onSuccessCode(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureCode(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+
 }

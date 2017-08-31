@@ -1,6 +1,7 @@
 package com.community.life.mvp.contract;
 
 
+import com.community.life.model.IsOkData;
 import com.community.life.model.LoginData;
 import com.sai.framework.mvp.MvpView;
 
@@ -18,5 +19,8 @@ public class LoginContract {
     public interface View extends MvpView {
         void onSuccessLogin(LoginData loginData);
         void onFailureLogin(String code, String msg);
+
+        void onSuccessCode(IsOkData isOkData);
+        void onFailureCode(String code, String msg);
     }
 }

@@ -68,7 +68,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/get_code"
                 android:gravity="center"
-                android:textSize="@dimen/font_14"
+                android:textSize="@dimen/font_13"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/colorLoginTxt"/>
             <View
@@ -110,16 +110,16 @@
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
         android:layout_gravity="right"
-        android:textSize="@dimen/font_14"
+        android:textSize="@dimen/font_12"
         android:layout_alignParentRight="true"
         android:textColor="@color/colorLoginTxt"/>
     <TextView
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="46dp"
         android:text="@string/code_login"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/font_20"
+        android:textSize="@dimen/font_18"
         android:gravity="center"
         android:background="@drawable/bg_wechat_login"
         android:layout_marginLeft="20dp"
