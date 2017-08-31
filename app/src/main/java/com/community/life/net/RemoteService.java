@@ -1,14 +1,20 @@
 package com.community.life.net;
 
 
+import com.jakewharton.retrofit2.adapter.rxjava2.Result;
+
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 /**
  * 功能说明：
@@ -95,4 +101,8 @@ public interface RemoteService {
     @FormUrlEncoded
     @POST("/promotion/marketingO2o/shorturl/add/v1/{appkey}")
     Flowable<ResponseBody> maintainProgress(@Path("appkey") String appkey, @FieldMap Map<String, String> map);
+
+    @Multipart
+    @POST("url")
+    Call<Result> uploadFile(@Part("description") RequestBody file);
 }

@@ -21,7 +21,7 @@ import com.community.life.model.MaintainData;
 import com.community.life.mvp.ComplainPresenter;
 import com.community.life.mvp.contract.ComplainContract;
 import com.community.life.ui.BaseFragment;
-import com.community.life.ui.MaintainActivity;
+import com.community.life.ui.SubmitProblemActivity;
 import com.community.life.ui.ProgressActivity;
 import com.community.life.ui.view.EmptyView;
 import com.community.life.ui.view.IconTitleView;
@@ -130,7 +130,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
         footView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaintainActivity.newIntent(ComplainFragment.this.getContext(), 2);
+                SubmitProblemActivity.newIntent(ComplainFragment.this.getContext(), 2);
             }
         });
 

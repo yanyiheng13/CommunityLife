@@ -89,6 +89,7 @@
     <string name="loading_failure">加载失败,点击重试</string>
     <string name="no_data">暂无数据</string>
     <string name="login_voice">收不到短信？使用语音验证码</string>
+    <string name="click_retry">点击重试</string>
     <string name="app_copy">Copyright © 2017 邑生活版权所有</string>
 
 

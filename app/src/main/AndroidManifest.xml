@@ -35,7 +35,7 @@
         <activity android:name="com.community.life.ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name="com.community.life.ui.MaintainActivity"
+        <activity android:name="com.community.life.ui.SubmitProblemActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:theme="@style/AppTheme.NoActionBar"/>
 

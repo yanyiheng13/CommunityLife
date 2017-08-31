@@ -20,7 +20,7 @@ import com.community.life.model.MaintainData;
 import com.community.life.mvp.MaintainPresenter;
 import com.community.life.mvp.contract.MaintainContract;
 import com.community.life.ui.BaseFragment;
-import com.community.life.ui.MaintainActivity;
+import com.community.life.ui.SubmitProblemActivity;
 import com.community.life.ui.ProgressActivity;
 import com.community.life.ui.view.EmptyView;
 import com.community.life.ui.view.IconTitleView;
@@ -124,7 +124,7 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
         footView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaintainActivity.newIntent(MaintainFragment.this.getContext(), 1);
+                SubmitProblemActivity.newIntent(MaintainFragment.this.getContext(), 1);
             }
         });
 

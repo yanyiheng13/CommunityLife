@@ -19,7 +19,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.community.life.R;
+import com.community.life.net.RemoteService;
+import com.community.life.net.Repository;
+import com.community.life.net.upfile.FileRequestBody;
+import com.community.life.net.upfile.RetrofitCallback;
 import com.community.life.ui.view.GridSpacingItemDecoration;
+import com.community.life.ui.view.UploadPicView;
 import com.community.life.ui.view.WithBackTitleView;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
@@ -27,11 +32,16 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.luck.picture.lib.config.PictureConfig.LUBAN_COMPRESS_MODE;
 
@@ -44,7 +54,7 @@ import static com.luck.picture.lib.config.PictureConfig.LUBAN_COMPRESS_MODE;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class MaintainActivity extends BaseActivity {
+public class SubmitProblemActivity extends BaseActivity {
 
     @BindView(R.id.title_view)
     WithBackTitleView mTitle;
@@ -71,7 +81,7 @@ public class MaintainActivity extends BaseActivity {
         } else {
             mType = savedInstanceState.getInt("type", 0);
         }
-        setContentView(R.layout.activity_maintain);
+        setContentView(R.layout.activity_submit_problem);
         ButterKnife.bind(this);
         mTitle.setText(mType == 1 ? R.string.maintain : R.string.complain_advice);
         init();
@@ -81,12 +91,12 @@ public class MaintainActivity extends BaseActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         mItemDecoration = new GridSpacingItemDecoration(3, getResources().getDimensionPixelSize(R.dimen.padding_middle), true);
         mRecyclerView.addItemDecoration(mItemDecoration);
-        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new BaseQuickAdapter<LocalMedia, BaseViewHolder>(R.layout.maintain_pic_item) {
             @Override
             protected void convert(BaseViewHolder helper, final LocalMedia item) {
-                ImageView images = helper.getView(R.id.maintain_pic_img);
+                final UploadPicView images = helper.getView(R.id.maintain_pic_img);
                 final ImageView clearImage = helper.getView(R.id.maintain_pic_clear_img);
                 //图片显示区域
                 images.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +121,7 @@ public class MaintainActivity extends BaseActivity {
                 });
                 if (item.isAddPic) {
                     clearImage.setVisibility(View.GONE);
+                    images.setIsShow(false);
                     if (mListPic.size() == 10) {
                         images.setVisibility(View.GONE);
                     } else {
@@ -119,6 +130,7 @@ public class MaintainActivity extends BaseActivity {
                     }
                     return;
                 } else {
+                    images.setIsShow(true);
                     images.setVisibility(View.VISIBLE);
                     clearImage.setVisibility(View.VISIBLE);
                 }
@@ -146,7 +158,10 @@ public class MaintainActivity extends BaseActivity {
                 Glide.with(getContext())
                         .load(path)
                         .apply(options)
-                        .into(images);
+                        .into(images.imgView());
+
+                upLoadData(path, images);
+
             }
         };
         View headView = LayoutInflater.from(this).inflate(R.layout.view_maintain_head, null);
@@ -168,12 +183,39 @@ public class MaintainActivity extends BaseActivity {
         mAdapter.loadMoreEnd(false);
     }
 
+    public void upLoadData(String path, final UploadPicView images) {
+        //上传图片
+        File file = new File(path);
+        RequestBody resquestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        //通过该行代码将RequestBody转换成特定的FileRequestBody
+        RetrofitCallback callback = new RetrofitCallback() {
+            @Override
+            public void onSuccess(Call call, Response response) {
+
+            }
+
+            @Override
+            public void onLoading(long total, long progress) {
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                images.setError();
+            }
+        };
+        FileRequestBody body = new FileRequestBody(resquestBody, callback);
+        Call call = Repository.get().getRemote().uploadFile(body);
+//                Call<String> call = RemoteService.uploadOneFile(body);
+        call.enqueue(callback);
+    }
+
     private void intoPre() {
     }
 
     private void intoPics() {
         // 进入相册 以下是例子：不需要的api可以不写
-        PictureSelector.create(MaintainActivity.this)
+        PictureSelector.create(SubmitProblemActivity.this)
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .theme(R.style.picture_default_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
                 .maxSelectNum(9)// 最大图片选择数量
@@ -200,7 +242,7 @@ public class MaintainActivity extends BaseActivity {
 //                .showCropFrame(cb_showCropFrame.isChecked())// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
 //                .showCropGrid(cb_showCropGrid.isChecked())// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
 //                .openClickSound(cb_voice.isChecked())// 是否开启点击声音
-                .selectionMedia(selectList)// 是否传入已选图片
+                .selectionMedia(null)// 是否传入已选图片
 //                        .videoMaxSecond(15)
 //                        .videoMinSecond(10)
                 //.previewEggs(false)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
@@ -245,7 +287,7 @@ public class MaintainActivity extends BaseActivity {
     }
 
     public static void newIntent(Context context, int type) {
-        Intent intent = new Intent(context, MaintainActivity.class);
+        Intent intent = new Intent(context, SubmitProblemActivity.class);
         intent.putExtra("type", type);
         context.startActivity(intent);
     }
