@@ -52,10 +52,12 @@ public class UploadPicHelperView extends View {
         }
         if (isError) {//如果上传失败 则整个图片被阴影遮盖,显示点击重试
             mPaint.setColor(Color.parseColor("#70000000"));//半透明
-            canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint); Rect rect=new Rect();
+            canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
+            Rect rect = new Rect();
             String text = getContext().getString(R.string.click_retry);
+            mPaint.setColor(0xFFFFFFFF);
             mPaint.getTextBounds(text, 0, text.length(), rect);//确定文字的宽度
-            canvas.drawText(progress+"%", getWidth()/2-rect.width()/2,getHeight()/2, mPaint);
+            canvas.drawText(text, getWidth()/2-rect.width()/2,getHeight()/2, mPaint);
             return;
         }
 
@@ -76,6 +78,7 @@ public class UploadPicHelperView extends View {
         } else {
             text = progress + "%";
         }
+        mPaint.setColor(0xFFFFFFFF);
         mPaint.getTextBounds(text, 0, text.length(), rect);//确定文字的宽度
         canvas.drawText(text, getWidth() / 2 - rect.width() / 2, getHeight() / 2, mPaint);
 

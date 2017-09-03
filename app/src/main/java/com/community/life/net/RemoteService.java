@@ -35,7 +35,7 @@ public interface RemoteService {
     Flowable<ResponseBody> home(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //2.首页产品列表
     @GET("/promotion/marketingO2o/products/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> homeList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
+    Flowable<ResponseBody> addressList(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token);
     //3.个人业绩列表
     @GET("/promotion/marketingO2o/personalPerformance/{version}/{appkey}/{token}/{month}/{pageSize}/{currentPageNo}")
     Flowable<ResponseBody> complain(@Path("version") String version, @Path("appkey") String appkey, @Path("token") String token,

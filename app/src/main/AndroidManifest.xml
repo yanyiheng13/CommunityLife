@@ -56,6 +56,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.community.life.ui.AddPeopleActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="com.community.life.ui.AddressListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name="com.community.life.ui.SplashActivity"

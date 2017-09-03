@@ -1,6 +1,8 @@
 package com.community.life.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,12 +15,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.community.life.R;
+import com.community.life.model.AddressData;
 import com.community.life.model.HomeData;
 import com.community.life.mvp.HomePresenter;
 import com.community.life.mvp.contract.HomeContract;
+import com.community.life.ui.AddressListActivity;
 import com.community.life.ui.AnnouncementActivity;
 import com.community.life.ui.BaseFragment;
 import com.community.life.ui.view.LoadingDialog;
+import com.community.life.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,6 +66,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @BindView(R.id.home_top_address_tv)
     TextView mTvTopAddress;
 
+    private AddressData mAddress = new AddressData();
+
     @Override
     public int inflateId() {
         return R.layout.fragment_home;
@@ -96,9 +103,21 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             case R.id.home_announcement_key_img:
                 break;
             case R.id.home_top_key_img:
+                AddressListActivity.newIntent(getActivity(), mAddress, 100);
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == 100) {
+            mAddress = (AddressData) data.getSerializableExtra(AddressListActivity.TAG_REQUEST_HOME);
+            if (mAddress != null) {
+                mTvTopAddress.setText(mAddress.address);
+            }
         }
     }
 

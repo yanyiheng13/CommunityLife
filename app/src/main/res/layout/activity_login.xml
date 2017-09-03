@@ -42,6 +42,7 @@
                 android:inputType="phone"
                 android:maxLength="11"
                 android:hint="@string/input_phone"
+                android:text="17719220806"
                 android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <View
@@ -93,6 +94,7 @@
                 android:textColor="@color/colorLoginTxt"
                 android:inputType="number"
                 android:maxLength="11"
+                android:text="123456"
                 android:textSize="@dimen/font_16"/>
         </RelativeLayout>
         <View
