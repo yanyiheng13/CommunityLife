@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-    <com.community.life.ui.view.IconTitleView
+    <com.iot12369.easylifeandroid.ui.view.IconTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"/>
@@ -146,7 +146,7 @@
                    android:layout_height="1px"
                    android:background="@color/line_color"/>
 
-               <com.community.life.ui.view.PropertyAddressView
+               <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
                    android:id="@+id/pay_property_address"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
@@ -279,7 +279,7 @@
                        android:textColor="@color/colorLoginTxt"
                        android:textSize="@dimen/font_13"
                        android:text="@string/maintain_phone"/>
-                   <com.community.life.ui.view.NoLineTextView
+                   <com.iot12369.easylifeandroid.ui.view.NoLineTextView
                        android:id="@+id/pay_phone_num_tv"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"

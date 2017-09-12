@@ -5,7 +5,7 @@
     android:background="@color/main_bg"
     android:orientation="vertical">
 
-    <com.community.life.ui.view.IconTitleView
+    <com.iot12369.easylifeandroid.ui.view.IconTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height" />
@@ -82,7 +82,7 @@
                 android:layout_height="1px"
                 android:background="@color/colorLine" />
 
-            <com.community.life.ui.view.PropertyAddressView
+            <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
                 android:id="@+id/mine_property_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:background="@android:color/white"
                 android:layout_marginTop="10dp">
 
-            </com.community.life.ui.view.PropertyAddressView>
+            </com.iot12369.easylifeandroid.ui.view.PropertyAddressView>
 
             <LinearLayout
                 android:id="@+id/mine_account_certification_ll"

@@ -9,7 +9,7 @@
        android:layout_height="100dp"
        android:scaleType="centerCrop"/>
 
-   <com.community.life.ui.view.UploadPicHelperView
+   <com.iot12369.easylifeandroid.ui.view.UploadPicHelperView
        android:id="@+id/up_helper_view"
        android:layout_width="100dp"
        android:layout_height="100dp" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.community.life">
+    package="com.iot12369.easylifeandroid">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -26,41 +26,41 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name="com.community.life.MainActivity"
+        <activity android:name="com.iot12369.easylifeandroid.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name="com.community.life.ui.LoginSelectActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.LoginSelectActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name="com.community.life.ui.LoginActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name="com.community.life.ui.SubmitProblemActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.SubmitProblemActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name="com.community.life.ui.ProgressActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.ProgressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.community.life.ui.AnnouncementActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.AnnouncementActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.community.life.ui.CertificationActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.CertificationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name="com.community.life.ui.AboutUsActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.AboutUsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.community.life.ui.TransactionRecordsActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.TransactionRecordsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.community.life.ui.AddAddressActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.AddAddressActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.community.life.ui.AuthorizationActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.AuthorizationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.community.life.ui.AddPeopleActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.AddPeopleActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.community.life.ui.AddressListActivity"
+        <activity android:name="com.iot12369.easylifeandroid.ui.AddressListActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name="com.community.life.ui.SplashActivity"
+            android:name="com.iot12369.easylifeandroid.ui.SplashActivity"
             android:theme="@style/splash_style">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

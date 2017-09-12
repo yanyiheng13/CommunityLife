@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.community.life.MainActivity">
+    tools:context="com.iot12369.easylifeandroid.MainActivity">
     <View
         android:id="@+id/virtual_status_bar"
         android:layout_width="match_parent"

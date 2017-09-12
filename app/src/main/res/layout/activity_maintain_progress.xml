@@ -6,7 +6,7 @@
     android:background="@color/main_bg"
     >
 
-    <com.community.life.ui.view.WithBackTitleView
+    <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height" />
@@ -222,7 +222,7 @@
                     android:textSize="@dimen/font_13"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"/>
-                <com.community.life.ui.view.NoLineTextView
+                <com.iot12369.easylifeandroid.ui.view.NoLineTextView
                     android:id="@+id/maintain_phone_num_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -237,11 +237,11 @@
 
         </LinearLayout>
     </ScrollView>
-    <com.community.life.ui.view.EmptyView
+    <com.iot12369.easylifeandroid.ui.view.EmptyView
         android:id="@+id/empty_view"
         android:layout_below="@id/title_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
-    </com.community.life.ui.view.EmptyView>
+    </com.iot12369.easylifeandroid.ui.view.EmptyView>
 </RelativeLayout>
