@@ -13,6 +13,17 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "api_url", "\"${API_URL}\""
+        buildConfigField "String", "app_id", "\"${APP_ID}\""
+        buildConfigField "String", "app_secret", "\"${APP_SECRET}\""
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'iot'
+            keyPassword '12369iot'
+            storePassword '12369iot'
+            storeFile file('../iot.jks')
+        }
     }
     repositories {
         flatDir {
@@ -23,6 +34,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.release
         }
     }
     lintOptions {

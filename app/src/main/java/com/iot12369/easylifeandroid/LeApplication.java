@@ -5,6 +5,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.iot12369.easylifeandroid.model.UserInfo;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
 public class LeApplication extends Application {
@@ -13,6 +15,7 @@ public class LeApplication extends Application {
      */
     public static LeApplication mApplication;
     public static UserInfo mUserInfo;
+    public static IWXAPI api;
 
 
     @Override
@@ -21,6 +24,8 @@ public class LeApplication extends Application {
 //        Log.LOG = true;
 //        QueuedWork.isUseThreadPool = false;
         mApplication = this;
+        api = WXAPIFactory.createWXAPI(this, BuildConfig.app_id);
+        api.registerApp(BuildConfig.app_id);
     }
 
     @Override
