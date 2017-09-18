@@ -13,51 +13,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@mipmap/icon_home_top" />
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="30dp"
-           android:layout_marginRight="30dp"
-           android:layout_marginTop="36dp">
-           <ImageView
-               android:id="@+id/home_top_key_img"
-               android:layout_width="40dp"
-               android:layout_height="40dp"
-               android:layout_alignParentRight="true"
-               android:background="@mipmap/icon_key"
-               android:layout_centerVertical="true"
-               android:alpha="0.8"/>
-           <ImageView
-               android:id="@+id/home_top_change_img"
-               android:layout_width="20dp"
-               android:layout_height="20dp"
-               android:layout_toLeftOf="@id/home_top_key_img"
-               android:background="@mipmap/icon_change"
-               android:layout_marginLeft="6dp"
-               android:layout_marginRight="6dp"
-               android:alpha="0.8"
-               android:layout_centerVertical="true"/>
-           <com.iot12369.easylifeandroid.ui.view.MarqueeTextView
-               android:id="@+id/home_top_address_tv"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_centerVertical="true"
-               android:paddingLeft="10dp"
-               android:paddingRight="16dp"
-               android:paddingTop="6dp"
-               android:textSize="@dimen/font_15"
-               android:textColor="@android:color/white"
-               android:paddingBottom="6dp"
-               android:background="@mipmap/icon_home_top_bg"
-               android:lines="1"
-               android:alpha="0.8"
-               android:text="北京市昌平区东小口镇小辛庄村生源公演9-3-210"
-               android:layout_toLeftOf="@id/home_top_change_img"
-               android:ellipsize="marquee"
-               android:marqueeRepeatLimit="marquee_forever"
-               android:singleLine="true"
-               />
-       </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="36dp">
+
+            <ImageView
+                android:id="@+id/home_top_key_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:alpha="0.8"
+                android:background="@mipmap/icon_key" />
+
+            <ImageView
+                android:id="@+id/home_top_change_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_toLeftOf="@id/home_top_key_img"
+                android:alpha="0.8"
+                android:background="@mipmap/icon_change" />
+
+            <com.iot12369.easylifeandroid.ui.view.MarqueeTextView
+                android:id="@+id/home_top_address_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/home_top_change_img"
+                android:alpha="0.8"
+                android:background="@mipmap/icon_home_top_bg"
+                android:ellipsize="marquee"
+                android:lines="1"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingBottom="6dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="16dp"
+                android:paddingTop="6dp"
+                android:singleLine="true"
+                android:text="北京市昌平区东小口镇小辛庄村生源公演9-3-210"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_15" />
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/home_announcement_more_rl"
             android:layout_width="match_parent"
@@ -69,8 +73,8 @@
                 android:id="@+id/icon_announcement_img"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginLeft="25dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
                 android:background="@mipmap/icon_notice_dark" />
 
             <TextView
@@ -184,14 +188,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/home_announcement_key_img"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_below="@id/home_announcement_brief_ll"
+        <com.iot12369.easylifeandroid.ui.view.LockView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-30dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/icon_home_key" />
+            android:layout_below="@id/home_announcement_brief_ll"/>
     </RelativeLayout>
 </ScrollView>

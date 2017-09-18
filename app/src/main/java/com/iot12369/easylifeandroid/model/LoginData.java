@@ -12,4 +12,79 @@ import java.io.Serializable;
  */
 
 public class LoginData implements Serializable {
+    public String memberId;
+    public String opopenId;
+
+    //    public String memberId;
+    public String nickName;
+    public String sex;
+    public String mpopenId;
+    //    public String opopenId;
+    public String headimgurl;
+    public String country;
+    public String province;
+    public String city;
+
+    public String appId;
+    public String os;
+
+    public String level;
+
+
+    public String phone;
+
+
+    public String name;
+
+
+    public String head;
+
+
+    public String realSex;
+
+
+    public String idCard;
+
+
+    public String estateAuditStatus;
+
+
+    public String estateAuditPerson;
+
+
+    public String ownerId;
+
+
+    public String communityId;
+
+
+    public String communityName;
+
+
+    public String communityBuiding;
+
+
+    public String communityUnit;
+
+
+    public String communityFloor;
+
+
+    public String communityHouse;
+
+
+    public String communityHouseArea;
+
+
+    public String estateFeeCutoffdate;
+
+
+    public String communityCarSpace;
+
+
+    public String ctime;
+
+    public String mtime;
+
+
 }

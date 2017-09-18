@@ -3,6 +3,8 @@ package com.iot12369.easylifeandroid.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +17,8 @@ import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.WeChatToken;
 import com.iot12369.easylifeandroid.model.WeChatUser;
 import com.iot12369.easylifeandroid.ui.BaseActivity;
+import com.iot12369.easylifeandroid.ui.LoginActivity;
+import com.iot12369.easylifeandroid.ui.LoginSelectActivity;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -126,9 +130,14 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     String result = response.body().string();
                     WeChatToken token = new Gson().fromJson(result, new TypeToken<WeChatToken>(){}.getType());
                     if (token != null && !TextUtils.isEmpty(token.access_token) && !TextUtils.isEmpty(token.openid)) {
+                        Message message = handler.obtainMessage();
+                        message.what = 2;
+                        handler.sendMessage(message);
                         getUserInfo(token.access_token, token.openid);
                     } else {
-                        finish();
+                        Message message = handler.obtainMessage();
+                        message.what = 0;
+                        handler.sendMessage(message);
                     }
                 }
             }
@@ -162,11 +171,49 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             // 获取到服务器数据。注意：即使是 404 等错误状态也是获取到服务器数据
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()){
-//                    String result = response.body().string();
-//                    WeChatUser user = new Gson().fromJson(result, new TypeToken<WeChatToken>(){}.getType());
+                    String result = response.body().string();
+                    WeChatUser user = new Gson().fromJson(result, new TypeToken<WeChatUser>(){}.getType());
+                    Message msg = handler.obtainMessage();
+                    Bundle b = new Bundle();
+                    b.putSerializable("user", user);
+                    msg.what = 1;
+                    msg.setData(b);
+                    handler.sendMessage(msg);
+                } else {
+                    Message message = handler.obtainMessage();
+                    message.what = 0;
+                    handler.sendMessage(message);
                 }
+
             }
         });
     }
+
+    public Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    LoadingDialog.hide();
+                    finish();
+                    break;
+                case 1:
+                    LoadingDialog.hide();
+                    Bundle bundle = msg.getData();
+                    if (bundle != null) {
+                        WeChatUser user = (WeChatUser) bundle.getSerializable("user");
+                        LoginSelectActivity.newIntent(WXEntryActivity.this, user);
+                    }
+                    finish();
+                    break;
+                case 2:
+                    LoadingDialog.show(WXEntryActivity.this, false);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
 }

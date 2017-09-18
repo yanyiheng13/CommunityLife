@@ -47,13 +47,25 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
     EditText mEditCode;
 
     private CountDownTimer mDownTimer;
+    private int type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            type = getIntent().getIntExtra("type", 0);
+        } else {
+            type = savedInstanceState.getInt("type");
+        }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         init();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        type = getIntent().getIntExtra("type", 0);
     }
 
     private void init() {
@@ -98,6 +110,12 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
 
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void newIntent(Context context, int type) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 

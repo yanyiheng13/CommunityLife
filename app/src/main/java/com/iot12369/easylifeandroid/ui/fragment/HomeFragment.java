@@ -90,13 +90,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
     }
 
-    @OnClick({R.id.home_announcement_more_rl, R.id.home_announcement_key_img, R.id.home_top_key_img})
+    @OnClick({R.id.home_announcement_more_rl, R.id.home_top_key_img})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_announcement_more_rl:
                 AnnouncementActivity.newIntent(getContext());
-                break;
-            case R.id.home_announcement_key_img:
                 break;
             case R.id.home_top_key_img:
                 AddressListActivity.newIntent(getActivity(), mAddress, 100);

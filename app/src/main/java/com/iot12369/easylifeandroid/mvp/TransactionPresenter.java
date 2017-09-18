@@ -19,19 +19,19 @@ import com.sai.framework.mvp.BasePresenter;
 public class TransactionPresenter extends BasePresenter<Repository, TransactionContract.View> {
 
     public void transaction(String version, String appkey, String token, String leparID, String currentPageNo, String pageSize) {
-        new RxHelper().view(getRootView()).load(getModel().getRemote().transaction(version, appkey, token, leparID, currentPageNo, pageSize)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<TransactionData>>(BaseBean.class) {
-            @Override
-            public void onSuccess(String response, BaseBean<TransactionData> result) {
-                getRootView().onSuccess(result.data);
-            }
-
-            @Override
-            public void onFailure(String error) {
-                super.onFailure(error);
-                getRootView().onFailure(error, error);
-            }
-        }).start();
+//        new RxHelper().view(getRootView()).load(getModel().getRemote().transaction(version, appkey, token, leparID, currentPageNo, pageSize)).callBack(new RxHelper
+//                .CallBackAdapter<BaseBean<TransactionData>>(BaseBean.class) {
+//            @Override
+//            public void onSuccess(String response, BaseBean<TransactionData> result) {
+//                getRootView().onSuccess(result.data);
+//            }
+//
+//            @Override
+//            public void onFailure(String error) {
+//                super.onFailure(error);
+//                getRootView().onFailure(error, error);
+//            }
+//        }).start();
     }
 
 }
