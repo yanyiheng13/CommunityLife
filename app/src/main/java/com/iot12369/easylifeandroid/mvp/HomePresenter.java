@@ -3,6 +3,7 @@ package com.iot12369.easylifeandroid.mvp;
 
 import com.iot12369.easylifeandroid.model.BaseBean;
 import com.iot12369.easylifeandroid.model.HomeData;
+import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
@@ -21,16 +22,16 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
 
     public void lock() {
         new RxHelper().view(getRootView()).load(getModel().getRemote().lock()).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<HomeData>>() {
+                .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
-            public void onSuccess(String response, BaseBean<HomeData> result) {
-                getRootView().onSuccessWork(result.data);
+            public void onSuccess(String response, BaseBean<IsOkData> result) {
+                getRootView().onSuccessLock(result.data);
             }
 //
             @Override
             public void onFailure(String error) {
                 super.onFailure(error);
-                getRootView().onFailureWork(error, error);
+                getRootView().onFailureLock(error, error);
             }
         }).start();
     }

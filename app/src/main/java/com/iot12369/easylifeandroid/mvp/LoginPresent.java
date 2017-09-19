@@ -23,7 +23,7 @@ public class LoginPresent extends BasePresenter<Repository, LoginContract.View> 
 
     public void login(String version, String appkey, String token) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().login(version, appkey, token)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<LoginData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<LoginData>>() {
             @Override
             public void onSuccess(String response, BaseBean<LoginData> result) {
                 getRootView().onSuccessLogin(result.data);
@@ -45,7 +45,7 @@ public class LoginPresent extends BasePresenter<Repository, LoginContract.View> 
      */
     public void verificationCode(String version, String appkey, String token) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().verificationCode(version, appkey, token)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<IsOkData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {
                 getRootView().onSuccessCode(result.data);

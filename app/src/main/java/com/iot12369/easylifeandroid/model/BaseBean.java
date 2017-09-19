@@ -15,6 +15,6 @@ public class BaseBean<T> {
     public T data;
 
     public boolean isSuccess() {
-        return "200".equals(result);
+        return "1".equals(result);
     }
 }

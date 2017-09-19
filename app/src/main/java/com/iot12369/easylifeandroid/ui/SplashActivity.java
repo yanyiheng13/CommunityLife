@@ -48,7 +48,7 @@ public class SplashActivity extends BaseActivity {
              public void run() {
                  judgeJump();
              }
-         }, 2000);
+         }, 1000);
     }
 
     private void judgeJump() {

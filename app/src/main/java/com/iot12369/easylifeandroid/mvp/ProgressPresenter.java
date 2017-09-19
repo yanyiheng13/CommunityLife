@@ -23,7 +23,7 @@ public class ProgressPresenter extends BasePresenter<Repository, ProgressContrac
 
     public void maintainProgress(String version) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().maintainProgress(version, null)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<MaintainProgressData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<MaintainProgressData>>() {
             @Override
             public void onSuccess(String response, BaseBean<MaintainProgressData> result) {
                 getRootView().onSuccessMaintain(result.data);
@@ -39,7 +39,7 @@ public class ProgressPresenter extends BasePresenter<Repository, ProgressContrac
 
     public void complainProgress(String version) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().complainProgress(version, null)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<ComplainProgressData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<ComplainProgressData>>() {
             @Override
             public void onSuccess(String response, BaseBean<ComplainProgressData> result) {
                 getRootView().onSuccessComplain(result.data);
@@ -55,7 +55,7 @@ public class ProgressPresenter extends BasePresenter<Repository, ProgressContrac
 
     public void noSolve(String version) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().noSolve(version)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<IsOkData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {
                 getRootView().onSuccessNoSolve(result.data);
@@ -71,7 +71,7 @@ public class ProgressPresenter extends BasePresenter<Repository, ProgressContrac
 
     public void statistic(String version) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().statistic(version, "", "")).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<IsOkData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {
                 getRootView().onSuccessSatisfaction(result.data);

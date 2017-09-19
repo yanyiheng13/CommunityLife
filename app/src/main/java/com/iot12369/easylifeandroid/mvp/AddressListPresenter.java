@@ -21,7 +21,7 @@ public class AddressListPresenter extends BasePresenter<Repository, AddressListC
 
     public void addressList(String version, String appkey, String token) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().addressList(version, appkey, token)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<AddressData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<AddressData>>() {
             @Override
             public void onSuccess(String response, BaseBean<AddressData> result) {
                 getRootView().onSuccessAddress(result.data);

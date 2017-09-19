@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/home_announcement_lock_bg"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_centerInParent="true"
             android:layout_marginTop="3dp"
             android:scaleType="centerCrop"
@@ -30,8 +30,8 @@
 
         <ImageView
             android:id="@+id/home_announcement_lock_circle"
-            android:layout_width="92dp"
-            android:layout_height="92dp"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
             android:src="@drawable/key_loading_25"
@@ -39,8 +39,8 @@
 
         <ImageView
             android:id="@+id/home_announcement_lock_status"
-            android:layout_width="83dp"
-            android:layout_height="83dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_state_one" />
@@ -48,8 +48,8 @@
 
     <ImageView
         android:id="@+id/lock_right_img"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:visibility="gone"
         android:layout_gravity="center_vertical"/>
 </LinearLayout>

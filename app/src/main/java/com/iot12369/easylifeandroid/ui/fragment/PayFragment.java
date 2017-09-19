@@ -69,6 +69,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         mTvSquareMeters.setText(String.format(getString(R.string.square_meters), "100"));
         mTvUnitMoney.setText(String.format(getString(R.string.by_square_meters), "2.0"));
         mTvTime.setText("2016-08-16");
+        mPropertyView.setLeftTextColor(R.color.colorLoginTxt);
     }
 
 

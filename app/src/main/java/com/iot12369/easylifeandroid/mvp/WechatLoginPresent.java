@@ -51,7 +51,7 @@ public class WechatLoginPresent extends BasePresenter<Repository, WeChatLoginCon
                 .CallBackAdapter<BaseBean<LoginData>>() {
             @Override
             public void onSuccess(String response, BaseBean<LoginData> result) {
-                getRootView().onSuccessWeChatLogin(result.data);
+                getRootView().onSuccessWeChatRegister(result.data);
             }
 
             @Override

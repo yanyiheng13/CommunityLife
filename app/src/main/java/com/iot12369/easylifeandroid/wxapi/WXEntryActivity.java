@@ -85,7 +85,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         String code = ((SendAuth.Resp) resp).code;
                         getInfo(code);
                         //就在这个地方，用网络库什么的或者自己封的网络api，发请求去咯，注意是get请求
-
                         break;
 
                     case RETURN_MSG_TYPE_SHARE:
@@ -99,13 +98,13 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     public void getInfo(String code) {
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=";
-        //***********&secret=***********&result=***********
+        //***********&secret=***********&code=***********
         StringBuilder builder = new StringBuilder();
         builder.append(url);
         builder.append(BuildConfig.app_id);
         builder.append("&secret=");
         builder.append(BuildConfig.app_secret);
-        builder.append("&result=");
+        builder.append("&code=");
         builder.append(code);
         OkHttpClient okHttpClient = new OkHttpClient();
 

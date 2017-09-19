@@ -64,6 +64,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         if (mUser != null) {
             LoadingDialog.show(this, false);
             mUser.os = "android";
+            mUser.appid = BuildConfig.app_id;
             getPresenter().wechatRegister(mUser);
         }
     }

@@ -21,5 +21,6 @@ public class WeChatUser implements Serializable{
     public String unionid;
 
     public String os;
+    public String appid;
 
 }

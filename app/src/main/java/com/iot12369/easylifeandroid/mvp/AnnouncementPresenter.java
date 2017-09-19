@@ -20,7 +20,7 @@ public class AnnouncementPresenter extends BasePresenter<Repository, Announcemen
 
     public void announcement(String version, String appkey, String token, String type, String month, String pageSize, String currentPageNo) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().announcement(version, appkey, token, type, month, pageSize, currentPageNo)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<AnnouncementData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<AnnouncementData>>() {
 
             @Override
             public void onSuccess(String response, BaseBean<AnnouncementData> result) {

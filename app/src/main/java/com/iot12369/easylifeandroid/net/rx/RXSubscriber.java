@@ -106,8 +106,6 @@ public abstract class RXSubscriber<T> extends DefaultSubscriber<String> {
             BaseBean model = (BaseBean)tt;
             if (model == null) {
                 onHandleError(null, null);
-            } else if (!"200".equals(model.result)) {
-                onHandleError(model.result, model.message);
             } else {
                 onHandleSuccess(response, tt);
             }

@@ -21,7 +21,7 @@ public class MaintainPresenter extends BasePresenter<Repository, MaintainContrac
 
     public void maintain(String version, String appkey, String token) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().maintain(version, appkey, token, "", "")).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<MaintainData>>(BaseBean.class) {
+                .CallBackAdapter<BaseBean<MaintainData>>() {
             @Override
             public void onSuccess(String response, BaseBean<MaintainData> result) {
                 getRootView().onSuccessMaintain(result.data);

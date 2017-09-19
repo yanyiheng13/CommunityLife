@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.HomeData;
+import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.mvp.HomePresenter;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
@@ -91,6 +92,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         if (mRlBrief.getLayoutParams() != null) {
             mRlBrief.getLayoutParams().height = (int)(758 / 1620.0 * width);
         }
+        mLockView.setOnStatusChangeListener(new LockView.OnStatusChangeListener() {
+            @Override
+            public void onStatusChange(int status) {
+                switch (status) {
+                    case LockView.STATE_ING:
+                        getPresenter().lock();
+                        break;
+                }
+            }
+        });
     }
 
     @OnClick({R.id.home_announcement_more_rl, R.id.home_top_key_img})
@@ -119,12 +130,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void onSuccessWork(HomeData homeData) {
-
+    public void onSuccessLock(IsOkData isOkData) {
+        if (isOkData.isOk()) {
+            mLockView.update(LockView.STATE_SUCCESS);
+        } else {
+            mLockView.update(LockView.STATE_FAILURE);
+        }
     }
 
     @Override
-    public void onFailureWork(String code, String msg) {
-
+    public void onFailureLock(String code, String msg) {
+        mLockView.update(LockView.STATE_FAILURE);
     }
 }

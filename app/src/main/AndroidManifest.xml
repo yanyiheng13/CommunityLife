@@ -31,7 +31,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name="com.iot12369.easylifeandroid.ui.LoginSelectActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            />
 
         <activity android:name="com.iot12369.easylifeandroid.ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>

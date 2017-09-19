@@ -93,6 +93,10 @@ public class PropertyAddressView extends LinearLayout {
         return this;
     }
 
+    public void setLeftTextColor(int color) {
+        mTvLeft.setTextColor(color);
+    }
+
     public void updateData(boolean isShow) {
         mListView.clear();
         mLlAddressContain.removeAllViews();

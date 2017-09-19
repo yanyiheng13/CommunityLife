@@ -1,5 +1,7 @@
 package com.iot12369.easylifeandroid.model;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 /**
@@ -13,4 +15,9 @@ import java.io.Serializable;
  */
 
 public class IsOkData implements Serializable {
+    public String status;
+
+    public boolean isOk() {
+        return !TextUtils.isEmpty(status) && status.contains("成功");
+    }
 }

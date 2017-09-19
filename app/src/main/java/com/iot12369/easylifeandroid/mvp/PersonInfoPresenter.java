@@ -20,7 +20,7 @@ public class PersonInfoPresenter extends BasePresenter<Repository, PersonInfoCon
 
    public void personInfo(String version, String appkey, String token) {
        new RxHelper().view(getRootView()).load(getModel().getRemote().personInfo(version, appkey, token)).callBack(new RxHelper
-               .CallBackAdapter<BaseBean<PersonData>>(BaseBean.class) {
+               .CallBackAdapter<BaseBean<PersonData>>() {
 
            @Override
            public void onSuccess(String response, BaseBean<PersonData> data) {
