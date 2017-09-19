@@ -5,9 +5,12 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.sai.framework.mvp.MvpView;
+import com.sai.framework.rx.*;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,7 +34,7 @@ public class RxHelper {
     private Flowable flowable;
     private CallBack callBack;
 
-    private Context context;
+    private boolean isList;
 
     private boolean showLoading = true;
 
@@ -39,11 +42,6 @@ public class RxHelper {
         this.mvpView = view;
         return this;
     }
-
-//    public RxHelper toBean(Type cls) {
-//        this.clsType = cls;
-//        return this;
-//    }
 
     public RxHelper load(Flowable flowable) {
         this.flowable = flowable;
@@ -55,20 +53,24 @@ public class RxHelper {
         return this;
     }
 
-    public RxHelper showLoad(boolean showLoading) {
+    public RxHelper showDialog(boolean showLoading) {
         this.showLoading = showLoading;
         return this;
     }
 
+    public RxHelper isList(boolean isList) {
+        this.isList = isList;
+        return this;
+    }
+
     public RxHelper application(Context context) {
-        this.context = context;
         return this;
     }
 
 
     public void start() {
         if (mvpView != null) {
-            LifecycleTransformer lt = RxUtils.bindToLifecycle(mvpView);
+            LifecycleTransformer lt = com.sai.framework.rx.RxUtils.bindToLifecycle(mvpView);
             if (lt != null) {
                 flowable.compose(lt);
             }
@@ -92,15 +94,19 @@ public class RxHelper {
             }
 
             @Override
+            protected void onHandleListSuccess(String response, List<Object> list) {
+                super.onHandleListSuccess(response, list);
+                if (callBack != null) {
+                    callBack.onSuccess(response, list);
+                }
+            }
+
+            @Override
             protected void onHandleError(String code, String msg) {
                 super.onHandleError(code, msg);
                 if (callBack != null) {
                     callBack.onFailure(msg);
-                    if (context != null && !TextUtils.isEmpty(msg)) {
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                    }
                 }
-
             }
 
             @Override
@@ -114,6 +120,8 @@ public class RxHelper {
     public interface CallBack<D> {
         void onSuccess(String response, D result);
 
+        void onSuccess(String response, List<D> result);
+
         void onFailure(String error);
     }
 
@@ -121,9 +129,21 @@ public class RxHelper {
         public Type cls;
 
         public CallBackAdapter() {
+            Type p = getClass().getGenericSuperclass();
+            if (p != null && p instanceof ParameterizedType) {
+                cls = ((ParameterizedType) p).getActualTypeArguments()[0];
+            }
         }
-        public CallBackAdapter(Type cls) {
-            this.cls = cls;
+
+
+        @Override
+        public void onSuccess(String response, D result) {
+
+        }
+
+        @Override
+        public void onSuccess(String response, List<D> result) {
+
         }
 
         @Override

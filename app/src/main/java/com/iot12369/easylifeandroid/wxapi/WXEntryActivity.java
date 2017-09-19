@@ -99,13 +99,13 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     public void getInfo(String code) {
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=";
-        //***********&secret=***********&code=***********
+        //***********&secret=***********&result=***********
         StringBuilder builder = new StringBuilder();
         builder.append(url);
         builder.append(BuildConfig.app_id);
         builder.append("&secret=");
         builder.append(BuildConfig.app_secret);
-        builder.append("&code=");
+        builder.append("&result=");
         builder.append(code);
         OkHttpClient okHttpClient = new OkHttpClient();
 

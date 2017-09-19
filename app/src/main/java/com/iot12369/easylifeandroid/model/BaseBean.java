@@ -11,6 +11,10 @@ package com.iot12369.easylifeandroid.model;
 
 public class BaseBean<T> {
     public String message;
-    public String code;
+    public String result;
     public T data;
+
+    public boolean isSuccess() {
+        return "200".equals(result);
+    }
 }

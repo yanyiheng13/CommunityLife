@@ -19,4 +19,7 @@ public class WeChatUser implements Serializable{
     public String country;
     public String headimgurl;
     public String unionid;
+
+    public String os;
+
 }

@@ -63,8 +63,8 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     private void askWechat() {
         if (mUser != null) {
             LoadingDialog.show(this, false);
-            getPresenter().wechatRegister(mUser.openid, mUser.nickname, mUser.sex, mUser.province, mUser.city, mUser.country,
-                    mUser.headimgurl, mUser.unionid, BuildConfig.app_id);
+            mUser.os = "android";
+            getPresenter().wechatRegister(mUser);
         }
     }
 
@@ -156,10 +156,12 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
                 finish();
             }
         }
+        mUser = null;
     }
 
     @Override
     public void onFailureWeChatRegister(String code, String msg) {
         LoadingDialog.hide();
+        mUser = null;
     }
 }

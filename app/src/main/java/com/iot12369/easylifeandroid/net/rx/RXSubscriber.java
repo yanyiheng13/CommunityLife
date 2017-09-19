@@ -11,6 +11,7 @@ import com.sai.framework.mvp.MvpView;
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import io.reactivex.subscribers.DefaultSubscriber;
 
@@ -27,122 +28,155 @@ public abstract class RXSubscriber<T> extends DefaultSubscriber<String> {
     private SoftReference<Context> mSoftContext = null;
     private Type resType;
     private MvpView mMvpView = null;
+    private boolean isList;
 
-    public RXSubscriber(Context context, Type type) {
-        if (context != null) {
-            mSoftContext = new SoftReference<>(context);
-        }
-        resType = type;
-    }
+//    public RXSubscriber(Context context, Type type) {
+//        if (context != null) {
+//            this.mSoftContext = new SoftReference(context);
+//        }
+//
+//        this.resType = type;
+//    }
 
     public RXSubscriber(MvpView mvpView, Type type) {
-        mMvpView = mvpView;
-        if (mMvpView != null) {
-            mSoftContext = new SoftReference<>(mMvpView.getContext());
+        this.mMvpView = mvpView;
+        if (this.mMvpView != null) {
+            this.mSoftContext = new SoftReference(this.mMvpView.getContext());
         }
-        resType = type;
+
+        this.resType = type;
     }
 
+    public RXSubscriber(MvpView mvpView, Type type, boolean isList) {
+        this.mMvpView = mvpView;
+        if (this.mMvpView != null) {
+            this.mSoftContext = new SoftReference(this.mMvpView.getContext());
+        }
 
-    @Override
+        this.resType = type;
+        this.isList = isList;
+    }
+
     protected void onStart() {
         super.onStart();
-        if (showLoadDialog() && mMvpView != null) {
-            mMvpView.showLoadDialog();
+        if (this.showLoadDialog() && this.mMvpView != null) {
+            this.mMvpView.showLoadDialog();
         }
+
     }
 
     private Context getContext() {
-        if (mSoftContext != null) {
-            return mSoftContext.get();
-        }
-        return null;
+        return this.mSoftContext != null ? (Context) this.mSoftContext.get() : null;
     }
 
-    @Override
     public void onComplete() {
-
     }
 
-    @Override
     public void onNext(String response) {
 
         if (intercepted()) {
             return;
         }
 
-        //检查是否成功
         if (response == null || response.length() == 0) {
             onHandleError(null, null);
             return;
         }
-        if (resType == null) {
-            onHandleSuccess(response, (T) response);
+
+        if (this.resType == null) {
+            this.onHandleSuccess(response, null);
             return;
         }
-        T tt = json2Object(response, resType);
-        BaseBean model = (BaseBean)tt;
-        if (model == null) {
+
+        BaseBean result = json2Object(response, BaseBean.class);
+        if (result == null) {
             onHandleError(null, null);
-        } else if (!"200".equals(model.code)) {
-            onHandleError(model.code, model.message);
-        } else {
-            onHandleSuccess(response, tt);
+            return;
         }
+
+        if (!result.isSuccess()) {
+            onHandleError(result.result, result.message);
+            return;
+        }
+
+        if (isList) {
+            onHandleListSuccess(response, (List<T>) json2List(response, resType));
+        } else {
+            T tt = json2Object(response, resType);
+            BaseBean model = (BaseBean)tt;
+            if (model == null) {
+                onHandleError(null, null);
+            } else if (!"200".equals(model.result)) {
+                onHandleError(model.result, model.message);
+            } else {
+                onHandleSuccess(response, tt);
+            }
+        }
+//        T tt = json2Object(response, this.resType);
+//        if (tt == null) {
+//            this.onHandleError(null, null);
+//        } else {
+//            this.onHandleSuccess(response, (T) tt);
+//        }
+
     }
 
     protected boolean intercepted() {
-        if (showLoadDialog() && mMvpView != null) {
-            mMvpView.hideLoadDialog();
+        if (this.showLoadDialog() && this.mMvpView != null) {
+            this.mMvpView.hideLoadDialog();
         }
-        Context context = getContext();
+
+        Context context = this.getContext();
         if (context == null) {
             return true;
-        }
-
-        if (context instanceof Activity) {
-            boolean isDestroyed = ((Activity) context).isDestroyed();
-            if (isDestroyed) {
-                return true;
+        } else {
+            if (context instanceof Activity) {
+                boolean isDestroyed = ((Activity) context).isDestroyed();
+                if (isDestroyed) {
+                    return true;
+                }
             }
+
+            return false;
         }
-        return false;
     }
 
-    @Override
     public void onError(Throwable e) {
-        if (showLoadDialog() && mMvpView != null) {
-            mMvpView.hideLoadDialog();
+        if (this.showLoadDialog() && this.mMvpView != null) {
+            this.mMvpView.hideLoadDialog();
         }
+
         ExceptionParser exceptionParser = new ExceptionParser(e);
-        onHandleError(exceptionParser.getCode(), exceptionParser.getMessage());
+        this.onHandleError(exceptionParser.getCode(), exceptionParser.getMessage());
     }
 
     public void unsubscribe() {
         super.cancel();
     }
 
-
-    /**
-     * 是否显示加载窗
-     *
-     * @return
-     */
     protected boolean showLoadDialog() {
         return true;
     }
 
-    protected abstract void onHandleSuccess(String response, T t);
+    protected abstract void onHandleSuccess(String var1, T var2);
 
     protected void onHandleError(String code, String msg) {
+    }
+
+    protected void onHandleListSuccess(String response, List<T> list) {
 
     }
 
     public static <T> T json2Object(String jsonString, Type cls) {
         if (jsonString == null) {
             return null;
+        } else {
+            Gson gson = new Gson();
+            return gson.fromJson(jsonString, cls);
         }
-        Gson gson = new Gson();
-        return (T) gson.fromJson(jsonString, cls);
+    }
+
+    public static <T> List<T> json2List(String jsonString, Type cls) {
+        return null;
     }
 }

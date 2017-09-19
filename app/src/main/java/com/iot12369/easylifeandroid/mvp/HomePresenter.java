@@ -19,9 +19,9 @@ import com.sai.framework.mvp.BasePresenter;
  */
 public class HomePresenter extends BasePresenter<Repository, HomeContract.View> {
 
-    public void home(String version, String appkey, String token) {
-        new RxHelper().view(getRootView()).load(getModel().getRemote().home(version, appkey, token)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<HomeData>>(BaseBean.class) {
+    public void lock() {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().lock()).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<HomeData>>() {
             @Override
             public void onSuccess(String response, BaseBean<HomeData> result) {
                 getRootView().onSuccessWork(result.data);

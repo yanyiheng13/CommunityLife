@@ -20,6 +20,7 @@ import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
+import com.iot12369.easylifeandroid.ui.view.LockView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,6 +62,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @BindView(R.id.home_top_address_tv)
     TextView mTvTopAddress;
+    @BindView(R.id.lock_view)
+    LockView mLockView;
 
     private AddressData mAddress = new AddressData();
 

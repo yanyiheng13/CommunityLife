@@ -8,15 +8,19 @@ import com.sai.framework.securty.TrustSSLSocketFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
+import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -45,6 +49,7 @@ public class RetrofitHelper {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             httpBuilder.addInterceptor(httpLoggingInterceptor);
         }
+
         httpBuilder.connectTimeout(NetConfig.TIMEOUT, TimeUnit.SECONDS);
         httpBuilder.readTimeout(NetConfig.TIMEOUT, TimeUnit.SECONDS);
         httpBuilder.writeTimeout(NetConfig.TIMEOUT, TimeUnit.SECONDS);
@@ -54,6 +59,12 @@ public class RetrofitHelper {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(builder.baseUrl).build();
+    }
+
+
+    public CommonParamListener mListener;
+    public interface CommonParamListener {
+        Map<String, String> commonParams();
     }
 
     public <T> T create(Class<T> cls) {
@@ -70,29 +81,69 @@ public class RetrofitHelper {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            Request originalRequest = chain.request();
-            Request.Builder builder = originalRequest.newBuilder();
+            Request originRequest = chain.request();
+            Request.Builder newRequest = originRequest.newBuilder();
             if(mBuilder.isDebug){
-                Log.d(TAG, originalRequest.url().toString());
+                Log.d(TAG, originRequest.url().toString());
             }
 
             Map<String, String> mHeaderMap = mBuilder.headers;
             if (mHeaderMap == null) {
                 mHeaderMap = new HashMap<>();
             }
-            builder.headers(Headers.of(mHeaderMap));
+            newRequest.headers(Headers.of(mHeaderMap));
             OnDynamicParameterListener listener = mBuilder.mOnDynamicParameterListener;
             if (listener != null) {
                 HashMap<String, String> headerMap = listener.headers();
                 if (headerMap != null) {
                     for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                        builder.addHeader(entry.getKey(), entry.getValue());
+                        newRequest.addHeader(entry.getKey(), entry.getValue());
                     }
                 }
             }
 
-//            Response response1 = new Response.Builder().code(400).message("无网络").build();
-            Response response = chain.proceed(builder.build());
+            if ("POST".equals(originRequest.method())) {
+                RequestBody body = originRequest.body();
+                if (body != null && body instanceof FormBody) {
+                    // POST Param x-www-form-urlencoded
+                    FormBody formBody = (FormBody) body;
+                    Map<String, String> formBodyParamMap = new HashMap<>();
+                    int bodySize = formBody.size();
+                    for (int i = 0; i < bodySize; i++) {
+                        formBodyParamMap.put(formBody.name(i), formBody.value(i));
+                    }
+
+                    Map<String, String> newFormBodyParamMap = null;
+                    if (listener != null) {
+                        newFormBodyParamMap = listener.commonParam();
+                    }
+                    if (newFormBodyParamMap != null) {
+                        formBodyParamMap.putAll(newFormBodyParamMap);
+                        FormBody.Builder bodyBuilder = new FormBody.Builder();
+                        for (Map.Entry<String, String> entry : formBodyParamMap.entrySet()) {
+                            bodyBuilder.add(entry.getKey(), entry.getValue());
+                        }
+                        newRequest.method(originRequest.method(), bodyBuilder.build());
+                    }
+                } else if (body != null && body instanceof MultipartBody) {
+                    // POST Param form-data
+                    MultipartBody multipartBody = (MultipartBody) body;
+                    MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                    Map<String, String> extraFormBodyParamMap = null;
+                    if (listener != null) {
+                        extraFormBodyParamMap = listener.commonParam();
+                    }
+                    for (Map.Entry<String, String> entry : extraFormBodyParamMap.entrySet()) {
+                        builder.addFormDataPart(entry.getKey(), entry.getValue());
+                    }
+                    List<MultipartBody.Part> parts = multipartBody.parts();
+                    for (MultipartBody.Part part : parts) {
+                        builder.addPart(part);
+                    }
+                    newRequest.post(builder.build());
+                }
+            }
+            Response response = chain.proceed(newRequest.build());
             return response;
         }
     }
@@ -102,6 +153,7 @@ public class RetrofitHelper {
         }
 
         private HashMap<String, String> headers;
+        private HashMap<String, String> commonBody;
         private String baseUrl;
         private boolean isDebug;
         private InputStream[] mSslKeyStream;
@@ -139,6 +191,7 @@ public class RetrofitHelper {
     }
 
     public interface OnDynamicParameterListener {
-        public HashMap<String, String> headers();
+        HashMap<String, String> headers();
+        HashMap<String, String> commonParam();
     }
 }

@@ -9,10 +9,12 @@ import io.reactivex.Flowable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -59,17 +61,19 @@ public interface RemoteService {
     @POST("promotion/marketingO2o/stores/{version}/{appkey}/{token}")
     Flowable<ResponseBody> login(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
     //7.微信注册
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/wx/signup")
-    Flowable<ResponseBody> wechatRegister(@Field("openid") String openid, @Field("nickname") String nickname,
-                                          @Field("sex") String sex, @Field("province") String province,
-                                          @Field("city") String city, @Field("country") String country,
-                                          @Field("headimgurl") String headimgurl, @Field("unionid") String unionid,
-                                          @Field("appid") String appid, @Field("os") String os);
+    Flowable<ResponseBody> wechatRegister(@Body RequestBody requestBody);
     //7.微信登录
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/wx/signin")
-    Flowable<ResponseBody> wechatLogin(@Field("openid") String openid);
+    Flowable<ResponseBody> wechatLogin(@Body RequestBody requestBody);
+
+    //7.微信登录
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("lock/v1")
+    Flowable<ResponseBody> lock();
+
     //8.移除店员
     @FormUrlEncoded
     @POST("promotion/marketingO2o/removeClerk/{version}/{appkey}/{token}/{leparID}/{userID}")

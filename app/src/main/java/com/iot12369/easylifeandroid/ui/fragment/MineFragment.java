@@ -117,7 +117,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
                 //.videoQuality()// 视频录制质量 0 or 1
                 //.videoSecond()//显示多少秒以内的视频or音频也可适用
                 //.recordVideoSecond()//录制视频秒数 默认60s
-                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult result
     }
 
     @Override
