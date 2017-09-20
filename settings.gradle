@@ -1,1 +1,1 @@
-include ':app', ':libframework', ':picture_library'
+include ':app', ':libframework', ':picture_library', ':library'

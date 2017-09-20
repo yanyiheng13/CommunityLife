@@ -67,6 +67,7 @@ dependencies {
     compile deps.rxjava
     compile deps.rxandroid
     compile deps.recyclerview_adapter
+    compile project(':library')
     compile project(':libframework')
     compile project(':picture_library')
 }

@@ -91,6 +91,9 @@
     <string name="login_voice">收不到短信？使用语音验证码</string>
     <string name="click_retry">点击重试</string>
     <string name="retry">%s后可重新发送</string>
+    <string name="sure_to_logout">是否退出账号</string>
+    <string name="app_cancel">取消</string>
+    <string name="app_logout">退出</string>
     <string name="app_copy">Copyright © 2017 邑生活版权所有</string>
 
 

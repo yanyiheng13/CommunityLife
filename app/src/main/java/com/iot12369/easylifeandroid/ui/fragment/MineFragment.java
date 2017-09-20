@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
+import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.PersonData;
 import com.iot12369.easylifeandroid.mvp.PersonInfoPresenter;
@@ -19,9 +23,11 @@ import com.iot12369.easylifeandroid.ui.AboutUsActivity;
 import com.iot12369.easylifeandroid.ui.AuthorizationActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.CertificationActivity;
+import com.iot12369.easylifeandroid.ui.LoginSelectActivity;
 import com.iot12369.easylifeandroid.ui.TransactionRecordsActivity;
 import com.iot12369.easylifeandroid.ui.view.IconTitleView;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
@@ -61,6 +67,8 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
 
     @BindView(R.id.mine_property_view)
     PropertyAddressView mAddressView;
+    //退出对话框
+    private NiftyDialogBuilder mDialogBuilder;
 
     //已选中的图片
     private List<LocalMedia> selectList = new ArrayList<>();
@@ -159,7 +167,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         }
     }
 
-    @OnClick({R.id.mine_about_us_ll, R.id.mine_pay_record_ll, R.id.mine_account_authorise_ll, R.id.mine_account_certification_ll})
+    @OnClick({R.id.mine_about_us_ll, R.id.mine_pay_record_ll, R.id.mine_account_authorise_ll, R.id.mine_account_certification_ll, R.id.exit_tv})
     public void onMineItemClick(View view) {
         switch (view.getId()) {
             //缴费记录
@@ -177,6 +185,9 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
             case R.id.mine_about_us_ll:
                 AboutUsActivity.newIntent(getContext());
                 break;
+            case R.id.exit_tv:
+                getDialog().show();
+                break;
             default:
                 break;
         }
@@ -191,5 +202,36 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
     @Override
     public void onFailurePerson(String code, String msg) {
 
+    }
+
+    /**
+     * 获取退出提示dialog
+     */
+    public NiftyDialogBuilder getDialog() {
+        if (mDialogBuilder == null) {
+            mDialogBuilder = new NiftyDialogBuilder(getContext());
+            mDialogBuilder
+                    .withTitle(null)                                  //.withTitle(null)  no title
+                    .withMessage(R.string.sure_to_logout)
+                    .withMessageColor(0xFF333333)
+                    .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                    .withDuration(400)                                          //def
+                    .withEffect(Effectstype.Fall)
+                    .withButtonText(R.string.app_cancel, R.string.app_logout)
+                    .isCorner(true)
+                    .withButton1Color(getResources().getColor(R.color.colorLoginTxt))
+                    .withButton2Color(getResources().getColor(R.color.colorAccent))
+                    .setButton2Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialogBuilder.dismiss();
+                            LeApplication.mUserInfo = null;
+                            SharePrefrenceUtil.setString("config", "user", "");
+                            LoginSelectActivity.newIntent(getContext());
+                            getActivity().finish();
+                        }
+                    });
+        }
+        return mDialogBuilder;
     }
 }

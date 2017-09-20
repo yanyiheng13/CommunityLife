@@ -197,6 +197,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/exit_tv"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginLeft="22dp"
