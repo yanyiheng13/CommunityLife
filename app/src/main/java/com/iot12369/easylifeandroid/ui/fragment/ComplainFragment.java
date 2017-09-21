@@ -142,7 +142,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
             public void run() {
                 getPresenter().complain("", "", "", "", "", "");
             }
-        }, 1000);
+        }, 500);
 
     }
 
@@ -153,7 +153,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
             public void run() {
                 getPresenter().complain("", "", "", "", "", "");
             }
-        }, 1000);
+        }, 500);
     }
 
     @Override

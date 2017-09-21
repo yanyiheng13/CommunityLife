@@ -70,7 +70,7 @@ public class LockView extends LinearLayout {
         ButterKnife.bind(this, this);
         mImgLeft.setImageResource(R.drawable.lock_animal_left);
         mImgRight.setImageResource(R.drawable.lock_animal_right);
-        mTimer = new CountDownTimer(3000, 1000) {
+        mTimer = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 

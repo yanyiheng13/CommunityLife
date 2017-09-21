@@ -20,6 +20,7 @@ public class LeApplication extends Application {
     public static LeApplication mApplication;
     public static LoginData mUserInfo;
     public static IWXAPI api;
+    public static boolean isExit;
 
 
     @Override

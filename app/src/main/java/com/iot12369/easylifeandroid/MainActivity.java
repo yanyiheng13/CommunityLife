@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iot12369.easylifeandroid.ui.BaseActivity;
 import com.iot12369.easylifeandroid.ui.fragment.ComplainFragment;
@@ -50,6 +53,9 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     private int[] mStringId = {R.string.title_home, R.string.title_maintain, R.string.title_unlocking, R.string.title_complain, R.string.title_mine};
     private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_maintain, R.drawable.nav_unlocking, R.drawable.nav_complain, R.drawable.nav_mine};
 
+    //按两次返回退出应用
+    private static boolean isExit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +78,30 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         mStatusBar.setVisibility(View.GONE);
         selectTab(2);
         setTabTextIcon(2);
+    }
+
+    private static Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            Toast.makeText(this, "连续按两次返回键退出", Toast.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            LeApplication.isExit = true;
+            finish();
+        }
     }
 
     private View getCustomTabView(int position) {

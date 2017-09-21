@@ -60,6 +60,15 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (LeApplication.isExit) {
+            LeApplication.isExit = false;
+            finish();
+        }
+    }
+
     private void askWechat() {
         if (mUser != null) {
             LoadingDialog.show(this, false);
@@ -114,6 +123,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
                     Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
                     return;
                 }
+                LoadingDialog.show(this, false);
                 final SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "diandi_wx_login";
@@ -128,15 +138,19 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        LoadingDialog.hide();
+    }
+
+    @Override
     public void onSuccessWeChatLogin(LoginData loginData) {
         LoadingDialog.hide();
         if (loginData != null && !TextUtils.isEmpty(loginData.opopenId) && !TextUtils.isEmpty(loginData.memberId)) {
-            if (mUser != null && !TextUtils.isEmpty(mUser.openid)) {
-                LeApplication.mUserInfo = loginData;
-                SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
-                MainActivity.newIntent(this);
-                finish();
-            }
+            LeApplication.mUserInfo = loginData;
+            SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
+            MainActivity.newIntent(this);
+            finish();
         }
     }
 
@@ -151,6 +165,8 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         if (loginData != null && !TextUtils.isEmpty(loginData.opopenId) && !TextUtils.isEmpty(loginData.memberId)) {
             if (mUser != null && !TextUtils.isEmpty(mUser.openid)) {
                 SharePrefrenceUtil.setString("config", "openid", mUser.openid);
+                loginData.nickName = mUser.nickname;
+                loginData.headimgurl = mUser.headimgurl;
                 LeApplication.mUserInfo = loginData;
                 SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
                 MainActivity.newIntent(this);
@@ -159,6 +175,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         }
         mUser = null;
     }
+
 
     @Override
     public void onFailureWeChatRegister(String code, String msg) {

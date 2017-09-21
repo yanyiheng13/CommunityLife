@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PersonData;
 import com.iot12369.easylifeandroid.mvp.PersonInfoPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PersonInfoContract;
@@ -83,6 +85,18 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         //设置标题和标题icon
         mTitleView.setImageResource(R.mipmap.title_mine).setText(R.string.title_mine);
         mAddressView.updateData();
+        LoginData loginData = LeApplication.mUserInfo;
+        if (!TextUtils.isEmpty(loginData.headimgurl)) {
+            Glide.with(this).load(loginData.headimgurl).into(mImageHead);
+        }
+        String name = loginData.name;
+        if (!TextUtils.isEmpty(loginData.nickName)) {
+            mTvWeChatNum.setText(String.format(getString(R.string.mine_wechat_nick), loginData.nickName));
+            if (TextUtils.isEmpty(name)) {
+                name = loginData.nickName;
+            }
+        }
+        mTvName.setText(TextUtils.isEmpty(name) ?  "~~" : name);
     }
 
     @OnClick(R.id.mine_head_img)

@@ -136,7 +136,7 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
             public void run() {
                 getPresenter().maintain("", "", "");
             }
-        }, 1000);
+        }, 500);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
             public void run() {
                 getPresenter().maintain("", "", "");
             }
-        }, 1000);
+        }, 500);
     }
 
     @Override

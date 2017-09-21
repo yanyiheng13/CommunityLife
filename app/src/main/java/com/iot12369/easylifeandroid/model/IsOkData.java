@@ -18,6 +18,6 @@ public class IsOkData implements Serializable {
     public String status;
 
     public boolean isOk() {
-        return !TextUtils.isEmpty(status) && status.contains("成功");
+        return "1".equals(status);
     }
 }
