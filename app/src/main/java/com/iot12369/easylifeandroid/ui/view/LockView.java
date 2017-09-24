@@ -102,7 +102,7 @@ public class LockView extends LinearLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 if ((System.currentTimeMillis() - mStartTime) / 1000 < 3) {
-                    ToastUtil.toastLong(getContext(), "请长按开锁按钮3秒开锁");
+                    ToastUtil.toastLong(getContext(), "请长按开锁按钮1秒开锁");
                     mImgCircles.setVisibility(GONE);
                     mImgLeft.setVisibility(GONE);
                     mImgRight.setVisibility(GONE);

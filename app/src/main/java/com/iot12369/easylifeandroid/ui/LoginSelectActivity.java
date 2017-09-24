@@ -113,21 +113,25 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_login_wechat:
-                String openid = SharePrefrenceUtil.getString("config", "openid");
-                if (!TextUtils.isEmpty(openid)) {
-                    LoadingDialog.show(this, false);
-                    getPresenter().wechatLogin(openid);
-                    break;
-                }
-                if (!LeApplication.api.isWXAppInstalled()) {
-                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                LoadingDialog.show(this, false);
-                final SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "diandi_wx_login";
-                LeApplication.api.sendReq(req);
+                LoginData data = new LoginData();
+                LeApplication.mUserInfo = data;
+                MainActivity.newIntent(this);
+
+//                String openid = SharePrefrenceUtil.getString("config", "openid");
+//                if (!TextUtils.isEmpty(openid)) {
+//                    LoadingDialog.show(this, false);
+//                    getPresenter().wechatLogin(openid);
+//                    break;
+//                }
+//                if (!LeApplication.api.isWXAppInstalled()) {
+//                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//                LoadingDialog.show(this, false);
+//                final SendAuth.Req req = new SendAuth.Req();
+//                req.scope = "snsapi_userinfo";
+//                req.state = "diandi_wx_login";
+//                LeApplication.api.sendReq(req);
                 break;
             case R.id.ll_login_phone:
                 LoginActivity.newIntent(this);
@@ -168,9 +172,12 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
                 loginData.nickName = mUser.nickname;
                 loginData.headimgurl = mUser.headimgurl;
                 LeApplication.mUserInfo = loginData;
-                SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
+//                if (TextUtils.isEmpty(loginData.phone)) {
+//                    LoginActivity.newIntent();
+//                }
                 MainActivity.newIntent(this);
                 finish();
+                SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
             }
         }
         mUser = null;
