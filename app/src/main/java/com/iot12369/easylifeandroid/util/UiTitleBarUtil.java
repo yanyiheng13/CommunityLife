@@ -92,9 +92,9 @@ public class UiTitleBarUtil {
 
 
     private Activity activity;
-//    public UltimateBar() {}
+//    public UiTitleBarUtil() {}
 
-    public UltimateBar(Activity activity) {
+    public UiTitleBarUtil(Activity activity) {
         this.activity = activity;
     }
 

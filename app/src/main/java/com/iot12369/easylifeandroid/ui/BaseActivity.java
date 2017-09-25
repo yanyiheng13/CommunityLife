@@ -26,6 +26,7 @@ public class BaseActivity<P extends BasePresenter> extends SaiActivity<P> {
         super.onCreate(savedInstanceState);
         if (isTitleBarSetting()) {
             UiTitleBarUtil uiTitleBarUtil = new UiTitleBarUtil(this);
+            uiTitleBarUtil.setType(UiTitleBarUtil.ONLY_STATUS_BAR);
             uiTitleBarUtil.setColorBar(ContextCompat.getColor(this, R.color.colorTitleBar), 50);
         }
         if (isCalculateHeight()) {

@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UiTitleBarUtil uiTitleBarUtil = new UiTitleBarUtil(this);
+        uiTitleBarUtil.setType(UiTitleBarUtil.ONLY_STATUS_BAR);
         uiTitleBarUtil.setTransparentBar(Color.BLACK, 30);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
