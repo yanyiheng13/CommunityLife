@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <style name="LePayTheme" parent="PayThemeBase">
+
+    </style>
+
+    <style name="LePayTheme.Translucent" parent="LePayTheme">
+        <!--设置背景-->
+        <item name="android:windowBackground">@color/ban_transparent</item>
+        <!--底层可见-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="PayThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item bank_name="android:windowAnimationStyle">@style/appAnimation.Activity</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <!--<style bank_name="appAnimation.Activity" parent="@android:style/Animation">-->
+        <!--<item bank_name="android:activityOpenEnterAnimation">@anim/pay_slide_right_in</item>-->
+        <!--<item bank_name="android:activityOpenExitAnimation">@anim/pay_slide_left_out</item>-->
+        <!--<item bank_name="android:activityCloseEnterAnimation">@anim/pay_slide_left_in</item>-->
+        <!--<item bank_name="android:activityCloseExitAnimation">@anim/slide_right_out</item>-->
+    <!--</style>-->
+</resources>

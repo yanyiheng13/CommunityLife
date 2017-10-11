@@ -113,25 +113,25 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_login_wechat:
-                LoginData data = new LoginData();
-                LeApplication.mUserInfo = data;
-                MainActivity.newIntent(this);
+//                LoginData data = new LoginData();
+//                LeApplication.mUserInfo = data;
+//                MainActivity.newIntent(this);
 
-//                String openid = SharePrefrenceUtil.getString("config", "openid");
-//                if (!TextUtils.isEmpty(openid)) {
-//                    LoadingDialog.show(this, false);
-//                    getPresenter().wechatLogin(openid);
-//                    break;
-//                }
-//                if (!LeApplication.api.isWXAppInstalled()) {
-//                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                LoadingDialog.show(this, false);
-//                final SendAuth.Req req = new SendAuth.Req();
-//                req.scope = "snsapi_userinfo";
-//                req.state = "diandi_wx_login";
-//                LeApplication.api.sendReq(req);
+                String openid = SharePrefrenceUtil.getString("config", "openid");
+                if (!TextUtils.isEmpty(openid)) {
+                    LoadingDialog.show(this, false);
+                    getPresenter().wechatLogin(openid);
+                    break;
+                }
+                if (!LeApplication.api.isWXAppInstalled()) {
+                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                LoadingDialog.show(this, false);
+                final SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "diandi_wx_login";
+                LeApplication.api.sendReq(req);
                 break;
             case R.id.ll_login_phone:
                 LoginActivity.newIntent(this);

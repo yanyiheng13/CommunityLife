@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.UserInfo;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
+import com.lkl.pay.app.application.ApplicationController;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -28,6 +29,7 @@ public class LeApplication extends Application {
         super.onCreate();
 //        Log.LOG = true;
 //        QueuedWork.isUseThreadPool = false;
+        ApplicationController.initData(this);
         mApplication = this;
         api = WXAPIFactory.createWXAPI(this, BuildConfig.app_id);
         api.registerApp(BuildConfig.app_id);

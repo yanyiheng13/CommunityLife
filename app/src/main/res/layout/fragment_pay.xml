@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    >
     <com.iot12369.easylifeandroid.ui.view.IconTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"/>
     <ScrollView
+        android:layout_below="@id/title_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/main_bg">
@@ -62,7 +63,7 @@
                            android:paddingLeft="10dp"
                            android:layout_marginRight="10dp"
                            android:textColor="@color/colorLoginTxt"
-                           tools:text="4,000"
+                           android:text="0.01"
                            android:textSize="@dimen/font_16"
                            />
                    <TextView
@@ -311,4 +312,9 @@
                 android:background="@android:color/transparent"/>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/pay_fragment_contain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

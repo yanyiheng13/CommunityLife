@@ -1,0 +1,41 @@
+<resources>
+    <declare-styleable name="CircularProgressView">
+        <attr name="cpv_progress" format="float" />
+        <attr name="cpv_maxProgress" format="float" />
+        <attr name="cpv_animDuration" format="integer" />
+        <attr name="cpv_animSwoopDuration" format="integer" />
+        <attr name="cpv_animSyncDuration" format="integer" />
+        <attr name="cpv_color" format="color"/>
+        <attr name="cpv_thickness" format="dimension"/>
+        <attr name="cpv_indeterminate" format="boolean" />
+        <attr name="cpv_animAutostart" format="boolean" />
+        <attr name="cpv_animSteps" format="integer" />
+        <attr name="cpv_startAngle" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="ClearEditText">
+        <attr name="clear_size" format="dimension" />
+        <attr name="clear_hint_color" format="color" />
+        <attr name="clear_text_color" format="color" />
+        <attr name="clear_hint" format="string" />
+    </declare-styleable>
+
+    <!--自定义titleBar-->
+    <declare-styleable name="CustomTitleView">
+        <!-- Style of the circle indicator. -->
+        <attr name="default_title" format="reference" />
+        <attr name="btn_text" format="string" />
+        <attr name="default_color" format="color" />
+        <attr name="default_size" format="dimension" />
+        <attr name="click_loading" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressView">
+        <attr name="border_Width_circle" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="PassGuardEdit">
+        <attr name="isEncrypt" format="boolean"/>
+        <attr name="isButtonNeedPress" format="boolean"/>
+    </declare-styleable>
+</resources>

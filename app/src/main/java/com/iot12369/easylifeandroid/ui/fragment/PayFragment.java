@@ -2,6 +2,8 @@ package com.iot12369.easylifeandroid.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +12,7 @@ import com.iot12369.easylifeandroid.model.PayInfoData;
 import com.iot12369.easylifeandroid.mvp.PayPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PayContract;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
+import com.iot12369.easylifeandroid.ui.PayManngeActivity;
 import com.iot12369.easylifeandroid.ui.view.IconTitleView;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 
@@ -53,6 +56,8 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     @BindView(R.id.pay_money_date_tv)
     TextView mTvTime;
 
+    private Fragment mOldFragment;
+
     @Override
     public int inflateId() {
         return R.layout.fragment_pay;
@@ -78,6 +83,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         switch (view.getId()) {
             //下一步按钮
             case R.id.pay_next_tv:
+                PayManngeActivity.newIntent(getContext());
                 break;
             case R.id.pay_time_month_tv:
                 mTvByMonth.setSelected(true);
@@ -98,6 +104,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 break;
         }
     }
+
 
     @Override
     public void onSuccessPay(PayInfoData payInfoData) {

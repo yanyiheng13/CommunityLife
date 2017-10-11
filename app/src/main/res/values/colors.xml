@@ -24,4 +24,9 @@
 
     <color name="main_bg">#e6e6e6</color>
     <color name="color_mine_txt">#332d23</color>
+    <color name="ban_transparent">#50000000</color>
+
+    <color name="colorStatePressFalse">#FE9D04</color>
+    <color name="colorStatePressTrue">#FF6600</color>
+    <color name="colorBtnText">#FFFFFF</color>
 </resources>

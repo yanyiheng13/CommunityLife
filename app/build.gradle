@@ -28,6 +28,7 @@ android {
     repositories {
         flatDir {
             dirs '../picture_library/libs'
+            dirs 'libs'
         }
     }
     buildTypes {
@@ -49,25 +50,40 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//        exclude group: 'com.google.result.findbugs'
-//    })
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    //        exclude group: 'com.android.support', module: 'support-annotations'
+    //        exclude group: 'com.google.result.findbugs'
+    //    })
     testCompile 'junit:junit:4.12'
     compile deps.glide
     compile deps.okhttp
     compile(
             deps.appcompat_v7,
-            deps.support_design
+            deps.support_design,
     )
     compile deps.butterknife
     apt deps.butterknifeCompiler
     compile deps.wechat_login
     compile deps.rxjava
     compile deps.rxandroid
+
     compile deps.recyclerview_adapter
     compile project(':library')
     compile project(':libframework')
     compile project(':picture_library')
+    compile files('libs/alipaySdk-20161222.jar')
+    compile files('libs/libmmsdk.jar')
+    //    compile(name: 'facesdk-release', ext: 'aar')
+
+    compile(name: 'lkl-pay-sdk-release', ext: 'aar')
+    compile(name: 'libimagecapture-release', ext: 'aar')
+    compile(name: 'libcamera-release', ext: 'aar')
+    compile(name: 'libidcardcaptor-release', ext: 'aar')
+    compile(name: 'liblivenessdetector2-release', ext: 'aar')
+    compile(name: 'liblivenessdetectionview2-release', ext: 'aar')
+    compile(name: 'libcommon-release', ext: 'aar')
+    //noinspection GradleCompatible
+    //    compile 'com.android.support:percent:23.1.0'
+    compile files('libs/paymax.jar')
 }
