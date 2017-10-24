@@ -113,9 +113,6 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_login_wechat:
-//                LoginData data = new LoginData();
-//                LeApplication.mUserInfo = data;
-//                MainActivity.newIntent(this);
 
                 String openid = SharePrefrenceUtil.getString("config", "openid");
                 if (!TextUtils.isEmpty(openid)) {
@@ -172,12 +169,14 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
                 loginData.nickName = mUser.nickname;
                 loginData.headimgurl = mUser.headimgurl;
                 LeApplication.mUserInfo = loginData;
-//                if (TextUtils.isEmpty(loginData.phone)) {
-//                    LoginActivity.newIntent();
-//                }
-                MainActivity.newIntent(this);
-                finish();
-                SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
+                if (TextUtils.isEmpty(loginData.phone)) {
+                    LoginActivity.newIntent(LoginSelectActivity.this, LoginActivity.TYPE_BIND);
+                    SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
+                } else {
+                    MainActivity.newIntent(this);
+                    finish();
+                    SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
+                }
             }
         }
         mUser = null;

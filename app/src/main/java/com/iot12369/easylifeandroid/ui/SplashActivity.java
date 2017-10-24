@@ -4,6 +4,7 @@ package com.iot12369.easylifeandroid.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.MainActivity;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.LoginData;
+import com.iot12369.easylifeandroid.model.UserInfo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +56,11 @@ public class SplashActivity extends BaseActivity {
 
     private void judgeJump() {
         if (LeApplication.isLogin()) {
+            LoginData infor = LeApplication.mUserInfo;
+            if (infor != null && TextUtils.isEmpty(infor.phone)) {
+                LoginActivity.newIntent(SplashActivity.this, LoginActivity.TYPE_BIND);
+                SplashActivity.this.finish();
+            }
             MainActivity.newIntent(SplashActivity.this);
             SplashActivity.this.finish();
         } else {

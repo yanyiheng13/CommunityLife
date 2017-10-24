@@ -34,6 +34,8 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends BaseActivity<LoginPresent> implements LoginContract.View{
+    public static int TYPE_BIND = 0x11;
+    public static int TYPE_LOGIN = 0x12;
 
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
