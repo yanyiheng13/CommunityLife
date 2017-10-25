@@ -9,6 +9,8 @@ import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
 import com.sai.framework.mvp.BasePresenter;
 
+import okhttp3.RequestBody;
+
 /**
  * 功能说明： 首页即开锁页面
  *
@@ -20,8 +22,9 @@ import com.sai.framework.mvp.BasePresenter;
  */
 public class HomePresenter extends BasePresenter<Repository, HomeContract.View> {
 
-    public void lock() {
-        new RxHelper().view(getRootView()).load(getModel().getRemote().lock()).callBack(new RxHelper
+    public void lock(String openid) {
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), "{\"openid\":\"" + openid + "\"}");
+        new RxHelper().view(getRootView()).load(getModel().getRemote().lock(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {

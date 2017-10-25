@@ -64,7 +64,7 @@ dependencies {
     )
     compile deps.butterknife
     apt deps.butterknifeCompiler
-    compile deps.wechat_login
+//    compile deps.wechat_login
     compile deps.rxjava
     compile deps.rxandroid
 

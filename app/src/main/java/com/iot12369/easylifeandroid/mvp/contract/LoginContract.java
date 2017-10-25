@@ -22,5 +22,8 @@ public class LoginContract {
 
         void onSuccessCode(IsOkData isOkData);
         void onFailureCode(String code, String msg);
+
+        void onSuccessVoice(IsOkData isOkData);
+        void onFailureVoice(String code, String msg);
     }
 }

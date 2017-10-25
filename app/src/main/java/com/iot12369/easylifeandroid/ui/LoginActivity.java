@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.MainActivity;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.IsOkData;
@@ -18,6 +20,7 @@ import com.iot12369.easylifeandroid.mvp.LoginPresent;
 import com.iot12369.easylifeandroid.mvp.contract.LoginContract;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import butterknife.BindView;
@@ -71,7 +74,7 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
     }
 
     private void init() {
-        mTitleView.setText(R.string.login);
+        mTitleView.setText(type == TYPE_BIND ? R.string.bind_phone : R.string.login);
         mTvGetCode.setEnabled(true);
         mDownTimer = new CountDownTimer(60000, 1000) {
             @Override
@@ -95,15 +98,24 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
             case R.id.login_get_code_tv:
                 mTvGetCode.setEnabled(false);
                 mDownTimer.start();
+                getPresenter().verificationCode(mEditPhone.getText().toString());
+                LoadingDialog.show(this, false);
                 break;
             case R.id.btn_login:
-                if (judgeInput()) {
-                    getPresenter().login("", "", "");
-                    LoadingDialog.show(this, false);
+                if (!judgeInput()) {
+                    break;
                 }
+                String openid = null;
+                if (type == TYPE_BIND) {
+                    openid = SharePrefrenceUtil.getString("config", "openid");
+                }
+                getPresenter().login(mEditPhone.getText().toString(), mEditCode.getText().toString(), openid);
+                LoadingDialog.show(this, false);
                 break;
             //语音短信验证码
             case R.id.login_by_voice_tv:
+                getPresenter().verificationVoiceCode(mEditPhone.getText().toString());
+                LoadingDialog.show(this, false);
                 break;
             default:
                 break;
@@ -123,23 +135,37 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
 
     @Override
     public void onSuccessLogin(LoginData loginData) {
-
-    }
-
-    @Override
-    public void onFailureLogin(String code, String msg) {
+        LeApplication.mUserInfo = loginData;
+        SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
         LoadingDialog.hide();
         MainActivity.newIntent(this);
     }
 
     @Override
-    public void onSuccessCode(IsOkData isOkData) {
+    public void onFailureLogin(String code, String msg) {
+        LoadingDialog.hide();
+    }
 
+    @Override
+    public void onSuccessCode(IsOkData isOkData) {
+        ToastUtil.toast(this, "验证码已下发");
+        LoadingDialog.hide();
     }
 
     @Override
     public void onFailureCode(String code, String msg) {
+        LoadingDialog.hide();
+    }
 
+    @Override
+    public void onSuccessVoice(IsOkData isOkData) {
+        ToastUtil.toast(this, "请注意接听");
+        LoadingDialog.hide();
+    }
+
+    @Override
+    public void onFailureVoice(String code, String msg) {
+        LoadingDialog.hide();
     }
 
     public boolean judgeInput() {

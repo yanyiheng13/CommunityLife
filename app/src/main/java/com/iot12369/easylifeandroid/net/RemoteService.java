@@ -29,37 +29,34 @@ import retrofit2.http.Path;
  */
 public interface RemoteService {
 
-    @FormUrlEncoded
-    @POST("api/user/login/{string}")
-    Flowable<ResponseBody> login(@FieldMap Map<String, Object> map, String string);
 
     //1.首页业绩信息详情
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/indexCommission/{version}/{appkey}/{token}")
     Flowable<ResponseBody> home(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
     //2.首页产品列表
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/products/{version}/{appkey}/{token}")
     Flowable<ResponseBody> addressList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
     //3.个人业绩列表
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/personalPerformance/{version}/{appkey}/{token}/{month}/{pageSize}/{currentPageNo}")
     Flowable<ResponseBody> complain(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                     @Field("month") String month, @Field("pageSize") String pageSize, @Field("currentPageNo") String currentPageNo);
     //4.团队业绩列表
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/teamPerformance/{version}/{appkey}/{token}/{type}/{month}/{pageSize}/{currentPageNo}")
     Flowable<ResponseBody> announcement(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                         @Field("type") String type, @Field("month") String month,
                                         @Field("pageSize") String pageSize, @Field("currentPageNo") String currentPageNo);
     //5.个人详细信息
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/clerkDetail/{version}/{appkey}/{token}")
     Flowable<ResponseBody> personInfo(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
-    //6.我的店铺列表
-    @FormUrlEncoded
-    @POST("promotion/marketingO2o/stores/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> login(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
+    //绑定手机号或者手机号登录
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("member/v1/wx/phone")
+    Flowable<ResponseBody> login(@Body RequestBody body);
     //7.微信注册
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/wx/signup")
@@ -69,45 +66,43 @@ public interface RemoteService {
     @POST("member/v1/wx/signin")
     Flowable<ResponseBody> wechatLogin(@Body RequestBody requestBody);
 
-    //7.微信登录
+    //开锁
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("lock/v1")
-    Flowable<ResponseBody> lock();
+    Flowable<ResponseBody> lock(@Body RequestBody body);
 
-    //8.移除店员
-    @FormUrlEncoded
+    //移除店员
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/removeClerk/{version}/{appkey}/{token}/{leparID}/{userID}")
     Flowable<ResponseBody> maintain(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                     @Field("leparID") String leparID, @Field("userID") String userID);
-    //9.修改店员所属门店
-    @FormUrlEncoded
+    //修改店员所属门店
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/modifyClerkStore/{version}/{appkey}/{token}/{userID}/{aimLeparID}/{leparID}")
     Flowable<ResponseBody> modifyStaffStore(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                             @Field("userID") String userID, @Field("aimLeparID") String aimLeparID, @Field("leparID") String leparID);
     //10. 添加店员
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/addClerk/{version}/{appkey}/{token}/{name}/{telePhone}/{noID}/{leparID}")
     Flowable<ResponseBody> addStaff(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                     @Field("name") String name, @Field("telePhone") String telePhone, @Field("noID") String noID,
                                     @Field("leparID") String leparID);
-    //11.获取所有门店
-    @FormUrlEncoded
-    @POST("promotion/marketingO2o/queryMyStore/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> verificationCode(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
+    //验证码
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("notification/v1/sms/code")
+    Flowable<ResponseBody> verificationCode(@Body RequestBody requestBody);
 
-    //11.客户列表
-    @FormUrlEncoded
-    @POST("promotion/marketingO2o/customerDetails/{version}/{appkey}/{token}/{type}/{pageSize}/{pageNo}/{assistantID}/{storeID}")
-    Flowable<ResponseBody> customerList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
-                                        @Field("type") String type, @Field("assistantID") String assistantID, @Field("storeID") String storeID,
-                                        @Field("pageNo") String pageNo, @Field("pageSize") String pageSize);
+    //语音验证码
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("notification/v1/voice/code")
+    Flowable<ResponseBody> verificationVoiceCode(@Body RequestBody body);
     //12.移动店员
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/moveCustomer/{version}/{appkey}/{token}/{storeID}/{assistantID}/{userID}")
     Flowable<ResponseBody> moveStaff(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                      @Field("storeID") String storeID, @Field("assistantID") String assistantID, @Field("userID") String userID);
     //13.客户那的店铺列表
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/queryOwnStore/{version}/{appkey}/{token}")
     Flowable<ResponseBody> customerStoreList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
     //14.团队客户----》获取全部店员列表

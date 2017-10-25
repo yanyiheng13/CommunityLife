@@ -28,7 +28,6 @@ import retrofit2.http.Field;
 public class WechatLoginPresent extends BasePresenter<Repository, WeChatLoginContract.View> {
 
     public void wechatLogin(String openid) {
-//        String json = " {\"result\":}"
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), "{\"openid\":\"" + openid + "\"}");
         new RxHelper().view(getRootView()).load(getModel().getRemote().wechatLogin(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<LoginData>>() {
