@@ -49,19 +49,27 @@ public interface RemoteService {
     Flowable<ResponseBody> announcement(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                         @Field("type") String type, @Field("month") String month,
                                         @Field("pageSize") String pageSize, @Field("currentPageNo") String currentPageNo);
-    //5.个人详细信息
+    //个人详细信息
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/clerkDetail/{version}/{appkey}/{token}")
     Flowable<ResponseBody> personInfo(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
-    //绑定手机号或者手机号登录
+
+    //绑定手机号
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/wx/phone")
-    Flowable<ResponseBody> login(@Body RequestBody body);
-    //7.微信注册
+    Flowable<ResponseBody> bindPhone(@Body RequestBody body);
+
+    //手机号登录
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("member/v1/phone/signin")
+    Flowable<ResponseBody> loginPhone(@Body RequestBody body);
+
+    //微信注册
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/wx/signup")
     Flowable<ResponseBody> wechatRegister(@Body RequestBody requestBody);
-    //7.微信登录
+
+    //微信登录
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/wx/signin")
     Flowable<ResponseBody> wechatLogin(@Body RequestBody requestBody);
@@ -79,7 +87,7 @@ public interface RemoteService {
     //修改店员所属门店
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/modifyClerkStore/{version}/{appkey}/{token}/{userID}/{aimLeparID}/{leparID}")
-    Flowable<ResponseBody> modifyStaffStore(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
+    Flowable<ResponseBody> mfodifyStaffStore(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                             @Field("userID") String userID, @Field("aimLeparID") String aimLeparID, @Field("leparID") String leparID);
     //10. 添加店员
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头

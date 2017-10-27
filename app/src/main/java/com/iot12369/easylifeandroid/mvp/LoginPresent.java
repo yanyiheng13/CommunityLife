@@ -26,13 +26,33 @@ import okhttp3.RequestBody;
  */
 public class LoginPresent extends BasePresenter<Repository, LoginContract.View> {
 
-    public void login(String phone, String code, String openid) {
+    public void bindPhone(String phone, String code, String openid) {
         BindData bindData = new BindData();
         bindData.openid = openid;
         bindData.phone = phone;
         bindData.code = code;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(bindData));
-        new RxHelper().view(getRootView()).load(getModel().getRemote().login(body)).callBack(new RxHelper
+        new RxHelper().view(getRootView()).load(getModel().getRemote().bindPhone(body)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<LoginData>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<LoginData> result) {
+                getRootView().onSuccessLogin(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureLogin(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    public void loginPhone(String phone, String code) {
+        LoginPhone loginPhone = new LoginPhone();
+        loginPhone.phone = phone;
+        loginPhone.code = code;
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(loginPhone));
+        new RxHelper().view(getRootView()).load(getModel().getRemote().loginPhone(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<LoginData>>() {
             @Override
             public void onSuccess(String response, BaseBean<LoginData> result) {
@@ -87,10 +107,16 @@ public class LoginPresent extends BasePresenter<Repository, LoginContract.View> 
         }).application(LeApplication.mApplication).start();
     }
 
-    public class BindData implements Serializable{
+    public class BindData implements Serializable {
         public String phone;
         public String code;
         public String openid;
+    }
+
+    public class LoginPhone implements Serializable {
+        public String phone;
+        public String code;
+        public String os = "android";
     }
 
 

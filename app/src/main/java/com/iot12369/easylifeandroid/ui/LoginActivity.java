@@ -105,11 +105,13 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
                 if (!judgeInput()) {
                     break;
                 }
-                String openid = null;
                 if (type == TYPE_BIND) {
-                    openid = SharePrefrenceUtil.getString("config", "openid");
+                    String openid = SharePrefrenceUtil.getString("config", "openid");
+                    getPresenter().bindPhone(mEditPhone.getText().toString(), mEditCode.getText().toString(), openid);
+                } else {
+                    getPresenter().loginPhone(mEditPhone.getText().toString(), mEditCode.getText().toString());
                 }
-                getPresenter().login(mEditPhone.getText().toString(), mEditCode.getText().toString(), openid);
+
                 LoadingDialog.show(this, false);
                 break;
             //语音短信验证码
