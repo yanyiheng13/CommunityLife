@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iot12369.easylifeandroid.model.LoginData;
-import com.iot12369.easylifeandroid.model.UserInfo;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.lkl.pay.app.application.ApplicationController;
 import com.tencent.mm.opensdk.openapi.IWXAPI;

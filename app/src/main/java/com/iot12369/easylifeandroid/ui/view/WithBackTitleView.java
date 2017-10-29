@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.R;
@@ -28,8 +29,12 @@ import butterknife.OnClick;
 public class WithBackTitleView extends LinearLayout {
     @BindView(R.id.title_text)
     TextView mTitle;
+    @BindView(R.id.rl_title_back)
+    RelativeLayout mRlBack;
     @BindView(R.id.title_icon_img)
     ImageView mImageIcon;
+    @BindView(R.id.view_line)
+    View mViewLine;
 
     public WithBackTitleView(Context context) {
         this(context, null);
@@ -67,5 +72,10 @@ public class WithBackTitleView extends LinearLayout {
     @OnClick(R.id.rl_title_back)
     public void onClick() {
         ((Activity)getContext()).finish();
+    }
+
+    public void goneBackAndLine() {
+        mRlBack.setVisibility(View.GONE);
+        mViewLine.setVisibility(View.GONE);
     }
 }

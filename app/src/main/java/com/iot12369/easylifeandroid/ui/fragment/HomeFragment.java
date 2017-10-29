@@ -12,10 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.HomeData;
 import com.iot12369.easylifeandroid.model.IsOkData;
+import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.mvp.HomePresenter;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
@@ -97,7 +99,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             public void onStatusChange(int status) {
                 switch (status) {
                     case LockView.STATE_ING:
-                        getPresenter().lock();
+                        LoginData data = LeApplication.mUserInfo;
+                        getPresenter().lock(data.memberId, data.phone, null);
                         break;
                 }
             }

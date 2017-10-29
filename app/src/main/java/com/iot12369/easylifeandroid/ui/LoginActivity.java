@@ -45,7 +45,6 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
 
     @BindView(R.id.login_get_code_tv)
     TextView mTvGetCode;
-
     @BindView(R.id.login_phone_edit)
     EditText mEditPhone;
     @BindView(R.id.login_code_edit)
@@ -75,6 +74,9 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
 
     private void init() {
         mTitleView.setText(type == TYPE_BIND ? R.string.bind_phone : R.string.login);
+        if (type == TYPE_BIND) {
+            mTitleView.goneBackAndLine();
+        }
         mTvGetCode.setEnabled(true);
         mDownTimer = new CountDownTimer(60000, 1000) {
             @Override
@@ -184,4 +186,11 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (type != TYPE_BIND) {
+            finish();
+        }
+    }
 }

@@ -60,6 +60,7 @@ public class SplashActivity extends BaseActivity {
             if (infor != null && TextUtils.isEmpty(infor.phone)) {
                 LoginActivity.newIntent(SplashActivity.this, LoginActivity.TYPE_BIND);
                 SplashActivity.this.finish();
+                return;
             }
             MainActivity.newIntent(SplashActivity.this);
             SplashActivity.this.finish();
