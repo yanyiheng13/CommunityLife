@@ -2,9 +2,7 @@ package com.iot12369.easylifeandroid.mvp;
 
 
 import com.google.gson.Gson;
-import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.model.BaseBean;
-import com.iot12369.easylifeandroid.model.HomeData;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.net.Repository;
@@ -16,23 +14,28 @@ import java.io.Serializable;
 import okhttp3.RequestBody;
 
 /**
- * 功能说明： 首页即开锁页面
+ * 功能说明： 账号认证【添加物业地址】
  *
  * @author: 闫毅恒
  * @email： yanyiheng@le.com
  * @version: 1.0
- * @date: 2017/8/29
+ * @date: 2017/10/30
  * @Copyright (c) 2017. 闫毅恒 Inc. All rights reserved.
  */
-public class HomePresenter extends BasePresenter<Repository, HomeContract.View> {
+public class AddAddressPresenter extends BasePresenter<Repository, HomeContract.View> {
 
-    public void lock(String memberid, String phone, String _comment) {
-        LockData data = new LockData();
+    public void addAddress(String openid, String memberid, String phone, String memberName, String memberIdCard, String communityName, String communityRawAddress) {
+        RequestData data = new RequestData();
+        data.openid = openid;
         data.memberid = memberid;
         data.phone = phone;
-        data._comment = _comment;
+        data.memberName = memberName;
+        data.memberIdCard = memberIdCard;
+        data.communityName = communityName;
+        data.communityName = communityName;
+        data.communityRawAddress = communityRawAddress;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
-        new RxHelper().view(getRootView()).load(getModel().getRemote().lock(body)).callBack(new RxHelper
+        new RxHelper().view(getRootView()).load(getModel().getRemote().addAddress(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {
@@ -47,28 +50,13 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
         }).start();
     }
 
-    /**
-     * 物业列表接口
-     */
-    public void addressList(String phone) {
-        new RxHelper().view(getRootView()).load(getModel().getRemote().addressList(phone)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<IsOkData>>() {
-            @Override
-            public void onSuccess(String response, BaseBean<IsOkData> result) {
-                getRootView().onSuccessAddressList(result.data);
-            }
-
-            @Override
-            public void onFailure(String error) {
-                super.onFailure(error);
-                getRootView().onFailureAddressList(error, error);
-            }
-        }).application(LeApplication.mApplication).start();
-    }
-
-    public class LockData implements Serializable {
+    public class RequestData implements Serializable {
+        public String openid;
         public String memberid;
         public String phone;
-        public String _comment;
+        public String memberName;
+        public String memberIdCard;
+        public String communityName;
+        public String communityRawAddress;
     }
 }

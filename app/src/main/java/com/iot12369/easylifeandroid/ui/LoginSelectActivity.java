@@ -168,11 +168,11 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
                 SharePrefrenceUtil.setString("config", "openid", mUser.openid);
                 loginData.nickName = mUser.nickname;
                 loginData.headimgurl = mUser.headimgurl;
-                LeApplication.mUserInfo = loginData;
                 if (TextUtils.isEmpty(loginData.phone)) {
-                    LoginActivity.newIntent(LoginSelectActivity.this, LoginActivity.TYPE_BIND);
-                    SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
+                    LoginActivity.newIntent(LoginSelectActivity.this, LoginActivity.TYPE_BIND, loginData);
+                    finish();
                 } else {
+                    LeApplication.mUserInfo = loginData;
                     MainActivity.newIntent(this);
                     finish();
                     SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));

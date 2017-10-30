@@ -14,4 +14,19 @@ import java.io.Serializable;
 
 public class AddressData implements Serializable {
     public String address;
+
+    public String currentEstate;
+    public String communityFloor;
+    public String communityBuiding;
+    public String ownerId;
+    public String estateAuditPerson;
+    public String communityCarSpace;
+    public String communityHouse;
+    public String estateAuditStatus;
+    public String communityRawAddress;
+    public String communityHouseArea;
+    public String communityId;
+    public String communityName;
+    public String communityUnit;
+    public String memberId;
 }

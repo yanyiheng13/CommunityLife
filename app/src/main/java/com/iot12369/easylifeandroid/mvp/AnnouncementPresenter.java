@@ -1,11 +1,15 @@
 package com.iot12369.easylifeandroid.mvp;
 
+import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.model.AnnouncementData;
 import com.iot12369.easylifeandroid.model.BaseBean;
+import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.mvp.contract.AnnouncementContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
 import com.sai.framework.mvp.BasePresenter;
+
+import okhttp3.RequestBody;
 
 /**
  * 功能说明： 公告列表
@@ -19,7 +23,8 @@ import com.sai.framework.mvp.BasePresenter;
 public class AnnouncementPresenter extends BasePresenter<Repository, AnnouncementContract.View> {
 
     public void announcement(String version, String appkey, String token, String type, String month, String pageSize, String currentPageNo) {
-        new RxHelper().view(getRootView()).load(getModel().getRemote().announcement(version, appkey, token, type, month, pageSize, currentPageNo)).callBack(new RxHelper
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(new LoginData()));
+        new RxHelper().view(getRootView()).load(getModel().getRemote().announcement(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<AnnouncementData>>() {
 
             @Override

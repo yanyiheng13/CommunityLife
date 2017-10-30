@@ -51,6 +51,7 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
     EditText mEditCode;
 
     private CountDownTimer mDownTimer;
+    private LoginData loginData;
     private int type;
 
     @Override
@@ -58,8 +59,10 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             type = getIntent().getIntExtra("type", 0);
+            loginData = (LoginData) getIntent().getSerializableExtra("loginData");
         } else {
             type = savedInstanceState.getInt("type");
+            loginData = (LoginData) savedInstanceState.getSerializable("loginData");
         }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -137,17 +140,32 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
         context.startActivity(intent);
     }
 
+    public static void newIntent(Context context, int type, LoginData loginData) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("loginData", loginData);
+        context.startActivity(intent);
+    }
+
     @Override
     public void onSuccessLogin(LoginData loginData) {
         LeApplication.mUserInfo = loginData;
         SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
         LoadingDialog.hide();
         MainActivity.newIntent(this);
+        finish();
     }
 
     @Override
     public void onFailureLogin(String code, String msg) {
         LoadingDialog.hide();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("loginData", loginData);
+        outState.putInt("type", type);
     }
 
     @Override

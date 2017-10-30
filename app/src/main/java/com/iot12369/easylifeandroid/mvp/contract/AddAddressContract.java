@@ -1,6 +1,5 @@
 package com.iot12369.easylifeandroid.mvp.contract;
 
-import com.iot12369.easylifeandroid.model.HomeData;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.sai.framework.mvp.MvpView;
 
@@ -13,13 +12,10 @@ import com.sai.framework.mvp.MvpView;
  * @date: 2017/8/29
  * @Copyright (c) 2017. 闫毅恒 Inc. All rights reserved.
  */
-public class HomeContract {
+public class AddAddressContract {
 
     public interface View extends MvpView {
-        void onSuccessLock(IsOkData isOkData);
-        void onFailureLock(String code, String msg);
-
-        void onSuccessAddressList(IsOkData isOkData);
-        void onFailureAddressList(String code, String msg);
+        void onSuccessAddress(IsOkData isOkData);
+        void onFailureAddress(String code, String msg);
     }
 }

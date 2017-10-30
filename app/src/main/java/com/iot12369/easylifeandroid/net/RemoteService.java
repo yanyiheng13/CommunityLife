@@ -46,9 +46,7 @@ public interface RemoteService {
     //4.团队业绩列表
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/teamPerformance/{version}/{appkey}/{token}/{type}/{month}/{pageSize}/{currentPageNo}")
-    Flowable<ResponseBody> announcement(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
-                                        @Field("type") String type, @Field("month") String month,
-                                        @Field("pageSize") String pageSize, @Field("currentPageNo") String currentPageNo);
+    Flowable<ResponseBody> announcement(@Body RequestBody body);
     //个人详细信息
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/clerkDetail/{version}/{appkey}/{token}")
@@ -79,22 +77,24 @@ public interface RemoteService {
     @POST("lock/v1")
     Flowable<ResponseBody> lock(@Body RequestBody body);
 
-    //移除店员
+    //维修
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/removeClerk/{version}/{appkey}/{token}/{leparID}/{userID}")
-    Flowable<ResponseBody> maintain(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
-                                    @Field("leparID") String leparID, @Field("userID") String userID);
-    //修改店员所属门店
+    @POST("authentication/v1")
+    Flowable<ResponseBody> maintain(@Body RequestBody body);
+
+    //添加物业地址 账号认证
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/modifyClerkStore/{version}/{appkey}/{token}/{userID}/{aimLeparID}/{leparID}")
-    Flowable<ResponseBody> mfodifyStaffStore(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
-                                            @Field("userID") String userID, @Field("aimLeparID") String aimLeparID, @Field("leparID") String leparID);
-    //10. 添加店员
+    @POST("authentication/v1")
+    Flowable<ResponseBody> addAddress(@Body RequestBody body);
+
+    //物业地址列表接口
+    @GET("member/v1/estate?phone={phone}")
+    Flowable<ResponseBody> addressList(@Field("version") String phone);
+
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/addClerk/{version}/{appkey}/{token}/{name}/{telePhone}/{noID}/{leparID}")
-    Flowable<ResponseBody> addStaff(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
-                                    @Field("name") String name, @Field("telePhone") String telePhone, @Field("noID") String noID,
-                                    @Field("leparID") String leparID);
+    @POST("member/v1/estate")
+    Flowable<ResponseBody> addStaff(@Body RequestBody body);
+
     //验证码
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("notification/v1/sms/code")
@@ -113,6 +113,7 @@ public interface RemoteService {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/queryOwnStore/{version}/{appkey}/{token}")
     Flowable<ResponseBody> customerStoreList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
+
     //14.团队客户----》获取全部店员列表
     @FormUrlEncoded
     @POST("promotion/marketingO2o/clerks/{version}/{appkey}/{token}")

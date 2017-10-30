@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
-import com.iot12369.easylifeandroid.model.HomeData;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.mvp.HomePresenter;
@@ -105,6 +104,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 }
             }
         });
+        getPresenter().addressList(LeApplication.mUserInfo.phone);
     }
 
     @OnClick({R.id.home_announcement_more_rl, R.id.home_top_key_img})
@@ -144,5 +144,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onFailureLock(String code, String msg) {
         mLockView.update(LockView.STATE_FAILURE);
+    }
+
+    @Override
+    public void onSuccessAddressList(IsOkData isOkData) {
+
+    }
+
+    @Override
+    public void onFailureAddressList(String code, String msg) {
+
     }
 }

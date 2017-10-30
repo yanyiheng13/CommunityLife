@@ -56,12 +56,6 @@ public class SplashActivity extends BaseActivity {
 
     private void judgeJump() {
         if (LeApplication.isLogin()) {
-            LoginData infor = LeApplication.mUserInfo;
-            if (infor != null && TextUtils.isEmpty(infor.phone)) {
-                LoginActivity.newIntent(SplashActivity.this, LoginActivity.TYPE_BIND);
-                SplashActivity.this.finish();
-                return;
-            }
             MainActivity.newIntent(SplashActivity.this);
             SplashActivity.this.finish();
         } else {

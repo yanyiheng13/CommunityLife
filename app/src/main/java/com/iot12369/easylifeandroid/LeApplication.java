@@ -45,7 +45,7 @@ public class LeApplication extends Application {
     }
 
     public static boolean isLogin() {
-        return mUserInfo != null && !TextUtils.isEmpty(mUserInfo.memberId) && !TextUtils.isEmpty(mUserInfo.opopenId);
+        return mUserInfo != null && !TextUtils.isEmpty(mUserInfo.phone);
     }
 
 }
