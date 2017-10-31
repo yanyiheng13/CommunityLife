@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid.mvp.contract;
 
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.sai.framework.mvp.MvpView;
 
@@ -15,7 +16,7 @@ import com.sai.framework.mvp.MvpView;
 public class AddAddressContract {
 
     public interface View extends MvpView {
-        void onSuccessAddress(IsOkData isOkData);
+        void onSuccessAddress(AddressData addressData);
         void onFailureAddress(String code, String msg);
     }
 }

@@ -4,11 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.LoginData;
+import com.iot12369.easylifeandroid.mvp.AddAddressPresenter;
+import com.iot12369.easylifeandroid.mvp.contract.AddAddressContract;
+import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
+import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +31,7 @@ import butterknife.OnClick;
  * @date： 17-8-28
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class AddAddressActivity extends BaseActivity {
+public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implements AddAddressContract.View {
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
 
@@ -42,16 +50,39 @@ public class AddAddressActivity extends BaseActivity {
         setContentView(R.layout.activity_add_address);
         ButterKnife.bind(this);
         mTitleView.setText(R.string.add_address_no).setImageResource(R.mipmap.icon_account_certification);
+        mTvPhoneNum.setText(LeApplication.mUserInfo.phone);
     }
 
     @OnClick(R.id.add_address_tv)
     public void onClick() {
-
+        if (TextUtils.isEmpty(mEtName.getText().toString()) || TextUtils.isEmpty(mEtCertificationNum.getText().toString())
+                || TextUtils.isEmpty(mEtAddress.getText().toString())
+                || TextUtils.isEmpty(mTvPhoneNum.getText().toString())) {
+            return;
+        }
+        LoadingDialog.show(this, false);
+        LoginData data = LeApplication.mUserInfo;
+        getPresenter().addAddress(data.opopenId, data.memberId, data.phone, mEtName.getText().toString(),
+                mEtCertificationNum.getText().toString(), null, mEtAddress.getText().toString());
     }
 
 
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, AddAddressActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onSuccessAddress(AddressData addressData) {
+        LoadingDialog.hide();
+        if (!TextUtils.isEmpty(addressData.memberId)) {
+            ToastUtil.toast(this, "认证成功");
+            finish();
+        }
+    }
+
+    @Override
+    public void onFailureAddress(String code, String msg) {
+        LoadingDialog.hide();
     }
 }

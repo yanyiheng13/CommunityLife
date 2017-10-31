@@ -43,10 +43,16 @@ public interface RemoteService {
     @POST("promotion/marketingO2o/personalPerformance/{version}/{appkey}/{token}/{month}/{pageSize}/{currentPageNo}")
     Flowable<ResponseBody> complain(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
                                     @Field("month") String month, @Field("pageSize") String pageSize, @Field("currentPageNo") String currentPageNo);
-    //4.团队业绩列表
-    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/teamPerformance/{version}/{appkey}/{token}/{type}/{month}/{pageSize}/{currentPageNo}")
-    Flowable<ResponseBody> announcement(@Body RequestBody body);
+    //系统公告
+    @GET("notice/v1/sys?start={start}&length={length}")
+    Flowable<ResponseBody> announcementSystem(@Field("start") String start, @Field("length") String length);
+
+    //小区公告
+    @GET("notice/v1/community?start={start}&length={length}&phone={phone}")
+    Flowable<ResponseBody> announcementCommunity(@Field("start") String start,
+                                                 @Field("length") String length,
+                                                 @Field("phone") String phone);
+
     //个人详细信息
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/clerkDetail/{version}/{appkey}/{token}")
@@ -89,7 +95,7 @@ public interface RemoteService {
 
     //物业地址列表接口
     @GET("member/v1/estate?phone={phone}")
-    Flowable<ResponseBody> addressList(@Field("version") String phone);
+    Flowable<ResponseBody> addressList(@Field("phone") String phone);
 
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/estate")

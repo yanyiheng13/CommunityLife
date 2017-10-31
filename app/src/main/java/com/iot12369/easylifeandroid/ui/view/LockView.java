@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import butterknife.BindView;
@@ -87,10 +88,14 @@ public class LockView extends LinearLayout {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mStartTime = System.currentTimeMillis();
+                if (true) {
+                    AddAddressActivity.newIntent(getContext());
+                    break;
+                }
                 if (mCurrentStatus != STATE_NORMAL) {
                     break;
                 }
+                mStartTime = System.currentTimeMillis();
                 mImgCircles.setImageResource(R.drawable.lock_rotate);
                 mImgCircles.setVisibility(VISIBLE);
                 mImgLeft.setVisibility(VISIBLE);

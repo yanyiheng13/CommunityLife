@@ -1,7 +1,6 @@
 package com.iot12369.easylifeandroid.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +10,10 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AnnouncementData;
+import com.iot12369.easylifeandroid.model.AnnouncementVo;
 import com.iot12369.easylifeandroid.mvp.AnnouncementPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AnnouncementContract;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
@@ -40,8 +41,8 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
 
-    private BaseQuickAdapter<AnnouncementData, BaseViewHolder> mAdapter;
-    private List<AnnouncementData> mListMaintain = new ArrayList<>();
+    private BaseQuickAdapter<AnnouncementVo, BaseViewHolder> mAdapter;
+    private List<AnnouncementVo> mListMaintain = new ArrayList<>();
 
     private int mTag;
     private boolean isLoadMore, isRefresh;
@@ -66,9 +67,9 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new BaseQuickAdapter<AnnouncementData, BaseViewHolder>(R.layout.view_announcement_item) {
+        mAdapter = new BaseQuickAdapter<AnnouncementVo, BaseViewHolder>(R.layout.view_announcement_item) {
             @Override
-            protected void convert(BaseViewHolder helper, final AnnouncementData item) {
+            protected void convert(BaseViewHolder helper, final AnnouncementVo item) {
 
                 helper.setText(R.id.announcement_item_date_tv, item.time);//设置时间
                 helper.setText(R.id.announcement_item_des_tv, item.content);//设置描述
@@ -85,12 +86,11 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         mRecyclerView.setAdapter(mAdapter);
         mEmptyView.setOnDataLoadStatusListener(this);
         mEmptyView.onStart();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().announcement("", "", "", "", "", "", "");
-            }
-        }, 1000);
+        if (mTag == 1) {
+            getPresenter().announcementSystem("0", "10");
+        } else {
+            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+        }
     }
 
     @Override
@@ -101,12 +101,11 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         }
         isRefresh = true;
         isLoadMore = false;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().announcement("", "", "", "", "", "", "");
-            }
-        }, 1000);
+        if (mTag == 1) {
+            getPresenter().announcementSystem("0", "10");
+        } else {
+            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+        }
     }
 
     //上拉加载更多
@@ -117,12 +116,11 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         }
         isLoadMore = true;
         isRefresh = false;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().announcement("", "", "", "", "", "", "");
-            }
-        }, 1000);
+        if (mTag == 1) {
+            getPresenter().announcementSystem("0", "10");
+        } else {
+            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+        }
 
     }
 
@@ -142,20 +140,15 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
 
     @Override
     public void onSuccessAnnouncement(AnnouncementData announcementData) {
-
-    }
-
-    @Override
-    public void onErrorAnnouncement(String code, String msg) {
         if (mSwipeRefreshLayout == null) {
             return;
         }
         mSwipeRefreshLayout.setRefreshing(false);
         mEmptyView.onSuccess();
         if (isLoadMore) {
-            List<AnnouncementData> list = new ArrayList<>();
+            List<AnnouncementVo> list = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
-                AnnouncementData maintainBean = new AnnouncementData();
+                AnnouncementVo maintainBean = new AnnouncementVo();
                 maintainBean.content = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
                 maintainBean.time = "2017-08-10";
                 list.add(maintainBean);
@@ -170,7 +163,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         } else {
             mListMaintain.clear();
             for (int i = 0; i < 10; i++) {
-                AnnouncementData maintainBean = new AnnouncementData();
+                AnnouncementVo maintainBean = new AnnouncementVo();
                 maintainBean.content = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
                 maintainBean.time = "2017-08-10";
                 mListMaintain.add(maintainBean);
@@ -182,12 +175,16 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
     }
 
     @Override
+    public void onErrorAnnouncement(String code, String msg) {
+
+    }
+
+    @Override
     public void onDataLoadAgain() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().announcement("", "", "", "", "", "", "");
-            }
-        }, 1000);
+        if (mTag == 1) {
+            getPresenter().announcementSystem("0", "10");
+        } else {
+            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+        }
     }
 }

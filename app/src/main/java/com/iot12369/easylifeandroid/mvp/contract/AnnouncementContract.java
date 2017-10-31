@@ -2,6 +2,7 @@ package com.iot12369.easylifeandroid.mvp.contract;
 
 
 import com.iot12369.easylifeandroid.model.AnnouncementData;
+import com.iot12369.easylifeandroid.model.AnnouncementVo;
 import com.sai.framework.mvp.MvpView;
 
 /**
