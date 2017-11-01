@@ -149,9 +149,15 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         LoadingDialog.hide();
         if (loginData != null && !TextUtils.isEmpty(loginData.opopenId) && !TextUtils.isEmpty(loginData.memberId)) {
             LeApplication.mUserInfo = loginData;
-            SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
-            MainActivity.newIntent(this);
-            finish();
+            if (TextUtils.isEmpty(loginData.phone)) {
+                LoginActivity.newIntent(LoginSelectActivity.this, LoginActivity.TYPE_BIND, loginData);
+                finish();
+            } else {
+                LeApplication.mUserInfo = loginData;
+                MainActivity.newIntent(this);
+                finish();
+                SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
+            }
         }
     }
 
@@ -167,7 +173,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
             if (mUser != null && !TextUtils.isEmpty(mUser.openid)) {
                 SharePrefrenceUtil.setString("config", "openid", mUser.openid);
                 loginData.nickName = mUser.nickname;
-                loginData.headimgurl = mUser.headimgurl;
+//                loginData.headimgurl = mUser.headimgurl;
                 if (TextUtils.isEmpty(loginData.phone)) {
                     LoginActivity.newIntent(LoginSelectActivity.this, LoginActivity.TYPE_BIND, loginData);
                     finish();

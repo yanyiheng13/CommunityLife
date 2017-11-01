@@ -91,9 +91,9 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         }
         String str = SharePrefrenceUtil.getString("config", "loginType");
         if ("wechat".equals(str)) {
-            mTvWeChatNum.setText(String.format(getString(R.string.wechat_nick), loginData.nickName));
+            mTvWeChatNum.setText(loginData.nickName);
         } else {
-            mTvWeChatNum.setText(String.format(getString(R.string.mine_wechat_nick), loginData.phone));
+            mTvWeChatNum.setText(loginData.phone);
         }
 
     }
@@ -104,7 +104,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         getPresenter().addressList(LeApplication.mUserInfo.phone);
     }
 
-    @OnClick(R.id.mine_head_img)
+//    @OnClick(R.id.mine_head_img)
     public void onHeadClick() {
         PictureSelector.create(getActivity())
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()

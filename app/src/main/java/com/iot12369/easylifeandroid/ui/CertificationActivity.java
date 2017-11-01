@@ -78,9 +78,9 @@ public class CertificationActivity extends BaseActivity<PersonInfoPresenter> imp
         mTvName.setText(TextUtils.isEmpty(userInfo.name) ? "--" : userInfo.name);
         String str = SharePrefrenceUtil.getString("config", "loginType");
         if ("wechat".equals(str)) {
-            mTvCommunity.setText(String.format(getString(R.string.wechat_nick), userInfo.nickName));
+            mTvCommunity.setText(userInfo.nickName);
         } else {
-            mTvCommunity.setText(String.format(getString(R.string.mine_wechat_nick), userInfo.phone));
+            mTvCommunity.setText(userInfo.phone);
         }
     }
 

@@ -223,7 +223,7 @@
                        android:textColor="@color/colorLoginTxt"
                        android:layout_centerVertical="true"
                        android:textSize="@dimen/font_16"
-                       android:text="@string/construction_area"/>
+                       android:text="物业费单价"/>
                    <TextView
                        android:id="@+id/pay_money_unit_tv"
                        android:layout_width="wrap_content"

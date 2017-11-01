@@ -58,7 +58,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
 
     @OnClick(R.id.add_address_tv)
     public void onClick() {
-        if (TextUtils.isEmpty(mEtName.getText().toString()) || TextUtils.isEmpty(mEtCertificationNum.getText().toString())
+        if (TextUtils.isEmpty(mEtName.getText().toString())
                 || TextUtils.isEmpty(mEtAddress.getText().toString())
                 || TextUtils.isEmpty(mTvPhoneNum.getText().toString())
                 || TextUtils.isEmpty(mEtLocation.getText().toString())) {
