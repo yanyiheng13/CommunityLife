@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,36 @@ public class PropertyAddressView extends LinearLayout {
 
                 }
             });
+            mListView.add(view);
+            mLlAddressContain.addView(view);
+        }
+        return this;
+    }
+
+    public PropertyAddressView updateData(AddressData addressData) {
+        mListView.clear();
+        mLlAddressContain.removeAllViews();
+        List<AddressVo> list = addressData.list;
+        if (list == null || list.size() == 0) {
+            mTvAddress.setText("暂未物业认证");
+            mTvAddress.setLines(1);
+            return this;
+        } else if (list.size() == 1) {
+            mTvAddress.setText(list.get(0).communityRawAddress + "\n" + list.get(0).communityName);
+            return this;
+        }
+        for (int i = 1; i < list.size(); i++) {
+            View view = mInflater.inflate(R.layout.view_property_address_item, null);
+            TextView tv = (TextView) view.findViewById(R.id.property_address_item_tv);
+            ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);
+            view.setVisibility(GONE);
+            view.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            tv.setText(list.get(i).communityRawAddress  + "/n" + list.get(i).communityName);
             mListView.add(view);
             mLlAddressContain.addView(view);
         }

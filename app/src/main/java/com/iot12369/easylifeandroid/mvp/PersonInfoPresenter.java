@@ -1,5 +1,7 @@
 package com.iot12369.easylifeandroid.mvp;
 
+import com.iot12369.easylifeandroid.LeApplication;
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.BaseBean;
 import com.iot12369.easylifeandroid.model.PersonData;
 import com.iot12369.easylifeandroid.mvp.contract.PersonInfoContract;
@@ -34,4 +36,23 @@ public class PersonInfoPresenter extends BasePresenter<Repository, PersonInfoCon
            }
        }).start();
    }
+
+    /**
+     * 物业列表接口
+     */
+    public void addressList(String phone) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().addressList(phone)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<AddressData>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<AddressData> result) {
+                getRootView().onSuccessAddressList(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureAddressList(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
 }

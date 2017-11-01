@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.PayInfoData;
 import com.iot12369.easylifeandroid.mvp.PayPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PayContract;
@@ -68,13 +70,14 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         super.onActivityCreated(savedInstanceState);
         mTitleView.setText(R.string.title_home).setImageResource(R.mipmap.nav_home);
         mPropertyView.goneIcon();
-        mPropertyView.updateData();
+//        mPropertyView.updateData();
         mTvByYear.setSelected(true);
         mTvName.setText("大卫");
         mTvSquareMeters.setText(String.format(getString(R.string.square_meters), "100"));
         mTvUnitMoney.setText(String.format(getString(R.string.by_square_meters), "2.0"));
         mTvTime.setText("2016-08-16");
         mPropertyView.setLeftTextColor(R.color.colorLoginTxt);
+        getPresenter().addressList(LeApplication.mUserInfo.phone);
     }
 
 
@@ -113,6 +116,16 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
     @Override
     public void onFailurePay(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessAddressList(AddressData addressData) {
+        mPropertyView.updateData(addressData);
+    }
+
+    @Override
+    public void onFailureAddressList(String code, String msg) {
 
     }
 }

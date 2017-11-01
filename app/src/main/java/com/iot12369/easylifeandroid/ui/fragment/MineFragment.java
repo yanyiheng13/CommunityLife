@@ -17,6 +17,7 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PersonData;
 import com.iot12369.easylifeandroid.mvp.PersonInfoPresenter;
@@ -62,7 +63,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
     ImageView mImageLevel;
     //名字
     @BindView(R.id.mine_name_tv)
-    TextView mTvName;
+    ImageView mCertificationImg;
     //微信号
     @BindView(R.id.mine_wechat_num_tv)
     TextView mTvWeChatNum;
@@ -84,19 +85,17 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         super.onActivityCreated(savedInstanceState);
         //设置标题和标题icon
         mTitleView.setImageResource(R.mipmap.title_mine).setText(R.string.title_mine);
-        mAddressView.updateData();
         LoginData loginData = LeApplication.mUserInfo;
         if (!TextUtils.isEmpty(loginData.headimgurl)) {
             Glide.with(this).load(loginData.headimgurl).into(mImageHead);
         }
-        String name = loginData.name;
-        if (!TextUtils.isEmpty(loginData.nickName)) {
-            mTvWeChatNum.setText(String.format(getString(R.string.mine_wechat_nick), loginData.nickName));
-            if (TextUtils.isEmpty(name)) {
-                name = loginData.nickName;
-            }
-        }
-        mTvName.setText(TextUtils.isEmpty(name) ?  "~~" : name);
+        mTvWeChatNum.setText(String.format(getString(R.string.mine_wechat_nick), loginData.phone));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPresenter().addressList(LeApplication.mUserInfo.phone);
     }
 
     @OnClick(R.id.mine_head_img)
@@ -215,6 +214,21 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
 
     @Override
     public void onFailurePerson(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessAddressList(AddressData addressData) {
+        if (addressData == null || addressData.list == null || addressData.list.size() == 0) {
+            mCertificationImg.setVisibility(View.VISIBLE);
+        } else {
+            mCertificationImg.setVisibility(View.GONE);
+        }
+        mAddressView.updateData(addressData);
+    }
+
+    @Override
+    public void onFailureAddressList(String code, String msg) {
 
     }
 

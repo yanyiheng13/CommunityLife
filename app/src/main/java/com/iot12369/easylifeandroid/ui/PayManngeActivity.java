@@ -116,7 +116,7 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
 
             case PaymaxSDK.CHANNEL_LKL: {
 //                new FaceTask().execute(new FaceRequest("123", "123", userid));
-                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_LKL).execute(new PaymentRequest(CHANNEL_ALIPAY, amount, "测试商品007", "测试商品Body", userid,time_expire));
+                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_LKL).execute(new PaymentRequest(CHANNEL_LKL, amount, "测试商品007", "测试商品Body", userid,time_expire));
             }
             break;
         }

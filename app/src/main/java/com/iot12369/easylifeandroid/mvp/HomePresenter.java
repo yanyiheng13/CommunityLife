@@ -3,9 +3,11 @@ package com.iot12369.easylifeandroid.mvp;
 
 import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
+import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
-import com.iot12369.easylifeandroid.model.HomeData;
 import com.iot12369.easylifeandroid.model.IsOkData;
+import com.iot12369.easylifeandroid.model.NoticeData;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
@@ -52,9 +54,9 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
      */
     public void addressList(String phone) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().addressList(phone)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<IsOkData>>() {
+                .CallBackAdapter<BaseBean<AddressData>>() {
             @Override
-            public void onSuccess(String response, BaseBean<IsOkData> result) {
+            public void onSuccess(String response, BaseBean<AddressData> result) {
                 getRootView().onSuccessAddressList(result.data);
             }
 
@@ -62,6 +64,25 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
             public void onFailure(String error) {
                 super.onFailure(error);
                 getRootView().onFailureAddressList(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    /**
+     * 首页三条公告请求
+     */
+    public void homeThreeNotice() {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().homeThreeNotice()).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<NoticeData>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<NoticeData> result) {
+                getRootView().onSuccessNoticeData(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureNoticeData(error, error);
             }
         }).application(LeApplication.mApplication).start();
     }

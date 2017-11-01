@@ -37,6 +37,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="16dp"
                     android:scaleType="centerCrop"
+                    android:visibility="gone"
                     android:src="@mipmap/icon_head_default" />
 
                 <LinearLayout
@@ -159,6 +160,7 @@
                     android:src="@mipmap/icon_not_bind"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="16dp"
+                    android:visibility="gone"
                      />
             </RelativeLayout>
             <View

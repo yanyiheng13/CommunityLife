@@ -12,8 +12,11 @@ import java.util.List;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class AnnouncementData extends BaseBean implements Serializable {
-
-    public List<AnnouncementData> list;
+public class AnnouncementData implements Serializable {
+    public String startIndex;
+    public String pageIndex;
+    public String pageSize;
+    public String totalCount;
+    public List<AnnouncementVo> list;
 
 }

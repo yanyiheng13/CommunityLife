@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
-import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.mvp.AddAddressPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AddAddressContract;
@@ -43,6 +43,9 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     TextView mTvPhoneNum;
     @BindView(R.id.add_address_my_et)
     EditText mEtAddress;
+    //所在小区
+    @BindView(R.id.add_address_location_et)
+    EditText mEtLocation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,13 +60,14 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     public void onClick() {
         if (TextUtils.isEmpty(mEtName.getText().toString()) || TextUtils.isEmpty(mEtCertificationNum.getText().toString())
                 || TextUtils.isEmpty(mEtAddress.getText().toString())
-                || TextUtils.isEmpty(mTvPhoneNum.getText().toString())) {
+                || TextUtils.isEmpty(mTvPhoneNum.getText().toString())
+                || TextUtils.isEmpty(mEtLocation.getText().toString())) {
             return;
         }
         LoadingDialog.show(this, false);
         LoginData data = LeApplication.mUserInfo;
         getPresenter().addAddress(data.opopenId, data.memberId, data.phone, mEtName.getText().toString(),
-                mEtCertificationNum.getText().toString(), null, mEtAddress.getText().toString());
+                mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(), mEtAddress.getText().toString());
     }
 
 
@@ -73,7 +77,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     }
 
     @Override
-    public void onSuccessAddress(AddressData addressData) {
+    public void onSuccessAddress(AddressVo addressData) {
         LoadingDialog.hide();
         if (!TextUtils.isEmpty(addressData.memberId)) {
             ToastUtil.toast(this, "认证成功");

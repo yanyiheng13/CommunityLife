@@ -15,14 +15,19 @@ import android.widget.TextView;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
+import com.iot12369.easylifeandroid.model.NoticeData;
+import com.iot12369.easylifeandroid.model.NoticeVo;
 import com.iot12369.easylifeandroid.mvp.HomePresenter;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.view.LockView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,8 +71,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     TextView mTvTopAddress;
     @BindView(R.id.lock_view)
     LockView mLockView;
-
-    private AddressData mAddress = new AddressData();
+    private AddressVo mAddress;
+    private List<AddressVo> mAddressList;
 
     @Override
     public int inflateId() {
@@ -105,6 +110,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             }
         });
         getPresenter().addressList(LeApplication.mUserInfo.phone);
+        getPresenter().homeThreeNotice();
     }
 
     @OnClick({R.id.home_announcement_more_rl, R.id.home_top_key_img})
@@ -114,7 +120,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 AnnouncementActivity.newIntent(getContext());
                 break;
             case R.id.home_top_key_img:
-                AddressListActivity.newIntent(getActivity(), mAddress, 100);
+                AddressListActivity.newIntent(getActivity(), mAddressList, 100);
                 break;
             default:
                 break;
@@ -125,9 +131,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 100) {
-            mAddress = (AddressData) data.getSerializableExtra(AddressListActivity.TAG_REQUEST_HOME);
+            mAddress = (AddressVo) data.getSerializableExtra(AddressListActivity.TAG_REQUEST_HOME);
             if (mAddress != null) {
-                mTvTopAddress.setText(mAddress.address);
+                mTvTopAddress.setText(mAddress.communityRawAddress);
             }
         }
     }
@@ -147,12 +153,38 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void onSuccessAddressList(IsOkData isOkData) {
-
+    public void onSuccessAddressList(AddressData addressData) {
+        mAddressList = addressData.list;
+        mLockView.setAddAdress(mAddressList);
+        if (addressData == null || addressData.list == null || addressData.list.size() == 0) {
+            mTvTopAddress.setText("暂未认证物业地址");
+            return;
+        }
+        AddressVo addressVo = addressData.list.get(0);
+        mTvTopAddress.setText(addressVo.communityRawAddress);
     }
 
     @Override
     public void onFailureAddressList(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessNoticeData(NoticeData noticeData) {
+        if (noticeData.list != null && noticeData.list.size() >=  3) {
+            List<NoticeVo> list = noticeData.list;
+            NoticeVo vo1 = list.get(0);
+            NoticeVo vo2 = list.get(1);
+            NoticeVo vo3 = list.get(2);
+
+            mTvBriefOne.setText(vo1.noticeContent);
+            mTvBriefTwo.setText(vo2.noticeContent);
+            mTvBriefThree.setText(vo3.noticeContent);
+        }
+    }
+
+    @Override
+    public void onFailureNoticeData(String code, String msg) {
 
     }
 }

@@ -65,7 +65,8 @@ public class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
                             "\"subject\":\"测试商品007\",\"time_created\":1507614033000,\"time_expire\":1507617628634}";
                     break;
             }
-
+              // {"data":{"secretkey":"5b97b3138041437587646b37f52dc7f7"},"message":null,"result":1}
+            //{"body":"测试商品Body","channel":"alipay_app","extra":{"user_id":"100"},"time_expire":3600,"title":"测试商品007","totalPrice":0.01}
             Log.d("PaymaxSDK", "data=" + data);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid.mvp.contract;
 
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.PayInfoData;
 import com.sai.framework.mvp.MvpView;
 
@@ -17,5 +18,8 @@ public class PayContract {
     public interface View extends MvpView {
         void onSuccessPay(PayInfoData payInfoData);
         void onFailurePay(String code, String msg);
+
+        void onSuccessAddressList(AddressData addressData);
+        void onFailureAddressList(String code, String msg);
     }
 }

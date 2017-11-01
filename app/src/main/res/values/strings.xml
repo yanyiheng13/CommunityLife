@@ -16,12 +16,12 @@
     <string name="input_code">请输入验证码</string>
     <string name="code_login">验证并登录</string>
 
-    <string name="mine_wechat_nick">微信昵称:%s</string>
+    <string name="mine_wechat_nick">电话号码:%s</string>
     <string name="wechat_num">微信公众号:%s</string>
     <string name="version">版本:%s</string>
     <string name="current_property">当前物业</string>
     <string name="property_address">物业地址</string>
-    <string name="account_certification">账号认证</string>
+    <string name="account_certification">物业认证</string>
     <string name="account_authorise">账号授权</string>
     <string name="pay_recode">缴费记录</string>
     <string name="about_us">关于我们</string>
@@ -80,6 +80,7 @@
     <string name="certification_num">身份证</string>
     <string name="te_num">手机号</string>
     <string name="my_address">我的地址</string>
+    <string name="location">所在小区</string>
     <string name="submit_info">提交信息</string>
     <string name="families">家庭成员</string>
     <string name="tenant">租客</string>

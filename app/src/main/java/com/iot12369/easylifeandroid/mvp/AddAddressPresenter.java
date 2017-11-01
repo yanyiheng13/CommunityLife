@@ -2,9 +2,9 @@ package com.iot12369.easylifeandroid.mvp;
 
 
 import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
-import com.iot12369.easylifeandroid.model.IsOkData;
-import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
+import com.iot12369.easylifeandroid.mvp.contract.AddAddressContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
 import com.sai.framework.mvp.BasePresenter;
@@ -22,7 +22,7 @@ import okhttp3.RequestBody;
  * @date: 2017/10/30
  * @Copyright (c) 2017. 闫毅恒 Inc. All rights reserved.
  */
-public class AddAddressPresenter extends BasePresenter<Repository, HomeContract.View> {
+public class AddAddressPresenter extends BasePresenter<Repository, AddAddressContract.View> {
 
     public void addAddress(String openid, String memberid, String phone, String memberName,
                            String memberIdCard, String communityName, String communityRawAddress) {
@@ -37,16 +37,16 @@ public class AddAddressPresenter extends BasePresenter<Repository, HomeContract.
         data.communityRawAddress = communityRawAddress;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().addAddress(body)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<IsOkData>>() {
+                .CallBackAdapter<BaseBean<AddressVo>>() {
             @Override
-            public void onSuccess(String response, BaseBean<IsOkData> result) {
-                getRootView().onSuccessLock(result.data);
+            public void onSuccess(String response, BaseBean<AddressVo> result) {
+                getRootView().onSuccessAddress(result.data);
             }
 //
             @Override
             public void onFailure(String error) {
                 super.onFailure(error);
-                getRootView().onFailureLock(error, error);
+                getRootView().onFailureAddress(error, error);
             }
         }).start();
     }

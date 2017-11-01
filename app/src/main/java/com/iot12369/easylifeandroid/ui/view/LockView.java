@@ -19,8 +19,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.util.ToastUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,9 +56,12 @@ public class LockView extends LinearLayout {
     @BindView(R.id.lock_left_img)
     ImageView mImgLeft;
 
+    private boolean isAddAdress;
+
     private Long mStartTime;
 
     private CountDownTimer mTimer;
+    public List<AddressVo> mListAddress;
 
     public LockView(@NonNull Context context) {
         this(context, null);
@@ -83,12 +89,17 @@ public class LockView extends LinearLayout {
             }
         };
     }
+    public void setAddAdress(List<AddressVo> listAddress) {
+        mListAddress = listAddress;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (true) {
+                if (mListAddress == null || mListAddress.size() == 0) {
+                    isAddAdress = true;
+                    ToastUtil.toast(getContext(), "请先进行物业认证");
                     AddAddressActivity.newIntent(getContext());
                     break;
                 }
@@ -106,7 +117,11 @@ public class LockView extends LinearLayout {
                 ((AnimationDrawable) mImgRight.getDrawable()).start();
                 break;
             case MotionEvent.ACTION_UP:
-                if ((System.currentTimeMillis() - mStartTime) / 1000 < 3) {
+                if (isAddAdress == true) {
+                    isAddAdress = false;
+                    break;
+                }
+                if ((System.currentTimeMillis() - mStartTime) / 1000 < 1) {
                     ToastUtil.toastLong(getContext(), "请长按开锁按钮1秒开锁");
                     mImgCircles.setVisibility(GONE);
                     mImgLeft.setVisibility(GONE);

@@ -42,7 +42,6 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
     EmptyView mEmptyView;
 
     private BaseQuickAdapter<AnnouncementVo, BaseViewHolder> mAdapter;
-    private List<AnnouncementVo> mListMaintain = new ArrayList<>();
 
     private int mTag;
     private boolean isLoadMore, isRefresh;
@@ -71,8 +70,8 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
             @Override
             protected void convert(BaseViewHolder helper, final AnnouncementVo item) {
 
-                helper.setText(R.id.announcement_item_date_tv, item.time);//设置时间
-                helper.setText(R.id.announcement_item_des_tv, item.content);//设置描述
+                helper.setText(R.id.announcement_item_date_tv, item.createTime);//设置时间
+                helper.setText(R.id.announcement_item_des_tv, item.noticeContent);//设置描述
 
                 helper.getView(R.id.view_announcement_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -145,31 +144,8 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         }
         mSwipeRefreshLayout.setRefreshing(false);
         mEmptyView.onSuccess();
-        if (isLoadMore) {
-            List<AnnouncementVo> list = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                AnnouncementVo maintainBean = new AnnouncementVo();
-                maintainBean.content = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
-                maintainBean.time = "2017-08-10";
-                list.add(maintainBean);
-            }
-//            if ("1".equals(mStaffList.isLastPage)) {
-//                mAdapter.loadMoreEnd(true);
-//            } else {
-//                mAdapter.setEnableLoadMore(true);
-//            }
-            mAdapter.addData(list);
-            mAdapter.loadMoreEnd(false);
-        } else {
-            mListMaintain.clear();
-            for (int i = 0; i < 10; i++) {
-                AnnouncementVo maintainBean = new AnnouncementVo();
-                maintainBean.content = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
-                maintainBean.time = "2017-08-10";
-                mListMaintain.add(maintainBean);
-            }
-            mAdapter.setNewData(mListMaintain);
-        }
+        mAdapter.setNewData(announcementData.list);
+        mAdapter.loadMoreEnd(false);
         isRefresh = false;
         isLoadMore = false;
     }

@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.PersonData;
+import com.iot12369.easylifeandroid.mvp.PersonInfoPresenter;
+import com.iot12369.easylifeandroid.mvp.contract.PersonInfoContract;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 
@@ -25,7 +30,7 @@ import butterknife.OnClick;
  * @date： 17-8-28
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class CertificationActivity extends BaseActivity {
+public class CertificationActivity extends BaseActivity<PersonInfoPresenter> implements PersonInfoContract.View {
 
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
@@ -54,11 +59,18 @@ public class CertificationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certification);
         ButterKnife.bind(this);
+        mPhoneNum.setText(LeApplication.mUserInfo.phone);
+        mTvCommunity.setText(String.format(getString(R.string.mine_wechat_nick), LeApplication.mUserInfo.phone));
         mTitleView.setText(R.string.account_certification).setImageResource(R.mipmap.icon_account_certification);
-        mProperView.updateData(true);
+//        mProperView.updateData(true);
         mProperView.goneTxt();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().addressList(LeApplication.mUserInfo.phone);
+    }
 
     @OnClick({R.id.certification_add_address_tv, R.id.certification_head_img})
     public void onClick(View view) {
@@ -78,5 +90,25 @@ public class CertificationActivity extends BaseActivity {
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, CertificationActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onSuccessPerson(PersonData data) {
+
+    }
+
+    @Override
+    public void onFailurePerson(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessAddressList(AddressData addressData) {
+        mProperView.updateData(addressData);
+    }
+
+    @Override
+    public void onFailureAddressList(String code, String msg) {
+
     }
 }

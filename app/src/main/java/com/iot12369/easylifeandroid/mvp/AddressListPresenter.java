@@ -1,7 +1,7 @@
 package com.iot12369.easylifeandroid.mvp;
 
 
-import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
 import com.iot12369.easylifeandroid.mvp.contract.AddressListContract;
 import com.iot12369.easylifeandroid.net.Repository;
@@ -21,9 +21,9 @@ public class AddressListPresenter extends BasePresenter<Repository, AddressListC
 
     public void addressList(String version, String appkey, String token) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().addressList(version, appkey, token)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<AddressData>>() {
+                .CallBackAdapter<BaseBean<AddressVo>>() {
             @Override
-            public void onSuccess(String response, BaseBean<AddressData> result) {
+            public void onSuccess(String response, BaseBean<AddressVo> result) {
                 getRootView().onSuccessAddress(result.data);
             }
 //
