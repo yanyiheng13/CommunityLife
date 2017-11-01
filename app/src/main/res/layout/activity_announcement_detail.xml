@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
+
+    <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        >
+        <TextView
+            android:id="@+id/announcement_item_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017-10-02 20:32:57"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:textSize="@dimen/font_14"
+            android:textColor="@color/colorMaintainNum"/>
+
+        <RelativeLayout
+            android:id="@+id/announcement_item_bottom_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@id/announcement_item_date_tv"
+            >
+            <ImageView
+                android:id="@+id/announcement_item_dot_img"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:background="@drawable/icon_dot"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/announcement_item_des_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统公告：2017-10-01〜2017-10-08系统升级。"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="8dp"
+                android:layout_toRightOf="@id/announcement_item_dot_img"
+                android:lines="1"
+                android:ellipsize="end"
+                android:textSize="@dimen/font_16"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorLoginTxt"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/announcement_item_bottom_rl"
+            android:background="@color/colorLine"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_16"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/sssssss"
+        android:textColor="@color/colorLoginTxt"/>
+</LinearLayout>

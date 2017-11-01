@@ -44,6 +44,8 @@ public class PropertyAddressView extends LinearLayout {
     //地址显示
     @BindView(R.id.property_address_tv)
     TextView mTvAddress;
+    @BindView(R.id.tv_change_address)
+    TextView mTvText;
     //地址容器
     @BindView(R.id.property_address_content_ll)
     LinearLayout mLlAddressContain;
@@ -215,6 +217,12 @@ public class PropertyAddressView extends LinearLayout {
 
     public PropertyAddressView setText(int id) {
         mTvLeft.setText(id);
+        return this;
+    }
+
+    public PropertyAddressView setGoneTxt() {
+        mRlArrowBg.setBackgroundColor(0xFFFFFFFF);
+        mTvText.setVisibility(View.GONE);
         return this;
     }
 

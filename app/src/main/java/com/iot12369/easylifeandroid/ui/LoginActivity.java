@@ -113,7 +113,9 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
                 if (type == TYPE_BIND) {
                     String openid = SharePrefrenceUtil.getString("config", "openid");
                     getPresenter().bindPhone(mEditPhone.getText().toString(), mEditCode.getText().toString(), openid);
+                    SharePrefrenceUtil.setString("config", "loginType", "wechat");
                 } else {
+                    SharePrefrenceUtil.setString("config", "loginType", "phone");
                     getPresenter().loginPhone(mEditPhone.getText().toString(), mEditCode.getText().toString());
                 }
 

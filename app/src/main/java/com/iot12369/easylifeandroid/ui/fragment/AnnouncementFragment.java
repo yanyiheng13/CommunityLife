@@ -16,6 +16,7 @@ import com.iot12369.easylifeandroid.model.AnnouncementData;
 import com.iot12369.easylifeandroid.model.AnnouncementVo;
 import com.iot12369.easylifeandroid.mvp.AnnouncementPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AnnouncementContract;
+import com.iot12369.easylifeandroid.ui.AnnounceDetailActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.view.EmptyView;
 
@@ -76,7 +77,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
                 helper.getView(R.id.view_announcement_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        ProgressActivity.newIntent(getContext(), item, 1);
+                        AnnounceDetailActivity.newIntent(getContext());
                     }
                 });
             }

@@ -60,6 +60,9 @@
         <activity android:name="com.iot12369.easylifeandroid.ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".ui.AnnounceDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name="com.iot12369.easylifeandroid.ui.SubmitProblemActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:theme="@style/AppTheme.NoActionBar"/>

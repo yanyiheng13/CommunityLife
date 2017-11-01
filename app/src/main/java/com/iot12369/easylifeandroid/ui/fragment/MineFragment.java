@@ -89,7 +89,13 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         if (!TextUtils.isEmpty(loginData.headimgurl)) {
             Glide.with(this).load(loginData.headimgurl).into(mImageHead);
         }
-        mTvWeChatNum.setText(String.format(getString(R.string.mine_wechat_nick), loginData.phone));
+        String str = SharePrefrenceUtil.getString("config", "loginType");
+        if ("wechat".equals(str)) {
+            mTvWeChatNum.setText(String.format(getString(R.string.wechat_nick), loginData.nickName));
+        } else {
+            mTvWeChatNum.setText(String.format(getString(R.string.mine_wechat_nick), loginData.phone));
+        }
+
     }
 
     @Override

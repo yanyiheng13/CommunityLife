@@ -4,18 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PersonData;
+import com.iot12369.easylifeandroid.model.UserInfo;
 import com.iot12369.easylifeandroid.mvp.PersonInfoPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PersonInfoContract;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,10 +65,23 @@ public class CertificationActivity extends BaseActivity<PersonInfoPresenter> imp
         setContentView(R.layout.activity_certification);
         ButterKnife.bind(this);
         mPhoneNum.setText(LeApplication.mUserInfo.phone);
-        mTvCommunity.setText(String.format(getString(R.string.mine_wechat_nick), LeApplication.mUserInfo.phone));
         mTitleView.setText(R.string.account_certification).setImageResource(R.mipmap.icon_account_certification);
 //        mProperView.updateData(true);
-        mProperView.goneTxt();
+        mProperView.setText(R.string.my_pro);
+        mProperView.setGoneTxt();
+        LoginData userInfo = LeApplication.mUserInfo;
+        if (TextUtils.isEmpty(userInfo.nickName)) {
+            mImgStatus.setImageResource(R.mipmap.icon_not_bind);
+        } else {
+            mImgStatus.setImageResource(R.mipmap.icon_binded);
+        }
+        mTvName.setText(TextUtils.isEmpty(userInfo.name) ? "--" : userInfo.name);
+        String str = SharePrefrenceUtil.getString("config", "loginType");
+        if ("wechat".equals(str)) {
+            mTvCommunity.setText(String.format(getString(R.string.wechat_nick), userInfo.nickName));
+        } else {
+            mTvCommunity.setText(String.format(getString(R.string.mine_wechat_nick), userInfo.phone));
+        }
     }
 
     @Override
