@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/white">
 
     <RelativeLayout
@@ -56,8 +57,9 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="16dp"
                 android:paddingTop="6dp"
+
                 android:singleLine="true"
-                android:text="北京市昌平区东小口镇小辛庄村生源公演9-3-210"
+                tools:text="北京市昌平区东小口镇小辛庄村生源公演9-3-210"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_15" />
         </RelativeLayout>

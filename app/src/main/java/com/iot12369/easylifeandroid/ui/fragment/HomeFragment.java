@@ -26,6 +26,7 @@ import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.view.LockView;
+import com.iot12369.easylifeandroid.ui.view.MarqueeTextView;
 
 import java.util.List;
 
@@ -120,7 +121,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 AnnouncementActivity.newIntent(getContext());
                 break;
             case R.id.home_top_key_img:
-                AddressListActivity.newIntent(getActivity(), mAddressList, 100);
+                AddressListActivity.newIntent(getActivity(), mAddressList, mAddress, 100);
                 break;
             default:
                 break;
@@ -156,12 +157,29 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void onSuccessAddressList(AddressData addressData) {
         mAddressList = addressData.list;
         mLockView.setAddAdress(mAddressList);
-        if (addressData == null || addressData.list == null || addressData.list.size() == 0) {
-            mTvTopAddress.setText("暂未认证物业地址");
+        if (!isAlreadyCertification(addressData)) {
+            mTvTopAddress.setText("暂无通过认证的物业");
             return;
         }
         AddressVo addressVo = addressData.list.get(0);
         mTvTopAddress.setText(addressVo.communityRawAddress);
+    }
+
+    public boolean isAlreadyCertification(AddressData addressData) {
+        if (addressData == null || addressData.list == null || addressData.list.size() == 0) {
+            return false;
+        }
+        List<AddressVo> list = addressData.list;
+        boolean isAlready = false;
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            AddressVo addressVo = list.get(i);
+            if ("2".equals(addressVo.estateAuditStatus)) {
+                isAlready = true;
+            }
+            break;
+        }
+        return isAlready;
     }
 
     @Override

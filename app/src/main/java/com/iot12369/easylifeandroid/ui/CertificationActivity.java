@@ -49,7 +49,7 @@ public class CertificationActivity extends BaseActivity<PersonInfoPresenter> imp
     @BindView(R.id.certification_level_img)
     ImageView mImgLever;
     @BindView(R.id.certification_name_tv)
-    TextView mTvName;
+    ImageView mImgCerStatus;
     @BindView(R.id.certification_address_tv)
     TextView mTvCommunity;
     @BindView(R.id.certification_phone_num_tv)
@@ -70,12 +70,12 @@ public class CertificationActivity extends BaseActivity<PersonInfoPresenter> imp
         mProperView.setText(R.string.my_pro);
         mProperView.setGoneTxt();
         LoginData userInfo = LeApplication.mUserInfo;
-        if (TextUtils.isEmpty(userInfo.nickName)) {
+        String openid = SharePrefrenceUtil.getString("config", "openid");
+        if (TextUtils.isEmpty(openid)) {
             mImgStatus.setImageResource(R.mipmap.icon_not_bind);
         } else {
             mImgStatus.setImageResource(R.mipmap.icon_binded);
         }
-        mTvName.setText(TextUtils.isEmpty(userInfo.name) ? "--" : userInfo.name);
         String str = SharePrefrenceUtil.getString("config", "loginType");
         if ("wechat".equals(str)) {
             mTvCommunity.setText(userInfo.nickName);
@@ -122,7 +122,12 @@ public class CertificationActivity extends BaseActivity<PersonInfoPresenter> imp
 
     @Override
     public void onSuccessAddressList(AddressData addressData) {
-        mProperView.updateData(addressData);
+        if (mProperView.isAlreadyCertification(addressData)) {
+            mImgCerStatus.setImageResource(R.mipmap.icon_certification);
+        } else {
+            mImgCerStatus.setImageResource(R.mipmap.a_no_cer);
+        }
+        mProperView.updateData(addressData, true);
     }
 
     @Override

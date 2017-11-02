@@ -2,223 +2,279 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/main_bg">
+    android:background="@color/main_bg"
+    android:orientation="vertical">
 
     <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"/>
+        android:layout_height="@dimen/title_height" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:background="@android:color/white">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/add_address_name_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
+                android:minEms="4"
                 android:text="@string/add_name"
                 android:textColor="@color/colorCertification"
-                android:textSize="@dimen/font_16"
-                android:minEms="4"/>
+                android:textSize="@dimen/font_16" />
+
             <ImageView
                 android:id="@+id/add_address_name_right"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                android:layout_centerVertical="true"
-                android:background="@mipmap/icon_red_dot"
                 android:layout_alignParentRight="true"
-                />
+                android:layout_centerVertical="true"
+                android:background="@mipmap/icon_red_dot" />
+
             <EditText
                 android:id="@+id/add_address_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/add_address_name_right"
-                android:paddingRight="10dp"
-                android:background="@drawable/border_bg"
                 android:layout_toRightOf="@id/add_address_name_left"
+                android:background="@drawable/border_bg"
+                android:gravity="center_vertical"
                 android:lines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textColor="@color/colorCertification"
                 android:textSize="@dimen/font_16" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/add_address_num_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
+                android:minEms="4"
                 android:text="@string/certification_num"
                 android:textColor="@color/colorCertification"
-                android:textSize="@dimen/font_16"
-                android:minEms="4"/>
+                android:textSize="@dimen/font_16" />
+
             <ImageView
                 android:id="@+id/add_address_num_right"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@mipmap/icon_red_dot"
-                android:layout_alignParentRight="true"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
+
             <EditText
                 android:id="@+id/add_address_num_et"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/add_address_num_right"
-                android:paddingRight="10dp"
-                android:background="@drawable/border_bg"
                 android:layout_toRightOf="@id/add_address_num_left"
+                android:background="@drawable/border_bg"
+                android:gravity="center_vertical"
                 android:lines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textColor="@color/colorCertification"
                 android:textSize="@dimen/font_16" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/add_address_tel_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
+                android:minEms="4"
                 android:text="@string/te_num"
                 android:textColor="@color/colorCertification"
-                android:textSize="@dimen/font_16"
-                android:minEms="4"/>
+                android:textSize="@dimen/font_16" />
+
             <ImageView
                 android:id="@+id/add_address_tel_right"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                android:layout_centerVertical="true"
-                android:background="@mipmap/icon_red_dot"
                 android:layout_alignParentRight="true"
-                />
+                android:layout_centerVertical="true"
+                android:background="@mipmap/icon_red_dot" />
+
             <TextView
                 android:id="@+id/add_address_tel_tv"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/add_address_tel_right"
-                android:paddingRight="10dp"
-                android:background="@drawable/border_bg"
                 android:layout_toRightOf="@id/add_address_tel_left"
-                android:lines="1"
-                android:textColor="@color/colorCertification"
-                android:textSize="@dimen/font_16" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/add_address_location_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:text="@string/location"
-                android:textColor="@color/colorCertification"
-                android:textSize="@dimen/font_16"
-                android:minEms="4"/>
-            <ImageView
-                android:id="@+id/add_address_location_right"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_centerVertical="true"
-                android:background="@mipmap/icon_red_dot"
-                android:layout_alignParentRight="true"
-                />
-            <EditText
-                android:id="@+id/add_address_location_et"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/add_address_location_right"
-                android:paddingRight="10dp"
                 android:background="@drawable/border_bg"
-                android:layout_toRightOf="@id/add_address_location_left"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textColor="@color/colorCertification"
                 android:textSize="@dimen/font_16" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/add_address_my_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
+                android:minEms="4"
                 android:text="@string/my_address"
                 android:textColor="@color/colorCertification"
-                android:textSize="@dimen/font_16"
-                android:minEms="4"/>
+                android:textSize="@dimen/font_16" />
+
+            <LinearLayout
+                android:id="@+id/ssss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@id/add_address_my_left"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:background="@drawable/border_bg"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="天津"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/line_color" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="天津市"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/line_color" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="市区"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/add_address_location_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/add_address_tel_left"
+                    android:background="@drawable/border_bg"
+                    android:gravity="center_vertical"
+                    android:hint="请选择小区"
+                    android:lines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorCertification"
+                    android:textColorHint="@color/color_69"
+                    android:textSize="@dimen/font_16" />
+
+                <EditText
+                    android:id="@+id/add_address_my_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/border_bg"
+                    android:gravity="center_vertical"
+                    android:hint="请填写详细地址"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:lines="2"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:textColor="@color/colorCertification"
+                    android:textColorHint="@color/color_69"
+                    android:textSize="@dimen/font_16" />
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/add_address_my_right"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                android:layout_centerVertical="true"
-                android:background="@mipmap/icon_red_dot"
                 android:layout_alignParentRight="true"
-                />
-            <EditText
-                android:id="@+id/add_address_my_et"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/add_address_my_right"
-                android:paddingRight="10dp"
-                android:background="@drawable/border_bg"
-                android:layout_toRightOf="@id/add_address_my_left"
-                android:textColor="@color/colorCertification"
-                android:textSize="@dimen/font_16" />
+                android:layout_alignBottom="@id/ssss"
+                android:layout_marginBottom="15dp"
+                android:background="@mipmap/icon_red_dot" />
+            <!--/>-->
         </RelativeLayout>
     </LinearLayout>
+
     <TextView
         android:id="@+id/add_address_tv"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_wechat_login"
-        android:textSize="@dimen/font_20"
-        android:gravity="center"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:textColor="@android:color/white"
         android:layout_marginTop="50dp"
+        android:background="@drawable/bg_wechat_login"
+        android:gravity="center"
         android:text="@string/submit_info"
-        />
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_20" />
 </LinearLayout>

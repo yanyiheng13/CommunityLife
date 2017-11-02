@@ -1,15 +1,26 @@
 package com.iot12369.easylifeandroid.ui;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.mvp.AddAddressPresenter;
@@ -17,6 +28,8 @@ import com.iot12369.easylifeandroid.mvp.contract.AddAddressContract;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 import com.iot12369.easylifeandroid.util.ToastUtil;
+
+import java.lang.reflect.Array;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +58,8 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     EditText mEtAddress;
     //所在小区
     @BindView(R.id.add_address_location_et)
-    EditText mEtLocation;
+    TextView mEtLocation;
+    String[] mData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,18 +70,38 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         mTvPhoneNum.setText(LeApplication.mUserInfo.phone);
     }
 
-    @OnClick(R.id.add_address_tv)
-    public void onClick() {
-        if (TextUtils.isEmpty(mEtName.getText().toString())
-                || TextUtils.isEmpty(mEtAddress.getText().toString())
-                || TextUtils.isEmpty(mTvPhoneNum.getText().toString())
-                || TextUtils.isEmpty(mEtLocation.getText().toString())) {
-            return;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().communityList();
+    }
+
+    @OnClick({R.id.add_address_tv, R.id.add_address_location_et})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_address_location_et:
+                Dialog popupWindow = getPopupWindow(mData);
+                if (popupWindow == null) {
+                    break;
+                }
+                popupWindow.show();
+                break;
+            case R.id.add_address_tv:
+                if (TextUtils.isEmpty(mEtName.getText().toString())
+                        || TextUtils.isEmpty(mEtAddress.getText().toString())
+                        || TextUtils.isEmpty(mTvPhoneNum.getText().toString())
+                        || TextUtils.isEmpty(mEtLocation.getText().toString())) {
+                    return;
+                }
+                LoadingDialog.show(this, false);
+                LoginData data = LeApplication.mUserInfo;
+                getPresenter().addAddress(data.opopenId, data.memberId, data.phone, mEtName.getText().toString(),
+                        mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(), mEtAddress.getText().toString());
+                break;
+            default:
+                break;
         }
-        LoadingDialog.show(this, false);
-        LoginData data = LeApplication.mUserInfo;
-        getPresenter().addAddress(data.opopenId, data.memberId, data.phone, mEtName.getText().toString(),
-                mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(), mEtAddress.getText().toString());
+
     }
 
 
@@ -85,8 +119,46 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         }
     }
 
+    public Dialog getPopupWindow(String[] data) {
+        if (data == null || data.length == 0) {
+            return null;
+        }
+        View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.popup_window, null);
+        ListView listView = (ListView) contentView.findViewById(R.id.listView);
+        final Dialog  popWnd = new Dialog(this);
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(true);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.dialog_item, data);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                popWnd.dismiss();
+                mEtLocation.setText(mData[position]);
+            }
+        });
+        listView.setAdapter(adapter);
+        return popWnd;
+    }
+
     @Override
     public void onFailureAddress(String code, String msg) {
         LoadingDialog.hide();
+    }
+
+    @Override
+    public void onSuccessAddressList(AddressData addressData) {
+        if (addressData != null && addressData.list != null && addressData.list.size() > 0) {
+            int size = addressData.list.size();
+            mData = new String[size];
+            for (int i = 0; i < size; i++) {
+                mData[i] = addressData.list.get(i).name;
+            }
+        }
+    }
+
+    @Override
+    public void onFailureAddressList(String code, String msg) {
+
     }
 }

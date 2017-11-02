@@ -2,6 +2,7 @@ package com.iot12369.easylifeandroid.mvp;
 
 
 import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
 import com.iot12369.easylifeandroid.mvp.contract.AddAddressContract;
@@ -47,6 +48,22 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
             public void onFailure(String error) {
                 super.onFailure(error);
                 getRootView().onFailureAddress(error, error);
+            }
+        }).start();
+    }
+
+    public void communityList() {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().communityList()).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<AddressData>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<AddressData> result) {
+                getRootView().onSuccessAddressList(result.data);
+            }
+            //
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureAddressList(error, error);
             }
         }).start();
     }

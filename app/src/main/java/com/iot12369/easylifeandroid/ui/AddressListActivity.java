@@ -40,6 +40,7 @@ import butterknife.ButterKnife;
 
 public class AddressListActivity extends BaseActivity<AddressListPresenter> implements BaseQuickAdapter.RequestLoadMoreListener, AddressListContract.View, SwipeRefreshLayout.OnRefreshListener, EmptyView.OnDataLoadStatusListener {
    public static String TAG_REQUEST_HOME = "addressData";
+   public static String TAG_VO = "addressVo";
 
     //标题
     @BindView(R.id.title_view)
@@ -64,8 +65,10 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             mListAddress = (List<AddressVo>) getIntent().getSerializableExtra(TAG_REQUEST_HOME);
+            mAddressData = (AddressVo) getIntent().getSerializableExtra(TAG_VO);
         } else {
             mListAddress = (List<AddressVo>) savedInstanceState.getSerializable(TAG_REQUEST_HOME);
+            mAddressData = (AddressVo) savedInstanceState.getSerializable(TAG_VO);
         }
         setContentView(R.layout.activity_trasaction_records);
         ButterKnife.bind(this);
@@ -83,12 +86,16 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
             @Override
             protected void convert(BaseViewHolder helper, final AddressVo item) {
                 helper.setText(R.id.address_item_tv,  item.communityRawAddress);//设置时间
-
                 RelativeLayout rl = helper.getView(R.id.address_item_rl);
-                if (helper.getPosition() == 0) {
+
+                if (mAddressData != null && mAddressData.communityName.equals(item.communityName)) {
                     rl.setVisibility(View.VISIBLE);
                 } else {
                     rl.setVisibility(View.INVISIBLE);
+                }
+
+                if (mAddressData == null && helper.getPosition() == 0) {
+                    rl.setVisibility(View.VISIBLE);
                 }
 
                 helper.getView(R.id.view_item_root).setOnClickListener(new View.OnClickListener() {
@@ -133,9 +140,10 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
         }, 1000);
     }
 
-    public static void newIntent(Activity context, List<AddressVo> addressData, int requestCode) {
+    public static void newIntent(Activity context, List<AddressVo> addressData, AddressVo addressVo, int requestCode) {
         Intent intent = new Intent(context, AddressListActivity.class);
         intent.putExtra(TAG_REQUEST_HOME, (Serializable) addressData);
+        intent.putExtra(TAG_VO, addressVo);
         context.startActivityForResult(intent, requestCode);
     }
 
@@ -207,5 +215,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(TAG_REQUEST_HOME, (Serializable) mListAddress);
+        outState.putSerializable(TAG_VO, mAddressData);
     }
 }

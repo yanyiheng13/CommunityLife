@@ -52,8 +52,8 @@
                             android:id="@+id/mine_name_tv"
                             android:layout_width="60dp"
                             android:layout_height="20dp"
-                            android:background="@mipmap/a_no_cer"
-                           />
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/a_no_cer" />
 
                         <ImageView
                             android:id="@+id/mine_level_img"
@@ -85,9 +85,9 @@
                 android:id="@+id/mine_property_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="68dp"
+                android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:layout_marginTop="8dp">
+                android:minHeight="68dp">
 
             </com.iot12369.easylifeandroid.ui.view.PropertyAddressView>
 
@@ -201,9 +201,9 @@
                 android:layout_height="48dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/bg_exit_login"
                 android:gravity="center"
-                android:layout_marginTop="50dp"
                 android:text="@string/exit_login"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_20" />

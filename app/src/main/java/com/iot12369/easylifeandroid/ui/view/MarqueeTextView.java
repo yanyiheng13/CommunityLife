@@ -75,7 +75,7 @@ public class MarqueeTextView extends AppCompatTextView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (!(mText == null || mText.isEmpty()))
-            canvas.drawText(mText, mCoordinateX, 30, getPaint());
+            canvas.drawText(mText, mCoordinateX, 20, getPaint());
     }
 
 
@@ -92,7 +92,7 @@ public class MarqueeTextView extends AppCompatTextView {
                         mCoordinateX -= 1;
                     }
                     invalidate();
-                    sendEmptyMessageDelayed(0,30);
+                    sendEmptyMessageDelayed(0,20);
                     break;
             }
         }

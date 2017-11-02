@@ -1,11 +1,14 @@
 package com.iot12369.easylifeandroid.ui.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,11 +21,13 @@ import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PersonData;
 import com.iot12369.easylifeandroid.mvp.PersonInfoPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PersonInfoContract;
 import com.iot12369.easylifeandroid.ui.AboutUsActivity;
+import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.ui.AuthorizationActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.CertificationActivity;
@@ -75,6 +80,9 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
 
     //已选中的图片
     private List<LocalMedia> selectList = new ArrayList<>();
+
+    AddressData addressData;
+
     @Override
     public int inflateId() {
         return R.layout.fragment_mine;
@@ -102,6 +110,33 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
     public void onResume() {
         super.onResume();
         getPresenter().addressList(LeApplication.mUserInfo.phone);
+    }
+
+    public Dialog getPopupWindow() {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
+        TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
+        TextView close = (TextView) contentView.findViewById(R.id.close);
+        TextView txt = (TextView) contentView.findViewById(R.id.txt);
+        txt.setText("有了当前物业才能进行账号授权");
+        final Dialog  popWnd = new Dialog(getContext());
+//        popWnd.set
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(false);
+        txtCer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+                AddAddressActivity.newIntent(getContext());
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+            }
+        });
+        return popWnd;
     }
 
 //    @OnClick(R.id.mine_head_img)
@@ -198,7 +233,12 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
                 break;
             //账号授权
             case R.id.mine_account_authorise_ll:
-                AuthorizationActivity.newIntent(getContext());
+                if (mAddressView.isAlreadyCertification(addressData)) {
+                    AuthorizationActivity.newIntent(getContext());
+                } else {
+                    getPopupWindow().show();
+                }
+
                 break;
             //关于我们
             case R.id.mine_about_us_ll:
@@ -225,13 +265,15 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
 
     @Override
     public void onSuccessAddressList(AddressData addressData) {
-        if (addressData == null || addressData.list == null || addressData.list.size() == 0) {
-            mCertificationImg.setVisibility(View.VISIBLE);
+        this.addressData = addressData;
+        if (mAddressView.isAlreadyCertification(addressData)) {
+            mCertificationImg.setImageResource(R.mipmap.icon_certification);
         } else {
-            mCertificationImg.setVisibility(View.GONE);
+            mCertificationImg.setImageResource(R.mipmap.a_no_cer);
         }
-        mAddressView.updateData(addressData);
+        mAddressView.updateData(addressData, false);
     }
+
 
     @Override
     public void onFailureAddressList(String code, String msg) {

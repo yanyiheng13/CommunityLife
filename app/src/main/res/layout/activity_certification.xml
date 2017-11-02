@@ -54,13 +54,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/certification_name_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="大卫"
-                            android:textColor="@color/colorCertification"
-                            android:textSize="@dimen/font_17" />
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/a_no_cer"
+                            android:scaleType="centerCrop"/>
 
                         <ImageView
                             android:id="@+id/certification_level_img"
@@ -78,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:layout_marginTop="5dp"
-                        android:text="天津市天津南开区\n南开小区"
+                        tools:text="天津市天津南开区"
                         android:textColor="@color/colorLoginTxt"
                         android:textSize="@dimen/font_16" />
                 </LinearLayout>

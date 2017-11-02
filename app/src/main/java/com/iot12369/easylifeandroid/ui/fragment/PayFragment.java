@@ -121,7 +121,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
     @Override
     public void onSuccessAddressList(AddressData addressData) {
-        mPropertyView.updateData(addressData);
+        mPropertyView.updateData(addressData, false);
     }
 
     @Override

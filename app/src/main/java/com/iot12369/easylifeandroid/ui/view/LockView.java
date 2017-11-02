@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid.ui.view;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.CountDownTimer;
@@ -9,16 +10,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.ViewUtils;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.util.ToastUtil;
@@ -92,15 +100,28 @@ public class LockView extends LinearLayout {
     public void setAddAdress(List<AddressVo> listAddress) {
         mListAddress = listAddress;
     }
-
+    public boolean isAlreadyCertification(List<AddressVo> addressData) {
+        if (addressData == null || addressData.size() == 0) {
+            return false;
+        }
+        boolean isAlready = false;
+        int size = addressData.size();
+        for (int i = 0; i < size; i++) {
+            AddressVo addressVo = addressData.get(i);
+            if ("2".equals(addressVo.estateAuditStatus)) {
+                isAlready = true;
+            }
+            break;
+        }
+        return isAlready;
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (mListAddress == null || mListAddress.size() == 0) {
+                if (!isAlreadyCertification(mListAddress)) {
                     isAddAdress = true;
-                    ToastUtil.toast(getContext(), "请先进行物业认证");
-                    AddAddressActivity.newIntent(getContext());
+                    getPopupWindow().show();
                     break;
                 }
                 if (mCurrentStatus != STATE_NORMAL) {
@@ -138,6 +159,31 @@ public class LockView extends LinearLayout {
                 break;
         }
         return true;
+    }
+
+    public Dialog getPopupWindow() {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
+        TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
+        TextView close = (TextView) contentView.findViewById(R.id.close);
+        final Dialog  popWnd = new Dialog(getContext());
+//        popWnd.set
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(false);
+        txtCer.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+                AddAddressActivity.newIntent(getContext());
+            }
+        });
+        close.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+            }
+        });
+        return popWnd;
     }
 
     public void update(int status) {

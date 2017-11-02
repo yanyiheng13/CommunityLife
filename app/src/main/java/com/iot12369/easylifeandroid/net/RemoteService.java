@@ -117,11 +117,9 @@ public interface RemoteService {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("notification/v1/voice/code")
     Flowable<ResponseBody> verificationVoiceCode(@Body RequestBody body);
-    //12.移动店员
-    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/moveCustomer/{version}/{appkey}/{token}/{storeID}/{assistantID}/{userID}")
-    Flowable<ResponseBody> moveStaff(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
-                                     @Field("storeID") String storeID, @Field("assistantID") String assistantID, @Field("userID") String userID);
+    //小区列表
+    @GET("authentication/v1/community")
+    Flowable<ResponseBody> communityList();
     //13.客户那的店铺列表
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("promotion/marketingO2o/queryOwnStore/{version}/{appkey}/{token}")
