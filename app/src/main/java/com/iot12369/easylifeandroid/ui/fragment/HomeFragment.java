@@ -26,7 +26,6 @@ import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.view.LockView;
-import com.iot12369.easylifeandroid.ui.view.MarqueeTextView;
 
 import java.util.List;
 

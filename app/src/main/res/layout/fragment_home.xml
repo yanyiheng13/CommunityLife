@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/white">
 
     <RelativeLayout
@@ -59,9 +59,9 @@
                 android:paddingTop="6dp"
 
                 android:singleLine="true"
-                tools:text="北京市昌平区东小口镇小辛庄村生源公演9-3-210"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/font_15" />
+                android:textSize="@dimen/font_15"
+                tools:text="北京市昌平区东小口镇小辛庄村生源公演9-3-210" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -132,7 +132,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
-                    android:text="物业公司接管后,完成小区封闭管理的目标"
+                    tools:text="物业公司接管后,完成小区封闭管理的目标"
                     android:textColor="@color/colorLoginTxt"
                     android:textSize="@dimen/font_14" />
             </LinearLayout>
@@ -158,7 +158,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
-                    android:text="物业公司接管后,完成小区封闭管理的目标"
+                    tools:text="物业公司接管后,完成小区封闭管理的目标"
                     android:textColor="@color/colorLoginTxt"
                     android:textSize="@dimen/font_14" />
             </LinearLayout>
@@ -184,7 +184,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
-                    android:text="物业公司接管后,完成小区封闭管理的目标"
+                    tools:text="物业公司接管后,完成小区封闭管理的目标"
                     android:textColor="@color/colorLoginTxt"
                     android:textSize="@dimen/font_14" />
             </LinearLayout>
@@ -194,8 +194,8 @@
             android:id="@+id/lock_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/home_announcement_brief_ll"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-40dp"
-            android:layout_below="@id/home_announcement_brief_ll"/>
+            android:layout_marginTop="-40dp" />
     </RelativeLayout>
 </ScrollView>

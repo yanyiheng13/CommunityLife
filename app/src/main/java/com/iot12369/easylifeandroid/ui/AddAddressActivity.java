@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -119,17 +120,16 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         }
     }
 
-    public Dialog getPopupWindow(String[] data) {
+    public Dialog getPopupWindow(final String[] data) {
         if (data == null || data.length == 0) {
             return null;
         }
-        View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.popup_window, null);
+        final View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.popup_window, null);
         ListView listView = (ListView) contentView.findViewById(R.id.listView);
         final Dialog  popWnd = new Dialog(this);
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         popWnd.setCancelable(true);
         popWnd.setCanceledOnTouchOutside(true);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.dialog_item, data);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,6 +137,43 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                 mEtLocation.setText(mData[position]);
             }
         });
+
+        BaseAdapter adapter = new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return data == null ? 0 : data.length;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return data[position];
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder vh;
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_item, null);
+                    vh = new ViewHolder();
+                    vh.tv = (TextView) convertView.findViewById(R.id.text1);
+                    convertView.setTag(vh);
+                } else {
+                    vh = (ViewHolder) convertView.getTag();
+
+                }
+                vh.tv.setText(data[position]);
+                return convertView;
+            }
+
+            class ViewHolder {
+                TextView tv;
+            }
+        };
         listView.setAdapter(adapter);
         return popWnd;
     }

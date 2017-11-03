@@ -47,7 +47,7 @@ public class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
         try {
 
             // 向 PaymaxSDK Server SDK请求数据
-            data = postJson(URL_CHAGE_URL, json);
+//            data = postJson(URL_CHAGE_URL, json);
 //            switch (type) {
 //                case PaymaxSDK.CHANNEL_ALIPAY:
 //                    data = "{\"amount\":0.01,\"amount_refunded\":0,\"amount_settle\":0,\"app\":\"app_7hqF2S6GYXET457i\",\"body\":\"测试商品Body\",\"channel\":\"alipay_app\",\"client_ip\":\"127.0.0.1\",\"credential\":{\"alipay_app\":{\"orderInfo\":\"_input_charset=\\\"utf-8\\\"&it_b_pay=\\\"2017-10-10 21:15:22\\\"&notify_url=\\\"https://www.paymax.cc/webservice/alipay_app\\\"&out_trade_no=\\\"ch_dcc7c48d5beca0f7a78741e5\\\"&partner=\\\"2088221494146238\\\"&payment_type=\\\"1\\\"&seller_id=\\\"471332824@qq.com\\\"&service=\\\"mobile.securitypay.pay\\\"&subject=\\\"测试商品007\\\"&total_fee=\\\"0.01\\\"&sign=\\\"yoKQCJqzmBe%2BtzWFKYCg98DfUQNDy6b1Hq8nP%2Fd4uESHSXiPr9q70WbOglxoG%2BjdS%2FbeBL0W%2BvfRLT7shqXZZKYBVszuwO56te05oAEyziEK7F%2BVg7%2FfvQxbfG8bpejyf%2B%2BjbhZT4lDBBqCi0ixFAMQFiJqjMFCjWT1uabP3UHk%3D\\\"&sign_type=\\\"RSA\\\"\"}},\"currency\":\"cny\",\"description\":\"\",\"extra\":{\"user_id\":\"100\"},\"id\":\"ch_dcc7c48d5beca0f7a78741e5\",\"liveMode\":false,\"order_no\":\"18cb9f0d305a414b9a864a026b0b6d21\",\"refunds\":[],\"reqSuccessFlag\":true,\"status\":\"PROCESSING\",\"subject\":\"测试商品007\",\"time_created\":1507637725000,\"time_expire\":1507641322206}";
@@ -69,7 +69,7 @@ public class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
 //              // {"data":{"secretkey":"5b97b3138041437587646b37f52dc7f7"},"message":null,"result":1}
 //            //{"body":"测试商品Body","channel":"alipay_app","extra":{"user_id":"100"},"time_expire":3600,"title":"测试商品007","totalPrice":0.01}
 //            Log.d("PaymaxSDK", "data=" + data);
-
+//            data = "{\"amount\":1,\"app\":\"app_49b0f1dd741646d2b277524de2785836\",\"body\":\"Your Body\",\"description\":\"description\",\"subject\":\"Your Subject\",\"channel\":\"alipay_app\",\"client_ip\":\"127.0.0.1\",\"order_no\":\"d0a4877e-39fa-4704-a3e1-ca484a7f1363\",\"metadata\":{\"metadata_key1\":\"metadata_value1\",\"metadata_key2\":\"metadata_value2\"},\"currency\":\"CNY\"}";
         } catch (Exception e) {
             e.printStackTrace();
         }

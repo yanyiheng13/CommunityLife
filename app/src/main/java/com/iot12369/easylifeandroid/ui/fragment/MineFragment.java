@@ -34,6 +34,7 @@ import com.iot12369.easylifeandroid.ui.CertificationActivity;
 import com.iot12369.easylifeandroid.ui.LoginSelectActivity;
 import com.iot12369.easylifeandroid.ui.TransactionRecordsActivity;
 import com.iot12369.easylifeandroid.ui.view.IconTitleView;
+import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.luck.picture.lib.PictureSelector;
@@ -116,9 +117,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
         TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
         TextView close = (TextView) contentView.findViewById(R.id.close);
-        TextView txt = (TextView) contentView.findViewById(R.id.txt);
-        txt.setText("有了当前物业才能进行账号授权");
-        final Dialog  popWnd = new Dialog(getContext());
+        final MyDialog popWnd = new MyDialog(getContext());
 //        popWnd.set
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         popWnd.setCancelable(true);

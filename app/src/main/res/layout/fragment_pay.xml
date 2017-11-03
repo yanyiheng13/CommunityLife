@@ -57,13 +57,14 @@
                        android:layout_toRightOf="@id/pay_money_left_tv"
                        android:background="@drawable/border_bg">
                        <TextView
+                           android:id="@+id/tv_money"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_centerVertical="true"
                            android:paddingLeft="10dp"
                            android:layout_marginRight="10dp"
                            android:textColor="@color/colorLoginTxt"
-                           android:text="0.01"
+                           tools:text="0.01"
                            android:textSize="@dimen/font_16"
                            />
                    <TextView
@@ -180,7 +181,7 @@
                        android:layout_centerVertical="true"
                        android:textSize="@dimen/font_16"
                        android:layout_alignParentRight="true"
-                       android:text="大卫"/>
+                       android:text="~~"/>
                </RelativeLayout>
                <RelativeLayout
                    android:layout_width="match_parent"

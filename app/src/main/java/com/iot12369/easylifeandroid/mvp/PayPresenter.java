@@ -21,8 +21,8 @@ import com.sai.framework.mvp.BasePresenter;
  */
 public class PayPresenter extends BasePresenter<Repository, PayContract.View> {
 
-    public void home(String version, String appkey, String token) {
-        new RxHelper().view(getRootView()).load(getModel().getRemote().home(version, appkey, token)).callBack(new RxHelper
+    public void home(String phone, String memberid) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().home(phone, memberid)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<PayInfoData>>() {
             @Override
             public void onSuccess(String response, BaseBean<PayInfoData> result) {

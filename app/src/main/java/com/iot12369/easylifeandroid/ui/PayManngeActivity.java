@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.PaymentRequest;
 import com.iot12369.easylifeandroid.PaymentTask;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.PayVo;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayDetailEventListener;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayToDetailEventListener;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayTypeEventListener;
@@ -63,15 +64,23 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
      */
     protected static final String CHANNEL_LKL = "lakala_app";
 
+    private PayVo mPayVo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            mPayVo = (PayVo) getIntent().getSerializableExtra("payVo");
+        } else {
+            mPayVo = (PayVo) savedInstanceState.getSerializable("payVo");
+        }
         setContentView(R.layout.activity_lepay_manager);
         setCurrentTab("1", PayDetailFragment.newIntent(this));
     }
 
-    public static void newIntent(Context context) {
+    public static void newIntent(Context context, PayVo payVo) {
         Intent intent = new Intent(context, PayManngeActivity.class);
+        intent.putExtra("payVo", payVo);
         context.startActivity(intent);
     }
 
@@ -322,5 +331,11 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
         Log.d("PaymaxSDK", "response code = " + response.code());
         return response.body().string();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("payVo", mPayVo);
     }
 }

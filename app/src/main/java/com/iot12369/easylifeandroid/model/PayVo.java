@@ -1,5 +1,9 @@
 package com.iot12369.easylifeandroid.model;
 
+import com.iot12369.easylifeandroid.BuildConfig;
+
+import java.io.Serializable;
+
 /**
  * 功能说明：
  *
@@ -9,13 +13,15 @@ package com.iot12369.easylifeandroid.model;
  * @date： 17-11-1
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class PayVo {
-    public String secretkey;
-    public String orderno;
+public class PayVo implements Serializable {
+
+    public String order_no;
+    public String amount;
     public String subject;
     public String body;
     public String description;
-    public String amount;
     public String channel;
-    public String appid;
+    public String client_ip;
+    public String app = BuildConfig.app_id;
+    public String currency = "CNY";
 }

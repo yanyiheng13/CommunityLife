@@ -165,11 +165,11 @@ public class LockView extends LinearLayout {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
         TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
         TextView close = (TextView) contentView.findViewById(R.id.close);
-        final Dialog  popWnd = new Dialog(getContext());
+        final MyDialog  popWnd = new MyDialog(getContext());
 //        popWnd.set
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         popWnd.setCancelable(true);
-        popWnd.setCanceledOnTouchOutside(false);
+        popWnd.setCanceledOnTouchOutside(true);
         txtCer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

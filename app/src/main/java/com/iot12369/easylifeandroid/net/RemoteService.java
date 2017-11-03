@@ -32,11 +32,10 @@ import retrofit2.http.Query;
 public interface RemoteService {
 
 
-    //1.首页业绩信息详情
-    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/indexCommission/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> home(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
-    //2.首页产品列表
+    //首页支付信息
+    @GET("estate/cost/v1")
+    Flowable<ResponseBody> home(@Query("phone") String phone, @Field("memberid") String memberid);
+    //
     @FormUrlEncoded
     @POST("promotion/marketingO2o/products/{version}/{appkey}/{token}")
     Flowable<ResponseBody> addressList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
