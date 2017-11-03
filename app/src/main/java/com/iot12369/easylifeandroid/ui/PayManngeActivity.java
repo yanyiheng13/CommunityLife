@@ -116,6 +116,7 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
     public void onPay(int channel) {
         switch (channel) {
             case PaymaxSDK.CHANNEL_WX:
+
                 new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_WX).execute(new PaymentRequest(CHANNEL_WECHAT, amount, "测试商品007", "测试商品Body", userid,time_expire));
                 break;
 

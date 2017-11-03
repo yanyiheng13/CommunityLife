@@ -13,6 +13,7 @@ import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PayInfoData;
+import com.iot12369.easylifeandroid.model.PayVo;
 import com.iot12369.easylifeandroid.mvp.PayPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PayContract;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
@@ -105,7 +106,13 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         switch (view.getId()) {
             //下一步按钮
             case R.id.pay_next_tv:
-                PayManngeActivity.newIntent(getContext(), PayVo);
+                if (mPayInfo == null) {
+                    break;
+                }
+                PayVo payVo = new PayVo();
+                payVo.amount = mTvMoney.getText().toString();
+                payVo.order_no = mPayInfo.orderno;
+                PayManngeActivity.newIntent(getContext(), payVo);
                 break;
             case R.id.pay_time_month_tv:
                 mTvByMonth.setSelected(true);
