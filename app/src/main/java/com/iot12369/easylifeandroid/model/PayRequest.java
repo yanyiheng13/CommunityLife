@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @date： 17-11-1
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class PayVo implements Serializable {
+public class PayRequest implements Serializable {
 
     public String order_no;
     public String amount;
@@ -22,6 +22,6 @@ public class PayVo implements Serializable {
     public String description;
     public String channel;
     public String client_ip;
-    public String app = BuildConfig.app_id;
+    public String app = "app_A09bYsi7615j8QWq";
     public String currency = "CNY";
 }

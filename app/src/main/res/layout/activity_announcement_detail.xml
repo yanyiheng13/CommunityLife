@@ -63,6 +63,7 @@
             android:background="@color/colorLine"/>
     </RelativeLayout>
     <TextView
+        android:id="@+id/text_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_16"

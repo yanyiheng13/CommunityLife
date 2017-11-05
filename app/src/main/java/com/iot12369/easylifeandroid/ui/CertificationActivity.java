@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PersonData;
 import com.iot12369.easylifeandroid.model.UserInfo;
@@ -132,6 +133,16 @@ public class CertificationActivity extends BaseActivity<PersonInfoPresenter> imp
 
     @Override
     public void onFailureAddressList(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessAddress(AddressVo addressVo) {
+
+    }
+
+    @Override
+    public void onFailureAddress(String code, String msg) {
 
     }
 }

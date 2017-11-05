@@ -34,6 +34,7 @@ import com.iot12369.easylifeandroid.ui.CertificationActivity;
 import com.iot12369.easylifeandroid.ui.LoginSelectActivity;
 import com.iot12369.easylifeandroid.ui.TransactionRecordsActivity;
 import com.iot12369.easylifeandroid.ui.view.IconTitleView;
+import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
@@ -94,7 +95,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         super.onActivityCreated(savedInstanceState);
         //设置标题和标题icon
         mTitleView.setImageResource(R.mipmap.title_mine).setText(R.string.title_mine);
-        LoginData loginData = LeApplication.mUserInfo;
+        final LoginData loginData = LeApplication.mUserInfo;
         if (!TextUtils.isEmpty(loginData.headimgurl)) {
             Glide.with(this).load(loginData.headimgurl).into(mImageHead);
         }
@@ -104,7 +105,13 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         } else {
             mTvWeChatNum.setText(loginData.phone);
         }
-
+        mAddressView.setOnItemClickListener(new PropertyAddressView.OnItemClickListener() {
+            @Override
+            public void onItemClick(String memberid) {
+                LoadingDialog.show(MineFragment.this.getContext(), false);
+                getPresenter().setDefaultAdress(memberid, loginData.phone);
+            }
+        });
     }
 
     @Override
@@ -276,7 +283,29 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
 
     @Override
     public void onFailureAddressList(String code, String msg) {
+    }
 
+    @Override
+    public void onSuccessAddress(AddressVo addressVo) {
+        LoadingDialog.hide();
+        if (addressData != null && addressData.list != null && addressData.list.size() != 0) {
+            List<AddressVo> list = addressData.list;
+            int size = list.size();
+            for(int i = 0; i < size; i++) {
+                AddressVo vo = list.get(i);
+                if (vo != null && addressVo != null && addressVo.memberId.equals(vo.memberId)) {
+                    vo.currentEstate = "1";
+                } else {
+                    vo.currentEstate = "0";
+                }
+            }
+            mAddressView.updateData(addressData, false);
+        }
+    }
+
+    @Override
+    public void onFailureAddress(String code, String msg) {
+        LoadingDialog.hide();
     }
 
     /**

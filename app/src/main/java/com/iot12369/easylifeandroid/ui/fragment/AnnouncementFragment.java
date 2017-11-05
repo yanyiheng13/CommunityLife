@@ -77,7 +77,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
                 helper.getView(R.id.view_announcement_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AnnounceDetailActivity.newIntent(getContext());
+                        AnnounceDetailActivity.newIntent(getContext(), item.noticeId);
                     }
                 });
             }

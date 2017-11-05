@@ -109,8 +109,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 }
             }
         });
-        getPresenter().addressList(LeApplication.mUserInfo.phone);
         getPresenter().homeThreeNotice();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isResumed()) {
+            getPresenter().addressList(LeApplication.mUserInfo.phone);
+        }
     }
 
     @OnClick({R.id.home_announcement_more_rl, R.id.home_top_key_img})

@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
+import com.iot12369.easylifeandroid.model.FamilVo;
+import com.iot12369.easylifeandroid.model.FamilyData;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
@@ -102,20 +104,26 @@ public class PropertyAddressView extends LinearLayout {
         return this;
     }
 
-    public PropertyAddressView updateData(AddressData addressData, boolean isMyAddress) {
+    public PropertyAddressView updateData(final AddressData addressData, boolean isMyAddress) {
         mListView.clear();
         mLlAddressContain.removeAllViews();
         this.isMyAddress = isMyAddress;
         this.addressData = addressData;
         List<AddressVo> list = addressData.list;
+        if (list == null || list.size() == 0) {
+            return this;
+        }
         if (isAlreadyCertification(addressData)) {
             if (!isMyAddress) {
                 AddressVo addressVo = getCurrentAddress(addressData);
+                if (addressVo == null) {
+                    return this;
+                }
                 mTvAddress.setText(addressVo.communityRawAddress  + "\n" + addressVo.communityName);
             }
         } else {
-            mTvAddress.setText("暂无通过认证的物业");
             if (!isMyAddress) {
+                mTvAddress.setText("暂无通过认证的物业");
                 return this;
             }
         }
@@ -129,13 +137,12 @@ public class PropertyAddressView extends LinearLayout {
                 view.setVisibility(GONE);
                 imgChange.setVisibility(GONE);
                 imgStatus.setVisibility(VISIBLE);
+                final AddressVo addressVo = list.get(i);
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                     }
                 });
-                AddressVo addressVo = list.get(i);
                 tv.setText(addressVo.communityRawAddress  + "\n" + addressVo.communityName);
                 if ("2".equals(addressVo.estateAuditStatus)) {//已认证
                     imgStatus.setImageResource(R.mipmap.icon_certification);
@@ -149,7 +156,7 @@ public class PropertyAddressView extends LinearLayout {
             }
         } else {
             for (int i = 0; i < list.size(); i++) {
-                AddressVo addressVo = list.get(i);
+                final AddressVo addressVo = list.get(i);
                 if (addressVo == null || !"2".equals(addressVo.estateAuditStatus)) {
                     return this;
                 }
@@ -160,7 +167,9 @@ public class PropertyAddressView extends LinearLayout {
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        if (mListener != null ) {
+                            mListener.onItemClick(addressVo.memberId);
+                        }
                     }
                 });
 
@@ -204,22 +213,34 @@ public class PropertyAddressView extends LinearLayout {
             AddressVo addressVo = list.get(i);
             if ("1".equals(addressVo.currentEstate)) {
                 address = addressVo;
+                break;
             }
-            break;
+
         }
         return address;
     }
 
-    public PropertyAddressView updateData(String source) {
+    public PropertyAddressView updateData(String level, FamilyData familyData) {
         mListView.clear();
         mLlAddressContain.removeAllViews();
-        for (int i = 0; i < 2; i++) {
+        List<FamilVo> list = familyData.list;
+        if (list == null || list.size() == 0) {
+            return this;
+        }
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            final FamilVo familVo = list.get(i);
+            if (!level.equals(familVo.level)) {
+                continue;
+            }
             View view = mInflater.inflate(R.layout.view_address_item_two, null);
             TextView tvName = (TextView) view.findViewById(R.id.property_name_tv);
             TextView tvPhone = (TextView) view.findViewById(R.id.property_phone_tv);
             ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);//R.mipmap.icon_binded  R.mipmap.icon_not_bind
             final TextView imgDelete = (TextView) view.findViewById(R.id.property_address_delete);//R.mipmap.icon_binded  R.mipmap.icon_not_bind
             final ImageView imgArrow = (ImageView) view.findViewById(R.id.property_arrow_img);
+            tvName.setText(familVo.name);
+            tvPhone.setText(familVo.phone);
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -229,6 +250,14 @@ public class PropertyAddressView extends LinearLayout {
                         imgDelete.setVisibility(View.INVISIBLE);
                     }
                     imgArrow.setEnabled(!imgArrow.isEnabled());
+                }
+            });
+            imgDelete.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPeopleListener != null) {
+                        mPeopleListener.onItemClick(familVo.memberId);
+                    }
                 }
             });
             mListView.add(view);
@@ -302,5 +331,21 @@ public class PropertyAddressView extends LinearLayout {
             default:
                 break;
         }
+    }
+
+    public OnItemClickListener mListener;
+    public interface OnItemClickListener {
+        void onItemClick(String memberid);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public OnPeopleItemClickListener mPeopleListener;
+    public interface OnPeopleItemClickListener {
+        void onItemClick(String memberid);
+    }
+    public void setOnPeopleItemClickListener(OnPeopleItemClickListener listener) {
+        mPeopleListener = listener;
     }
 }

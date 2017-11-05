@@ -2,8 +2,6 @@ package com.iot12369.easylifeandroid.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -11,16 +9,21 @@ import android.widget.TextView;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
+import com.iot12369.easylifeandroid.model.PayData;
 import com.iot12369.easylifeandroid.model.PayInfoData;
-import com.iot12369.easylifeandroid.model.PayVo;
+import com.iot12369.easylifeandroid.model.PayRequest;
 import com.iot12369.easylifeandroid.mvp.PayPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PayContract;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.PayManngeActivity;
 import com.iot12369.easylifeandroid.ui.view.IconTitleView;
+import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 import com.iot12369.easylifeandroid.util.CommonUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,6 +69,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     TextView mTvMoney;
 
     private PayInfoData mPayInfo;
+    public AddressData mAddressData;
 
     @Override
     public int inflateId() {
@@ -83,6 +87,13 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         mTvUnitMoney.setText(String.format(getString(R.string.by_square_meters), "~~"));
         mTvTime.setText("~~~~-~~-~~");
         mPropertyView.setLeftTextColor(R.color.colorLoginTxt);
+        mPropertyView.setOnItemClickListener(new PropertyAddressView.OnItemClickListener() {
+            @Override
+            public void onItemClick(String memberid) {
+                LoadingDialog.show(PayFragment.this.getContext(), false);
+                getPresenter().setDefaultAdress(memberid, LeApplication.mUserInfo.phone);
+            }
+        });
     }
 
     @Override
@@ -109,9 +120,12 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 if (mPayInfo == null) {
                     break;
                 }
-                PayVo payVo = new PayVo();
-                payVo.amount = mTvMoney.getText().toString();
+                PayRequest payVo = new PayRequest();
+                payVo.amount = "0.01";
                 payVo.order_no = mPayInfo.orderno;
+                payVo.body = mPayInfo.body;
+                payVo.subject = mPayInfo.subject;
+                payVo.description = mPayInfo.description;
                 PayManngeActivity.newIntent(getContext(), payVo);
                 break;
             case R.id.pay_time_month_tv:
@@ -147,7 +161,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
 
     @Override
-    public void onSuccessPay(PayInfoData payInfoData) {
+    public void onSuccessPayPre(PayInfoData payInfoData) {
         mPayInfo = payInfoData;
         if (mPayInfo == null) {
            return;
@@ -171,21 +185,52 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     }
 
     @Override
-    public void onFailurePay(String code, String msg) {
+    public void onFailurePayPre(String code, String msg) {
 
     }
 
     @Override
     public void onSuccessAddressList(AddressData addressData) {
+        mAddressData = addressData;
         mPropertyView.updateData(addressData, false);
         if (mPropertyView.isAlreadyCertification(addressData)) {
             LoginData data = LeApplication.mUserInfo;
-            getPresenter().home(data.phone, data.memberId);
+            AddressVo addressVo = mPropertyView.getCurrentAddress(addressData);
+            if (addressVo != null) {
+                getPresenter().home(data.phone, addressVo.memberId);
+            }
         }
     }
 
     @Override
     public void onFailureAddressList(String code, String msg) {
+    }
 
+    @Override
+    public void onSuccessAddress(AddressVo addressVo) {
+        LoadingDialog.hide();
+        AddressVo currentVo = null;
+        if (mAddressData != null && mAddressData.list != null && mAddressData.list.size() != 0) {
+            List<AddressVo> list = mAddressData.list;
+            int size = list.size();
+            for(int i = 0; i < size; i++) {
+                AddressVo vo = list.get(i);
+                if (vo != null && addressVo != null && addressVo.memberId.equals(vo.memberId)) {
+                    vo.currentEstate = "1";
+                    currentVo = vo;
+                } else {
+                    vo.currentEstate = "0";
+                }
+            }
+            mPropertyView.updateData(mAddressData, false);
+            if (currentVo != null) {
+                getPresenter().home(LeApplication.mUserInfo.phone, currentVo.memberId);
+            }
+        }
+    }
+
+    @Override
+    public void onFailureAddress(String code, String msg) {
+        LoadingDialog.hide();
     }
 }

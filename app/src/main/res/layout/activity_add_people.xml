@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/main_bg">
     <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
@@ -21,13 +22,14 @@
             android:textColor="@color/colorLoginTxt"
             android:text="@string/property_address"/>
         <TextView
+            android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:textSize="@dimen/font_16"
             android:layout_alignParentRight="true"
             android:textColor="@color/colorLoginTxt"
-            android:text="天津市南开区丁香郡小区\n9号楼三单元402"
+            tools:text="天津市南开区丁香郡小区\n9号楼三单元402"
             android:gravity="right"/>
     </RelativeLayout>
     <View

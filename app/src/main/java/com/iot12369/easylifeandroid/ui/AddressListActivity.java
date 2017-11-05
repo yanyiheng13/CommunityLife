@@ -14,11 +14,14 @@ import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.mvp.AddressListPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AddressListContract;
 import com.iot12369.easylifeandroid.ui.view.EmptyView;
+import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 
 import java.io.Serializable;
@@ -101,10 +104,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
                 helper.getView(R.id.view_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra(TAG_REQUEST_HOME, item);
-                        setResult(Activity.RESULT_OK, intent);
-                        AddressListActivity.this.finish();
+                        mAddressData = item;
+                        LoadingDialog.show(AddressListActivity.this, false);
+                        getPresenter().setDefaultAdress(item.memberId, LeApplication.mUserInfo.phone);
                     }
                 });
             }
@@ -118,26 +120,10 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
         } else {
             mEmptyView.onSuccess();
         }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                getPresenter().addressList("", "", "");
-//            }
-//        }, 1000);
     }
 
     @Override
     public void onRefresh() {
-        if (isLoadMore) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            return;
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().addressList("", "", "");
-            }
-        }, 1000);
     }
 
     public static void newIntent(Activity context, List<AddressVo> addressData, AddressVo addressVo, int requestCode) {
@@ -149,66 +135,24 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
 
     @Override
     public void onDataLoadAgain() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().addressList("", "", "");
-            }
-        }, 1000);
     }
 
-
     @Override
-    public void onSuccessAddress(AddressVo addressData) {
-
+    public void onSuccessAddress(AddressData addressData) {
+        LoadingDialog.hide();
+        Intent intent = new Intent();
+        intent.putExtra(TAG_REQUEST_HOME, mAddressData);
+        setResult(Activity.RESULT_OK, intent);
+        AddressListActivity.this.finish();
     }
 
     @Override
     public void onFailureAddress(String code, String msg) {
-        if (mSwipeRefreshLayout == null) {
-            return;
-        }
-        mSwipeRefreshLayout.setRefreshing(false);
-        mEmptyView.onSuccess();
-        if (isLoadMore) {
-            List<AddressVo> list = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                AddressVo addressData = new AddressVo();
-                addressData.address = "天津市塘沽区北清路天鑫家园小区\n1号楼单元406";
-                list.add(addressData);
-            }
-//            if ("1".equals(mStaffList.isLastPage)) {
-//                mAdapter.loadMoreEnd(true);
-//            } else {
-//                mAdapter.setEnableLoadMore(true);
-//            }
-            mAdapter.addData(list);
-            mAdapter.loadMoreEnd(false);
-        } else {
-//            mRecordList.clear();
-//            for (int i = 0; i < 10; i++) {
-//                AddressVo addressData = new AddressVo();
-//                addressData.address = "天津市塘沽区北清路天鑫家园小区\n1号楼单元406";
-//                mRecordList.add(addressData);
-//            }
-//            mAdapter.setNewData(mRecordList);
-        }
-        isLoadMore = false;
-        isRefresh = false;
+      LoadingDialog.hide();
     }
 
     @Override
     public void onLoadMoreRequested() {
-        if (isRefresh) {
-            return;
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().addressList("", "", "");
-            }
-        }, 1000);
-        isLoadMore = true;
     }
 
     @Override

@@ -1,13 +1,19 @@
 package com.iot12369.easylifeandroid.mvp;
 
+import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
+import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PersonData;
+import com.iot12369.easylifeandroid.model.RequestData;
 import com.iot12369.easylifeandroid.mvp.contract.PersonInfoContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
 import com.sai.framework.mvp.BasePresenter;
+
+import okhttp3.RequestBody;
 
 /**
  * 功能说明： 个人信息
@@ -52,6 +58,29 @@ public class PersonInfoPresenter extends BasePresenter<Repository, PersonInfoCon
             public void onFailure(String error) {
                 super.onFailure(error);
                 getRootView().onFailureAddressList(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    /**
+     * 设置物业列表接口
+     */
+    public void setDefaultAdress(String memerdId, String phone) {
+        RequestData requestData = new RequestData();
+        requestData.memberid = memerdId;
+        requestData.phone = phone;
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(requestData));
+        new RxHelper().view(getRootView()).load(getModel().getRemote().setDefaultAdress(body)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<AddressVo>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<AddressVo> result) {
+                getRootView().onSuccessAddress(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureAddress(error, error);
             }
         }).application(LeApplication.mApplication).start();
     }

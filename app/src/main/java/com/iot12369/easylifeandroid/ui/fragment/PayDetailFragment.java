@@ -72,15 +72,15 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
         }
     }
 
-    @OnClick({R.id.pay_detail_rl_bank, R.id.pay_detail_iv_back})
+    @OnClick({R.id.pay_detail_rl_bank, R.id.close_rl})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.pay_detail_rl_bank:
                 if (mListener != null) {
-                    mListener.OnPayDetailCardClick(1);
+                    mListener.OnPayDetailCardClick(channel);
                 }
                 break;
-            case R.id.pay_detail_iv_back:
+            case R.id.close_rl:
                 if (mListener != null) {
                     mListener.OnPayClose();
                 }

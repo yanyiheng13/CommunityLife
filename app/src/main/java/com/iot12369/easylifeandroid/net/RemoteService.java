@@ -34,7 +34,7 @@ public interface RemoteService {
 
     //首页支付信息
     @GET("estate/cost/v1")
-    Flowable<ResponseBody> home(@Query("phone") String phone, @Field("memberid") String memberid);
+    Flowable<ResponseBody> home(@Query("phone") String phone, @Query("memberid") String memberid);
     //
     @FormUrlEncoded
     @POST("promotion/marketingO2o/products/{version}/{appkey}/{token}")
@@ -54,6 +54,10 @@ public interface RemoteService {
     Flowable<ResponseBody> announcementCommunity(@Query("start") String start,
                                                  @Query("length") String length,
                                                  @Query("phone") String phone);
+
+    //公告详情
+    @GET("notice/v1/{noticeCommunityId}")
+    Flowable<ResponseBody> announcementDetail(@Path("noticeCommunityId") String noticeCommunityId);
 
     //个人详细信息
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
@@ -85,6 +89,11 @@ public interface RemoteService {
     @POST("lock/v1")
     Flowable<ResponseBody> lock(@Body RequestBody body);
 
+    //添加人员
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("authorization/v1")
+    Flowable<ResponseBody> addPeople(@Body RequestBody body);
+
     //维修
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("authentication/v1")
@@ -98,6 +107,25 @@ public interface RemoteService {
     //物业地址列表接口
     @GET("member/v1/estate")
     Flowable<ResponseBody> addressList(@Query("phone") String phone);
+
+    //家庭成员及租客列表
+    @GET("authorization/v1/member")
+    Flowable<ResponseBody> familyList(@Query("phone") String phone, @Query("memberid") String memberid);
+
+    //设置当前默认物业
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("authentication/v1/default")
+    Flowable<ResponseBody> setDefaultAdress(@Body RequestBody bode);
+
+    //移除当前授权人
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("authorization/v1/member/cancel")
+    Flowable<ResponseBody> removePeople(@Body RequestBody bode);
+
+    //获取支付凭证
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("http://39.106.61.132:8989/paymax/pay/applyOrder")
+    Flowable<ResponseBody> pay (@Body RequestBody bode);
 
     //首页三条公告请求
     @GET("notice/v1?start=0&length=3")

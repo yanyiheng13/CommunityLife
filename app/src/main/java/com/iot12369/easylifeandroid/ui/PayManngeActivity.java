@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -12,15 +13,20 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.PaymentRequest;
 import com.iot12369.easylifeandroid.PaymentTask;
 import com.iot12369.easylifeandroid.R;
-import com.iot12369.easylifeandroid.model.PayVo;
+import com.iot12369.easylifeandroid.model.PayData;
+import com.iot12369.easylifeandroid.model.PayRequest;
+import com.iot12369.easylifeandroid.mvp.ToPayPresenter;
+import com.iot12369.easylifeandroid.mvp.contract.ToPayContract;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayDetailEventListener;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayToDetailEventListener;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayTypeEventListener;
 import com.iot12369.easylifeandroid.ui.fragment.PayDetailFragment;
 import com.iot12369.easylifeandroid.ui.fragment.PayTypeFragment;
+import com.iot12369.easylifeandroid.util.ToastUtil;
 import com.swwx.paymax.PayResult;
 import com.swwx.paymax.PaymaxCallback;
 import com.swwx.paymax.PaymaxSDK;
@@ -28,7 +34,6 @@ import com.swwx.paymax.PaymaxSDK;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -41,7 +46,7 @@ import okhttp3.Response;
  * Created by qingqingli on 2017/10/10.
  */
 
-public class PayManngeActivity extends BaseActivity implements OnPayDetailEventListener, OnPayTypeEventListener, PaymaxCallback  {
+public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements ToPayContract.View, OnPayDetailEventListener, OnPayTypeEventListener, PaymaxCallback  {
 
     private Fragment mOldFragment;
     private String userid = "100";
@@ -64,21 +69,21 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
      */
     protected static final String CHANNEL_LKL = "lakala_app";
 
-    private PayVo mPayVo;
+    private PayRequest mPayRequest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            mPayVo = (PayVo) getIntent().getSerializableExtra("payVo");
+            mPayRequest = (PayRequest) getIntent().getSerializableExtra("payVo");
         } else {
-            mPayVo = (PayVo) savedInstanceState.getSerializable("payVo");
+            mPayRequest = (PayRequest) savedInstanceState.getSerializable("payVo");
         }
         setContentView(R.layout.activity_lepay_manager);
         setCurrentTab("1", PayDetailFragment.newIntent(this));
     }
 
-    public static void newIntent(Context context, PayVo payVo) {
+    public static void newIntent(Context context, PayRequest payVo) {
         Intent intent = new Intent(context, PayManngeActivity.class);
         intent.putExtra("payVo", payVo);
         context.startActivity(intent);
@@ -86,7 +91,7 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
 
     @Override
     public void OnPayDetailCardClick(int type) {
-        setCurrentTab("2", PayTypeFragment.onNewIntent());
+        setCurrentTab("2", PayTypeFragment.onNewIntent(type));
     }
 
     @Override
@@ -98,7 +103,7 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
     @Override
     public void OnPayTypeSelected(int type) {
 //        setCurrentTab("2", PayTypeFragment.onNewIntent());
-        getSupportFragmentManager().popBackStack();
+        onBackPressed();
         if (mListener != null) {
             mListener.OnPayTypeUpdate(type);
         }
@@ -114,38 +119,46 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
 
     @Override
     public void onPay(int channel) {
+//        public String subject;
+//        public String body;
+//        public String description;
+//        public String channel;
+//        public String client_ip;
+        mPayRequest.client_ip = "127.0.0.1";
         switch (channel) {
             case PaymaxSDK.CHANNEL_WX:
-
-                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_WX).execute(new PaymentRequest(CHANNEL_WECHAT, amount, "测试商品007", "测试商品Body", userid,time_expire));
+                mPayRequest.channel = CHANNEL_WECHAT;
+//                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_WX).execute(new PaymentRequest(CHANNEL_WECHAT, amount, "测试商品007", "测试商品Body", userid,time_expire));
                 break;
 
             case PaymaxSDK.CHANNEL_ALIPAY:
-                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_ALIPAY).execute(new PaymentRequest(CHANNEL_ALIPAY, amount, "测试商品007", "测试商品Body", userid,time_expire));
+                mPayRequest.channel = CHANNEL_ALIPAY;
+//                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_ALIPAY).execute(new PaymentRequest(CHANNEL_ALIPAY, amount, "测试商品007", "测试商品Body", userid,time_expire));
                 break;
 
             case PaymaxSDK.CHANNEL_LKL: {
-//                new FaceTask().execute(new FaceRequest("123", "123", userid));
-                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_LKL).execute(new PaymentRequest(CHANNEL_LKL, amount, "测试商品007", "测试商品Body", userid,time_expire));
+                mPayRequest.channel = CHANNEL_LKL;
+//                new PaymentTask(PayManngeActivity.this, PayManngeActivity.this, PaymaxSDK.CHANNEL_LKL).execute(new PaymentRequest(CHANNEL_LKL, amount, "测试商品007", "测试商品Body", userid,time_expire));
             }
             break;
         }
+        getPresenter().pay(mPayRequest);
 
     }
 
     @Override
     public void onPayFinished(PayResult result) {
-        String msg = "Unknow";
+        String msg = "未知错误";
         switch (result.getCode()) {
             case PaymaxSDK.CODE_SUCCESS:
-                msg = "Complete, Success!.";
+                msg = "支付成功";
                 break;
             case PaymaxSDK.CODE_ERROR_CHARGE_JSON:
                 msg = "Json error.";
                 break;
 
             case PaymaxSDK.CODE_FAIL_CANCEL:
-                msg = "cancel pay.";
+                msg = "支付取消";
                 break;
 
             case PaymaxSDK.CODE_ERROR_CHARGE_PARAMETER:
@@ -181,14 +194,15 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
                 break;
 
         }
-        Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG)
-                .setAction("Close", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        final String message = msg;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtil.toast(PayManngeActivity.this, message);
+                finish();
+            }
+        });
 
-                    }
-                }).show();
-        finish();
     }
 
     @Override
@@ -234,11 +248,32 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
     @Override
     public void onBackPressed() {
 //        OnPaySelectBack();
-        super.onBackPressed();
+//        super.onBackPressed();
+//        int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+//        if (backStackCount == 0) {
+//            finish();
+//        }
         int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
-        if (backStackCount == 0) {
-            finish();
+        if (backStackCount > 0) {
+            if (backStackCount == 1) {
+                finish();
+                return;
+                }
+            }
+            getSupportFragmentManager().popBackStack();
+            if (backStackCount != 1) {
+                mOldFragment = getSupportFragmentManager().getFragments().get(backStackCount - 2);
+            }
         }
+
+    @Override
+    public void onSuccessPay(PayData payData) {
+        PaymaxSDK.pay(this, new Gson().toJson(payData), this);
+    }
+
+    @Override
+    public void onFailurePay(String code, String msg) {
+
     }
 
     class FaceTask extends AsyncTask<FaceRequest, Void, String> {
@@ -337,6 +372,6 @@ public class PayManngeActivity extends BaseActivity implements OnPayDetailEventL
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("payVo", mPayVo);
+        outState.putSerializable("payVo", mPayRequest);
     }
 }

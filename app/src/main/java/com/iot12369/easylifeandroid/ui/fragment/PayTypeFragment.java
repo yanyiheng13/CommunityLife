@@ -48,16 +48,41 @@ public class PayTypeFragment extends LePayFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState == null) {
+            channel = getArguments().getInt("channel");
+        } else {
+            channel = savedInstanceState.getInt("channel");
+        }
         syncContentViewHeight();
-        channel = PaymaxSDK.CHANNEL_ALIPAY;
-        ibAlipay.setBackgroundResource(R.drawable.selected);
-        ibWechat.setBackgroundResource(R.drawable.unselected);
-        ibLKL.setBackgroundResource(R.drawable.unselected);
+//        channel = PaymaxSDK.CHANNEL_ALIPAY;
+        if (channel == PaymaxSDK.CHANNEL_ALIPAY) {
+            ibAlipay.setBackgroundResource(R.drawable.selected);
+            ibWechat.setBackgroundResource(R.drawable.unselected);
+            ibLKL.setBackgroundResource(R.drawable.unselected);
+        } else if (channel == PaymaxSDK.CHANNEL_WX) {
+            ibAlipay.setBackgroundResource(R.drawable.unselected);
+            ibWechat.setBackgroundResource(R.drawable.selected);
+            ibLKL.setBackgroundResource(R.drawable.unselected);
+        } else {
+            ibAlipay.setBackgroundResource(R.drawable.unselected);
+            ibWechat.setBackgroundResource(R.drawable.unselected);
+            ibLKL.setBackgroundResource(R.drawable.selected);
+        }
+
     }
 
-    public static Fragment onNewIntent() {
+    public static Fragment onNewIntent(int channel) {
         Fragment fragment = new PayTypeFragment();
+        Bundle b = new Bundle();
+        b.putInt("channel", channel);
+        fragment.setArguments(b);
         return fragment;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("channel", channel);
     }
 
     @OnClick({R.id.linearLayoutCenter3, R.id.linearLayoutCenter2, R.id.linearLayoutCenter4, R.id.pay_card_rl_back})
