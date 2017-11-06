@@ -49,7 +49,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/wx"
+            android:src="@mipmap/pay_wechat"
             android:scaleType="centerCrop"/>
 
         <TextView
@@ -89,7 +89,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/ali"
+            android:src="@mipmap/pay_zhifubao"
             android:scaleType="centerCrop"/>
 
         <TextView
@@ -100,7 +100,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="支付宝支付" />
+            android:text="支付宝" />
 
         <ImageButton
             android:id="@+id/ibAlipay"
@@ -130,7 +130,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/lkl"/>
+            android:src="@mipmap/pay_lakala"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -140,7 +140,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="拉卡拉支付" />
+            android:text="银联快捷" />
 
         <ImageButton
             android:id="@+id/ibLKL"

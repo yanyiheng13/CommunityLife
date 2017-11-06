@@ -115,14 +115,14 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
             case R.id.ll_login_wechat:
 
                 String openid = SharePrefrenceUtil.getString("config", "openid");
+                if (!LeApplication.api.isWXAppInstalled()) {
+                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (!TextUtils.isEmpty(openid)) {
                     LoadingDialog.show(this, false);
                     getPresenter().wechatLogin(openid);
                     break;
-                }
-                if (!LeApplication.api.isWXAppInstalled()) {
-                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
-                    return;
                 }
                 LoadingDialog.show(this, false);
                 final SendAuth.Req req = new SendAuth.Req();

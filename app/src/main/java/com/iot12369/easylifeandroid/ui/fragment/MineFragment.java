@@ -331,6 +331,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
                             mDialogBuilder.dismiss();
                             LeApplication.mUserInfo = null;
                             SharePrefrenceUtil.setString("config", "user", "");
+//                            SharePrefrenceUtil.setString("config", "openid", "");
                             LoginSelectActivity.newIntent(getContext());
                             getActivity().finish();
                         }

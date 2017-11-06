@@ -45,6 +45,7 @@
                        android:textColor="#ababab"
                        android:layout_alignParentRight="true"
                        android:layout_marginRight="16dp"
+                       android:visibility="invisible"
                        android:text="@string/origin_money"/>
                    <RelativeLayout
                        android:layout_width="match_parent"
@@ -142,6 +143,7 @@
                    android:gravity="center_horizontal"
                    android:layout_marginTop="3dp"
                    android:paddingBottom="8dp"
+                   android:visibility="invisible"
                    android:text="优惠信息：一次性缴费1年，优惠2个月"/>
                <View
                    android:layout_width="match_parent"
