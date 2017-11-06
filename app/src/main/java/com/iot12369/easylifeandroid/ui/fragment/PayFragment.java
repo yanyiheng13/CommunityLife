@@ -158,7 +158,6 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         }
     }
 
-
     @Override
     public void onSuccessPayPre(PayInfoData payInfoData) {
         mPayInfo = payInfoData;
