@@ -34,25 +34,28 @@ public class AnnounceDetailActivity extends BaseActivity<AnnouncementDetailPrese
     @BindView(R.id.text_content)
     TextView mTvContent;
 
-    private String mAnnouncementId;
+    private AnnouncementVo mAnnouncementVo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            mAnnouncementId = getIntent().getStringExtra("announceId");
+            mAnnouncementVo = (AnnouncementVo) getIntent().getSerializableExtra("announcement");
         } else {
-            mAnnouncementId = savedInstanceState.getString("announceId");
+            mAnnouncementVo = (AnnouncementVo) savedInstanceState.getSerializable("announcement");
         }
         setContentView(R.layout.activity_announcement_detail);
         ButterKnife.bind(this);
         mTitleView.setText(R.string.announce_detail);
-        getPresenter().announcementDetail(mAnnouncementId);
+        mTvContent.setText(mAnnouncementVo.noticeContent);
+        mTvDate.setText(mAnnouncementVo.createTime);
+        mTvDescrip.setText(mAnnouncementVo.noticeTitle);
+//        getPresenter().announcementDetail(mAnnouncementId);
     }
 
-    public static void newIntent(Context context, String announceId) {
+    public static void newIntent(Context context, AnnouncementVo announcementVo) {
         Intent intent = new Intent(context, AnnounceDetailActivity.class);
-        intent.putExtra("announceId", announceId);
+        intent.putExtra("announcement", announcementVo);
         context.startActivity(intent);
     }
 
@@ -70,6 +73,6 @@ public class AnnounceDetailActivity extends BaseActivity<AnnouncementDetailPrese
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("announceId", mAnnouncementId);
+        outState.putSerializable("announcement", mAnnouncementVo);
     }
 }

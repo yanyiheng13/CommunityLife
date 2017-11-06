@@ -72,12 +72,12 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
             protected void convert(BaseViewHolder helper, final AnnouncementVo item) {
 
                 helper.setText(R.id.announcement_item_date_tv, item.createTime);//设置时间
-                helper.setText(R.id.announcement_item_des_tv, item.noticeContent);//设置描述
+                helper.setText(R.id.announcement_item_des_tv, item.noticeTitle);//设置描述
 
                 helper.getView(R.id.view_announcement_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AnnounceDetailActivity.newIntent(getContext(), item.noticeId);
+                        AnnounceDetailActivity.newIntent(getContext(), item);
                     }
                 });
             }

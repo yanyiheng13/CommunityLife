@@ -34,8 +34,10 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         data.memberName = memberName;
         data.memberIdCard = memberIdCard;
         data.communityName = communityName;
-        data.communityName = communityName;
         data.communityRawAddress = communityRawAddress;
+        data.communityProvince = "天津";
+        data.communityCity = "天津市";
+        data.communityArea = "市区";
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().addAddress(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<AddressVo>>() {
@@ -43,7 +45,6 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
             public void onSuccess(String response, BaseBean<AddressVo> result) {
                 getRootView().onSuccessAddress(result.data);
             }
-//
             @Override
             public void onFailure(String error) {
                 super.onFailure(error);
@@ -76,5 +77,8 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         public String memberIdCard;
         public String communityName;
         public String communityRawAddress;
+        public String communityProvince;
+        public String communityCity;
+        public String communityArea;
     }
 }

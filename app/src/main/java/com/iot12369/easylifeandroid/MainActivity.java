@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
      * fragment的切换
      */
     private void setCurrentTab(int position) {
+        LeApplication.mCurrentTag = position;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(String.valueOf(position));
         if (oldFragment != null) {
@@ -172,7 +173,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
             mStatusBar.setVisibility(View.VISIBLE);
         }
         setTabTextIcon(position);
-        setCurrentTab(position);
+//        setCurrentTab(position);
     }
 
     @Override

@@ -15,5 +15,5 @@ public class NoticeData implements Serializable {
     public String pageIndex;
     public String pageSize;
     public String totalCount;
-    public List<NoticeVo> list;
+    public List<AnnouncementVo> list;
 }

@@ -117,7 +117,9 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
     @Override
     public void onResume() {
         super.onResume();
-        getPresenter().addressList(LeApplication.mUserInfo.phone);
+        if (isResumed() && LeApplication.mCurrentTag == LeApplication.TAG_MINE) {
+            getPresenter().addressList(LeApplication.mUserInfo.phone);
+        }
     }
 
     public Dialog getPopupWindow() {

@@ -45,6 +45,7 @@
                        android:textColor="#ababab"
                        android:layout_alignParentRight="true"
                        android:layout_marginRight="16dp"
+                       android:visibility="invisible"
                        android:text="@string/origin_money"/>
                    <RelativeLayout
                        android:layout_width="match_parent"
@@ -64,7 +65,7 @@
                            android:paddingLeft="10dp"
                            android:layout_marginRight="10dp"
                            android:textColor="@color/colorLoginTxt"
-                           tools:text="0.01"
+                           tools:text="请重新点击点击缴费获取"
                            android:textSize="@dimen/font_16"
                            />
                    <TextView
@@ -290,6 +291,7 @@
                        android:paddingTop="5dp"
                        android:paddingBottom="10dp"
                        android:autoLink="phone"
+                       android:visibility="gone"
                        android:text="@string/phone_num"/>
                </LinearLayout>
 

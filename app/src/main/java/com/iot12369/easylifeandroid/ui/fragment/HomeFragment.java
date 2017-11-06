@@ -16,6 +16,7 @@ import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
+import com.iot12369.easylifeandroid.model.AnnouncementVo;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.NoticeData;
@@ -103,8 +104,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             public void onStatusChange(int status) {
                 switch (status) {
                     case LockView.STATE_ING:
-                        LoginData data = LeApplication.mUserInfo;
-                        getPresenter().lock(data.memberId, data.phone, null);
+                        if (mAddress != null) {
+                            LoginData data = LeApplication.mUserInfo;
+                            getPresenter().lock(mAddress.memberId, data.phone, null);
+                        }
                         break;
                 }
             }
@@ -115,7 +118,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onResume() {
         super.onResume();
-        if (isResumed()) {
+        if (isResumed() && LeApplication.mCurrentTag == LeApplication.TAG_HOME) {
+            getPresenter().addressList(LeApplication.mUserInfo.phone);
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
             getPresenter().addressList(LeApplication.mUserInfo.phone);
         }
     }
@@ -167,8 +178,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             mTvTopAddress.setText("暂无通过认证的物业");
             return;
         }
-        AddressVo addressVo = addressData.list.get(0);
-        mTvTopAddress.setText(addressVo.communityRawAddress);
+        mAddress = getCurrentAddress(addressData);
+        if (mAddress != null) {
+            mTvTopAddress.setText(mAddress.communityRawAddress);
+        }
+
     }
 
     public boolean isAlreadyCertification(AddressData addressData) {
@@ -188,6 +202,24 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         return isAlready;
     }
 
+    public AddressVo getCurrentAddress(AddressData addressData) {
+        if (addressData == null || addressData.list == null || addressData.list.size() == 0) {
+            return null;
+        }
+        List<AddressVo> list = addressData.list;
+        AddressVo address = null;
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            AddressVo addressVo = list.get(i);
+            if ("1".equals(addressVo.currentEstate)) {
+                address = addressVo;
+                break;
+            }
+
+        }
+        return address;
+    }
+
     @Override
     public void onFailureAddressList(String code, String msg) {
 
@@ -196,14 +228,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onSuccessNoticeData(NoticeData noticeData) {
         if (noticeData.list != null && noticeData.list.size() >=  3) {
-            List<NoticeVo> list = noticeData.list;
-            NoticeVo vo1 = list.get(0);
-            NoticeVo vo2 = list.get(1);
-            NoticeVo vo3 = list.get(2);
+            List<AnnouncementVo> list = noticeData.list;
+            AnnouncementVo vo1 = list.get(0);
+            AnnouncementVo vo2 = list.get(1);
+            AnnouncementVo vo3 = list.get(2);
 
-            mTvBriefOne.setText(vo1.noticeContent);
-            mTvBriefTwo.setText(vo2.noticeContent);
-            mTvBriefThree.setText(vo3.noticeContent);
+            mTvBriefOne.setText(vo1.noticeTitle);
+            mTvBriefTwo.setText(vo2.noticeTitle);
+            mTvBriefThree.setText(vo3.noticeTitle);
         }
     }
 

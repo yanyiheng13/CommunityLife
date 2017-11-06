@@ -105,7 +105,6 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
 
     }
 
-
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, AddAddressActivity.class);
         context.startActivity(intent);

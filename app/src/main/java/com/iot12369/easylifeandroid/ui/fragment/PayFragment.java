@@ -11,7 +11,6 @@ import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
-import com.iot12369.easylifeandroid.model.PayData;
 import com.iot12369.easylifeandroid.model.PayInfoData;
 import com.iot12369.easylifeandroid.model.PayRequest;
 import com.iot12369.easylifeandroid.mvp.PayPresenter;
@@ -99,7 +98,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     @Override
     public void onResume() {
         super.onResume();
-        if (isResumed()) {
+        if (isResumed() && LeApplication.mCurrentTag == LeApplication.TAG_PAY) {
             getPresenter().addressList(LeApplication.mUserInfo.phone);
         }
     }

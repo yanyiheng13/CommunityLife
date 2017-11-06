@@ -11,13 +11,12 @@ import java.io.Serializable;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class AnnouncementVo extends BaseBean implements Serializable {
-    public String time;
-    public String content;
+public class AnnouncementVo implements Serializable {
 
     public String createTime;
     public String modifyTime;
     public String noticeId;
+    public String noticeTitle;
     public String noticeContent;
     public String noticeCommunityId;
     public String noticeCreateUserid;
