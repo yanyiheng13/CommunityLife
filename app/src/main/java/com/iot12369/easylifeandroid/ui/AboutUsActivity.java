@@ -53,7 +53,7 @@ public class AboutUsActivity extends BaseActivity {
 
     private void init() {
         mTvVersion.setText(String.format(getString(R.string.version), "V1.0.0"));
-        mTvWeChatNum.setText(String.format(getString(R.string.wechat_num), "10000eerss"));
+//        mTvWeChatNum.setText(String.format(getString(R.string.wechat_num), "10000eerss"));
     }
 
 
