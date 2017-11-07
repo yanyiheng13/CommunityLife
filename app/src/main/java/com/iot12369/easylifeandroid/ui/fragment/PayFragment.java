@@ -69,6 +69,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
     private PayInfoData mPayInfo;
     public AddressData mAddressData;
+    public String time = "物业费-12个月";
 
     @Override
     public int inflateId() {
@@ -119,15 +120,21 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 if (mPayInfo == null) {
                     break;
                 }
+                String money = mTvMoney.getText().toString();
                 PayRequest payVo = new PayRequest();
-                payVo.amount = "0.01";
+                payVo.amountShow = money;//这个是支付飞传字段  在结果页显示使用
+                payVo.communityRawAddress = mPayInfo.communityRawAddress;//这个是支付飞传字段  在结果页显示使用
+
+                payVo.amount = money.replace(",", "");
                 payVo.order_no = mPayInfo.orderno;
                 payVo.body = mPayInfo.body;
-                payVo.subject = mPayInfo.subject;
+                payVo.subject = time;
                 payVo.description = mPayInfo.description;
+
                 PayManngeActivity.newIntent(getContext(), payVo);
                 break;
             case R.id.pay_time_month_tv:
+                time = "物业费一个月";
                 mTvByMonth.setSelected(true);
                 mTvByQuarter.setSelected(false);
                 mTvByYear.setSelected(false);
@@ -137,6 +144,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 }
                 break;
             case R.id.pay_time_quarter_tv:
+                time = "物业费-3个月";
                 mTvByQuarter.setSelected(true);
                 mTvByMonth.setSelected(false);
                 mTvByYear.setSelected(false);
@@ -146,6 +154,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 }
                 break;
             case R.id.pay_time_year_tv:
+                time = "物业费-12个月";
                 mTvByYear.setSelected(true);
                 mTvByQuarter.setSelected(false);
                 mTvByMonth.setSelected(false);

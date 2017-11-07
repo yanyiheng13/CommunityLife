@@ -22,6 +22,7 @@
     <string name="version">版本:%s</string>
     <string name="current_property">当前物业</string>
     <string name="property_address">物业地址</string>
+    <string name="property_amount">缴费物业</string>
     <string name="account_certification">物业认证</string>
     <string name="account_authorise">账号授权</string>
     <string name="pay_recode">缴费记录</string>
@@ -54,16 +55,20 @@
 
     <string name="maintain_order_number">单号  %s</string>
     <string name="maintain_date">日期  %s</string>
-    <string name="transaction_money">缴费 %s 元</string>
+    <string name="transaction_money">缴费金额</string>
+    <string name="transaction_time">缴费时间</string>
+    <string name="money_name">缴费内容</string>
     <string name="origin_money">原价 %s </string>
     <string name="change_address">点击切换地址</string>
     <string name="more">更多...</string>
     <string name="announcement">公告</string>
     <string name="yuan">元</string>
+    <string name="yuan_s">%s元</string>
     <string name="system_announcement">系统公告</string>
     <string name="community_announcement">小区公告</string>
 
     <string name="pay_money">缴费金额</string>
+    <string name="pay_money_no">缴费单号</string>
     <string name="pay_much">缴费数量</string>
     <string name="pay_time_month">一个月</string>
     <string name="pay_time_quarter">一季度</string>

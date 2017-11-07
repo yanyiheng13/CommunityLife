@@ -48,10 +48,12 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     private Fragment oldFragment;
 
     //底部导航资源id
-    private TextView[] mTxtArray = new TextView[5];
-    private ImageView[] mImageArray = new ImageView[5];
-    private int[] mStringId = {R.string.title_home, R.string.title_maintain, R.string.title_unlocking, R.string.title_complain, R.string.title_mine};
-    private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_maintain, R.drawable.nav_unlocking, R.drawable.nav_complain, R.drawable.nav_mine};
+    private TextView[] mTxtArray = new TextView[3];
+    private ImageView[] mImageArray = new ImageView[3];
+    private int[] mStringId = {R.string.title_home, R.string.title_unlocking, R.string.title_mine};
+//    private int[] mStringId = {R.string.title_home, R.string.title_maintain, R.string.title_unlocking, R.string.title_complain, R.string.title_mine};
+//    private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_maintain, R.drawable.nav_unlocking, R.drawable.nav_complain, R.drawable.nav_mine};
+    private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_unlocking, R.drawable.nav_mine};
 
     //按两次返回退出应用
     private static boolean isExit;
@@ -71,14 +73,14 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
      * 初始操作
      */
     private void init() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             mBottomView.addTab(mBottomView.newTab().setCustomView(getCustomTabView(i)));
         }
         mBottomView.addOnTabSelectedListener(this);
         mStatusBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mStatausBarHeight));
         mStatusBar.setVisibility(View.GONE);
-        selectTab(2);
-        setTabTextIcon(2);
+        selectTab(1);
+        setTabTextIcon(1);
     }
 
     private static Handler mHandler = new Handler() {
@@ -131,16 +133,16 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
                 case 0:
                     currentFragment = new PayFragment();
                     break;
+//                case 1:
+//                    currentFragment = new MaintainFragment();
+//                    break;
                 case 1:
-                    currentFragment = new MaintainFragment();
-                    break;
-                case 2:
                     currentFragment = new HomeFragment();
                     break;
-                case 3:
-                    currentFragment = new ComplainFragment();
-                    break;
-                case 4:
+//                case 3:
+//                    currentFragment = new ComplainFragment();
+//                    break;
+                case 2:
                     currentFragment = new MineFragment();
                     break;
                 default:
@@ -167,7 +169,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         int position = tab.getPosition();
-        if (position == 2) {
+        if (position == 1) {
             mStatusBar.setVisibility(View.GONE);
         } else {
             mStatusBar.setVisibility(View.VISIBLE);
@@ -193,7 +195,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     private void setTabTextIcon(int position) {
         setCurrentTab(position);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             if (i == position) {
                 mImageArray[i].setSelected(true);
                 mTxtArray[i].setSelected(true);

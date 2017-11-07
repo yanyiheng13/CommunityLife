@@ -62,7 +62,7 @@
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:src="@mipmap/icon_certification"/>
+        android:src="@mipmap/icon_binded"/>
     <TextView
         android:id="@+id/property_address_delete"
         android:layout_width="70dp"

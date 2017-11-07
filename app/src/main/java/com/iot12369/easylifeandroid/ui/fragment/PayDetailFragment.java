@@ -28,16 +28,22 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
     ProgressButton mBtnGo;
     @BindView(R.id.pay_detail_tv_bank)
     TextView mTvPayType;
+    @BindView(R.id.pay_detail_tv_amount)
+    TextView mTvPayMoney;
 
     private int channel = PaymaxSDK.CHANNEL_ALIPAY;
+    public String money;
 
     @Override
     public int inflateId() {
         return R.layout.fragment_detail;
     }
 
-    public static Fragment newIntent(Context context) {
+    public static Fragment newIntent(Context context,String money) {
         Fragment fragment = new PayDetailFragment();
+        Bundle b = new Bundle();
+        b.putString("money", money);
+        fragment.setArguments(b);
         return fragment;
     }
 
@@ -50,6 +56,12 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState == null) {
+            money = getArguments().getString("money");
+        } else {
+            money = savedInstanceState.getString("money");
+        }
+        mTvPayMoney.setText(money + "元");
         mBtnGo.setCanClick();
         mBtnGo.setOnSubmitClickListener(new ProgressButton.OnSubmitClickListener() {
             @Override
@@ -70,6 +82,12 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
                 mTvPayType.setText("微信支付");
                 break;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("money", money);
     }
 
     @OnClick({R.id.pay_detail_rl_bank, R.id.close_rl})

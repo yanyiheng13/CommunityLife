@@ -34,6 +34,7 @@ import com.swwx.paymax.PaymaxSDK;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -80,7 +81,7 @@ public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements T
             mPayRequest = (PayRequest) savedInstanceState.getSerializable("payVo");
         }
         setContentView(R.layout.activity_lepay_manager);
-        setCurrentTab("1", PayDetailFragment.newIntent(this));
+        setCurrentTab("1", PayDetailFragment.newIntent(this, mPayRequest.amountShow));
     }
 
     public static void newIntent(Context context, PayRequest payVo) {
@@ -147,11 +148,14 @@ public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements T
     }
 
     @Override
-    public void onPayFinished(PayResult result) {
+    public void onPayFinished(final PayResult result) {
         String msg = "未知错误";
+        final com.iot12369.easylifeandroid.model.PayResult payResult = new com.iot12369.easylifeandroid.model.PayResult();
+        payResult.result = "2";
         switch (result.getCode()) {
             case PaymaxSDK.CODE_SUCCESS:
                 msg = "支付成功";
+                payResult.result = "1";
                 break;
             case PaymaxSDK.CODE_ERROR_CHARGE_JSON:
                 msg = "Json error.";
@@ -194,12 +198,41 @@ public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements T
                 break;
 
         }
+
         final String message = msg;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtil.toast(PayManngeActivity.this, message);
-                finish();
+                if (result.getCode() == PaymaxSDK.CODE_FAIL_CANCEL) {
+                    ToastUtil.toast(PayManngeActivity.this, message);
+                    finish();
+                } else {
+                    Calendar c = Calendar.getInstance();//
+                    int mYear = c.get(Calendar.YEAR); // 获取当前年份
+                    int mMonth = c.get(Calendar.MONTH) + 1;// 获取当前月份
+                    int mDay = c.get(Calendar.DAY_OF_MONTH);// 获取当日期
+                    int mHour = c.get(Calendar.HOUR_OF_DAY);//时
+                    int mMinute = c.get(Calendar.MINUTE);//分
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(mYear);
+                    stringBuilder.append("-");
+                    stringBuilder.append(mMonth);
+                    stringBuilder.append("-");
+                    stringBuilder.append(mDay);
+                    stringBuilder.append(" ");
+                    stringBuilder.append(mHour);
+                    stringBuilder.append(":");
+                    stringBuilder.append(mMinute);
+                    payResult.message = message;
+                    payResult.orderAddress = mPayRequest.communityRawAddress;
+                    payResult.orderAmount = mPayRequest.amountShow;
+                    payResult.orderName = mPayRequest.subject;
+                    payResult.orderNum = mPayRequest.order_no;
+                    payResult.orderTime = stringBuilder.toString();
+                    PayDetailActivity.newIntent(PayManngeActivity.this, payResult);
+                    finish();
+                }
+
             }
         });
 

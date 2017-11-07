@@ -87,9 +87,9 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         mEmptyView.setOnDataLoadStatusListener(this);
         mEmptyView.onStart();
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "10");
+            getPresenter().announcementSystem("0", "20");
         } else {
-            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+            getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }
     }
 
@@ -102,9 +102,9 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         isRefresh = true;
         isLoadMore = false;
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "10");
+            getPresenter().announcementSystem("0", "20");
         } else {
-            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+            getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }
     }
 
@@ -117,9 +117,9 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         isLoadMore = true;
         isRefresh = false;
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "10");
+            getPresenter().announcementSystem("0", "20");
         } else {
-            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+            getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }
 
     }
@@ -159,9 +159,9 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
     @Override
     public void onDataLoadAgain() {
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "10");
+            getPresenter().announcementSystem("0", "20");
         } else {
-            getPresenter().announcementCommunity("0", "10", LeApplication.mUserInfo.phone);
+            getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }
     }
 }

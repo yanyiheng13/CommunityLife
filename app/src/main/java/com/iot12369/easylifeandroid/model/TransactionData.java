@@ -1,6 +1,7 @@
 package com.iot12369.easylifeandroid.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 功能说明： 缴费(交易记录)对象
@@ -13,7 +14,12 @@ import java.io.Serializable;
 
 public class TransactionData implements Serializable {
 
-    public String time;
-    public String orderNum;
-    public String money;
+//     "startIndex":2,
+//             "pageIndex":2,
+//             "pageSize":2,
+    public String startIndex;
+    public String pageIndex;
+    public String pageSize;
+    public String totalCount;
+    public List<TransactionVo> list;
 }

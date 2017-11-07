@@ -127,6 +127,11 @@ public interface RemoteService {
     @POST("http://39.106.61.132:8989/paymax/pay/applyOrder")
     Flowable<ResponseBody> pay (@Body RequestBody bode);
 
+    //交易记录
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("http://39.106.61.132:8989/paymax/pay/getPaymentRecordList")
+    Flowable<ResponseBody> transaction (@Body RequestBody bode);
+
     //首页三条公告请求
     @GET("notice/v1?start=0&length=3")
     Flowable<ResponseBody> homeThreeNotice();
