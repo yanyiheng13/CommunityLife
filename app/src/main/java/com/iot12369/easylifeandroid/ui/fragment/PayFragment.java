@@ -1,9 +1,12 @@
 package com.iot12369.easylifeandroid.ui.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.LeApplication;
@@ -15,10 +18,12 @@ import com.iot12369.easylifeandroid.model.PayInfoData;
 import com.iot12369.easylifeandroid.model.PayRequest;
 import com.iot12369.easylifeandroid.mvp.PayPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PayContract;
+import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.PayManngeActivity;
 import com.iot12369.easylifeandroid.ui.view.IconTitleView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
+import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 import com.iot12369.easylifeandroid.util.CommonUtil;
 
@@ -117,6 +122,10 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         switch (view.getId()) {
             //下一步按钮
             case R.id.pay_next_tv:
+                if (!isAlreadyCertification(mAddressData != null ? mAddressData.list : null)) {
+                    getPopupWindow().show();
+                    break;
+                }
                 if (mPayInfo == null) {
                     break;
                 }
@@ -165,6 +174,48 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             default:
                 break;
         }
+    }
+
+
+    public Dialog getPopupWindow() {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
+        TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
+        TextView close = (TextView) contentView.findViewById(R.id.close);
+        final MyDialog popWnd = new MyDialog(getContext());
+//        popWnd.set
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(true);
+        txtCer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+                AddAddressActivity.newIntent(getContext());
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+            }
+        });
+        return popWnd;
+    }
+
+    public boolean isAlreadyCertification(List<AddressVo> addressData) {
+        if (addressData == null || addressData.size() == 0) {
+            return false;
+        }
+        boolean isAlready = false;
+        int size = addressData.size();
+        for (int i = 0; i < size; i++) {
+            AddressVo addressVo = addressData.get(i);
+            if ("2".equals(addressVo.estateAuditStatus)) {
+                isAlready = true;
+            }
+            break;
+        }
+        return isAlready;
     }
 
     @Override

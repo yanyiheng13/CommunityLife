@@ -92,6 +92,9 @@ public class TransactionRecordsActivity extends BaseActivity<TransactionPresente
                 } else if ("2".equals(item.chargeType))  {
                     img.setVisibility(View.VISIBLE);
                     img.setImageResource(R.mipmap.pay_zhifubao);
+                } else if ("3".equals(item.chargeType)) {
+                    img.setVisibility(View.VISIBLE);
+                    img.setImageResource(R.mipmap.pay_zhifubao);
                 } else {
                     img.setVisibility(View.GONE);
                 }
