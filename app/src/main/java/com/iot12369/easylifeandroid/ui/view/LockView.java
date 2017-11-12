@@ -110,8 +110,8 @@ public class LockView extends LinearLayout {
             AddressVo addressVo = addressData.get(i);
             if ("2".equals(addressVo.estateAuditStatus)) {
                 isAlready = true;
+                break;
             }
-            break;
         }
         return isAlready;
     }

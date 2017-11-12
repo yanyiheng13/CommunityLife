@@ -1,6 +1,7 @@
 package com.iot12369.easylifeandroid.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 功能说明： 投诉列表
@@ -13,8 +14,15 @@ import java.io.Serializable;
  */
 
 public class ComplainData implements Serializable {
-    public String orderNum;
-    public String time;
-    public String des;
-    public String status;//1:有问题  2:待处理  3:已解决
+//     "startIndex":0,
+//             "pageIndex":1,
+//             "pageSize":10,
+    // "totalCount":1
+    public int startIndex;
+    public int pageIndex;
+    public int pageSize;
+    public int totalCount;
+
+    public List<ComplainVo> list;
+
 }

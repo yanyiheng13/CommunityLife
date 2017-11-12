@@ -41,10 +41,9 @@ public interface RemoteService {
     Flowable<ResponseBody> addressList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
     //维修
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/personalPerformance/{version}/{appkey}/{token}/{month}/{pageSize}/{currentPageNo}")
+    @POST("http://39.106.61.132:8989/paymax/workOrder/getSuggestWorkOrderList")
     @FormUrlEncoded
-    Flowable<ResponseBody> complain(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token,
-                                    @Field("month") String month, @Field("pageSize") String pageSize, @Field("currentPageNo") String currentPageNo);
+    Flowable<ResponseBody> complain(@Body RequestBody body);
     //系统公告
     @GET("notice/v1/sys")
     Flowable<ResponseBody> announcementSystem(@Query("start") String start, @Query("length") String length);
@@ -96,7 +95,7 @@ public interface RemoteService {
 
     //维修
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("authentication/v1")
+    @POST("http://39.106.61.132:8989/paymax/workOrder/getServiceWorkOrderList")
     Flowable<ResponseBody> maintain(@Body RequestBody body);
 
     //添加物业地址 账号认证
@@ -178,6 +177,6 @@ public interface RemoteService {
     Flowable<ResponseBody> maintainProgress(@Field("appkey") String appkey, @FieldMap Map<String, String> map);
 
     @FormUrlEncoded
-    @POST("url")
+    @POST("http://39.106.61.132:8989/paymax/upload/uploadImages")
     Call<Result> uploadFile(@Part("description") RequestBody file);
 }

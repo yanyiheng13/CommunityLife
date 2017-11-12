@@ -208,6 +208,7 @@
                         android:background="@color/line_color" />
 
                     <TextView
+                        android:id="@+id/tv_qu"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

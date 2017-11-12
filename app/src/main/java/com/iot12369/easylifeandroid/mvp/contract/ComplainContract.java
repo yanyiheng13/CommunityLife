@@ -1,6 +1,7 @@
 package com.iot12369.easylifeandroid.mvp.contract;
 
 import com.iot12369.easylifeandroid.model.ComplainData;
+import com.iot12369.easylifeandroid.model.ComplainVo;
 import com.sai.framework.mvp.MvpView;
 
 /**

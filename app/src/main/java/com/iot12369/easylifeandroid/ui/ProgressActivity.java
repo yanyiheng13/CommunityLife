@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.ComplainProgressData;
 import com.iot12369.easylifeandroid.model.IsOkData;
-import com.iot12369.easylifeandroid.model.MaintainData;
+import com.iot12369.easylifeandroid.model.MaintainVo;
 import com.iot12369.easylifeandroid.model.MaintainProgressData;
 import com.iot12369.easylifeandroid.mvp.ProgressPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.ProgressContract;
@@ -53,17 +53,17 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
     EmptyView mEmptyView;
 
     private int mType = 0;//1 维修进度  2 反馈进度
-    private MaintainData mMaintainBean;
+    private MaintainVo mMaintainBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             mType = getIntent().getIntExtra("type", 0);
-            mMaintainBean = (MaintainData) getIntent().getSerializableExtra("maintain");
+            mMaintainBean = (MaintainVo) getIntent().getSerializableExtra("maintain");
         } else {
             mType = savedInstanceState.getInt("type", 0);
-            mMaintainBean = (MaintainData) savedInstanceState.getSerializable("maintain");
+            mMaintainBean = (MaintainVo) savedInstanceState.getSerializable("maintain");
         }
         setContentView(R.layout.activity_maintain_progress);
         ButterKnife.bind(this);
@@ -109,16 +109,11 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
     }
 
     public void askData() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mType == 1) {
-                    getPresenter().maintainProgress("");
-                } else {
-                    getPresenter().complainProgress("");
-                }
-            }
-        }, 1000);
+        if (mType == 1) {
+            getPresenter().maintainProgress("");
+        } else {
+            getPresenter().complainProgress("");
+        }
     }
 
     @Override
@@ -174,7 +169,7 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
         askData();
     }
 
-    public static void newIntent(Context context, MaintainData bean, int type) {
+    public static void newIntent(Context context, MaintainVo bean, int type) {
         Intent intent = new Intent(context, ProgressActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("maintain", bean);

@@ -38,7 +38,7 @@
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:src="@mipmap/icon_certification"/>
+        android:src="@mipmap/icon_shouquan"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

@@ -212,8 +212,8 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             AddressVo addressVo = addressData.get(i);
             if ("2".equals(addressVo.estateAuditStatus)) {
                 isAlready = true;
+                break;
             }
-            break;
         }
         return isAlready;
     }

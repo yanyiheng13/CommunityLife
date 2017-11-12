@@ -55,12 +55,17 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     EditText mEtCertificationNum;
     @BindView(R.id.add_address_tel_tv)
     TextView mTvPhoneNum;
+    @BindView(R.id.tv_qu)
+    TextView mTvQu;
     @BindView(R.id.add_address_my_et)
     EditText mEtAddress;
     //所在小区
     @BindView(R.id.add_address_location_et)
     TextView mEtLocation;
-    String[] mData;
+    private String[] mData;
+    private String[] mQuData = {"市区", "和平区", "河西区", "河东区", "河北区",
+            "南开区", "红桥区", "东丽区", "西青区", "北辰区", "津南区", "滨海新区", "宝坻区", "宁和区",
+            "静海区", "武清区", "蓟县"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +82,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         getPresenter().communityList();
     }
 
-    @OnClick({R.id.add_address_tv, R.id.add_address_location_et})
+    @OnClick({R.id.add_address_tv, R.id.add_address_location_et, R.id.tv_qu})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_address_location_et:
@@ -97,7 +102,13 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                 LoadingDialog.show(this, false);
                 LoginData data = LeApplication.mUserInfo;
                 getPresenter().addAddress(data.opopenId, data.memberId, data.phone, mEtName.getText().toString(),
-                        mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(), mEtAddress.getText().toString());
+                        mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(), mEtAddress.getText().toString(), mTvQu.getText().toString());
+                break;
+            case R.id.tv_qu:
+                Dialog qu = getQu(mQuData);
+                if (qu != null) {
+                    qu.show();
+                }
                 break;
             default:
                 break;
@@ -176,6 +187,65 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         listView.setAdapter(adapter);
         return popWnd;
     }
+
+    public Dialog getQu(final String[] data) {
+        if (data == null || data.length == 0) {
+            return null;
+        }
+        final View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.popup_window, null);
+        ListView listView = (ListView) contentView.findViewById(R.id.listView);
+        final Dialog  popWnd = new Dialog(this);
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                popWnd.dismiss();
+                mTvQu.setText(mQuData[position]);
+            }
+        });
+
+        BaseAdapter adapter = new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return data == null ? 0 : data.length;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return data[position];
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder vh;
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_item, null);
+                    vh = new ViewHolder();
+                    vh.tv = (TextView) convertView.findViewById(R.id.text1);
+                    convertView.setTag(vh);
+                } else {
+                    vh = (ViewHolder) convertView.getTag();
+
+                }
+                vh.tv.setText(data[position]);
+                return convertView;
+            }
+
+            class ViewHolder {
+                TextView tv;
+            }
+        };
+        listView.setAdapter(adapter);
+        return popWnd;
+    }
+
 
     @Override
     public void onFailureAddress(String code, String msg) {

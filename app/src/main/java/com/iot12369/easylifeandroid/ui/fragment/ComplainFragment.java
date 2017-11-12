@@ -3,7 +3,6 @@ package com.iot12369.easylifeandroid.ui.fragment;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,9 +14,10 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.ComplainData;
-import com.iot12369.easylifeandroid.model.MaintainData;
+import com.iot12369.easylifeandroid.model.MaintainVo;
 import com.iot12369.easylifeandroid.mvp.ComplainPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.ComplainContract;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
@@ -49,8 +49,8 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
     @BindView(R.id.maintain_swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private BaseQuickAdapter<MaintainData, BaseViewHolder> mAdapter;
-    private List<MaintainData> mListMaintain = new ArrayList<>();
+    private BaseQuickAdapter<MaintainVo, BaseViewHolder> mAdapter;
+    private List<MaintainVo> mListMaintain = new ArrayList<>();
 
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
@@ -72,9 +72,9 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
 
         mEmptyView.setOnDataLoadStatusListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new BaseQuickAdapter<MaintainData, BaseViewHolder>(R.layout.view_maintain_item) {
+        mAdapter = new BaseQuickAdapter<MaintainVo, BaseViewHolder>(R.layout.view_maintain_item) {
             @Override
-            protected void convert(BaseViewHolder helper, final MaintainData item) {
+            protected void convert(BaseViewHolder helper, final MaintainVo item) {
                 View viewGap = helper.getView(R.id.maintain_top_gap_view);
                 if (helper.getPosition() == 0) {
                     viewGap.setVisibility(View.VISIBLE);
@@ -137,23 +137,13 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.loadMoreEnd(false);
         mEmptyView.onStart();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().complain("", "", "", "", "", "");
-            }
-        }, 500);
+        getPresenter().complain(LeApplication.mUserInfo.phone, "1");
 
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().complain("", "", "", "", "", "");
-            }
-        }, 500);
+        getPresenter().complain(LeApplication.mUserInfo.phone, "1");
     }
 
     @Override
@@ -170,7 +160,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
         mSwipeRefreshLayout.setRefreshing(false);
         mListMaintain.clear();
         for (int i = 0; i < 10; i++) {
-            MaintainData maintainBean = new MaintainData();
+            MaintainVo maintainBean = new MaintainVo();
             maintainBean.des = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
             maintainBean.orderNum = "100055522";
             if (i % 3 == 0) {

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
@@ -27,6 +28,7 @@ import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.view.LockView;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 
 import java.util.List;
 
@@ -182,7 +184,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         if (mAddress != null) {
             mTvTopAddress.setText(mAddress.communityRawAddress);
         }
-
+        SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
     }
 
     public boolean isAlreadyCertification(AddressData addressData) {
@@ -196,8 +198,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             AddressVo addressVo = list.get(i);
             if ("2".equals(addressVo.estateAuditStatus)) {
                 isAlready = true;
+                break;
             }
-            break;
         }
         return isAlready;
     }

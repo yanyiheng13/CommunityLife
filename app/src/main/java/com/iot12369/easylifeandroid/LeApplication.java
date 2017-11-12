@@ -22,8 +22,8 @@ public class LeApplication extends Application {
     public static IWXAPI api;
     public static boolean isExit;
 
-    public static int TAG_HOME =1;
-    public static int TAG_MINE = 2;
+    public static int TAG_HOME =2;
+    public static int TAG_MINE = 4;
     public static int TAG_PAY = 0;
 
     public static int mCurrentTag;

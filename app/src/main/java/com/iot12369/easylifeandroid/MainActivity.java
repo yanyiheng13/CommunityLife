@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,23 +10,33 @@ import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.iot12369.easylifeandroid.model.AddressData;
+import com.iot12369.easylifeandroid.model.AddressVo;
+import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.ui.BaseActivity;
 import com.iot12369.easylifeandroid.ui.fragment.ComplainFragment;
 import com.iot12369.easylifeandroid.ui.fragment.PayFragment;
 import com.iot12369.easylifeandroid.ui.fragment.MaintainFragment;
 import com.iot12369.easylifeandroid.ui.fragment.MineFragment;
 import com.iot12369.easylifeandroid.ui.fragment.HomeFragment;
+import com.iot12369.easylifeandroid.ui.view.MyDialog;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.iot12369.easylifeandroid.util.UiTitleBarUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,15 +59,16 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     private Fragment oldFragment;
 
     //底部导航资源id
-    private TextView[] mTxtArray = new TextView[3];
-    private ImageView[] mImageArray = new ImageView[3];
-    private int[] mStringId = {R.string.title_home, R.string.title_unlocking, R.string.title_mine};
-//    private int[] mStringId = {R.string.title_home, R.string.title_maintain, R.string.title_unlocking, R.string.title_complain, R.string.title_mine};
-//    private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_maintain, R.drawable.nav_unlocking, R.drawable.nav_complain, R.drawable.nav_mine};
-    private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_unlocking, R.drawable.nav_mine};
+    private TextView[] mTxtArray = new TextView[5];
+    private ImageView[] mImageArray = new ImageView[5];
+//    private int[] mStringId = {R.string.title_home, R.string.title_unlocking, R.string.title_mine};
+        private int[] mStringId = {R.string.title_home, R.string.title_maintain, R.string.title_unlocking, R.string.title_complain, R.string.title_mine};
+    private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_maintain, R.drawable.nav_unlocking, R.drawable.nav_complain, R.drawable.nav_mine};
+//    private int[] mDrawableId = {R.drawable.nav_home, R.drawable.nav_unlocking, R.drawable.nav_mine};
 
     //按两次返回退出应用
     private static boolean isExit;
+    private int position = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +85,14 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
      * 初始操作
      */
     private void init() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             mBottomView.addTab(mBottomView.newTab().setCustomView(getCustomTabView(i)));
         }
         mBottomView.addOnTabSelectedListener(this);
         mStatusBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mStatausBarHeight));
         mStatusBar.setVisibility(View.GONE);
-        selectTab(1);
-        setTabTextIcon(1);
+        selectTab(2);
+        setTabTextIcon(2);
     }
 
     private static Handler mHandler = new Handler() {
@@ -133,16 +145,16 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
                 case 0:
                     currentFragment = new PayFragment();
                     break;
-//                case 1:
-//                    currentFragment = new MaintainFragment();
-//                    break;
                 case 1:
+                    currentFragment = new MaintainFragment();
+                    break;
+                case 2:
                     currentFragment = new HomeFragment();
                     break;
-//                case 3:
-//                    currentFragment = new ComplainFragment();
-//                    break;
-                case 2:
+                case 3:
+                    currentFragment = new ComplainFragment();
+                    break;
+                case 4:
                     currentFragment = new MineFragment();
                     break;
                 default:
@@ -168,13 +180,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        int position = tab.getPosition();
-        if (position == 1) {
-            mStatusBar.setVisibility(View.GONE);
-        } else {
-            mStatusBar.setVisibility(View.VISIBLE);
-        }
-        setTabTextIcon(position);
+        setTabTextIcon(tab.getPosition());
 //        setCurrentTab(position);
     }
 
@@ -194,17 +200,79 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     }
 
     private void setTabTextIcon(int position) {
-        setCurrentTab(position);
-        for (int i = 0; i < 3; i++) {
-            if (i == position) {
-                mImageArray[i].setSelected(true);
-                mTxtArray[i].setSelected(true);
-            } else {
-                mImageArray[i].setSelected(false);
-                mTxtArray[i].setSelected(false);
+        if (position == 0) {
+            String json = SharePrefrenceUtil.getString("config", "list");
+            if (TextUtils.isEmpty(json)) {
+                selectTab(this.position);
+                getPopupWindow().show();
+                return;
+            }
+            AddressData data = new Gson().fromJson(json, new TypeToken<AddressData>() {}.getType());
+            if (!isAlreadyCertification(data != null ? data.list : null)) {
+                selectTab(this.position);
+                getPopupWindow().show();
+                return;
             }
         }
+        this.position = position;
+        if (position == 2) {
+            mStatusBar.setVisibility(View.GONE);
+        } else {
+            mStatusBar.setVisibility(View.VISIBLE);
+        }
+        setCurrentTab(position);
+//        for (int i = 0; i < 3; i++) {
+//            if (i == position) {
+//                mImageArray[i].setSelected(true);
+//                mTxtArray[i].setSelected(true);
+//            } else {
+//                mImageArray[i].setSelected(false);
+//                mTxtArray[i].setSelected(false);
+//            }
+//        }
     }
+
+    public Dialog getPopupWindow() {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
+        TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
+        TextView close = (TextView) contentView.findViewById(R.id.close);
+        final MyDialog popWnd = new MyDialog(getContext());
+//        popWnd.set
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(true);
+        txtCer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+                AddAddressActivity.newIntent(getContext());
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+            }
+        });
+        return popWnd;
+    }
+
+    public boolean isAlreadyCertification(List<AddressVo> addressData) {
+        if (addressData == null || addressData.size() == 0) {
+            return false;
+        }
+        boolean isAlready = false;
+        int size = addressData.size();
+        for (int i = 0; i < size; i++) {
+            AddressVo addressVo = addressData.get(i);
+            if ("2".equals(addressVo.estateAuditStatus)) {
+                isAlready = true;
+                break;
+            }
+        }
+        return isAlready;
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

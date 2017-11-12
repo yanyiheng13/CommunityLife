@@ -26,7 +26,7 @@ import okhttp3.RequestBody;
 public class AddAddressPresenter extends BasePresenter<Repository, AddAddressContract.View> {
 
     public void addAddress(String openid, String memberid, String phone, String memberName,
-                           String memberIdCard, String communityName, String communityRawAddress) {
+                           String memberIdCard, String communityName, String communityRawAddress, String qu) {
         RequestData data = new RequestData();
         data.openid = openid;
         data.memberid = memberid;
@@ -37,7 +37,7 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         data.communityRawAddress = communityRawAddress;
         data.communityProvince = "天津";
         data.communityCity = "天津市";
-        data.communityArea = "市区";
+        data.communityArea = qu;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().addAddress(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<AddressVo>>() {

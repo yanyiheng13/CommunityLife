@@ -109,6 +109,7 @@ public class PropertyAddressView extends LinearLayout {
         mLlAddressContain.removeAllViews();
         this.isMyAddress = isMyAddress;
         this.addressData = addressData;
+        mImgArrow.setEnabled(true);
         List<AddressVo> list = addressData.list;
         if (list == null || list.size() == 0) {
             return this;
@@ -178,6 +179,7 @@ public class PropertyAddressView extends LinearLayout {
                 mLlAddressContain.addView(view);
             }
         }
+//        visible();
         return this;
     }
 
@@ -196,8 +198,8 @@ public class PropertyAddressView extends LinearLayout {
             AddressVo addressVo = list.get(i);
             if ("2".equals(addressVo.estateAuditStatus)) {
                 isAlready = true;
+                break;
             }
-            break;
         }
         return isAlready;
     }

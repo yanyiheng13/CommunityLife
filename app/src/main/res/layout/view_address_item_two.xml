@@ -51,7 +51,7 @@
         android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/property_change_arrow_img"
-        android:background="@mipmap/icon_binded"/>
+        android:background="@mipmap/icon_shouquan"/>
 
     <ImageView
         android:id="@+id/property_address_status_img"
@@ -62,7 +62,7 @@
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:src="@mipmap/icon_binded"/>
+        android:src="@mipmap/icon_shouquan"/>
     <TextView
         android:id="@+id/property_address_delete"
         android:layout_width="70dp"

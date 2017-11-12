@@ -94,7 +94,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //设置标题和标题icon
-        mTitleView.setImageResource(R.mipmap.title_mine).setText(R.string.title_mine);
+        mTitleView.setImageResource(R.mipmap.title_mine).setText(R.string.person_info);
         final LoginData loginData = LeApplication.mUserInfo;
         if (!TextUtils.isEmpty(loginData.headimgurl)) {
             Glide.with(this).load(loginData.headimgurl).into(mImageHead);
@@ -280,6 +280,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
             mCertificationImg.setImageResource(R.mipmap.a_no_cer);
         }
         mAddressView.updateData(addressData, false);
+        SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
     }
 
 

@@ -15,8 +15,10 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.MaintainData;
+import com.iot12369.easylifeandroid.model.MaintainVo;
 import com.iot12369.easylifeandroid.mvp.MaintainPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.MaintainContract;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
@@ -50,8 +52,8 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
 
-    private BaseQuickAdapter<MaintainData, BaseViewHolder> mAdapter;
-    private List<MaintainData> mListMaintain = new ArrayList<>();
+    private BaseQuickAdapter<MaintainVo, BaseViewHolder> mAdapter;
+    private List<MaintainVo> mListMaintain = new ArrayList<>();
 
     @Override
     public int inflateId() {
@@ -69,9 +71,9 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new BaseQuickAdapter<MaintainData, BaseViewHolder>(R.layout.view_maintain_item) {
+        mAdapter = new BaseQuickAdapter<MaintainVo, BaseViewHolder>(R.layout.view_maintain_item) {
             @Override
-            protected void convert(BaseViewHolder helper, final MaintainData item) {
+            protected void convert(BaseViewHolder helper, final MaintainVo item) {
                 View viewGap = helper.getView(R.id.maintain_top_gap_view);
                 if (helper.getPosition() == 0) {
                     viewGap.setVisibility(View.VISIBLE);
@@ -131,26 +133,17 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.loadMoreEnd(false);
         mEmptyView.onStart();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().maintain("", "", "");
-            }
-        }, 500);
+        getPresenter().maintain(LeApplication.mUserInfo.phone, "1");
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getPresenter().maintain("", "", "");
-            }
-        }, 500);
+        getPresenter().maintain(LeApplication.mUserInfo.phone, "1");
     }
 
     @Override
     public void onSuccessMaintain(MaintainData maintainBean) {
+        mSwipeRefreshLayout.setRefreshing(false);
 
     }
 
@@ -163,7 +156,7 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
         mSwipeRefreshLayout.setRefreshing(false);
         mListMaintain.clear();
         for (int i = 0; i < 10; i++) {
-            MaintainData maintainBean = new MaintainData();
+            MaintainVo maintainBean = new MaintainVo();
             maintainBean.des = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
             maintainBean.orderNum = "100055522";
             if (i % 3 == 0) {

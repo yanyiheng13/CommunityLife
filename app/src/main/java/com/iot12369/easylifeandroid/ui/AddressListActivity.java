@@ -90,6 +90,12 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
             protected void convert(BaseViewHolder helper, final AddressVo item) {
                 helper.setText(R.id.address_item_tv,  item.communityRawAddress);//设置时间
                 RelativeLayout rl = helper.getView(R.id.address_item_rl);
+                View rootView = helper.getView(R.id.view_item_root);
+                if ("2".equals(item.estateAuditStatus)) {
+                    rootView.setVisibility(View.VISIBLE);
+                } else {
+                    rootView.setVisibility(View.GONE);
+                }
 
                 if (mAddressData != null && mAddressData.communityName.equals(item.communityName)) {
                     rl.setVisibility(View.VISIBLE);

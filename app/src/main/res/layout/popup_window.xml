@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="120dp"
+    android:layout_marginBottom="120dp">
 
     <ListView
         android:id="@+id/listView"
@@ -10,5 +12,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:cacheColorHint="#00000000"
-        android:minHeight="40dp"/>
+        android:minHeight="40dp"
+        />
 </LinearLayout>

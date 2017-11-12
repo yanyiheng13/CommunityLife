@@ -7,21 +7,24 @@
     <com.iot12369.easylifeandroid.ui.view.IconTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"/>
+        android:layout_height="@dimen/title_height" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/maintain_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_view">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/maintain_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/maintain_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
+
     <com.iot12369.easylifeandroid.ui.view.EmptyView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title_view"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </RelativeLayout>
