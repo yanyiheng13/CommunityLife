@@ -54,7 +54,7 @@
 
         <activity android:name="com.iot12369.easylifeandroid.ui.LoginSelectActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             />
 
         <activity android:name="com.iot12369.easylifeandroid.ui.LoginActivity"

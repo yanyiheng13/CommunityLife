@@ -2,7 +2,7 @@ package com.iot12369.easylifeandroid.mvp.contract;
 
 import com.iot12369.easylifeandroid.model.ComplainProgressData;
 import com.iot12369.easylifeandroid.model.IsOkData;
-import com.iot12369.easylifeandroid.model.MaintainProgressData;
+import com.iot12369.easylifeandroid.model.RepairOrderDetailData;
 import com.sai.framework.mvp.MvpView;
 
 /**
@@ -17,16 +17,19 @@ import com.sai.framework.mvp.MvpView;
 public class ProgressContract {
 
     public interface View extends MvpView {
-        void onSuccessMaintain(MaintainProgressData maintainBean);
-        void onFailureMaintain(String code, String msg);
+        void onSuccessRepairOrderDetail(RepairOrderDetailData maintainBean);
+        void onFailureRepairOrderDetail(String code, String msg);
 
-        void onSuccessComplain(ComplainProgressData complainData);
-        void onFailureComplain(String code, String msg);
+        void onSuccessRepairOrderMaintain(IsOkData isOkData);
+        void onFailureRepairOrderMaintain(String code, String msg);
 
-        void onSuccessNoSolve(IsOkData isOkData);
-        void onFailureNoSolve(String code, String msg);
+        void onSuccessRepairOrderComplain(IsOkData isOkData);
+        void onFailureRepairOrderComplain(String code, String msg);
 
-        void onSuccessSatisfaction(IsOkData isOkData);
-        void onFailureSatisfaction(String code, String msg);
+        void onSuccessRepairOrderMaintainBack(IsOkData isOkData);
+        void onFailureRepairOrderMaintainBack(String code, String msg);
+
+        void onSuccessRepairOrderComplainBack(IsOkData isOkData);
+        void onFailureRepairOrderComplainBack(String code, String msg);
     }
 }

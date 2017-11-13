@@ -195,7 +195,7 @@ public class LockView extends LinearLayout {
                 mImgCircles.setVisibility(GONE);
                 break;
             case STATE_SUCCESS:
-                mImgStatus.setImageResource(R.mipmap.icon_state_three);
+                mImgStatus.setImageResource(R.mipmap.icon_locked);
                 mImgLeft.setVisibility(GONE);
                 mImgRight.setVisibility(GONE);
                 mTimer.start();

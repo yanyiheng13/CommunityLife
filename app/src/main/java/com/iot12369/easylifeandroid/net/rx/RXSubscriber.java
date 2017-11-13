@@ -3,9 +3,12 @@ package com.iot12369.easylifeandroid.net.rx;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.model.BaseBean;
 import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.util.ToastUtil;
 import com.sai.framework.exception.ExceptionParser;
 import com.sai.framework.mvp.MvpView;
 
@@ -96,9 +99,9 @@ public abstract class RXSubscriber<T> extends DefaultSubscriber<String> {
 
         if (!result.isSuccess()) {
             onHandleError(result.result, result.message);
+            ToastUtil.toast(LeApplication.mApplication, TextUtils.isEmpty(result.message) ? "请求出错，原因未知" : result.message);
             return;
         }
-
         if (isList) {
             onHandleListSuccess(response, (List<T>) json2List(response, resType));
         } else {
@@ -107,7 +110,13 @@ public abstract class RXSubscriber<T> extends DefaultSubscriber<String> {
             if (model == null) {
                 onHandleError(null, null);
             } else {
-                onHandleSuccess(response, tt);
+                if ("1".equals(model.result)) {
+                    onHandleSuccess(response, tt);
+                } else {
+                    onHandleError(null, null);
+                    ToastUtil.toast(LeApplication.mApplication, TextUtils.isEmpty(model.message) ? "请求出错，原因未知" : model.message);
+                }
+
             }
         }
 //        T tt = json2Object(response, this.resType);

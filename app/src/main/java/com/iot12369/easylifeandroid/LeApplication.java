@@ -38,10 +38,17 @@ public class LeApplication extends Application {
         mApplication = this;
         api = WXAPIFactory.createWXAPI(this, BuildConfig.app_id);
         api.registerApp(BuildConfig.app_id);
-        String json = SharePrefrenceUtil.getString("config", "user");
-        if (!TextUtils.isEmpty(json)) {
-            mUserInfo = new Gson().fromJson(json, new TypeToken<LoginData>(){}.getType());
+        String str = SharePrefrenceUtil.getString("config", "loginType");
+        if ("wechat".equals(str)) {
+            String json = SharePrefrenceUtil.getString("config", "user");
+            if (!TextUtils.isEmpty(json)) {
+                mUserInfo = new Gson().fromJson(json, new TypeToken<LoginData>(){}.getType());
+            }
+        } else {
+            mUserInfo = null;
+            SharePrefrenceUtil.setString("config", "user", "");
         }
+
     }
 
     @Override

@@ -3,17 +3,15 @@ package com.iot12369.easylifeandroid.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iot12369.easylifeandroid.R;
-import com.iot12369.easylifeandroid.model.ComplainProgressData;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.MaintainVo;
-import com.iot12369.easylifeandroid.model.MaintainProgressData;
+import com.iot12369.easylifeandroid.model.RepairOrderDetailData;
 import com.iot12369.easylifeandroid.mvp.ProgressPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.ProgressContract;
 import com.iot12369.easylifeandroid.ui.view.EmptyView;
@@ -86,23 +84,18 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
         switch (view.getId()) {
             case R.id.maintain_cant_resolve_tv:
                 //无法解决按钮点击事件
-                LoadingDialog.show(this);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getPresenter().noSolve("");
-                    }
-                }, 1000);
+                LoadingDialog.show(this, false);
+//                getPresenter().setRepairOrderStateMaintain("");
                 break;
             case R.id.maintain_cant_complete_tv:
                 //完成维修按钮点击
-                LoadingDialog.show(this);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getPresenter().statistic("");
-                    }
-                }, 1000);
+//                LoadingDialog.show(this);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getPresenter().statistic("");
+//                    }
+//                }, 1000);
                 break;
         }
 
@@ -110,39 +103,39 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
 
     public void askData() {
         if (mType == 1) {
-            getPresenter().maintainProgress("");
+            getPresenter().repairOrderDetail("");
         } else {
-            getPresenter().complainProgress("");
+//            getPresenter().complainProgress("");
         }
     }
 
     @Override
-    public void onSuccessMaintain(MaintainProgressData maintainBean) {
+    public void onSuccessRepairOrderDetail(RepairOrderDetailData maintainBean) {
 
     }
 
     @Override
-    public void onFailureMaintain(String code, String msg) {
+    public void onFailureRepairOrderDetail(String code, String msg) {
         mEmptyView.onSuccess();
     }
 
     @Override
-    public void onSuccessComplain(ComplainProgressData complainData) {
+    public void onSuccessRepairOrderMaintain(IsOkData isOkData) {
 
     }
 
     @Override
-    public void onFailureComplain(String code, String msg) {
-        mEmptyView.onSuccess();
-    }
-
-    @Override
-    public void onSuccessNoSolve(IsOkData isOkData) {
+    public void onFailureRepairOrderMaintain(String code, String msg) {
 
     }
 
     @Override
-    public void onFailureNoSolve(String code, String msg) {
+    public void onSuccessRepairOrderComplain(IsOkData isOkData) {
+
+    }
+
+    @Override
+    public void onFailureRepairOrderComplain(String code, String msg) {
         if (mEmptyView == null) {
             return;
         }
@@ -151,17 +144,23 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
     }
 
     @Override
-    public void onSuccessSatisfaction(IsOkData isOkData) {
+    public void onSuccessRepairOrderMaintainBack(IsOkData isOkData) {
 
     }
 
     @Override
-    public void onFailureSatisfaction(String code, String msg) {
-        if (mEmptyView == null) {
-            return;
-        }
-        LoadingDialog.hide();
-        Toast.makeText(this, "您的满意是我们前进的动力", Toast.LENGTH_LONG).show();
+    public void onFailureRepairOrderMaintainBack(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessRepairOrderComplainBack(IsOkData isOkData) {
+
+    }
+
+    @Override
+    public void onFailureRepairOrderComplainBack(String code, String msg) {
+
     }
 
     @Override

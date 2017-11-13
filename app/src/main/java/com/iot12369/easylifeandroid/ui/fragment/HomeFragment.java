@@ -182,7 +182,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
         mAddress = getCurrentAddress(addressData);
         if (mAddress != null) {
-            mTvTopAddress.setText(mAddress.communityRawAddress);
+            mTvTopAddress.setText(mAddress.communityRawAddress + mAddress.communityName);
         }
         SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
     }

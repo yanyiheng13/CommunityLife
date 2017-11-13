@@ -75,7 +75,7 @@ public class UploadPicHelperView extends View {
         String text = "0%";
         if (progress == 0) {
             text = "即将上传";
-        } else {
+        } else if (progress <= 100) {
             text = progress + "%";
         }
         mPaint.setColor(0xFFFFFFFF);

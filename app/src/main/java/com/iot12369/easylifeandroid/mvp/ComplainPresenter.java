@@ -5,6 +5,7 @@ import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.model.BaseBean;
 import com.iot12369.easylifeandroid.model.ComplainData;
 import com.iot12369.easylifeandroid.model.ComplainVo;
+import com.iot12369.easylifeandroid.model.MaintainData;
 import com.iot12369.easylifeandroid.mvp.contract.ComplainContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
@@ -30,10 +31,10 @@ public class ComplainPresenter extends BasePresenter<Repository, ComplainContrac
        data.pageSize = "20";
        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
        new RxHelper().view(getRootView()).load(getModel().getRemote().complain(body)).application(LeApplication.mApplication).callBack(new RxHelper
-               .CallBackAdapter<BaseBean<ComplainData>>() {
+               .CallBackAdapter<BaseBean<MaintainData>>() {
 
            @Override
-           public void onSuccess(String response, BaseBean<ComplainData> data) {
+           public void onSuccess(String response, BaseBean<MaintainData> data) {
                getRootView().onSuccessComplain(data.data);
            }
 

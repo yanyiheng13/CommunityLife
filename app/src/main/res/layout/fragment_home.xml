@@ -195,6 +195,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/home_announcement_brief_ll"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-40dp" />
+            android:layout_marginTop="-15dp" />
     </RelativeLayout>
 </ScrollView>

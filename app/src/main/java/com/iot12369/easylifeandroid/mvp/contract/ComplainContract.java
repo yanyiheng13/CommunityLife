@@ -2,6 +2,7 @@ package com.iot12369.easylifeandroid.mvp.contract;
 
 import com.iot12369.easylifeandroid.model.ComplainData;
 import com.iot12369.easylifeandroid.model.ComplainVo;
+import com.iot12369.easylifeandroid.model.MaintainData;
 import com.sai.framework.mvp.MvpView;
 
 /**
@@ -16,7 +17,7 @@ import com.sai.framework.mvp.MvpView;
 public class ComplainContract {
 
     public interface View extends MvpView {
-        void onSuccessComplain(ComplainData complainData);
+        void onSuccessComplain(MaintainData maintainData);
         void onErrorComplain(String code, String msg);
     }
 }

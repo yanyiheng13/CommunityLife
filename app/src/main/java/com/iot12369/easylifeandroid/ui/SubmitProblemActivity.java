@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -18,29 +19,31 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
-import com.iot12369.easylifeandroid.net.Repository;
-import com.iot12369.easylifeandroid.net.upfile.FileRequestBody;
-import com.iot12369.easylifeandroid.net.upfile.RetrofitCallback;
+import com.iot12369.easylifeandroid.model.IsOkData;
+import com.iot12369.easylifeandroid.model.LoginData;
+import com.iot12369.easylifeandroid.mvp.UpLoadPresenter;
+import com.iot12369.easylifeandroid.mvp.contract.UploadContract;
 import com.iot12369.easylifeandroid.ui.view.GridSpacingItemDecoration;
+import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.UploadPicView;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
+import com.iot12369.easylifeandroid.util.ToastUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.mr.http.util.ToastUtils;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static com.luck.picture.lib.config.PictureConfig.LUBAN_COMPRESS_MODE;
 
@@ -53,7 +56,7 @@ import static com.luck.picture.lib.config.PictureConfig.LUBAN_COMPRESS_MODE;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class SubmitProblemActivity extends BaseActivity {
+public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> implements UploadContract.View {
 
     @BindView(R.id.title_view)
     WithBackTitleView mTitle;
@@ -159,7 +162,7 @@ public class SubmitProblemActivity extends BaseActivity {
                         .apply(options)
                         .into(images.imgView());
 
-                upLoadData(path, images);
+//                upLoadData(path, images);
 
             }
         };
@@ -182,32 +185,32 @@ public class SubmitProblemActivity extends BaseActivity {
         mAdapter.loadMoreEnd(false);
     }
 
-    public void upLoadData(String path, final UploadPicView images) {
-        //上传图片
-        File file = new File(path);
-        RequestBody resquestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        //通过该行代码将RequestBody转换成特定的FileRequestBody
-        RetrofitCallback callback = new RetrofitCallback() {
-            @Override
-            public void onSuccess(Call call, Response response) {
-
-            }
-
-            @Override
-            public void onLoading(long total, long progress) {
-
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                images.setError();
-            }
-        };
-        FileRequestBody body = new FileRequestBody(resquestBody, callback);
-        Call call = Repository.get().getRemote().uploadFile(body);
-//                Call<String> call = RemoteService.uploadOneFile(body);
-        call.enqueue(callback);
-    }
+//    public void upLoadData(String path, final UploadPicView images) {
+//        //上传图片
+//        File file = new File(path);
+//        RequestBody resquestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        //通过该行代码将RequestBody转换成特定的FileRequestBody
+//        RetrofitCallback callback = new RetrofitCallback() {
+//            @Override
+//            public void onSuccess(Call call, Response response) {
+//                images.setProgress(100);
+//            }
+//
+//            @Override
+//            public void onLoading(long total, long progress) {
+//                images.setProgress((int)(progress * 100 / total));
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, Throwable t) {
+//                images.setError();
+//            }
+//        };
+//        FileRequestBody body = new FileRequestBody(resquestBody, callback);
+//        Call call = Repository.get().getRemote().uploadFile(body);
+////                Call<String> call = RemoteService.uploadOneFile(body);
+//        call.enqueue(callback);
+//    }
 
     private void intoPre() {
     }
@@ -261,7 +264,21 @@ public class SubmitProblemActivity extends BaseActivity {
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            String content = mEtDes.getText().toString();
+            if (TextUtils.isEmpty(content) && (selectList == null || selectList.size() == 0)) {
+                return;
+            }
+            if (mType == 1) {//提交维修
+                LoadingDialog.show(SubmitProblemActivity.this, false);
+                LoginData loginData = LeApplication.mUserInfo;
+                getPresenter().upMaintainRequireOrder(loginData.phone, "月桂园2号楼3栋",
+                        "1002", content, selectList);
+            } else {// 2提交
+                LoadingDialog.show(SubmitProblemActivity.this, false);
+                LoginData loginData = LeApplication.mUserInfo;
+                getPresenter().upComplainRequireOrder(loginData.phone, "月桂园2号楼3栋",
+                        "1002", content, selectList);
+            }
         }
     };
 
@@ -295,5 +312,16 @@ public class SubmitProblemActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("type", mType);
+    }
+
+    @Override
+    public void onUpSuccess(IsOkData isOkData) {
+        LoadingDialog.hide();
+        ToastUtils.show(this, "提交成功");
+    }
+
+    @Override
+    public void onUpError(String code, String msg) {
+        LoadingDialog.hide();
     }
 }

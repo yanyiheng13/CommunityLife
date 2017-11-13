@@ -70,7 +70,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/font_13"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/colorLoginTxt"/>
+                android:textColor="@color/colorWeChatLoginBg"/>
             <View
                 android:id="@+id/login_line_view"
                 android:layout_width="1px"
@@ -112,7 +112,7 @@
         android:layout_gravity="right"
         android:textSize="@dimen/font_12"
         android:layout_alignParentRight="true"
-        android:textColor="@color/colorLoginTxt"/>
+        android:textColor="@color/colorWeChatLoginBg"/>
     <TextView
         android:id="@+id/btn_login"
         android:layout_width="match_parent"

@@ -125,7 +125,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     public void onSuccessAddress(AddressVo addressData) {
         LoadingDialog.hide();
         if (!TextUtils.isEmpty(addressData.memberId)) {
-            ToastUtil.toast(this, "认证成功");
+            ToastUtil.toast(this, "提交成功,等待物业审核");
             finish();
         }
     }

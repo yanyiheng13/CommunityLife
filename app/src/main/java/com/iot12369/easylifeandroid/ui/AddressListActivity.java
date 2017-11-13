@@ -88,7 +88,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
         mAdapter = new BaseQuickAdapter<AddressVo, BaseViewHolder>(R.layout.view_address_item) {
             @Override
             protected void convert(BaseViewHolder helper, final AddressVo item) {
-                helper.setText(R.id.address_item_tv,  item.communityRawAddress);//设置时间
+                helper.setText(R.id.address_item_tv,  item.communityRawAddress + item.communityName);//设置时间
                 RelativeLayout rl = helper.getView(R.id.address_item_rl);
                 View rootView = helper.getView(R.id.view_item_root);
                 if ("2".equals(item.estateAuditStatus)) {

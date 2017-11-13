@@ -89,12 +89,14 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
 
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, LoginSelectActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 
     public static void newIntent(Context context, WeChatUser user) {
         Intent intent = new Intent(context, LoginSelectActivity.class);
         intent.putExtra("user", user);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 
@@ -113,17 +115,16 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_login_wechat:
-
                 String openid = SharePrefrenceUtil.getString("config", "openid");
                 if (!LeApplication.api.isWXAppInstalled()) {
                     Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (!TextUtils.isEmpty(openid)) {
-                    LoadingDialog.show(this, false);
-                    getPresenter().wechatLogin(openid);
-                    break;
-                }
+//                if (!TextUtils.isEmpty(openid)) {
+//                    LoadingDialog.show(this, false);
+//                    getPresenter().wechatLogin(openid);
+//                    break;
+//                }
                 LoadingDialog.show(this, false);
                 final SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";

@@ -18,8 +18,10 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * 功能说明：
@@ -39,11 +41,11 @@ public interface RemoteService {
     @FormUrlEncoded
     @POST("promotion/marketingO2o/products/{version}/{appkey}/{token}")
     Flowable<ResponseBody> addressList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
-    //维修
+    //投诉
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/paymax/workOrder/getSuggestWorkOrderList")
-    @FormUrlEncoded
+    @POST("http://39.106.61.132:8989/workOrder/getSuggestWorkOrderList")
     Flowable<ResponseBody> complain(@Body RequestBody body);
+
     //系统公告
     @GET("notice/v1/sys")
     Flowable<ResponseBody> announcementSystem(@Query("start") String start, @Query("length") String length);
@@ -75,7 +77,7 @@ public interface RemoteService {
 
     //微信注册
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("member/v1/wx/signup")
+    @POST("member/v2/wx/signup")
     Flowable<ResponseBody> wechatRegister(@Body RequestBody requestBody);
 
     //微信登录
@@ -88,6 +90,24 @@ public interface RemoteService {
     @POST("lock/v1")
     Flowable<ResponseBody> lock(@Body RequestBody body);
 
+    //提交维修工单
+    @Multipart
+    @POST("http://39.106.61.132:8989/workOrder/submitServiceWorkOrder")
+    Flowable<ResponseBody> upMaintainRequireOrder(@Part("member_phone") String member_phone,
+                                                  @Part("community_name") String community_name,
+                                                  @Part("estate_address") String estate_address,
+                                                  @Part("workorder_desc") String workorder_desc,
+                                                  @PartMap() Map<String, RequestBody> requestBodyMap);
+
+    //提交投诉工单
+    @Multipart
+    @POST("http://39.106.61.132:8989/workOrder/submitSuggestWorkOrder")
+    Flowable<ResponseBody> upComplainRequireOrder(@Part("member_phone") String member_phone,
+                                                  @Part("community_name") String community_name,
+                                                  @Part("estate_address") String estate_address,
+                                                  @Part("workorder_desc") String workorder_desc,
+                                                  @PartMap() Map<String, RequestBody> requestBodyMap);
+
     //添加人员
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("authorization/v1")
@@ -95,7 +115,7 @@ public interface RemoteService {
 
     //维修
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/paymax/workOrder/getServiceWorkOrderList")
+    @POST("http://39.106.61.132:8989/workOrder/getServiceWorkOrderList")
     Flowable<ResponseBody> maintain(@Body RequestBody body);
 
     //添加物业地址 账号认证
@@ -151,32 +171,33 @@ public interface RemoteService {
     //小区列表
     @GET("authentication/v1/community")
     Flowable<ResponseBody> communityList();
-    //13.客户那的店铺列表
+
+    //修改维修工单的状态
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("promotion/marketingO2o/queryOwnStore/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> customerStoreList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
+    @POST("http://39.106.61.132:8989/workOrder/updateServiceWorkOrder")
+    Flowable<ResponseBody> setMaintainState(@Body RequestBody body);
 
-    //14.团队客户----》获取全部店员列表
-    @FormUrlEncoded
-    @POST("promotion/marketingO2o/clerks/{version}/{appkey}/{token}")
-    Flowable<ResponseBody> statistic(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
+    //修改投诉工单的状态
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("http://39.106.61.132:8989/workOrder/updateSuggestWorkOrder")
+    Flowable<ResponseBody> setComplainState(@Body RequestBody body);
 
-    //15.客户详情
-    @FormUrlEncoded
-    @POST("promotion/marketingO2o/customer/{version}/")
-    Flowable<ResponseBody> noSolve(@Field("version") String version);
+    //获取工单详情
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("http://39.106.61.132:8989/workOrder/updateSuggestWorkOrder")
+    Flowable<ResponseBody> repairOrderDetail(@Body RequestBody body);
 
-    //16.店铺详情
-    @FormUrlEncoded
-    @POST("promotion/marketingO2o/managerStore/{version}/{appkey}/{token}/{storeID}")
-    Flowable<ResponseBody> complainProgress(@Field("token") String token, @Field("storeID") String storeID);
+    //维修工单用户反馈
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("http://39.106.61.132:8989/workOrder/serviceWorkOrderFeedback")
+    Flowable<ResponseBody> repairOrderMaintainBack(@Body RequestBody body);
 
-    //17.短链
-    @FormUrlEncoded
-    @POST("promotion/marketingO2o/shorturl/add/v1/{appkey}")
-    Flowable<ResponseBody> maintainProgress(@Field("appkey") String appkey, @FieldMap Map<String, String> map);
+    //投诉工单用户反馈
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("http://39.106.61.132:8989/workOrder/serviceWorkOrderFeedback")
+    Flowable<ResponseBody> repairOrderComplainBack(@Body RequestBody body);
 
-    @FormUrlEncoded
-    @POST("http://39.106.61.132:8989/paymax/upload/uploadImages")
+    @Multipart
+    @POST("http://39.106.61.132:8989/upload/uploadImages")
     Call<Result> uploadFile(@Part("description") RequestBody file);
 }

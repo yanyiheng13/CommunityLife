@@ -133,8 +133,10 @@ public class RetrofitHelper {
                     if (listener != null) {
                         extraFormBodyParamMap = listener.commonParam();
                     }
-                    for (Map.Entry<String, String> entry : extraFormBodyParamMap.entrySet()) {
-                        builder.addFormDataPart(entry.getKey(), entry.getValue());
+                    if (extraFormBodyParamMap != null && extraFormBodyParamMap.size() > 0) {
+                        for (Map.Entry<String, String> entry : extraFormBodyParamMap.entrySet()) {
+                            builder.addFormDataPart(entry.getKey(), entry.getValue());
+                        }
                     }
                     List<MultipartBody.Part> parts = multipartBody.parts();
                     for (MultipartBody.Part part : parts) {

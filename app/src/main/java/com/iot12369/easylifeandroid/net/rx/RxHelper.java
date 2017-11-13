@@ -37,6 +37,7 @@ public class RxHelper {
     private boolean isList;
 
     private boolean showLoading = true;
+    private Context mContext;
 
     public RxHelper view(MvpView view) {
         this.mvpView = view;
@@ -64,6 +65,7 @@ public class RxHelper {
     }
 
     public RxHelper application(Context context) {
+        mContext= context;
         return this;
     }
 

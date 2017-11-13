@@ -17,6 +17,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.ComplainData;
+import com.iot12369.easylifeandroid.model.ComplainVo;
+import com.iot12369.easylifeandroid.model.MaintainData;
 import com.iot12369.easylifeandroid.model.MaintainVo;
 import com.iot12369.easylifeandroid.mvp.ComplainPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.ComplainContract;
@@ -50,7 +52,6 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private BaseQuickAdapter<MaintainVo, BaseViewHolder> mAdapter;
-    private List<MaintainVo> mListMaintain = new ArrayList<>();
 
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
@@ -147,33 +148,18 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
     }
 
     @Override
-    public void onSuccessComplain(ComplainData complainData) {
-
+    public void onSuccessComplain(MaintainData maintainData) {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+        mSwipeRefreshLayout.setRefreshing(false);
+        mEmptyView.onSuccess();
+        mAdapter.setNewData(maintainData.list);
     }
 
     @Override
     public void onErrorComplain(String code, String msg) {
-        if (mSwipeRefreshLayout == null) {
-            return;
-        }
-        mEmptyView.onSuccess();
-        mSwipeRefreshLayout.setRefreshing(false);
-        mListMaintain.clear();
-        for (int i = 0; i < 10; i++) {
-            MaintainVo maintainBean = new MaintainVo();
-            maintainBean.des = "十分疯狂开始说的方法是第三方的速度大多数第三方第三方";
-            maintainBean.orderNum = "100055522";
-            if (i % 3 == 0) {
-                maintainBean.status = "1";
-            } else if (i % 3 == 1) {
-                maintainBean.status = "2";
-            } else {
-                maintainBean.status = "3";
-            }
-            maintainBean.time = "2017-08-12";
-            mListMaintain.add(maintainBean);
-        }
-        mAdapter.setNewData(mListMaintain);
+
     }
 
     @Override
