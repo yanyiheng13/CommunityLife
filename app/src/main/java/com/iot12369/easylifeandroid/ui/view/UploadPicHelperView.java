@@ -3,14 +3,11 @@ package com.iot12369.easylifeandroid.ui.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.iot12369.easylifeandroid.R;
 
 /**
  * 功能说明：上传图片自定义view
@@ -50,37 +47,37 @@ public class UploadPicHelperView extends View {
         if (!isShowHelper) {
             return;
         }
-        if (isError) {//如果上传失败 则整个图片被阴影遮盖,显示点击重试
-            mPaint.setColor(Color.parseColor("#70000000"));//半透明
-            canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
-            Rect rect = new Rect();
-            String text = getContext().getString(R.string.click_retry);
-            mPaint.setColor(0xFFFFFFFF);
-            mPaint.getTextBounds(text, 0, text.length(), rect);//确定文字的宽度
-            canvas.drawText(text, getWidth()/2-rect.width()/2,getHeight()/2, mPaint);
-            return;
-        }
-
-        mPaint.setColor(Color.parseColor("#70000000"));//半透明
-        canvas.drawRect(0, 0, getWidth(), getHeight()-getHeight() * progress/100, mPaint);
-
-        mPaint.setColor(Color.parseColor("#00000000"));//全透明
-        canvas.drawRect(0, getHeight()-getHeight() * progress/100, getWidth(),  getHeight(), mPaint);
-
-        mPaint.setTextSize(30);
-        mPaint.setColor(Color.parseColor("#FFFFFF"));
-        mPaint.setStrokeWidth(2);
-
-        Rect rect=new Rect();
-        String text = "0%";
-        if (progress == 0) {
-            text = "即将上传";
-        } else if (progress <= 100) {
-            text = progress + "%";
-        }
-        mPaint.setColor(0xFFFFFFFF);
-        mPaint.getTextBounds(text, 0, text.length(), rect);//确定文字的宽度
-        canvas.drawText(text, getWidth() / 2 - rect.width() / 2, getHeight() / 2, mPaint);
+//        if (isError) {//如果上传失败 则整个图片被阴影遮盖,显示点击重试
+//            mPaint.setColor(Color.parseColor("#70000000"));//半透明
+//            canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
+//            Rect rect = new Rect();
+//            String text = getContext().getString(R.string.click_retry);
+//            mPaint.setColor(0xFFFFFFFF);
+//            mPaint.getTextBounds(text, 0, text.length(), rect);//确定文字的宽度
+//            canvas.drawText(text, getWidth()/2-rect.width()/2,getHeight()/2, mPaint);
+//            return;
+//        }
+//
+//        mPaint.setColor(Color.parseColor("#70000000"));//半透明
+//        canvas.drawRect(0, 0, getWidth(), getHeight()-getHeight() * progress/100, mPaint);
+//
+//        mPaint.setColor(Color.parseColor("#00000000"));//全透明
+//        canvas.drawRect(0, getHeight()-getHeight() * progress/100, getWidth(),  getHeight(), mPaint);
+//
+//        mPaint.setTextSize(30);
+//        mPaint.setColor(Color.parseColor("#FFFFFF"));
+//        mPaint.setStrokeWidth(2);
+//
+//        Rect rect=new Rect();
+//        String text = "0%";
+//        if (progress == 0) {
+//            text = "即将上传";
+//        } else if (progress <= 100) {
+//            text = progress + "%";
+//        }
+//        mPaint.setColor(0xFFFFFFFF);
+//        mPaint.getTextBounds(text, 0, text.length(), rect);//确定文字的宽度
+//        canvas.drawText(text, getWidth() / 2 - rect.width() / 2, getHeight() / 2, mPaint);
 
     }
 

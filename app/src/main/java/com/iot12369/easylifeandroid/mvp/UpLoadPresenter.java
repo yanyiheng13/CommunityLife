@@ -39,6 +39,10 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
                                        String workorder_desc,
                                        List<LocalMedia> mediaList) {
         Map<String, RequestBody> map = new HashMap<>();
+        map.put("member_phone", toRequestBody(member_phone));
+        map.put("community_name", toRequestBody(community_name));
+        map.put("estate_address", toRequestBody(estate_address));
+        map.put("workorder_desc", toRequestBody(workorder_desc));
         if (mediaList != null && mediaList.size() > 0) {
             for (int i = 0; i < mediaList.size(); i++) {
                 LocalMedia localMedia = mediaList.get(i);
@@ -47,8 +51,7 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
                 map.put("img" + i, body);
             }
         }
-        new RxHelper().view(getRootView()).load(getModel().getRemote().upMaintainRequireOrder(member_phone, community_name, estate_address,
-                workorder_desc, map)).application(LeApplication.mApplication).callBack(new RxHelper
+        new RxHelper().view(getRootView()).load(getModel().getRemote().upMaintainRequireOrder(map)).application(LeApplication.mApplication).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {
@@ -62,6 +65,11 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
         }).start();
     }
 
+    public RequestBody toRequestBody(String value) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), value);
+        return requestBody;
+    }
+
     /**
      *
      * @param mediaList
@@ -71,6 +79,10 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
                                        String estate_address,
                                        String workorder_desc, List<LocalMedia> mediaList) {
         Map<String, RequestBody> map = new HashMap<>();
+        map.put("member_phone", toRequestBody(member_phone));
+        map.put("community_name", toRequestBody(community_name));
+        map.put("estate_address", toRequestBody(estate_address));
+        map.put("workorder_desc", toRequestBody(workorder_desc));
         if (mediaList != null && mediaList.size() > 0) {
             for (int i = 0; i < mediaList.size(); i++) {
                 LocalMedia localMedia = mediaList.get(i);
@@ -79,8 +91,7 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
                 map.put("img" + i, body);
             }
         }
-        new RxHelper().view(getRootView()).load(getModel().getRemote().upComplainRequireOrder(member_phone, community_name,
-                estate_address, workorder_desc, map)).application(LeApplication.mApplication).callBack(new RxHelper
+        new RxHelper().view(getRootView()).load(getModel().getRemote().upComplainRequireOrder(map)).application(LeApplication.mApplication).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {

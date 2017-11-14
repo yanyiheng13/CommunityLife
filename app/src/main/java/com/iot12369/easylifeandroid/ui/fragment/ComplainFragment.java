@@ -82,19 +82,19 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
                 } else {
                     viewGap.setVisibility(View.GONE);
                 }
-                helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.time));//设置时间
-                helper.setText(R.id.maintain_item_des_tv, item.des);//设置描述
-                helper.setText(R.id.maintain_item_order_tv, String.format(getString(R.string.maintain_order_number), item.orderNum));//设置订单号
+//                helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.time));//设置时间
+                helper.setText(R.id.maintain_item_des_tv, item.workorder_desc);//设置描述
+                helper.setText(R.id.maintain_item_order_tv, String.format(getString(R.string.maintain_order_number), item.workorder_sn));//设置订单号
                 String statusDes = "";
 
                 int color = 0XFFF39D77;
-                switch (item.status) {
+                switch (item.workorder_state) {
                     case "1":
                         statusDes = "待处理";
                         color = 0XFFF39D77;
                         break;
                     case "2":
-                        statusDes = "有问题";
+                        statusDes = "处理中";
                         color = 0XFFE8641B;
                         break;
                     case "3":

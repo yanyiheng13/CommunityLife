@@ -67,8 +67,8 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
         ButterKnife.bind(this);
         //设置标题
         mTitle.setText(mType == 1 ? R.string.maintain_progress : R.string.feedback_progress);
-        mTvContent.setText(mMaintainBean.des);
-        mTvOrderNum.setText(String.format(getString(R.string.maintain_order_number), mMaintainBean.orderNum));
+        mTvContent.setText(mMaintainBean.workorder_desc);
+        mTvOrderNum.setText(String.format(getString(R.string.maintain_order_number), mMaintainBean.workorder_sn));
         mEmptyView.setOnDataLoadStatusListener(this);
 
         if (mType == 2) {//反馈进度
@@ -102,11 +102,12 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
     }
 
     public void askData() {
-        if (mType == 1) {
-            getPresenter().repairOrderDetail("");
-        } else {
-//            getPresenter().complainProgress("");
-        }
+//        if (mType == 1) {
+//            getPresenter().repairOrderDetail(mMaintainBean.workorder_sn);
+//        } else {
+//           getPresenter().complainProgress("");
+//        }
+        getPresenter().repairOrderDetail(mMaintainBean.workorder_sn);
     }
 
     @Override

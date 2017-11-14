@@ -258,6 +258,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 getPresenter().home(data.phone, addressVo.memberId);
             }
         }
+        LeApplication.mAddressVo = mPropertyView.getCurrentAddress(addressData);
     }
 
     @Override

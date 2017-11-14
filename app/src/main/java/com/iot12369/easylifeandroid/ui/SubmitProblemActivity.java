@@ -318,6 +318,7 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
     public void onUpSuccess(IsOkData isOkData) {
         LoadingDialog.hide();
         ToastUtils.show(this, "提交成功");
+        finish();
     }
 
     @Override

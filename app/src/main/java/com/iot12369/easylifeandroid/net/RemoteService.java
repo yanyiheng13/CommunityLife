@@ -93,20 +93,12 @@ public interface RemoteService {
     //提交维修工单
     @Multipart
     @POST("http://39.106.61.132:8989/workOrder/submitServiceWorkOrder")
-    Flowable<ResponseBody> upMaintainRequireOrder(@Part("member_phone") String member_phone,
-                                                  @Part("community_name") String community_name,
-                                                  @Part("estate_address") String estate_address,
-                                                  @Part("workorder_desc") String workorder_desc,
-                                                  @PartMap() Map<String, RequestBody> requestBodyMap);
+    Flowable<ResponseBody> upMaintainRequireOrder(@PartMap() Map<String, RequestBody> requestBodyMap);
 
     //提交投诉工单
     @Multipart
     @POST("http://39.106.61.132:8989/workOrder/submitSuggestWorkOrder")
-    Flowable<ResponseBody> upComplainRequireOrder(@Part("member_phone") String member_phone,
-                                                  @Part("community_name") String community_name,
-                                                  @Part("estate_address") String estate_address,
-                                                  @Part("workorder_desc") String workorder_desc,
-                                                  @PartMap() Map<String, RequestBody> requestBodyMap);
+    Flowable<ResponseBody> upComplainRequireOrder(@PartMap() Map<String, RequestBody> requestBodyMap);
 
     //添加人员
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头

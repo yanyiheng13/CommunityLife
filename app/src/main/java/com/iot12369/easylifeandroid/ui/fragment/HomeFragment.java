@@ -181,6 +181,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             return;
         }
         mAddress = getCurrentAddress(addressData);
+        LeApplication.mAddressVo = mAddress;
         if (mAddress != null) {
             mTvTopAddress.setText(mAddress.communityRawAddress + mAddress.communityName);
         }

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.lkl.pay.app.application.ApplicationController;
@@ -27,6 +28,7 @@ public class LeApplication extends Application {
     public static int TAG_PAY = 0;
 
     public static int mCurrentTag;
+    public static AddressVo mAddressVo;
 
 
     @Override

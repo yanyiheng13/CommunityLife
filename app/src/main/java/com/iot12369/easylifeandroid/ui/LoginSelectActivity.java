@@ -182,6 +182,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
                     LeApplication.mUserInfo = loginData;
                     MainActivity.newIntent(this);
                     finish();
+                    SharePrefrenceUtil.setString("config", "loginType", "wechat");
                     SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
                 }
             }

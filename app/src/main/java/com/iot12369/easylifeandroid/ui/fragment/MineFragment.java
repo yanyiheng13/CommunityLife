@@ -279,6 +279,7 @@ public class MineFragment extends BaseFragment<PersonInfoPresenter> implements P
         } else {
             mCertificationImg.setImageResource(R.mipmap.a_no_cer);
         }
+        LeApplication.mAddressVo = mAddressView.getCurrentAddress(addressData);
         mAddressView.updateData(addressData, false);
         SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
     }
