@@ -70,6 +70,9 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
     @BindView(R.id.maintain_progress_four_img)
     ImageView mImgStatuFour;
 
+    @BindView(R.id.maintain_cant_resolve_tv)
+    TextView mTvNoSolve;
+
     ImageView[] mImgArray = null;
     TextView[] mTvArray = null;
 
@@ -95,13 +98,17 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
         mTvArray = new TextView[]{mTvStatusOne, mTvStatusTwo, mTvStatuThree, mTvStatuFour};
         //设置标题
         mTitle.setText(mType == 1 ? R.string.maintain_progress : R.string.feedback_progress);
-        mTvContent.setText(mMaintainBean.workorder_desc);
+        mTvContent.setText(TextUtils.isEmpty(mMaintainBean.workorder_desc) ? "仅有图片" : mMaintainBean.workorder_desc);
         mTvOrderNum.setText(String.format(getString(R.string.maintain_order_number), mMaintainBean.workorder_sn));
         mEmptyView.setOnDataLoadStatusListener(this);
         if (mType == 2) {//反馈进度
             mTvComplete.setText(R.string.very_nice);
         }
         String status = mMaintainBean.workorder_state;
+        if ("4".equals(status)) {
+            mTvComplete.setVisibility(View.GONE);
+            mTvNoSolve.setVisibility(View.GONE);
+        }
         int statusNum = 0;
         if (!TextUtils.isEmpty(status)) {
             statusNum = Integer.valueOf(status);
@@ -137,7 +144,7 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
                 LoadingDialog.show(this, false);
                 //完成维修按钮点击
                 if (mType == 2) {//投诉
-                    getPresenter().setRepairOrderComplainState(mMaintainBean.workorder_sn, "4");
+                    getPresenter().setRepairOrderComplainState(mMaintainBean.workorder_sn, "1");
                 } else {//维修
                     getPresenter().setRepairOrderStateMaintain(mMaintainBean.workorder_sn, "4");
                 }
@@ -167,6 +174,8 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
         }
         LoadingDialog.hide();
         Toast.makeText(this, "反馈成功", Toast.LENGTH_LONG).show();
+        mTvComplete.setVisibility(View.GONE);
+        mTvNoSolve.setVisibility(View.GONE);
     }
 
     @Override
@@ -183,7 +192,10 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
             return;
         }
         LoadingDialog.hide();
-        Toast.makeText(this, "反馈成功", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "谢谢您的支持", Toast.LENGTH_LONG).show();
+        mTvComplete.setVisibility(View.GONE);
+        mTvNoSolve.setVisibility(View.GONE);
+
     }
 
     @Override

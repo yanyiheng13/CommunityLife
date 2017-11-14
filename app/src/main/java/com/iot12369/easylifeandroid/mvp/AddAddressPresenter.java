@@ -54,6 +54,12 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
     }
 
     public void communityList() {
+//        PcaRequest request = new PcaRequest();
+//        request.province = province;
+//        request.city = city;
+//        request.area = area;
+//        String province, String city, String area
+//        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(request));
         new RxHelper().view(getRootView()).load(getModel().getRemote().communityList()).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<AddressData>>() {
             @Override
@@ -67,6 +73,11 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
                 getRootView().onFailureAddressList(error, error);
             }
         }).start();
+    }
+    public class PcaRequest {
+        String province;
+        String city;
+        String area;
     }
 
     public class RequestData implements Serializable {

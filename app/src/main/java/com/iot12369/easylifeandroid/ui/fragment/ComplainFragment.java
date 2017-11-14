@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -55,6 +57,8 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
 
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
+    @BindView(R.id.add_ll)
+    LinearLayout mLiAdd;
 
     @Override
     public int inflateId() {
@@ -82,8 +86,8 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
                 } else {
                     viewGap.setVisibility(View.GONE);
                 }
-//                helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.time));//设置时间
-                helper.setText(R.id.maintain_item_des_tv, item.workorder_desc);//设置描述
+                helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.workorder_ctime));//设置时间
+                helper.setText(R.id.maintain_item_des_tv, TextUtils.isEmpty(item.workorder_desc) ? "仅有图片" : item.workorder_desc);//设置描述
                 helper.setText(R.id.maintain_item_order_tv, String.format(getString(R.string.maintain_order_number), item.workorder_sn));//设置订单号
                 String statusDes = "";
 
@@ -114,6 +118,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
                 if (customBackGround != null) {
                     customBackGround.setColor(color);
                 }
+                tvStatus.setBackground(customBackGround);
                 tvStatus.setText(statusDes);
 
 
@@ -125,11 +130,11 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
                 });
             }
         };
-        View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_maintain_add, null);
-        TextView txtTv = (TextView) footView.findViewById(R.id.maintain_click_tv);
+//        View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_maintain_add, null);
+        TextView txtTv = (TextView) mLiAdd.findViewById(R.id.maintain_click_tv);
         txtTv.setText(R.string.click_complain);
-        mAdapter.addFooterView(footView);
-        footView.setOnClickListener(new View.OnClickListener() {
+//        mAdapter.addFooterView(footView);
+        mLiAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SubmitProblemActivity.newIntent(ComplainFragment.this.getContext(), 2);
@@ -155,6 +160,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
         }
         mSwipeRefreshLayout.setRefreshing(false);
         mEmptyView.onSuccess();
+        mLiAdd.setVisibility(View.VISIBLE);
         mAdapter.setNewData(maintainData.list);
     }
 

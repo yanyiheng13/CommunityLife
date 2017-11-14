@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.mvp.UpLoadPresenter;
@@ -265,19 +266,21 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
         @Override
         public void onClick(View v) {
             String content = mEtDes.getText().toString();
-            if (TextUtils.isEmpty(content) && (selectList == null || selectList.size() == 0)) {
+            if (TextUtils.isEmpty(content) || content.length() < 10) {
+                ToastUtil.toast(SubmitProblemActivity.this, "文字描述不得少于十个字");
                 return;
             }
+            AddressVo addressVo = LeApplication.mAddressVo;
             if (mType == 1) {//提交维修
                 LoadingDialog.show(SubmitProblemActivity.this, false);
                 LoginData loginData = LeApplication.mUserInfo;
-                getPresenter().upMaintainRequireOrder(loginData.phone, "月桂园2号楼3栋",
-                        "1002", content, selectList);
+                getPresenter().upMaintainRequireOrder(loginData.phone, addressVo != null ? addressVo.communityName : "",
+                        addressVo != null ? addressVo.communityRawAddress : "", content, selectList);
             } else {// 2提交
                 LoadingDialog.show(SubmitProblemActivity.this, false);
                 LoginData loginData = LeApplication.mUserInfo;
-                getPresenter().upComplainRequireOrder(loginData.phone, "月桂园2号楼3栋",
-                        "1002", content, selectList);
+                getPresenter().upComplainRequireOrder(loginData.phone, addressVo != null ? addressVo.communityName : "",
+                        addressVo != null ? addressVo.communityRawAddress : "", content, selectList);
             }
         }
     };

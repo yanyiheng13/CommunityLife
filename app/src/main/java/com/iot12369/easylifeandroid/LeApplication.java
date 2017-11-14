@@ -30,7 +30,6 @@ public class LeApplication extends Application {
     public static int mCurrentTag;
     public static AddressVo mAddressVo;
 
-
     @Override
     public void onCreate() {
         super.onCreate();

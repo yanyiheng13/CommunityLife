@@ -8,9 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -48,6 +50,8 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
     RecyclerView mRecyclerView;
     @BindView(R.id.maintain_swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.add_ll)
+    LinearLayout mLiAdd;
 
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
@@ -80,8 +84,8 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
                 } else {
                     viewGap.setVisibility(View.GONE);
                 }
-//                helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.time));//设置时间
-                helper.setText(R.id.maintain_item_des_tv, item.workorder_desc);//设置描述
+                helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.workorder_ctime));//设置时间
+                helper.setText(R.id.maintain_item_des_tv, TextUtils.isEmpty(item.workorder_desc) ? "仅有图片" : item.workorder_desc);//设置描述
                 helper.setText(R.id.maintain_item_order_tv, String.format(getString(R.string.maintain_order_number), item.workorder_sn));//设置订单号
 
                 Drawable d = MaintainFragment.this.getContext().getResources().getDrawable(R.drawable.bg_maintain_status);
@@ -122,9 +126,9 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
                 });
             }
         };
-        View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_maintain_add, null);
-        mAdapter.addFooterView(footView);
-        footView.setOnClickListener(new View.OnClickListener() {
+//        View footView = LayoutInflater.from(getContext()).inflate(R.layout.view_maintain_add, null);
+//        mAdapter.addFooterView(footView);
+        mLiAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SubmitProblemActivity.newIntent(MaintainFragment.this.getContext(), 1);
@@ -149,6 +153,7 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
         }
         mSwipeRefreshLayout.setRefreshing(false);
         mEmptyView.onSuccess();
+        mLiAdd.setVisibility(View.VISIBLE);
         mAdapter.setNewData(maintainBean.list);
 
     }

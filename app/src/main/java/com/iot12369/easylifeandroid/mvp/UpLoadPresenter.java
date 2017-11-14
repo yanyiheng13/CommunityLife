@@ -48,7 +48,7 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
                 LocalMedia localMedia = mediaList.get(i);
                 File file = new File(localMedia.getCompressPath());
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
-                map.put("img" + (i + 1) + "\"; filename=\""+ file.getName(), body);
+                map.put("img" + (i + 1) + "\";filename=\""+ file.getName(), body);
             }
         }
         new RxHelper().view(getRootView()).load(getModel().getRemote().upMaintainRequireOrder(map)).application(LeApplication.mApplication).callBack(new RxHelper
@@ -70,6 +70,11 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
         return requestBody;
     }
 
+    public static RequestBody toRequestBodyOfImage(File pFile){
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), pFile);
+        return fileBody;
+    }
+
     /**
      *
      * @param mediaList
@@ -87,8 +92,7 @@ public class UpLoadPresenter extends BasePresenter<Repository, UploadContract.Vi
             for (int i = 0; i < mediaList.size(); i++) {
                 LocalMedia localMedia = mediaList.get(i);
                 File file = new File(localMedia.getCompressPath());
-                RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
-                map.put("img" + (i + 1) + "\"; filename=\""+ file.getName(), body);
+                map.put("img" + (i + 1) + "\";filename=\""+ file.getName(), toRequestBodyOfImage(file));
             }
         }
         new RxHelper().view(getRootView()).load(getModel().getRemote().upComplainRequireOrder(map)).application(LeApplication.mApplication).callBack(new RxHelper

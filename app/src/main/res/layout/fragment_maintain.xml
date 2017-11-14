@@ -27,4 +27,35 @@
         android:layout_height="match_parent"
         android:layout_below="@id/title_view"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/add_ll"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:layout_marginRight="6dp"
+        android:visibility="gone"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:id="@+id/maintain_click_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_complaint_add" />
+
+        <TextView
+            android:id="@+id/maintain_click_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/click_to_maintain"
+            android:textColor="@color/colorMaintain"
+            android:textSize="@dimen/font_16" />
+    </LinearLayout>
 </RelativeLayout>

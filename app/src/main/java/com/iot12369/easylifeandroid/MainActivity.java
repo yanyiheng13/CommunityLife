@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     }
 
     private void setTabTextIcon(int position) {
-        if (position == 0) {
+        if (position == 0 || position == 1 || position == 3) {
             String json = SharePrefrenceUtil.getString("config", "list");
             if (TextUtils.isEmpty(json)) {
                 selectTab(this.position);
