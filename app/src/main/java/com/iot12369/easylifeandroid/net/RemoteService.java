@@ -176,7 +176,7 @@ public interface RemoteService {
 
     //获取工单详情
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/updateSuggestWorkOrder")
+    @POST("http://39.106.61.132:8989/workOrder/getWorkOrderDetail")
     Flowable<ResponseBody> repairOrderDetail(@Body RequestBody body);
 
     //维修工单用户反馈

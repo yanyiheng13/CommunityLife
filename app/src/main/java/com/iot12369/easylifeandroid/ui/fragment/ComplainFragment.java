@@ -90,14 +90,15 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
                 int color = 0XFFF39D77;
                 switch (item.workorder_state) {
                     case "1":
-                        statusDes = "待处理";
-                        color = 0XFFF39D77;
-                        break;
                     case "2":
                         statusDes = "处理中";
-                        color = 0XFFE8641B;
+                        color = 0XFFF39D77;
                         break;
                     case "3":
+                        statusDes = "待反馈";
+                        color = 0XFFE8641B;
+                        break;
+                    case "4":
                         statusDes = "已解决";
                         color = 0XFF3FA343;
                         break;

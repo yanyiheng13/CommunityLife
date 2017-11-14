@@ -90,14 +90,15 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
                 int color = 0XFFF39D77;
                 switch (item.workorder_state) {
                     case "1":
-                        statusDes = "待处理";
+                    case "2":
+                        statusDes = "处理中";
                         color = 0XFFF39D77;
                         break;
-                    case "2":
-                        statusDes = "维修中";
+                    case "3":
+                        statusDes = "待反馈";
                         color = 0XFFE8641B;
                         break;
-                    case "3":
+                    case "4":
                         statusDes = "已解决";
                         color = 0XFF3FA343;
                         break;
