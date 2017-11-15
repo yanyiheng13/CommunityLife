@@ -10,14 +10,17 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:screenOrientation">portrait</item>
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="splash_style" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@mipmap/splash</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <!--<item name="tabMaxWidth">@diAppBarOverlaymen/tab_max_width</item>-->
         <item name="tabIndicatorColor">?attr/colorAccent</item>
@@ -84,6 +87,7 @@
         <!--相册文件夹列表选中图标-->
         <item name="picture.folder_checked_dot">@drawable/orange_oval</item>
     </style>
+
     <style name="MyDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -93,6 +97,7 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
     <style name="Theme.Transparent" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
@@ -101,6 +106,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -111,6 +117,15 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
+
+    -->    
+
+    <style name="Animation">    
+            
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
     <color name="cpv_default_color">#2196F3</color>
     <dimen name="cpv_default_thickness">4dp</dimen>
     <integer name="cpv_default_progress">0</integer>

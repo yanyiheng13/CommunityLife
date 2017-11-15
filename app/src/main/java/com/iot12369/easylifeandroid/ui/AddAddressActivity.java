@@ -3,38 +3,53 @@ package com.iot12369.easylifeandroid.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.XmlParserHandler;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
+import com.iot12369.easylifeandroid.model.CityModel;
+import com.iot12369.easylifeandroid.model.DistrictModel;
 import com.iot12369.easylifeandroid.model.LoginData;
+import com.iot12369.easylifeandroid.model.ProvinceModel;
 import com.iot12369.easylifeandroid.mvp.AddAddressPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AddAddressContract;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
-import java.lang.reflect.Array;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 
 /**
  * 功能说明： 添加地址
@@ -57,6 +72,10 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     TextView mTvPhoneNum;
     @BindView(R.id.tv_qu)
     TextView mTvQu;
+    @BindView(R.id.tv_province)
+    TextView mTvProvince;
+    @BindView(R.id.tv_city)
+    TextView mTvCity;
     @BindView(R.id.add_address_my_et)
     EditText mEtAddress;
     //所在小区
@@ -66,6 +85,43 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     private String[] mQuData = {"市区", "和平区", "河西区", "河东区", "河北区",
             "南开区", "红桥区", "东丽区", "西青区", "北辰区", "津南区", "滨海新区", "宝坻区", "宁和区",
             "静海区", "武清区", "蓟县"};
+    /**
+     * 当前省的名称
+     */
+    protected String mCurrentProviceName;
+    /**
+     * 当前市的名称
+     */
+    protected String mCurrentCityName;
+    /**
+     * 当前区的名称
+     */
+    protected String mCurrentDistrictName = "";
+
+    /**
+     * 所有省
+     */
+    protected String[] mProvinceDatas;
+    /**
+     * key - 省 value - 市
+     */
+    protected Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
+    /**
+     * key - 市 values - 区
+     */
+    protected Map<String, String[]> mDistrictDatasMap = new HashMap<String, String[]>();
+
+    /**
+     * key - 区 values - 邮编
+     */
+    protected Map<String, String> mZipcodeDatasMap = new HashMap<String, String>();
+
+    /**
+     * 当前区的邮政编码
+     */
+    protected String mCurrentZipCode = "";
+
+    private PopupWindow mPopCity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +130,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         ButterKnife.bind(this);
         mTitleView.setText(R.string.add_address_no).setImageResource(R.mipmap.icon_account_certification);
         mTvPhoneNum.setText(LeApplication.mUserInfo.phone);
+        initProvinceDatas();
     }
 
     @Override
@@ -82,7 +139,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         getPresenter().communityList();
     }
 
-    @OnClick({R.id.add_address_tv, R.id.add_address_location_et, R.id.tv_qu})
+    @OnClick({R.id.add_address_tv, R.id.add_address_location_et, R.id.tv_qu, R.id.ssss})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_address_location_et:
@@ -110,6 +167,8 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                     qu.show();
                 }
                 break;
+            case R.id.ssss:
+                getPopCity().showAtLocation(mTitleView, Gravity.BOTTOM,0, 0);
             default:
                 break;
         }
@@ -136,7 +195,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         }
         final View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.popup_window, null);
         ListView listView = (ListView) contentView.findViewById(R.id.listView);
-        final Dialog  popWnd = new Dialog(this);
+        final Dialog popWnd = new Dialog(this);
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         popWnd.setCancelable(true);
         popWnd.setCanceledOnTouchOutside(true);
@@ -188,13 +247,14 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         return popWnd;
     }
 
+
     public Dialog getQu(final String[] data) {
         if (data == null || data.length == 0) {
             return null;
         }
         final View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.popup_window, null);
         ListView listView = (ListView) contentView.findViewById(R.id.listView);
-        final Dialog  popWnd = new Dialog(this);
+        final Dialog popWnd = new Dialog(this);
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         popWnd.setCancelable(true);
         popWnd.setCanceledOnTouchOutside(true);
@@ -244,6 +304,172 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         };
         listView.setAdapter(adapter);
         return popWnd;
+    }
+
+    public PopupWindow getPopCity() {
+//        if (data == null || data.length == 0) {
+//            return null;
+//        }
+        final View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.test, null);
+        final WheelView viewProvince = (WheelView) contentView.findViewById(R.id.id_province);
+        final WheelView viewCity = (WheelView) contentView.findViewById(R.id.id_city);
+        final WheelView viewDistrict = (WheelView) contentView.findViewById(R.id.id_district);
+        TextView tvCancel = (TextView) contentView.findViewById(R.id.tv_cancel);
+        TextView tvSure = (TextView) contentView.findViewById(R.id.tv_sure);
+
+        if (mPopCity == null) {
+            // 设置可见条目数量
+            mPopCity = new PopupWindow(this);
+            mPopCity.setContentView(contentView);
+            mPopCity.setOutsideTouchable(true);
+//设置PopupWindow弹出窗体的宽    
+            mPopCity.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+//设置PopupWindow弹出窗体的高    
+            mPopCity.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+//设置PopupWindow弹出窗体可点击    
+            mPopCity.setFocusable(true);
+//设置SelectPicPopupWindow弹出窗体动画效果    
+            mPopCity.setAnimationStyle(R.style.Animation);
+//实例化一个ColorDrawable颜色为半透明    
+            ColorDrawable dw = new ColorDrawable(0xb0000000);
+//设置SelectPicPopupWindow弹出窗体的背景    
+            mPopCity.setBackgroundDrawable(dw);
+            viewProvince.setVisibleItems(7);
+            viewCity.setVisibleItems(7);
+            viewDistrict.setVisibleItems(7);
+            viewProvince.setViewAdapter(new ArrayWheelAdapter<String>(AddAddressActivity.this, mProvinceDatas));
+            updateCities(viewProvince, viewCity, viewDistrict);
+            updateAreas(viewCity, viewCity);
+
+        }
+        // 添加change事件
+        viewProvince.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                updateCities(viewProvince, viewCity, viewDistrict);
+            }
+        });
+        // 添加change事件
+        viewCity.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                updateAreas(viewCity, viewDistrict);
+            }
+        });
+        // 添加change事件
+        viewDistrict.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[newValue];
+                mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopCity.dismiss();
+            }
+        });
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopCity.dismiss();
+                mTvProvince.setText(mCurrentProviceName);
+                mTvCity.setText(mCurrentCityName);
+                mTvQu.setText(mCurrentDistrictName);
+            }
+        });
+
+        return mPopCity;
+    }
+
+    protected void initProvinceDatas() {
+        List<ProvinceModel> provinceList = null;
+        AssetManager asset = getAssets();
+        try {
+            InputStream input = asset.open("province_data.xml");
+            // 创建一个解析xml的工厂对象
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            // 解析xml
+            SAXParser parser = spf.newSAXParser();
+            XmlParserHandler handler = new XmlParserHandler();
+            parser.parse(input, handler);
+            input.close();
+            // 获取解析出来的数据
+            provinceList = handler.getDataList();
+            //*/ 初始化默认选中的省、市、区
+            if (provinceList != null && !provinceList.isEmpty()) {
+                mCurrentProviceName = provinceList.get(0).getName();
+                List<CityModel> cityList = provinceList.get(0).getCityList();
+                if (cityList != null && !cityList.isEmpty()) {
+                    mCurrentCityName = cityList.get(0).getName();
+                    List<DistrictModel> districtList = cityList.get(0).getDistrictList();
+                    mCurrentDistrictName = districtList.get(0).getName();
+                    mCurrentZipCode = districtList.get(0).getZipcode();
+                }
+            }
+            //*/
+            mProvinceDatas = new String[provinceList.size()];
+            for (int i = 0; i < provinceList.size(); i++) {
+                // 遍历所有省的数据
+                mProvinceDatas[i] = provinceList.get(i).getName();
+                List<CityModel> cityList = provinceList.get(i).getCityList();
+                String[] cityNames = new String[cityList.size()];
+                for (int j = 0; j < cityList.size(); j++) {
+                    // 遍历省下面的所有市的数据
+                    cityNames[j] = cityList.get(j).getName();
+                    List<DistrictModel> districtList = cityList.get(j).getDistrictList();
+                    String[] distrinctNameArray = new String[districtList.size()];
+                    DistrictModel[] distrinctArray = new DistrictModel[districtList.size()];
+                    for (int k = 0; k < districtList.size(); k++) {
+                        // 遍历市下面所有区/县的数据
+                        DistrictModel districtModel = new DistrictModel(districtList.get(k).getName(), districtList.get(k).getZipcode());
+                        // 区/县对于的邮编，保存到mZipcodeDatasMap
+                        mZipcodeDatasMap.put(districtList.get(k).getName(), districtList.get(k).getZipcode());
+                        distrinctArray[k] = districtModel;
+                        distrinctNameArray[k] = districtModel.getName();
+                    }
+                    // 市-区/县的数据，保存到mDistrictDatasMap
+                    mDistrictDatasMap.put(cityNames[j], distrinctNameArray);
+                }
+                // 省-市的数据，保存到mCitisDatasMap
+                mCitisDatasMap.put(provinceList.get(i).getName(), cityNames);
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+    }
+
+    /**
+     * 根据当前的市，更新区WheelView的信息
+     */
+    private void updateAreas(WheelView wheelViewCity, WheelView wheelViewDistrict) {
+        int pCurrent = wheelViewCity.getCurrentItem();
+        mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[pCurrent];
+        String[] areas = mDistrictDatasMap.get(mCurrentCityName);
+
+        if (areas == null) {
+            areas = new String[]{""};
+        }
+        wheelViewDistrict.setViewAdapter(new ArrayWheelAdapter<String>(this, areas));
+        wheelViewDistrict.setCurrentItem(0);
+    }
+
+    /**
+     * 根据当前的省，更新市WheelView的信息
+     */
+    private void updateCities(WheelView wheelViewProvince, WheelView wheelViewCity, WheelView wheelViewDistrict) {
+        int pCurrent = wheelViewProvince.getCurrentItem();
+        mCurrentProviceName = mProvinceDatas[pCurrent];
+        String[] cities = mCitisDatasMap.get(mCurrentProviceName);
+        if (cities == null) {
+            cities = new String[]{""};
+        }
+        wheelViewCity.setViewAdapter(new ArrayWheelAdapter<String>(this, cities));
+        wheelViewCity.setCurrentItem(0);
+        updateAreas(wheelViewCity, wheelViewDistrict);
     }
 
 

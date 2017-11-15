@@ -29,4 +29,7 @@
     <color name="colorStatePressFalse">#FE9D04</color>
     <color name="colorStatePressTrue">#FF6600</color>
     <color name="colorBtnText">#FFFFFF</color>
+
+    <color name="province_line_border">#C7C7C7</color>
+
 </resources>
