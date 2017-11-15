@@ -82,6 +82,17 @@ public class PropertyAddressView extends LinearLayout {
         inflate(context, R.layout.view_property_address, this);
         ButterKnife.bind(this, this);
         mInflater = LayoutInflater.from(context);
+        mRlArrowBg.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isAlreadyCertification(addressData) && !isMyAddress) {
+                    ToastUtil.toast(getContext(), "暂无通过认证的物业");
+                    AddAddressActivity.newIntent(getContext());
+                    return;
+                }
+                visible();
+            }
+        });
     }
 
     public PropertyAddressView updateData() {
@@ -120,7 +131,7 @@ public class PropertyAddressView extends LinearLayout {
                 if (addressVo == null) {
                     return this;
                 }
-                mTvAddress.setText(addressVo.communityRawAddress  + "\n" + addressVo.communityName);
+                mTvAddress.setText(addressVo.communityName + "\n" + addressVo.communityRawAddress );
             }
         } else {
             if (!isMyAddress) {
@@ -144,7 +155,7 @@ public class PropertyAddressView extends LinearLayout {
                     public void onClick(View v) {
                     }
                 });
-                tv.setText(addressVo.communityRawAddress  + "\n" + addressVo.communityName);
+                tv.setText(addressVo.communityName + "\n" + addressVo.communityRawAddress );
                 if ("2".equals(addressVo.estateAuditStatus)) {//已认证
                     imgStatus.setImageResource(R.mipmap.icon_certification);
                 } else if ("1".equals(addressVo.estateAuditStatus) || "0".equals(addressVo.estateAuditStatus)) {
@@ -159,7 +170,7 @@ public class PropertyAddressView extends LinearLayout {
             for (int i = 0; i < list.size(); i++) {
                 final AddressVo addressVo = list.get(i);
                 if (addressVo == null || !"2".equals(addressVo.estateAuditStatus)) {
-                    return this;
+                    continue;
                 }
                 View view = mInflater.inflate(R.layout.view_property_address_item, null);
                 TextView tv = (TextView) view.findViewById(R.id.property_address_item_tv);
@@ -174,7 +185,7 @@ public class PropertyAddressView extends LinearLayout {
                     }
                 });
 
-                tv.setText(addressVo.communityRawAddress  + "\n" + addressVo.communityName);
+                tv.setText(addressVo.communityName + "\n" + addressVo.communityRawAddress );
                 mListView.add(view);
                 mLlAddressContain.addView(view);
             }
@@ -319,21 +330,6 @@ public class PropertyAddressView extends LinearLayout {
         mTvAddress.setVisibility(GONE);
     }
 
-    @OnClick({R.id.property_change_arrow_rl})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.property_change_arrow_rl:
-                if (!isAlreadyCertification(addressData) && !isMyAddress) {
-                    ToastUtil.toast(getContext(), "暂无通过认证的物业");
-                    AddAddressActivity.newIntent(getContext());
-                    break;
-                }
-                visible();
-                break;
-            default:
-                break;
-        }
-    }
 
     public OnItemClickListener mListener;
     public interface OnItemClickListener {

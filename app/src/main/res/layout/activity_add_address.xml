@@ -180,15 +180,21 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:drawableRight="@mipmap/arrow_down"
                         android:gravity="center"
-                        android:text="天津"
+                        android:text="天津市"
                         android:textColor="@color/colorLoginTxt"
                         android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent" />
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="6dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginTop="6dp"
                         android:background="@color/line_color" />
 
@@ -197,15 +203,22 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:drawableRight="@mipmap/arrow_down"
                         android:gravity="center"
                         android:text="天津市"
+                        android:lines="1"
                         android:textColor="@color/colorLoginTxt"
                         android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent" />
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="6dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginTop="6dp"
                         android:background="@color/line_color" />
 
@@ -214,10 +227,16 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:drawableRight="@mipmap/arrow_down"
                         android:gravity="center"
-                        android:text="市区"
+                        android:text="河北区"
+                        android:lines="1"
                         android:textColor="@color/colorLoginTxt"
                         android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <TextView
@@ -231,6 +250,7 @@
                     android:gravity="center_vertical"
                     android:hint="请选择小区"
                     android:lines="1"
+                    android:drawableRight="@mipmap/arrow_down"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textColor="@color/colorCertification"
@@ -246,11 +266,11 @@
                     android:background="@drawable/border_bg"
                     android:gravity="center_vertical"
                     android:hint="请填写详细地址"
+                    android:lines="2"
+                    android:paddingBottom="6dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:lines="2"
                     android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
                     android:textColor="@color/colorCertification"
                     android:textColorHint="@color/color_69"
                     android:textSize="@dimen/font_16" />
@@ -260,8 +280,8 @@
                 android:id="@+id/add_address_my_right"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                android:layout_alignParentRight="true"
                 android:layout_alignBottom="@id/ssss"
+                android:layout_alignParentRight="true"
                 android:layout_marginBottom="15dp"
                 android:background="@mipmap/icon_red_dot" />
             <!--/>-->

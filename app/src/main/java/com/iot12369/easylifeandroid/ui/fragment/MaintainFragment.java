@@ -79,12 +79,12 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
             @Override
             protected void convert(BaseViewHolder helper, final MaintainVo item) {
                 View viewGap = helper.getView(R.id.maintain_top_gap_view);
-                if (helper.getPosition() == 0) {
-                    viewGap.setVisibility(View.VISIBLE);
-                } else {
-                    viewGap.setVisibility(View.GONE);
-                }
-                helper.setText(R.id.maintain_item_date_tv, String.format(getString(R.string.maintain_date), item.workorder_ctime));//设置时间
+//                if (helper.getPosition() == 0) {
+//                    viewGap.setVisibility(View.VISIBLE);
+//                } else {
+//                    viewGap.setVisibility(View.GONE);
+//                }
+                helper.setText(R.id.maintain_item_date_tv, item.workorder_ctime);//设置时间
                 helper.setText(R.id.maintain_item_des_tv, TextUtils.isEmpty(item.workorder_desc) ? "仅有图片" : item.workorder_desc);//设置描述
                 helper.setText(R.id.maintain_item_order_tv, String.format(getString(R.string.maintain_order_number), item.workorder_sn));//设置订单号
 
@@ -104,7 +104,7 @@ public class MaintainFragment extends BaseFragment<MaintainPresenter> implements
                         break;
                     case "4":
                         statusDes = "已解决";
-                        color = 0XFF3FA343;
+                        color = 0XFF3fcf65;
                         break;
                     default:
                         break;

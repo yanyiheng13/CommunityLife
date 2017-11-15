@@ -112,7 +112,7 @@ public interface RemoteService {
 
     //添加物业地址 账号认证
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("authentication/v1")
+    @POST("authentication/v2")
     Flowable<ResponseBody> addAddress(@Body RequestBody body);
 
     //物业地址列表接口
@@ -161,8 +161,9 @@ public interface RemoteService {
     @POST("notification/v1/voice/code")
     Flowable<ResponseBody> verificationVoiceCode(@Body RequestBody body);
     //小区列表
-    @GET("authentication/v1/community")
-    Flowable<ResponseBody> communityList();
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("authentication/v2/community")
+    Flowable<ResponseBody> communityList(@Body RequestBody body);
 
     //修改维修工单的状态
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头

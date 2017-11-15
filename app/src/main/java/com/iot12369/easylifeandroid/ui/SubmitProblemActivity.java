@@ -128,7 +128,7 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
                     if (mListPic.size() == 10) {
                         images.setVisibility(View.GONE);
                     } else {
-                        images.setImageResource(R.mipmap.add_pic);
+                        images.setImageResource(R.mipmap.icon_add_pic);
                         images.setVisibility(View.VISIBLE);
                     }
                     return;
@@ -178,40 +178,12 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
         mAdapter.addFooterView(footView);
 
         mRecyclerView.setAdapter(mAdapter);
-
         LocalMedia media = new LocalMedia();
         media.isAddPic = true;
         mListPic.add(media);
         mAdapter.setNewData(mListPic);
         mAdapter.loadMoreEnd(false);
     }
-
-//    public void upLoadData(String path, final UploadPicView images) {
-//        //上传图片
-//        File file = new File(path);
-//        RequestBody resquestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-//        //通过该行代码将RequestBody转换成特定的FileRequestBody
-//        RetrofitCallback callback = new RetrofitCallback() {
-//            @Override
-//            public void onSuccess(Call call, Response response) {
-//                images.setProgress(100);
-//            }
-//
-//            @Override
-//            public void onLoading(long total, long progress) {
-//                images.setProgress((int)(progress * 100 / total));
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, Throwable t) {
-//                images.setError();
-//            }
-//        };
-//        FileRequestBody body = new FileRequestBody(resquestBody, callback);
-//        Call call = Repository.get().getRemote().uploadFile(body);
-////                Call<String> call = RemoteService.uploadOneFile(body);
-//        call.enqueue(callback);
-//    }
 
     private void intoPre() {
     }

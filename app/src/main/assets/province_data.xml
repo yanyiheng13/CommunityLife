@@ -1,4 +1,74 @@
 <root>
+  <province name="北京市">
+    <city name="北京市">
+      <district name="昌平区" zipcode="100000" />
+      <district name="朝阳区" zipcode="100000" />
+      <district name="崇文区" zipcode="100000" />
+      <district name="大兴区" zipcode="100000" />
+      <district name="东城区" zipcode="100000" />
+      <district name="房山区" zipcode="100000" />
+      <district name="丰台区" zipcode="100000" />
+      <district name="海淀区" zipcode="100000" />
+      <district name="怀柔区" zipcode="100000" />
+      <district name="门头沟区" zipcode="100000" />
+      <district name="密云县" zipcode="100000" />
+      <district name="平谷区" zipcode="100000" />
+      <district name="石景山区" zipcode="100000" />
+      <district name="顺义区" zipcode="100000" />
+      <district name="通州区" zipcode="100000" />
+      <district name="西城区" zipcode="100000" />
+      <district name="宣武区" zipcode="100000" />
+      <district name="延庆县" zipcode="100000" />
+      <district name="其他" zipcode="100000" />
+    </city>
+  </province>
+  <province name="天津市">
+    <city name="天津市">
+      <district name="宝坻区" zipcode="100000" />
+      <district name="北辰区" zipcode="100000" />
+      <district name="大港区" zipcode="100000" />
+      <district name="东丽区" zipcode="100000" />
+      <district name="汉沽区" zipcode="100000" />
+      <district name="和平区" zipcode="100000" />
+      <district name="河北区" zipcode="100000" />
+      <district name="河东区" zipcode="100000" />
+      <district name="河西区" zipcode="100000" />
+      <district name="红桥区" zipcode="100000" />
+      <district name="蓟县" zipcode="100000" />
+      <district name="津南区" zipcode="100000" />
+      <district name="静海县" zipcode="100000" />
+      <district name="南开区" zipcode="100000" />
+      <district name="宁河县" zipcode="100000" />
+      <district name="塘沽区" zipcode="100000" />
+      <district name="武清区" zipcode="100000" />
+      <district name="西青区" zipcode="100000" />
+      <district name="其他" zipcode="100000" />
+    </city>
+  </province>
+  <province name="上海市">
+    <city name="上海市">
+      <district name="宝山区" zipcode="200000" />
+      <district name="长宁区" zipcode="200000" />
+      <district name="崇明县" zipcode="200000" />
+      <district name="奉贤区" zipcode="200000" />
+      <district name="虹口区" zipcode="200000" />
+      <district name="黄浦区" zipcode="200000" />
+      <district name="嘉定区" zipcode="200000" />
+      <district name="金山区" zipcode="200000" />
+      <district name="静安区" zipcode="200000" />
+      <district name="卢湾区" zipcode="200000" />
+      <district name="闵行区" zipcode="200000" />
+      <district name="南汇区" zipcode="200000" />
+      <district name="浦东新区" zipcode="200000" />
+      <district name="普陀区" zipcode="200000" />
+      <district name="青浦区" zipcode="200000" />
+      <district name="松江区" zipcode="200000" />
+      <district name="徐汇区" zipcode="200000" />
+      <district name="杨浦区" zipcode="200000" />
+      <district name="闸北区" zipcode="200000" />
+      <district name="其他" zipcode="200000" />
+    </city>
+  </province>
   <province name="安徽省">
     <city name="安庆市">
       <district name="枞阳县" zipcode="246000" />
@@ -155,29 +225,6 @@
       <district name="宁国市" zipcode="366000" />
       <district name="宣州区" zipcode="366000" />
       <district name="其他" zipcode="366000" />
-    </city>
-  </province>
-  <province name="北京市">
-    <city name="北京市">
-      <district name="昌平区" zipcode="100000" />
-      <district name="朝阳区" zipcode="100000" />
-      <district name="崇文区" zipcode="100000" />
-      <district name="大兴区" zipcode="100000" />
-      <district name="东城区" zipcode="100000" />
-      <district name="房山区" zipcode="100000" />
-      <district name="丰台区" zipcode="100000" />
-      <district name="海淀区" zipcode="100000" />
-      <district name="怀柔区" zipcode="100000" />
-      <district name="门头沟区" zipcode="100000" />
-      <district name="密云县" zipcode="100000" />
-      <district name="平谷区" zipcode="100000" />
-      <district name="石景山区" zipcode="100000" />
-      <district name="顺义区" zipcode="100000" />
-      <district name="通州区" zipcode="100000" />
-      <district name="西城区" zipcode="100000" />
-      <district name="宣武区" zipcode="100000" />
-      <district name="延庆县" zipcode="100000" />
-      <district name="其他" zipcode="100000" />
     </city>
   </province>
   <province name="福建省">
@@ -3053,30 +3100,6 @@
       <district name="其他" zipcode="719000" />
     </city>
   </province>
-  <province name="上海市">
-    <city name="上海市">
-      <district name="宝山区" zipcode="200000" />
-      <district name="长宁区" zipcode="200000" />
-      <district name="崇明县" zipcode="200000" />
-      <district name="奉贤区" zipcode="200000" />
-      <district name="虹口区" zipcode="200000" />
-      <district name="黄浦区" zipcode="200000" />
-      <district name="嘉定区" zipcode="200000" />
-      <district name="金山区" zipcode="200000" />
-      <district name="静安区" zipcode="200000" />
-      <district name="卢湾区" zipcode="200000" />
-      <district name="闵行区" zipcode="200000" />
-      <district name="南汇区" zipcode="200000" />
-      <district name="浦东新区" zipcode="200000" />
-      <district name="普陀区" zipcode="200000" />
-      <district name="青浦区" zipcode="200000" />
-      <district name="松江区" zipcode="200000" />
-      <district name="徐汇区" zipcode="200000" />
-      <district name="杨浦区" zipcode="200000" />
-      <district name="闸北区" zipcode="200000" />
-      <district name="其他" zipcode="200000" />
-    </city>
-  </province>
   <province name="四川省">
     <city name="阿坝藏族羌族自治州">
       <district name="阿坝县" zipcode="624000" />
@@ -3321,29 +3344,6 @@
       <district name="沿滩区" zipcode="643000" />
       <district name="自流井区" zipcode="643000" />
       <district name="其他" zipcode="643000" />
-    </city>
-  </province>
-  <province name="天津市">
-    <city name="天津市">
-      <district name="宝坻区" zipcode="100000" />
-      <district name="北辰区" zipcode="100000" />
-      <district name="大港区" zipcode="100000" />
-      <district name="东丽区" zipcode="100000" />
-      <district name="汉沽区" zipcode="100000" />
-      <district name="和平区" zipcode="100000" />
-      <district name="河北区" zipcode="100000" />
-      <district name="河东区" zipcode="100000" />
-      <district name="河西区" zipcode="100000" />
-      <district name="红桥区" zipcode="100000" />
-      <district name="蓟县" zipcode="100000" />
-      <district name="津南区" zipcode="100000" />
-      <district name="静海县" zipcode="100000" />
-      <district name="南开区" zipcode="100000" />
-      <district name="宁河县" zipcode="100000" />
-      <district name="塘沽区" zipcode="100000" />
-      <district name="武清区" zipcode="100000" />
-      <district name="西青区" zipcode="100000" />
-      <district name="其他" zipcode="100000" />
     </city>
   </province>
   <province name="西藏自治区">

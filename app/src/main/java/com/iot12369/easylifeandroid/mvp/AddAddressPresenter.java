@@ -26,7 +26,8 @@ import okhttp3.RequestBody;
 public class AddAddressPresenter extends BasePresenter<Repository, AddAddressContract.View> {
 
     public void addAddress(String openid, String memberid, String phone, String memberName,
-                           String memberIdCard, String communityName, String communityRawAddress, String qu) {
+                           String memberIdCard, String communityName, String communityRawAddress, String qu,
+                           String communityId) {
         RequestData data = new RequestData();
         data.openid = openid;
         data.memberid = memberid;
@@ -38,6 +39,7 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         data.communityProvince = "天津";
         data.communityCity = "天津市";
         data.communityArea = qu;
+        data.communityId = communityId;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().addAddress(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<AddressVo>>() {
@@ -53,14 +55,13 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         }).start();
     }
 
-    public void communityList() {
-//        PcaRequest request = new PcaRequest();
-//        request.province = province;
-//        request.city = city;
-//        request.area = area;
-//        String province, String city, String area
-//        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(request));
-        new RxHelper().view(getRootView()).load(getModel().getRemote().communityList()).callBack(new RxHelper
+    public void communityList(String province, String city, String area) {
+        PcaRequest request = new PcaRequest();
+        request.province = province;
+        request.city = city;
+        request.area = area;
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(request));
+        new RxHelper().view(getRootView()).load(getModel().getRemote().communityList(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<AddressData>>() {
             @Override
             public void onSuccess(String response, BaseBean<AddressData> result) {
@@ -91,5 +92,6 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         public String communityProvince;
         public String communityCity;
         public String communityArea;
+        public String communityId;
     }
 }

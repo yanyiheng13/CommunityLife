@@ -10,36 +10,41 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/main_bg"
-        android:visibility="gone"/>
+        />
+    <RelativeLayout
+        android:id="@+id/sssssssssssss"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_below="@id/maintain_top_gap_view"
+        android:background="@color/colorWeChatLoginBg">
     <TextView
         android:id="@+id/maintain_item_order_tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:text="@string/maintain_order_number"
-        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
         android:layout_marginLeft="16dp"
         android:textSize="@dimen/font_14"
-        android:layout_below="@id/maintain_top_gap_view"
-        android:textColor="@color/colorMaintainNum"/>
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/maintain_item_date_tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:text="@string/maintain_date"
-        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
         android:textSize="@dimen/font_14"
-        android:layout_below="@id/maintain_top_gap_view"
-        android:textColor="@color/colorMaintainNum"/>
+        android:textColor="@color/white"/>
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/maintain_item_bottom_rl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:paddingBottom="10dp"
-        android:layout_below="@id/maintain_item_date_tv"
+        android:layout_below="@id/sssssssssssss"
         >
         <ImageView
             android:id="@+id/maintain_item_dot_img"
