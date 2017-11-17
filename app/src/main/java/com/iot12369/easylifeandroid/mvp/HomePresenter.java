@@ -8,6 +8,7 @@ import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.NoticeData;
+import com.iot12369.easylifeandroid.model.UpdateData;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
@@ -83,6 +84,22 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
             public void onFailure(String error) {
                 super.onFailure(error);
                 getRootView().onFailureNoticeData(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    public void update() {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().update()).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<UpdateData>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<UpdateData> result) {
+                getRootView().onSuccessUpdateData(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureUpdateData(error, error);
             }
         }).application(LeApplication.mApplication).start();
     }

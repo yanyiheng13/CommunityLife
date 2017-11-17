@@ -148,6 +148,10 @@ public interface RemoteService {
     Flowable<ResponseBody> homeThreeNotice();
 
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("config/v1/app/android/version/injection")
+    Flowable<ResponseBody> update();
+
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/estate")
     Flowable<ResponseBody> addStaff(@Body RequestBody body);
 

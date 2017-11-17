@@ -5,20 +5,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.MaintainVo;
 import com.iot12369.easylifeandroid.model.RepairOrderDetailData;
 import com.iot12369.easylifeandroid.mvp.ProgressPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.ProgressContract;
+import com.iot12369.easylifeandroid.ui.view.CustomGridView;
 import com.iot12369.easylifeandroid.ui.view.EmptyView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +80,13 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
 
     @BindView(R.id.maintain_cant_resolve_tv)
     TextView mTvNoSolve;
+    @BindView(R.id.gridView)
+    CustomGridView mGridView;
+
+    @BindView(R.id.tv_address_tv)
+    TextView mTvAddressss;
+    @BindView(R.id.view_line)
+    View viewLine;
 
     ImageView[] mImgArray = null;
     TextView[] mTvArray = null;
@@ -160,6 +175,77 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
     @Override
     public void onSuccessRepairOrderDetail(RepairOrderDetailData maintainBean) {
         mEmptyView.onSuccess();
+        mTvAddressss.setText(maintainBean.community_name + maintainBean.estate_address);
+        final ArrayList<String> arrayList = new ArrayList<>();
+        if (!TextUtils.isEmpty(maintainBean.img_url_1)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_1);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_2)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_2);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_3)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_3);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_4)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_4);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_5)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_5);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_6)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_6);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_7)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_7);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_8)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_8);
+        }
+        if (!TextUtils.isEmpty(maintainBean.img_url_9)) {
+            arrayList.add(maintainBean.server_url + maintainBean.img_url_9);
+        }
+        if (arrayList.size() > 0) {
+            viewLine.setVisibility(View.VISIBLE);
+            mGridView.setAdapter(new BaseAdapter() {
+                @Override
+                public int getCount() {
+                    return arrayList.size();
+                }
+
+                @Override
+                public Object getItem(int position) {
+                    return arrayList.get(position);
+                }
+
+                @Override
+                public long getItemId(int position) {
+                    return position;
+                }
+
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    ViewHolders holders = null;
+                    if (convertView == null) {
+                        convertView = LayoutInflater.from(getContext()).inflate(R.layout.view_item_image, null);
+                        holders = new ViewHolders();
+                        holders.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+                        convertView.setTag(holders);
+                    } else {
+                        holders = (ViewHolders) convertView.getTag();
+                    }
+//                    Glide.with(getContext()).load(arrayList.get(position)).into(holders.imageView);
+//                    holders.imageView.setImageResource(R.mipmap.pay_zhifubao);
+                    Glide.with(ProgressActivity.this)
+                            .load(arrayList.get(position))
+                            .into(holders.imageView);
+                    return convertView;
+                }
+                class ViewHolders {
+                    ImageView imageView;
+                }
+            });
+
+        }
     }
 
     @Override

@@ -1,11 +1,18 @@
 package com.iot12369.easylifeandroid.ui.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,12 +29,16 @@ import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.NoticeData;
 import com.iot12369.easylifeandroid.model.NoticeVo;
+import com.iot12369.easylifeandroid.model.UpdateData;
 import com.iot12369.easylifeandroid.mvp.HomePresenter;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
+import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
+import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.LockView;
+import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 
 import java.util.List;
@@ -77,6 +88,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private AddressVo mAddress;
     private List<AddressVo> mAddressList;
 
+    public String version;
+
     @Override
     public int inflateId() {
         return R.layout.fragment_home;
@@ -93,13 +106,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         int height = wm.getDefaultDisplay().getHeight();
         //设置顶部图片的宽高
         if (mImageTop.getLayoutParams() != null) {
-            mImageTop.getLayoutParams().height = (int)(1161 / 1620.0 * width);
+            mImageTop.getLayoutParams().height = (int) (1161 / 1620.0 * width);
         }
         if (mRlMore.getLayoutParams() != null) {
-            mRlMore.getLayoutParams().height = (int)(161 / 1620.0 * width);
+            mRlMore.getLayoutParams().height = (int) (161 / 1620.0 * width);
         }
         if (mRlBrief.getLayoutParams() != null) {
-            mRlBrief.getLayoutParams().height = (int)(758 / 1620.0 * width);
+            mRlBrief.getLayoutParams().height = (int) (758 / 1620.0 * width);
         }
         mLockView.setOnStatusChangeListener(new LockView.OnStatusChangeListener() {
             @Override
@@ -114,7 +127,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 }
             }
         });
+        version = getVersion();
         getPresenter().homeThreeNotice();
+        LoadingDialog.show(getActivity(), false);
+        getPresenter().update();
+
     }
 
     @Override
@@ -230,7 +247,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onSuccessNoticeData(NoticeData noticeData) {
-        if (noticeData.list != null && noticeData.list.size() >=  3) {
+        if (noticeData.list != null && noticeData.list.size() >= 3) {
             List<AnnouncementVo> list = noticeData.list;
             AnnouncementVo vo1 = list.get(0);
             AnnouncementVo vo2 = list.get(1);
@@ -245,5 +262,65 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onFailureNoticeData(String code, String msg) {
 
+    }
+
+    public Dialog getUpdate(final UpdateData updateData, boolean isForce) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_update, null);
+        TextView txtUpdate = (TextView) contentView.findViewById(R.id.cer_update);
+        TextView txtNoUpdate = (TextView) contentView.findViewById(R.id.cer_no_update);
+        TextView tip = (TextView) contentView.findViewById(R.id.txt_version);
+        tip.setText("版本提示：" + "当前版本" + version + "最新版本" + updateData.latestVersion);
+        final MyDialog popWnd = new MyDialog(getContext());
+//        popWnd.set
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(false);
+        popWnd.setCanceledOnTouchOutside(false);
+        if (isForce) {
+            txtNoUpdate.setVisibility(View.GONE);
+        }
+        txtUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+                Intent intent= new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(updateData.downloadUrl);
+                intent.setData(content_url);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        txtNoUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+            }
+        });
+        return popWnd;
+    }
+
+    @Override
+    public void onSuccessUpdateData(UpdateData updateData) {
+        LoadingDialog.hide();
+        if (!TextUtils.isEmpty(version) && !TextUtils.isEmpty(updateData.latestVersion) && !updateData.latestVersion.equals(version)) {
+            getUpdate(updateData, "1".equals(updateData.forceRenew)).show();
+        }
+    }
+
+    @Override
+    public void onFailureUpdateData(String code, String msg) {
+        LoadingDialog.hide();
+    }
+
+    public String getVersion() {
+        try {
+            PackageManager manager = getActivity().getPackageManager();
+            PackageInfo info = manager.getPackageInfo(getActivity().getPackageName(), 0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "1.0.0";
+        }
     }
 }

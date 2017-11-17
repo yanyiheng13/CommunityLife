@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         mStatusBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mStatausBarHeight));
         mStatusBar.setVisibility(View.GONE);
         selectTab(2);
-        setTabTextIcon(2);
+//        setTabTextIcon(2);
     }
 
     private static Handler mHandler = new Handler() {

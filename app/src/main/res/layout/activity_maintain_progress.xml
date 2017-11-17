@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bg"
-    >
+    android:background="@color/main_bg">
 
     <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
         android:id="@+id/title_view"
@@ -62,10 +61,33 @@
                 android:background="@android:color/white"
                 android:gravity="start"
                 android:minLines="8"
-                android:paddingTop="10dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:paddingTop="10dp"
                 android:textColor="@color/colorLoginTxt" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:visibility="gone"
+                android:background="@color/colorLine" />
+
+            <com.iot12369.easylifeandroid.ui.view.CustomGridView
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:columnWidth="45dp"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:numColumns="7"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -76,7 +98,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:minHeight="160dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -162,6 +183,7 @@
                         android:textColor="@color/colorLoginTxt"
                         android:textSize="@dimen/font_13" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -189,6 +211,16 @@
                         android:textColor="@color/colorLoginTxt"
                         android:textSize="@dimen/font_13" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_address_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingBottom="8dp"
+                    android:textColor="#62A0F3"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <TextView
@@ -236,39 +268,41 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="80dp"
-                android:paddingBottom="20dp"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp">
+
                 <TextView
                     android:id="@+id/maintain_phone_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
                     android:text="@string/maintain_phone"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_13"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"/>
+                    android:textSize="@dimen/font_13" />
+
                 <com.iot12369.easylifeandroid.ui.view.NoLineTextView
                     android:id="@+id/maintain_phone_num_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_13"
                     android:autoLink="phone"
-                    android:text="@string/phone_num"/>
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/phone_num"
+                    android:textColor="@color/colorLoginTxt"
+                    android:textSize="@dimen/font_13" />
             </LinearLayout>
 
 
         </LinearLayout>
     </ScrollView>
+
     <com.iot12369.easylifeandroid.ui.view.EmptyView
         android:id="@+id/empty_view"
-        android:layout_below="@id/title_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
-    </com.iot12369.easylifeandroid.ui.view.EmptyView>
+        android:layout_below="@id/title_view"
+        android:visibility="gone"></com.iot12369.easylifeandroid.ui.view.EmptyView>
 </RelativeLayout>

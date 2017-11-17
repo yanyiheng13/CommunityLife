@@ -13,10 +13,10 @@ import java.io.Serializable;
 
 public class RepairOrderDetailData implements Serializable {
 
-    public String orderNum;
-    public String time;
-    public String des;
-    public String status;//1:有问题  2:待处理  3:已解决
+//    public String orderNum;
+//    public String time;
+//    public String des;
+//    public String status;//1:有问题  2:待处理  3:已解决
 
 //      "workorder_sn":"201711100001",
 //                    "member_phone":"13888888888",

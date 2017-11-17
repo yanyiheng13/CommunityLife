@@ -4,6 +4,7 @@ import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.NoticeData;
+import com.iot12369.easylifeandroid.model.UpdateData;
 import com.sai.framework.mvp.MvpView;
 
 /**
@@ -26,5 +27,8 @@ public class HomeContract {
 
         void onSuccessNoticeData(NoticeData noticeData);
         void onFailureNoticeData(String code, String msg);
+
+        void onSuccessUpdateData(UpdateData noticeData);
+        void onFailureUpdateData(String code, String msg);
     }
 }
