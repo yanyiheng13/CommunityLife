@@ -26,6 +26,8 @@ public class LeApplication extends Application {
     public static int TAG_HOME =2;
     public static int TAG_MINE = 4;
     public static int TAG_PAY = 0;
+    public static int TAG_MAINTAIN = 1;
+    public static int TAG_COMPLAIN = 3;
 
     public static int mCurrentTag;
     public static AddressVo mAddressVo;

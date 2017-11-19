@@ -223,7 +223,7 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
                 }
 
                 @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
+                public View getView(final int position, View convertView, ViewGroup parent) {
                     ViewHolders holders = null;
                     if (convertView == null) {
                         convertView = LayoutInflater.from(getContext()).inflate(R.layout.view_item_image, null);
@@ -238,6 +238,12 @@ public class ProgressActivity extends BaseActivity<ProgressPresenter> implements
                     Glide.with(ProgressActivity.this)
                             .load(arrayList.get(position))
                             .into(holders.imageView);
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ImageBrowerActivity.newIntent(ProgressActivity.this, arrayList.get(position));
+                        }
+                    });
                     return convertView;
                 }
                 class ViewHolders {

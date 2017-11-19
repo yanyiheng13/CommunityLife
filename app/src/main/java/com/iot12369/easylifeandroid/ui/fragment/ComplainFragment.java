@@ -144,8 +144,14 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.loadMoreEnd(false);
         mEmptyView.onStart();
-        getPresenter().complain(LeApplication.mUserInfo.phone, "1");
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isResumed() && LeApplication.mCurrentTag == LeApplication.TAG_COMPLAIN) {
+            getPresenter().complain(LeApplication.mUserInfo.phone, "1");
+        }
     }
 
     @Override

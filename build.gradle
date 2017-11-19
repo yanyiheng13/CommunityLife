@@ -31,7 +31,7 @@ ext {
     butterknife = '8.2.1'
 
     versionCode = 1
-    versionName = '1.0.0'
+    versionName = '1.1.1'
 }
 ext.deps = [
         support_v4         : "com.android.support:support-v4:$rootProject.supportLibraryVersion",

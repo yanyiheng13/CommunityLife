@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -125,13 +126,14 @@ public class PropertyAddressView extends LinearLayout {
         if (list == null || list.size() == 0) {
             return this;
         }
+        AddressVo currentAddressVo = null;
         if (isAlreadyCertification(addressData)) {
             if (!isMyAddress) {
-                AddressVo addressVo = getCurrentAddress(addressData);
-                if (addressVo == null) {
+                currentAddressVo = getCurrentAddress(addressData);
+                if (currentAddressVo == null) {
                     return this;
                 }
-                mTvAddress.setText(addressVo.communityName + "\n" + addressVo.communityRawAddress );
+                mTvAddress.setText(currentAddressVo.communityName + currentAddressVo.communityRawAddress );
             }
         } else {
             if (!isMyAddress) {
@@ -142,20 +144,24 @@ public class PropertyAddressView extends LinearLayout {
         //下面是我的物业逻辑
         if (isMyAddress) {
             for (int i = 0; i < list.size(); i++) {
+                final AddressVo addressVo = list.get(i);
+//                if (!isMyAddress currentAddressVo.memberId.equals(addressVo.memberId)) {
+//                    continue;
+//                }
                 View view = mInflater.inflate(R.layout.view_property_address_item, null);
                 TextView tv = (TextView) view.findViewById(R.id.property_address_item_tv);
                 ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);
                 ImageView imgChange = (ImageView) view.findViewById(R.id.property_address_item_img);
+                tv.setGravity(Gravity.RIGHT);
                 view.setVisibility(GONE);
                 imgChange.setVisibility(GONE);
                 imgStatus.setVisibility(VISIBLE);
-                final AddressVo addressVo = list.get(i);
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                     }
                 });
-                tv.setText(addressVo.communityName + "\n" + addressVo.communityRawAddress );
+                tv.setText(addressVo.communityName + addressVo.communityRawAddress );
                 if ("2".equals(addressVo.estateAuditStatus)) {//已认证
                     imgStatus.setImageResource(R.mipmap.icon_certification);
                 } else if ("1".equals(addressVo.estateAuditStatus) || "0".equals(addressVo.estateAuditStatus)) {
@@ -172,10 +178,14 @@ public class PropertyAddressView extends LinearLayout {
                 if (addressVo == null || !"2".equals(addressVo.estateAuditStatus)) {
                     continue;
                 }
+                if (currentAddressVo == null || currentAddressVo.memberId.equals(addressVo.memberId)) {
+                    continue;
+                }
                 View view = mInflater.inflate(R.layout.view_property_address_item, null);
                 TextView tv = (TextView) view.findViewById(R.id.property_address_item_tv);
                 ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);
                 view.setVisibility(GONE);
+                tv.setGravity(Gravity.RIGHT);
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -185,7 +195,7 @@ public class PropertyAddressView extends LinearLayout {
                     }
                 });
 
-                tv.setText(addressVo.communityName + "\n" + addressVo.communityRawAddress );
+                tv.setText(addressVo.communityName +  addressVo.communityRawAddress );
                 mListView.add(view);
                 mLlAddressContain.addView(view);
             }

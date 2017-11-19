@@ -6,6 +6,7 @@
     <string name="title_complain">投诉</string>
     <string name="title_mine">我的</string>
     <string name="person_info">个人信息</string>
+    <string name="photo_look">图片查看</string>
 
 
     <string name="login">登录</string>
@@ -24,6 +25,7 @@
     <string name="current_property">当前物业</string>
     <string name="property_address">物业地址</string>
     <string name="property_amount">缴费物业</string>
+    <string name="order_status">订单状态</string>
     <string name="account_certification">物业认证</string>
     <string name="account_authorise">账号授权</string>
     <string name="pay_recode">缴费记录</string>

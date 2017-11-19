@@ -2,46 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/main_bg"
-    >
+    android:background="@color/main_bg">
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp">
+
+        <ImageView
+            android:id="@+id/property_address_item_img"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:background="@mipmap/icon_change" />
+
+        <ImageView
+            android:id="@+id/property_address_status_img"
+            android:layout_width="60dp"
+            android:layout_height="21dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_shouquan"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/property_address_item_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="@dimen/font_14"
-        android:textColor="#838383"
-        android:text="天津市南开街道南开小区\n9号楼3单元402"
-        android:lineSpacingExtra="5dp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="42dp"
-        android:ellipsize="end"
         android:layout_marginTop="2dp"
-        android:lines="2"
-        android:layout_centerVertical="true"/>
+        android:layout_toLeftOf="@id/relative_layout"
+        android:ellipsize="end"
+        android:lineSpacingExtra="5dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:layout_marginRight="30dp"
+        android:text="天津市南开街道sdffffffffffffffffff"
+        android:textColor="#838383"
+        android:textSize="@dimen/font_14" />
 
-    <ImageView
-        android:id="@+id/property_address_item_img"
-        android:layout_width="20dp"
-        android:layout_height="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="25dp"
-        android:layout_centerVertical="true"
-        android:background="@mipmap/icon_change"/>
-    <ImageView
-        android:id="@+id/property_address_status_img"
-        android:layout_width="60dp"
-        android:layout_height="21dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="25dp"
-        android:layout_centerVertical="true"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        android:src="@mipmap/icon_shouquan"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/colorLine"
-        android:layout_below="@id/property_address_item_tv"/>
+        android:layout_below="@id/property_address_item_tv"
+        android:background="@color/colorLine" />
 </RelativeLayout>
