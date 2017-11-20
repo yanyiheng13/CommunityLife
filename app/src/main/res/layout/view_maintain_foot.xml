@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:paddingLeft="16dp"
+        android:layout_marginTop="2dp"
         android:textColor="@color/colorMaintainNum"/>
     <TextView
         android:id="@+id/maintian_footer_submit_tv"

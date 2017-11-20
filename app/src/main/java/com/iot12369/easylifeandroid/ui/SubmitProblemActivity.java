@@ -176,9 +176,13 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
         View footView = LayoutInflater.from(this).inflate(R.layout.view_maintain_foot, null);
         mTvSubmit = (TextView) footView.findViewById(R.id.maintian_footer_submit_tv);
         mTvTip = (TextView) footView.findViewById(R.id.tv_content);
+        AddressVo addressVo = LeApplication.mAddressVo;
         StringBuilder builder = new StringBuilder();
-        builder.append()
-        mTvTip.setText();
+        builder.append(addressVo.communityName);
+        builder.append(addressVo.communityRawAddress);
+        builder.append("\n");
+        builder.append("为保证质量，请在当前物业中选择正确得地址后继续操作!");
+        mTvTip.setText(builder.toString());
         mTvSubmit.setOnClickListener(clickListener);
         mAdapter.addFooterView(footView);
 
