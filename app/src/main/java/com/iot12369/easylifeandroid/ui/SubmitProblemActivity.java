@@ -66,6 +66,7 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
     RecyclerView mRecyclerView;
 
     private TextView mTvSubmit;
+    private TextView mTvTip;
     private EditText mEtDes;
 
     private GridSpacingItemDecoration mItemDecoration;
@@ -174,6 +175,10 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
 
         View footView = LayoutInflater.from(this).inflate(R.layout.view_maintain_foot, null);
         mTvSubmit = (TextView) footView.findViewById(R.id.maintian_footer_submit_tv);
+        mTvTip = (TextView) footView.findViewById(R.id.tv_content);
+        StringBuilder builder = new StringBuilder();
+        builder.append()
+        mTvTip.setText();
         mTvSubmit.setOnClickListener(clickListener);
         mAdapter.addFooterView(footView);
 
