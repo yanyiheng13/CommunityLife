@@ -178,10 +178,11 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
         mTvTip = (TextView) footView.findViewById(R.id.tv_content);
         AddressVo addressVo = LeApplication.mAddressVo;
         StringBuilder builder = new StringBuilder();
+        builder.append("相关物业 ");
         builder.append(addressVo.communityName);
         builder.append(addressVo.communityRawAddress);
         builder.append("\n");
-        builder.append("为保证质量，请在当前物业中选择正确得地址后继续操作!");
+        builder.append("请在当前物业中选择正确的地址后继续操作!");
         mTvTip.setText(builder.toString());
         mTvSubmit.setOnClickListener(clickListener);
         mAdapter.addFooterView(footView);

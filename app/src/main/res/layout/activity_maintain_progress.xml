@@ -282,7 +282,8 @@
                     android:paddingTop="10dp"
                     android:text="@string/maintain_phone"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    android:visibility="gone"/>
 
                 <com.iot12369.easylifeandroid.ui.view.NoLineTextView
                     android:id="@+id/maintain_phone_num_tv"

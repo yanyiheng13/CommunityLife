@@ -103,7 +103,7 @@ public class ComplainFragment extends BaseFragment<ComplainPresenter> implements
                         color = 0XFFE8641B;
                         break;
                     case "4":
-                        statusDes = "已解决";
+                        statusDes = "已处理";
                         color = 0XFF3fcf65;
                         break;
                     default:
