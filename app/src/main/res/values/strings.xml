@@ -58,7 +58,6 @@
 　　家门口的气象局：应用云空气监测系统，对社区空气质量进行实时监测，及时反应于用户端，方便业主合理安排出行计划。\n
 　　区域团购：邑智家优价低活APP定期举行农副产品，生活用品的团购活动，品优价廉，极大便利了业主生活。</string>
 
-
     <string name="maintain_order_number">单号  %s</string>
     <string name="maintain_date">日期  %s</string>
     <string name="transaction_money">缴费金额</string>

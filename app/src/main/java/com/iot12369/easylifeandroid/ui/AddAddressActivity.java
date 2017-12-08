@@ -76,12 +76,16 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     TextView mTvProvince;
     @BindView(R.id.tv_city)
     TextView mTvCity;
+    @BindView(R.id.add_address_men_tv)
+    TextView mTvLouNum;
     @BindView(R.id.add_address_my_et)
     EditText mEtAddress;
     //所在小区
     @BindView(R.id.add_address_location_et)
     TextView mEtLocation;
     private String[] mData;
+
+    public String mBudingDoorId;
     /**
      * 当前省的名称
      */
@@ -121,6 +125,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
 
     private PopupWindow mPopCity;
     private AddressData addressData;
+    private AddressData addressNum;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,7 +137,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
         initProvinceDatas();
     }
 
-    @OnClick({R.id.add_address_tv, R.id.add_address_location_et, R.id.ssss})
+    @OnClick({R.id.add_address_tv, R.id.add_address_location_et, R.id.ssss, R.id.add_address_men_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_address_location_et:
@@ -157,16 +162,27 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                 if (TextUtils.isEmpty(mEtName.getText().toString())
                         || TextUtils.isEmpty(mEtAddress.getText().toString())
                         || TextUtils.isEmpty(mTvPhoneNum.getText().toString())
-                        || TextUtils.isEmpty(mEtLocation.getText().toString())) {
+                        || TextUtils.isEmpty(mEtLocation.getText().toString())
+                        || TextUtils.isEmpty(mTvLouNum.getText().toString())) {
                     return;
                 }
                 LoadingDialog.show(this, false);
                 LoginData data = LeApplication.mUserInfo;
                 getPresenter().addAddress(data.opopenId, data.memberId, data.phone, mEtName.getText().toString(),
-                        mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(), mEtAddress.getText().toString(), mTvQu.getText().toString(), communityId);
+                        mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(),
+                        mEtAddress.getText().toString(), mTvQu.getText().toString(), communityId, mBudingDoorId);
                 break;
             case R.id.ssss:
                 getPopCity().showAtLocation(mTitleView, Gravity.BOTTOM,0, 0);
+                break;
+            case R.id.add_address_men_tv:
+                if (TextUtils.isEmpty(communityId)) {
+                    ToastUtil.toast(this, "请先选择小区");
+                    break;
+                }
+                LoadingDialog.show(this, false);
+                getPresenter().communityNum(communityId);
+                break;
             default:
                 break;
         }
@@ -280,7 +296,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
             viewDistrict.setVisibleItems(7);
             viewProvince.setViewAdapter(new ArrayWheelAdapter<String>(AddAddressActivity.this, mProvinceDatas));
             updateCities(viewProvince, viewCity, viewDistrict);
-            updateAreas(viewCity, viewCity);
+            updateAreas(viewCity, viewDistrict);
 
         }
         // 添加change事件
@@ -443,5 +459,90 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     @Override
     public void onFailureAddressList(String code, String msg) {
         LoadingDialog.hide();
+    }
+
+    @Override
+    public void onSuccessNum(AddressData addressData) {
+//        mBudingDoorId = addressVo.budingDoorId;
+//        mTvLouNum.setText(addressVo.buildingDoor);
+        this.addressNum = addressData;
+        LoadingDialog.hide();
+        if (addressData != null && addressData.list != null && addressData.list.size() !=0 ) {
+            List<AddressVo> list = addressData.list;
+            int size = list.size();
+            String[] datas = new String[size];
+            for (int i = 0; i < size; i++) {
+                datas[i] = list.get(i).buildingDoor;
+            }
+            getNumDialog(datas).show();
+        } else {
+            ToastUtil.toast(this, "数据返回为空");
+        }
+
+    }
+
+    @Override
+    public void onFailureNum(String code, String msg) {
+        LoadingDialog.hide();
+    }
+
+    public Dialog getNumDialog(final String[] data) {
+        if (data == null || data.length == 0) {
+            ToastUtil.toast(this, "该地区暂无楼号");
+            return null;
+        }
+        final View contentView = LayoutInflater.from(AddAddressActivity.this).inflate(R.layout.popup_window, null);
+        ListView listView = (ListView) contentView.findViewById(R.id.listView);
+        final Dialog popWnd = new Dialog(this);
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                popWnd.dismiss();
+                mTvLouNum.setText(mData[position]);
+                mBudingDoorId = addressNum.list.get(position).budingDoorId;
+            }
+        });
+
+        BaseAdapter adapter = new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return data == null ? 0 : data.length;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return data[position];
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder vh;
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_item, null);
+                    vh = new ViewHolder();
+                    vh.tv = (TextView) convertView.findViewById(R.id.text1);
+                    convertView.setTag(vh);
+                } else {
+                    vh = (ViewHolder) convertView.getTag();
+
+                }
+                vh.tv.setText(data[position]);
+                return convertView;
+            }
+
+            class ViewHolder {
+                TextView tv;
+            }
+        };
+        listView.setAdapter(adapter);
+        return popWnd;
     }
 }

@@ -29,11 +29,12 @@ import okhttp3.RequestBody;
  */
 public class HomePresenter extends BasePresenter<Repository, HomeContract.View> {
 
-    public void lock(String memberid, String phone, String _comment) {
+    public void lock(String memberid, String phone, String _comment, String kind) {
         LockData data = new LockData();
         data.memberid = memberid;
         data.phone = phone;
         data._comment = _comment;
+        data.kind = kind;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().lock(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<IsOkData>>() {
@@ -108,5 +109,6 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
         public String memberid;
         public String phone;
         public String _comment;
+        public String kind;//1 是小区锁  2是单元门锁
     }
 }

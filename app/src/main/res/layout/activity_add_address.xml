@@ -256,6 +256,23 @@
                     android:textColor="@color/colorCertification"
                     android:textColorHint="@color/color_69"
                     android:textSize="@dimen/font_16" />
+                <TextView
+                    android:id="@+id/add_address_men_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/add_address_tel_left"
+                    android:background="@drawable/border_bg"
+                    android:gravity="center_vertical"
+                    android:hint="请选择单元门"
+                    android:lines="1"
+                    android:drawableRight="@mipmap/arrow_down"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorCertification"
+                    android:textColorHint="@color/color_69"
+                    android:textSize="@dimen/font_16" />
 
                 <EditText
                     android:id="@+id/add_address_my_et"
@@ -265,12 +282,13 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/border_bg"
                     android:gravity="center_vertical"
-                    android:hint="请填写详细地址"
-                    android:lines="2"
+                    android:hint="请填写门牌号"
+                    android:lines="1"
                     android:paddingBottom="6dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="6dp"
+                    android:inputType="number"
                     android:textColor="@color/colorCertification"
                     android:textColorHint="@color/color_69"
                     android:textSize="@dimen/font_16" />

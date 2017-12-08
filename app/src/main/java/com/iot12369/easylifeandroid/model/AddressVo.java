@@ -29,6 +29,8 @@ public class AddressVo implements Serializable {
     public String communityName;
     public String communityUnit;
     public String memberId;
+    public String budingDoorId;
+    public String buildingDoor;
 
 
     public String name;

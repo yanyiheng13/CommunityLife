@@ -21,5 +21,8 @@ public class AddAddressContract {
 
         void onSuccessAddressList(AddressData addressData);
         void onFailureAddressList(String code, String msg);
+
+        void onSuccessNum(AddressData addressData);
+        void onFailureNum(String code, String msg);
     }
 }

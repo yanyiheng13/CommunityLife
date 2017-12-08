@@ -27,7 +27,7 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
 
     public void addAddress(String openid, String memberid, String phone, String memberName,
                            String memberIdCard, String communityName, String communityRawAddress, String qu,
-                           String communityId) {
+                           String communityId, String budingDoorId) {
         RequestData data = new RequestData();
         data.openid = openid;
         data.memberid = memberid;
@@ -40,6 +40,7 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         data.communityCity = "天津市";
         data.communityArea = qu;
         data.communityId = communityId;
+        data.budingDoorId = budingDoorId;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().addAddress(body)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<AddressVo>>() {
@@ -75,6 +76,23 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
             }
         }).start();
     }
+
+    public void communityNum(String communityId) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().getLouNum(communityId)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<AddressData>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<AddressData> result) {
+                getRootView().onSuccessNum(result.data);
+            }
+            //
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureNum(error, error);
+            }
+        }).start();
+    }
+
     public class PcaRequest {
         String province;
         String city;
@@ -93,5 +111,6 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         public String communityCity;
         public String communityArea;
         public String communityId;
+        public String budingDoorId;
     }
 }

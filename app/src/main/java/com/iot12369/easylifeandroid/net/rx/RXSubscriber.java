@@ -83,6 +83,7 @@ public abstract class RXSubscriber<T> extends DefaultSubscriber<String> {
 
         if (response == null || response.length() == 0) {
             onHandleError(null, null);
+            ToastUtil.toast(LeApplication.mApplication, "请求出错，原因未知" );
             return;
         }
 
@@ -92,14 +93,15 @@ public abstract class RXSubscriber<T> extends DefaultSubscriber<String> {
         }
 
         BaseBean result = json2Object(response, BaseBean.class);
+        result.result = "1";
         if (result == null) {
-            onHandleError(null, null);
+            ToastUtil.toast(LeApplication.mApplication, "请求出错，原因未知" );
             return;
         }
 
         if (!result.isSuccess()) {
             onHandleError(result.result, result.message);
-            ToastUtil.toast(LeApplication.mApplication, TextUtils.isEmpty(result.message) ? "请求出错，原因未知" : result.message);
+            ToastUtil.toast(LeApplication.mApplication, (TextUtils.isEmpty(result.message) || "null".equals(result.message)) ? "请求出错，原因未知" : result.message);
             return;
         }
         if (isList) {
@@ -114,7 +116,7 @@ public abstract class RXSubscriber<T> extends DefaultSubscriber<String> {
                     onHandleSuccess(response, tt);
                 } else {
                     onHandleError(null, null);
-                    ToastUtil.toast(LeApplication.mApplication, TextUtils.isEmpty(model.message) ? "请求出错，原因未知" : model.message);
+                    ToastUtil.toast(LeApplication.mApplication, (TextUtils.isEmpty(result.message) || "null".equals(result.message)) ? "请求出错，原因未知" : result.message);
                 }
 
             }

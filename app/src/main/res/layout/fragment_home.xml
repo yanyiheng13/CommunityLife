@@ -51,7 +51,6 @@
                 android:alpha="0.8"
                 android:background="@mipmap/icon_home_top_bg"
                 android:ellipsize="marquee"
-                android:lines="1"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:paddingBottom="6dp"
                 android:paddingLeft="10dp"
@@ -131,9 +130,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
-                    tools:text="物业公司接管后,完成小区封闭管理的目标"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_14" />
+                    android:textSize="@dimen/font_14"
+                    tools:text="物业公司接管后,完成小区封闭管理的目标" />
             </LinearLayout>
 
             <LinearLayout
@@ -157,9 +156,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
-                    tools:text="物业公司接管后,完成小区封闭管理的目标"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_14" />
+                    android:textSize="@dimen/font_14"
+                    tools:text="物业公司接管后,完成小区封闭管理的目标" />
             </LinearLayout>
 
             <LinearLayout
@@ -183,9 +182,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
-                    tools:text="物业公司接管后,完成小区封闭管理的目标"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_14" />
+                    android:textSize="@dimen/font_14"
+                    tools:text="物业公司接管后,完成小区封闭管理的目标" />
             </LinearLayout>
         </LinearLayout>
 
@@ -195,6 +194,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/home_announcement_brief_ll"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-15dp" />
+            android:layout_marginTop="-15dp"
+            android:visibility="gone" />
+
+        <com.iot12369.easylifeandroid.ui.view.NewLockView
+            android:id="@+id/new_lock_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_announcement_brief_ll"
+            android:layout_marginTop="20dp"/>
     </RelativeLayout>
 </ScrollView>

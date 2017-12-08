@@ -87,7 +87,7 @@ public interface RemoteService {
 
     //开锁
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("lock/v1")
+    @POST("lock/v2")
     Flowable<ResponseBody> lock(@Body RequestBody body);
 
     //提交维修工单
@@ -164,6 +164,10 @@ public interface RemoteService {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("notification/v1/voice/code")
     Flowable<ResponseBody> verificationVoiceCode(@Body RequestBody body);
+    //获取楼栋号
+    @GET("/api/authentication/v1/building")
+    Flowable<ResponseBody> getLouNum(@Query("communityId") String communityId);
+
     //小区列表
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("authentication/v2/community")

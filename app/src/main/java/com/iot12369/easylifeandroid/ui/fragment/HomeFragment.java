@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -28,17 +29,16 @@ import com.iot12369.easylifeandroid.model.AnnouncementVo;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.NoticeData;
-import com.iot12369.easylifeandroid.model.NoticeVo;
 import com.iot12369.easylifeandroid.model.UpdateData;
 import com.iot12369.easylifeandroid.mvp.HomePresenter;
 import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
-import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.LockView;
 import com.iot12369.easylifeandroid.ui.view.MyDialog;
+import com.iot12369.easylifeandroid.ui.view.NewLockView;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 
 import java.util.List;
@@ -83,8 +83,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @BindView(R.id.home_top_address_tv)
     TextView mTvTopAddress;
-    @BindView(R.id.lock_view)
-    LockView mLockView;
+//    @BindView(R.id.lock_view)
+//    LockView mNewLockView;
+    @BindView(R.id.new_lock_view)
+    NewLockView mNewLockView;
     private AddressVo mAddress;
     private List<AddressVo> mAddressList;
 
@@ -103,7 +105,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         WindowManager wm = (WindowManager) getContext()
                 .getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
-        int height = wm.getDefaultDisplay().getHeight();
         //设置顶部图片的宽高
         if (mImageTop.getLayoutParams() != null) {
             mImageTop.getLayoutParams().height = (int) (1161 / 1620.0 * width);
@@ -114,19 +115,25 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         if (mRlBrief.getLayoutParams() != null) {
             mRlBrief.getLayoutParams().height = (int) (758 / 1620.0 * width);
         }
-        mLockView.setOnStatusChangeListener(new LockView.OnStatusChangeListener() {
+        mNewLockView.setOnStatusChangeListener(new NewLockView.OnStatusChangeListener() {
             @Override
-            public void onStatusChange(int status) {
+            public void onStatusChange(int status, final int tab) {
                 switch (status) {
                     case LockView.STATE_ING:
                         if (mAddress != null) {
                             LoginData data = LeApplication.mUserInfo;
-                            getPresenter().lock(mAddress.memberId, data.phone, null);
+                            getPresenter().lock(mAddress.memberId, data.phone, null,tab +"");
                         }
                         break;
                 }
             }
         });
+        RelativeLayout.LayoutParams paramsNewLockView = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        int marginTop =  - ((int)(width * (90 / 540.00)) - 20);
+        paramsNewLockView.setMargins(0, marginTop, 0, 0);
+        paramsNewLockView.addRule(RelativeLayout.BELOW, R.id.home_announcement_brief_ll);
+        mNewLockView.setLayoutParams(paramsNewLockView);
         version = getVersion();
         getPresenter().homeThreeNotice();
         LoadingDialog.show(getActivity(), false);
@@ -176,23 +183,29 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void onSuccessLock(IsOkData isOkData) {
+    public void onSuccessLock(final IsOkData isOkData) {
+//        if (isOkData.isOk()) {
+//            mNewLockView.update(LockView.STATE_SUCCESS);
+//        } else {
+//            mNewLockView.update(LockView.STATE_FAILURE);
+//        }
         if (isOkData.isOk()) {
-            mLockView.update(LockView.STATE_SUCCESS);
+            mNewLockView.update(LockView.STATE_SUCCESS);
         } else {
-            mLockView.update(LockView.STATE_FAILURE);
+            mNewLockView.update(LockView.STATE_FAILURE);
         }
     }
 
     @Override
     public void onFailureLock(String code, String msg) {
-        mLockView.update(LockView.STATE_FAILURE);
+//        mNewLockView.update(LockView.STATE_FAILURE);
+        mNewLockView.update(LockView.STATE_FAILURE);
     }
 
     @Override
     public void onSuccessAddressList(AddressData addressData) {
         mAddressList = addressData.list;
-        mLockView.setAddAdress(mAddressList);
+        mNewLockView.setAddAdress(mAddressList);
         if (!isAlreadyCertification(addressData)) {
             mTvTopAddress.setText("暂无通过认证的物业");
             return;
