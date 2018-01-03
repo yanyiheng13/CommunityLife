@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -88,7 +89,19 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
         mAdapter = new BaseQuickAdapter<AddressVo, BaseViewHolder>(R.layout.view_address_item) {
             @Override
             protected void convert(BaseViewHolder helper, final AddressVo item) {
-                helper.setText(R.id.address_item_tv,  item.communityName + item.communityRawAddress);//设置时间
+                StringBuilder builder = new StringBuilder();
+                builder.append(item.communityName);//小区名字
+                //兼容老的
+                if (!TextUtils.isEmpty(item.communityBuiding) && !"null".equals(item.communityBuiding)) {
+                    builder.append(item.communityBuiding);//几号楼
+                    builder.append("号楼");//几号楼
+                }
+                if (!TextUtils.isEmpty(item.communityUnit) && !"null".equals(item.communityUnit)) {
+                    builder.append(item.communityUnit);//几门
+                    builder.append("门");//几门
+                }
+                builder.append(item.communityRawAddress);//原始门牌号
+                helper.setText(R.id.address_item_tv,  builder.toString());//设置时间
                 RelativeLayout rl = helper.getView(R.id.address_item_rl);
                 View rootView = helper.getView(R.id.view_item_root);
                 if ("2".equals(item.estateAuditStatus)) {
@@ -97,7 +110,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
                     rootView.setVisibility(View.GONE);
                 }
 
-                if (mAddressData != null && mAddressData.communityName.equals(item.communityName)) {
+                if (mAddressData != null && mAddressData.communityName.equals(item.communityName) && mAddressData.communityRawAddress.equals(item.communityRawAddress)) {
                     rl.setVisibility(View.VISIBLE);
                 } else {
                     rl.setVisibility(View.INVISIBLE);

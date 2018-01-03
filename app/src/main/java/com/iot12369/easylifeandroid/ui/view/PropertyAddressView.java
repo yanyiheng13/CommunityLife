@@ -3,6 +3,7 @@ package com.iot12369.easylifeandroid.ui.view;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import com.iot12369.easylifeandroid.model.FamilVo;
 import com.iot12369.easylifeandroid.model.FamilyData;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.util.ToastUtil;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +136,19 @@ public class PropertyAddressView extends LinearLayout {
                 if (currentAddressVo == null) {
                     return this;
                 }
-                mTvAddress.setText(currentAddressVo.communityName + currentAddressVo.communityRawAddress );
+                StringBuilder builder = new StringBuilder();
+                builder.append(currentAddressVo.communityName);//小区名字
+                //兼容老的
+                if (!TextUtils.isEmpty(currentAddressVo.communityBuiding) && !"null".equals(currentAddressVo.communityBuiding)) {
+                    builder.append(currentAddressVo.communityBuiding);//几号楼
+                    builder.append("号楼");//几号楼
+                }
+                if (!TextUtils.isEmpty(currentAddressVo.communityUnit) && !"null".equals(currentAddressVo.communityUnit)) {
+                    builder.append(currentAddressVo.communityUnit);//几门
+                    builder.append("门");//几门
+                }
+                builder.append(currentAddressVo.communityRawAddress);//原始门牌号
+                mTvAddress.setText(builder.toString());
             }
         } else {
             if (!isMyAddress) {
@@ -161,7 +176,19 @@ public class PropertyAddressView extends LinearLayout {
                     public void onClick(View v) {
                     }
                 });
-                tv.setText(addressVo.communityName + addressVo.communityRawAddress );
+                StringBuilder builder = new StringBuilder();
+                builder.append(addressVo.communityName);//小区名字
+                //兼容老的
+                if (!TextUtils.isEmpty(addressVo.communityBuiding) && !"null".equals(addressVo.communityBuiding)) {
+                    builder.append(addressVo.communityBuiding);//几号楼
+                    builder.append("号楼");//几号楼
+                }
+                if (!TextUtils.isEmpty(addressVo.communityUnit) && !"null".equals(addressVo.communityUnit)) {
+                    builder.append(addressVo.communityUnit);//几门
+                    builder.append("门");//几门
+                }
+                builder.append(addressVo.communityRawAddress);//原始门牌号
+                tv.setText(builder.toString());
                 if ("2".equals(addressVo.estateAuditStatus)) {//已认证
                     imgStatus.setImageResource(R.mipmap.icon_certification);
                 } else if ("1".equals(addressVo.estateAuditStatus) || "0".equals(addressVo.estateAuditStatus)) {
@@ -194,8 +221,19 @@ public class PropertyAddressView extends LinearLayout {
                         }
                     }
                 });
-
-                tv.setText(addressVo.communityName +  addressVo.communityRawAddress );
+                StringBuilder builder = new StringBuilder();
+                builder.append(addressVo.communityName);//小区名字
+                //兼容老的
+                if (!TextUtils.isEmpty(addressVo.communityBuiding) && !"null".equals(addressVo.communityBuiding)) {
+                    builder.append(addressVo.communityBuiding);//几号楼
+                    builder.append("号楼");//几号楼
+                }
+                if (!TextUtils.isEmpty(addressVo.communityUnit) && !"null".equals(addressVo.communityUnit)) {
+                    builder.append(addressVo.communityUnit);//几门
+                    builder.append("门");//几门
+                }
+                builder.append(addressVo.communityRawAddress);//原始门牌号
+                tv.setText(builder.toString());
                 mListView.add(view);
                 mLlAddressContain.addView(view);
             }

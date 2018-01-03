@@ -183,7 +183,7 @@
                         android:drawableRight="@mipmap/arrow_down"
                         android:gravity="center"
                         android:text="天津市"
-                        android:textColor="@color/colorLoginTxt"
+                        android:textColor="@color/colorCertification"
                         android:textSize="15sp" />
 
                     <View
@@ -207,7 +207,7 @@
                         android:gravity="center"
                         android:text="天津市"
                         android:lines="1"
-                        android:textColor="@color/colorLoginTxt"
+                        android:textColor="@color/colorCertification"
                         android:textSize="15sp" />
 
                     <View
@@ -231,7 +231,7 @@
                         android:gravity="center"
                         android:text="河北区"
                         android:lines="1"
-                        android:textColor="@color/colorLoginTxt"
+                        android:textColor="@color/colorCertification"
                         android:textSize="15sp" />
 
                     <View
@@ -282,7 +282,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/border_bg"
                     android:gravity="center_vertical"
-                    android:hint="请填写门牌号"
+                    android:hint="请填写门牌号(例如：301)"
                     android:lines="1"
                     android:paddingBottom="6dp"
                     android:paddingLeft="10dp"

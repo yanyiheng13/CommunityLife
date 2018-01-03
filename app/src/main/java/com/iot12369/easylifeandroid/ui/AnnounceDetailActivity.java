@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.R;
@@ -31,8 +32,8 @@ public class AnnounceDetailActivity extends BaseActivity<AnnouncementDetailPrese
     TextView mTvDate;
     @BindView(R.id.announcement_item_des_tv)
     TextView mTvDescrip;
-    @BindView(R.id.text_content)
-    TextView mTvContent;
+    @BindView(R.id.web_view)
+    WebView mWebView;
 
     private AnnouncementVo mAnnouncementVo;
 
@@ -47,7 +48,8 @@ public class AnnounceDetailActivity extends BaseActivity<AnnouncementDetailPrese
         setContentView(R.layout.activity_announcement_detail);
         ButterKnife.bind(this);
         mTitleView.setText(R.string.announce_detail);
-        mTvContent.setText(mAnnouncementVo.noticeContent);
+//        mTvContent.setText(mAnnouncementVo.noticeContent);
+        mWebView.loadDataWithBaseURL(null, mAnnouncementVo.noticeContent, "text/html", "utf-8", null);
         mTvDate.setText(mAnnouncementVo.createTime);
         mTvDescrip.setText(mAnnouncementVo.noticeTitle);
 //        getPresenter().announcementDetail(mAnnouncementId);

@@ -121,7 +121,8 @@
         android:id="@+id/linearLayoutCenter4"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_lkl"

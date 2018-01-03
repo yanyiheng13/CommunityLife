@@ -62,6 +62,7 @@ public class NewLockView extends RelativeLayout{
     public List<AddressVo> mListAddress;
 
     private CountDownTimer mTimer;
+    private CountDownTimer mTimer1;
 
     public NewLockView(Context context) {
         this(context, null);
@@ -120,6 +121,17 @@ public class NewLockView extends RelativeLayout{
                 update(STATE_NORMAL);
             }
         };
+        mTimer1 = new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                update(STATE_ING);
+            }
+        };
         mImgTopLeft.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -152,15 +164,16 @@ public class NewLockView extends RelativeLayout{
                     getPopupWindow().show();
                     break;
                 }
-                if (mCurrentStatus != STATE_NORMAL) {
-                    break;
-                }
+                mTvBottom.setText("长按上方按钮开锁");
+                mImgAnimal.setVisibility(View.VISIBLE);
+                ((AnimationDrawable) mImgAnimal.getDrawable()).start();
                 mStartTime = System.currentTimeMillis();
                 if (mTab == 1) {
                     mImgTopLeft.setImageResource(R.mipmap.lock_left_top_press);
                 } else {
                     mImgTopRight.setImageResource(R.mipmap.lock_right_top_press);
                 }
+                mTimer1.start();
                 break;
             case MotionEvent.ACTION_UP:
                 if (isAddAdress) {
@@ -175,11 +188,8 @@ public class NewLockView extends RelativeLayout{
                 if ((System.currentTimeMillis() - mStartTime) / 1000 < 1) {
                     ToastUtil.toastLong(getContext(), "请长按开锁按钮1秒开锁");
                     update(STATE_NORMAL);
+                    mTimer1.cancel();
                     break;
-                }
-                update(STATE_ING);
-                if (listener != null) {
-                    listener.onStatusChange(STATE_ING, mTab);
                 }
                 break;
             default:
@@ -251,9 +261,10 @@ public class NewLockView extends RelativeLayout{
                 mTvBottom.setText("开锁失败");
                 break;
             case STATE_ING:
-                mImgAnimal.setVisibility(View.VISIBLE);
-                ((AnimationDrawable) mImgAnimal.getDrawable()).start();
                 mTvBottom.setText("开锁中...");
+                if (listener != null) {
+                    listener.onStatusChange(STATE_ING, mTab);
+                }
                 break;
             default:
                 break;

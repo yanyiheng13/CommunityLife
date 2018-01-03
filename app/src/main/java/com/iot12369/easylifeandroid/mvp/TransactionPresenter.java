@@ -25,7 +25,7 @@ public class TransactionPresenter extends BasePresenter<Repository, TransactionC
     public void transaction() {
         RequestData data = new RequestData();
         data.pageIndex = "1";
-        data.pageSize = "20";
+        data.pageSize = "30";
         data.payer = LeApplication.mUserInfo.phone;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().transaction(body)).callBack(new RxHelper

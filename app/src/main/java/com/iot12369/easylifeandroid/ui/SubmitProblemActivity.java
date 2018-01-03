@@ -179,8 +179,17 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
         AddressVo addressVo = LeApplication.mAddressVo;
         StringBuilder builder = new StringBuilder();
         builder.append("相关物业 ");
-        builder.append(addressVo.communityName);
-        builder.append(addressVo.communityRawAddress);
+        builder.append(addressVo.communityName);//小区名字
+        //兼容老的
+        if (!TextUtils.isEmpty(addressVo.communityBuiding) && !"null".equals(addressVo.communityBuiding)) {
+            builder.append(addressVo.communityBuiding);//几号楼
+            builder.append("号楼");//几号楼
+        }
+        if (!TextUtils.isEmpty(addressVo.communityUnit) && !"null".equals(addressVo.communityUnit)) {
+            builder.append(addressVo.communityUnit);//几门
+            builder.append("门");//几门
+        }
+        builder.append(addressVo.communityRawAddress);//原始门牌号
         builder.append("\n");
         builder.append("请在当前物业中选择正确的地址后继续操作!");
         mTvTip.setText(builder.toString());
@@ -253,16 +262,22 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
                 return;
             }
             AddressVo addressVo = LeApplication.mAddressVo;
+            StringBuilder builder = new StringBuilder();
+            builder.append(addressVo.communityBuiding);
+            builder.append("号楼");
+            builder.append(addressVo.communityUnit);
+            builder.append("门");
+            builder.append(addressVo.communityRawAddress);
             if (mType == 1) {//提交维修
                 LoadingDialog.show(SubmitProblemActivity.this, false);
                 LoginData loginData = LeApplication.mUserInfo;
                 getPresenter().upMaintainRequireOrder(loginData.phone, addressVo != null ? addressVo.communityName : "",
-                        addressVo != null ? addressVo.communityRawAddress : "", content, selectList);
+                        builder.toString(), content, selectList);
             } else {// 2提交
                 LoadingDialog.show(SubmitProblemActivity.this, false);
                 LoginData loginData = LeApplication.mUserInfo;
                 getPresenter().upComplainRequireOrder(loginData.phone, addressVo != null ? addressVo.communityName : "",
-                        addressVo != null ? addressVo.communityRawAddress : "", content, selectList);
+                        builder.toString(), content, selectList);
             }
         }
     };

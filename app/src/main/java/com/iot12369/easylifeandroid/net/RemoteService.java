@@ -43,7 +43,7 @@ public interface RemoteService {
     Flowable<ResponseBody> addressList(@Field("version") String version, @Field("appkey") String appkey, @Field("token") String token);
     //投诉
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/getSuggestWorkOrderList")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/getSuggestWorkOrderList")
     Flowable<ResponseBody> complain(@Body RequestBody body);
 
     //系统公告
@@ -92,12 +92,12 @@ public interface RemoteService {
 
     //提交维修工单
     @Multipart
-    @POST("http://39.106.61.132:8989/workOrder/submitServiceWorkOrder")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/submitServiceWorkOrder")
     Flowable<ResponseBody> upMaintainRequireOrder(@PartMap() Map<String, RequestBody> requestBodyMap);
 
     //提交投诉工单
     @Multipart
-    @POST("http://39.106.61.132:8989/workOrder/submitSuggestWorkOrder")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/submitSuggestWorkOrder")
     Flowable<ResponseBody> upComplainRequireOrder(@PartMap() Map<String, RequestBody> requestBodyMap);
 
     //添加人员
@@ -107,7 +107,7 @@ public interface RemoteService {
 
     //维修
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/getServiceWorkOrderList")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/getServiceWorkOrderList")
     Flowable<ResponseBody> maintain(@Body RequestBody body);
 
     //添加物业地址 账号认证
@@ -135,12 +135,12 @@ public interface RemoteService {
 
     //获取支付凭证
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/paymax/pay/applyOrder")
+    @POST("http://xuanyiapi2.iot12369.com:8989/paymax/pay/applyOrder")
     Flowable<ResponseBody> pay (@Body RequestBody bode);
 
     //交易记录
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/paymax/pay/getPaymentRecordList")
+    @POST("http://xuanyiapi2.iot12369.com:8989/paymax/pay/getPaymentRecordList")
     Flowable<ResponseBody> transaction (@Body RequestBody bode);
 
     //首页三条公告请求
@@ -175,30 +175,30 @@ public interface RemoteService {
 
     //修改维修工单的状态
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/updateServiceWorkOrder")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/updateServiceWorkOrder")
     Flowable<ResponseBody> setMaintainState(@Body RequestBody body);
 
     //修改投诉工单的状态
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/updateSuggestWorkOrder")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/updateSuggestWorkOrder")
     Flowable<ResponseBody> setComplainState(@Body RequestBody body);
 
     //获取工单详情
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/getWorkOrderDetail")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/getWorkOrderDetail")
     Flowable<ResponseBody> repairOrderDetail(@Body RequestBody body);
 
     //维修工单用户反馈
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/serviceWorkOrderFeedback")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/serviceWorkOrderFeedback")
     Flowable<ResponseBody> repairOrderMaintainBack(@Body RequestBody body);
 
     //投诉工单用户反馈
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://39.106.61.132:8989/workOrder/serviceWorkOrderFeedback")
+    @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/serviceWorkOrderFeedback")
     Flowable<ResponseBody> repairOrderComplainBack(@Body RequestBody body);
 
     @Multipart
-    @POST("http://39.106.61.132:8989/upload/uploadImages")
+    @POST("http://xuanyiapi2.iot12369.com:8989/upload/uploadImages")
     Call<Result> uploadFile(@Part("description") RequestBody file);
 }

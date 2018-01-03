@@ -42,15 +42,15 @@ public class LeApplication extends Application {
         api = WXAPIFactory.createWXAPI(this, BuildConfig.app_id);
         api.registerApp(BuildConfig.app_id);
         String str = SharePrefrenceUtil.getString("config", "loginType");
-        if ("wechat".equals(str)) {
+//        if ("wechat".equals(str)) {
             String json = SharePrefrenceUtil.getString("config", "user");
-            if (!TextUtils.isEmpty(json)) {
+            if (!TextUtils.isEmpty(json) || json.length() > 10) {
                 mUserInfo = new Gson().fromJson(json, new TypeToken<LoginData>(){}.getType());
             }
-        } else {
-            mUserInfo = null;
-            SharePrefrenceUtil.setString("config", "user", "");
-        }
+//        } else {
+//            mUserInfo = null;
+//            SharePrefrenceUtil.setString("config", "user", "");
+//        }
 
     }
 

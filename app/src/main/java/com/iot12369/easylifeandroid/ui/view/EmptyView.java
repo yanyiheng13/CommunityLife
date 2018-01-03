@@ -79,12 +79,12 @@ public class EmptyView extends RelativeLayout implements View.OnClickListener {
         mLoadingImg = (ImageView) findViewById(R.id.empty_img_load_out);
         mLoadingLayout = (LinearLayout) findViewById(R.id.empty_loading_layout);
 
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
         initAnimView();
         onSuccess();
     }
@@ -118,6 +118,7 @@ public class EmptyView extends RelativeLayout implements View.OnClickListener {
             setBackgroundColor(0XFFF3F3F3);
         }
         this.setVisibility(View.VISIBLE);
+        setOnClickListener(null);
         if (mBindView != null) {
             mBindView.setVisibility(View.GONE);
         }
@@ -146,6 +147,7 @@ public class EmptyView extends RelativeLayout implements View.OnClickListener {
         }
         if (mStateImg != null) {
             mStateImg.clearAnimation();
+            setOnClickListener(this);
             mStateImg.setImageDrawable(ContextCompat.getDrawable(getContext(), mErrorImgResId == 0 ? R.mipmap.icon_cry : mErrorImgResId));
         }
         if (mStateTxt != null) {
@@ -154,6 +156,14 @@ public class EmptyView extends RelativeLayout implements View.OnClickListener {
         }
         mLoadingLayout.setVisibility(View.GONE);
         mLoadingImg.clearAnimation();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (listener != null) {
+            onStart();
+            listener.onDataLoadAgain();
+        }
     }
 
     /**
@@ -184,6 +194,7 @@ public class EmptyView extends RelativeLayout implements View.OnClickListener {
         }
         if (mStateImg != null) {
             mStateImg.clearAnimation();
+            setOnClickListener(this);
             mStateImg.setImageDrawable(ContextCompat.getDrawable(getContext(), mNoDataImgResId == 0 ? R.mipmap.icon_no_data : mNoDataImgResId));
         }
         if (mStateTxt != null) {
@@ -192,15 +203,6 @@ public class EmptyView extends RelativeLayout implements View.OnClickListener {
         }
         mLoadingLayout.setVisibility(View.GONE);
         mLoadingImg.clearAnimation();
-    }
-
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        if (listener != null) {
-            onStart();
-            listener.onDataLoadAgain();
-        }
     }
 
     /**

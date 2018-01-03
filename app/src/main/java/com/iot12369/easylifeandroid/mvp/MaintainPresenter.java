@@ -28,7 +28,7 @@ public class MaintainPresenter extends BasePresenter<Repository, MaintainContrac
         MaintainRequest data = new MaintainRequest();
         data.member_phone = phone;
         data.pageIndex = pageIndex;
-        data.pageSize = "20";
+        data.pageSize = "30";
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(data));
         new RxHelper().view(getRootView()).load(getModel().getRemote().maintain(body)).application(LeApplication.mApplication).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<MaintainData>>() {

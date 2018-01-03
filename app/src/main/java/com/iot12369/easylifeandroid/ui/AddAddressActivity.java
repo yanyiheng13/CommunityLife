@@ -335,6 +335,11 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                 mTvCity.setText(mCurrentCityName);
                 mTvQu.setText(mCurrentDistrictName);
                 mData = null;
+                communityId = "";
+                mBudingDoorId = "";
+                mTvLouNum.setText("");
+                mEtLocation.setText("");
+                mTvLouNum.setText("");
             }
         });
 
@@ -501,7 +506,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 popWnd.dismiss();
-                mTvLouNum.setText(mData[position]);
+                mTvLouNum.setText(data[position]);
                 mBudingDoorId = addressNum.list.get(position).budingDoorId;
             }
         });

@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:text="2017-10-02 20:32:57"
                 android:textColor="@color/colorMaintainNum"
                 android:textSize="@dimen/font_14" />
@@ -53,7 +53,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/announcement_item_dot_img"
                     android:ellipsize="end"
                     android:lines="1"
@@ -69,18 +69,22 @@
                 android:background="@color/colorLine" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/text_content"
+        <!--<TextView-->
+            <!--android:id="@+id/text_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:paddingLeft="16dp"-->
+            <!--android:paddingRight="16dp"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:text="@string/sssssss"-->
+            <!--android:textColor="@color/colorLoginTxt"-->
+            <!--android:textSize="@dimen/font_16" />-->
+        <WebView
+            android:id="@+id/web_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:text="@string/sssssss"
-            android:textColor="@color/colorLoginTxt"
-            android:textSize="@dimen/font_16" />
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <ImageView

@@ -90,7 +90,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private AddressVo mAddress;
     private List<AddressVo> mAddressList;
 
-    public String version;
+    public String version = "1.0.0";
 
     @Override
     public int inflateId() {
@@ -130,7 +130,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         });
         RelativeLayout.LayoutParams paramsNewLockView = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        int marginTop =  - ((int)(width * (90 / 540.00)) - 20);
+        int marginTop =  - ((int)(width * (90 / 540.00)) - 8);
         paramsNewLockView.setMargins(0, marginTop, 0, 0);
         paramsNewLockView.addRule(RelativeLayout.BELOW, R.id.home_announcement_brief_ll);
         mNewLockView.setLayoutParams(paramsNewLockView);
@@ -189,17 +189,28 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 //        } else {
 //            mNewLockView.update(LockView.STATE_FAILURE);
 //        }
-        if (isOkData.isOk()) {
-            mNewLockView.update(LockView.STATE_SUCCESS);
-        } else {
-            mNewLockView.update(LockView.STATE_FAILURE);
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isOkData.isOk()) {
+                    mNewLockView.update(LockView.STATE_SUCCESS);
+                } else {
+                    mNewLockView.update(LockView.STATE_FAILURE);
+                }
+            }
+        }, 500);
+
     }
 
     @Override
     public void onFailureLock(String code, String msg) {
 //        mNewLockView.update(LockView.STATE_FAILURE);
-        mNewLockView.update(LockView.STATE_FAILURE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mNewLockView.update(LockView.STATE_FAILURE);
+            }
+        }, 500);
     }
 
     @Override
@@ -213,7 +224,19 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mAddress = getCurrentAddress(addressData);
         LeApplication.mAddressVo = mAddress;
         if (mAddress != null) {
-            mTvTopAddress.setText(mAddress.communityName + mAddress.communityRawAddress);
+            StringBuilder builder = new StringBuilder();
+            builder.append(mAddress.communityName);//小区名字
+            //兼容老的
+            if (!TextUtils.isEmpty(mAddress.communityBuiding) && !"null".equals(mAddress.communityBuiding)) {
+                builder.append(mAddress.communityBuiding);//几号楼
+                builder.append("号楼");//几号楼
+            }
+            if (!TextUtils.isEmpty(mAddress.communityUnit) && !"null".equals(mAddress.communityUnit)) {
+                builder.append(mAddress.communityUnit);//几门
+                builder.append("门");//几门
+            }
+            builder.append(mAddress.communityRawAddress);//原始门牌号
+            mTvTopAddress.setText(builder.toString());
         }
         SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
     }
@@ -315,8 +338,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onSuccessUpdateData(UpdateData updateData) {
         LoadingDialog.hide();
-        if (!TextUtils.isEmpty(version) && !TextUtils.isEmpty(updateData.latestVersion) && !updateData.latestVersion.equals(version)) {
-            getUpdate(updateData, "1".equals(updateData.forceRenew)).show();
+        if (!TextUtils.isEmpty(version) && !TextUtils.isEmpty(updateData.latestVersion)) {
+            String versionString = version.replace(".", "");
+            String latesVersion = updateData.latestVersion.replace(".", "");
+            int vers = Integer.valueOf(versionString);
+            int lates = Integer.valueOf(latesVersion);
+            if (lates > vers) {
+                getUpdate(updateData, "1".equals(updateData.forceRenew)).show();
+            }
         }
     }
 
