@@ -159,11 +159,11 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                 popupWindow.show();
                 break;
             case R.id.add_address_tv:
-                if (TextUtils.isEmpty(mEtName.getText().toString())
-                        || TextUtils.isEmpty(mEtAddress.getText().toString())
-                        || TextUtils.isEmpty(mTvPhoneNum.getText().toString())
-                        || TextUtils.isEmpty(mEtLocation.getText().toString())
-                        || TextUtils.isEmpty(mTvLouNum.getText().toString())) {
+                if (TextUtils.isEmpty(mEtName.getText().toString().trim())
+                        || TextUtils.isEmpty(mEtAddress.getText().toString().trim())
+                        || TextUtils.isEmpty(mTvPhoneNum.getText().toString().trim())
+                        || TextUtils.isEmpty(mEtLocation.getText().toString().trim())
+                        || TextUtils.isEmpty(mTvLouNum.getText().toString().trim())) {
                     return;
                 }
                 LoadingDialog.show(this, false);

@@ -113,6 +113,7 @@
             android:background="@drawable/border_bg"
             android:layout_toRightOf="@id/add_people_phone_left"
             android:lines="1"
+            android:inputType="number"
             android:textColor="@color/colorCertification"
             android:textSize="@dimen/font_16" />
     </RelativeLayout>

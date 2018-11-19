@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
@@ -40,6 +41,8 @@ import com.iot12369.easylifeandroid.ui.view.LockView;
 import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.NewLockView;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
+import com.youth.banner.Banner;
+import com.youth.banner.loader.ImageLoader;
 
 import java.util.List;
 
@@ -57,7 +60,7 @@ import butterknife.OnClick;
  */
 public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
     @BindView(R.id.home_top_img)
-    ImageView mImageTop;
+    Banner mBanner;
 
     @BindView(R.id.home_announcement_more_rl)
     RelativeLayout mRlMore;
@@ -105,9 +108,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         WindowManager wm = (WindowManager) getContext()
                 .getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
-        //设置顶部图片的宽高
-        if (mImageTop.getLayoutParams() != null) {
-            mImageTop.getLayoutParams().height = (int) (1161 / 1620.0 * width);
+        //设置顶部banner的宽高
+        if (mBanner.getLayoutParams() != null) {
+            mBanner.getLayoutParams().height = (int) (1161 / 1620.0 * width);
         }
         if (mRlMore.getLayoutParams() != null) {
             mRlMore.getLayoutParams().height = (int) (161 / 1620.0 * width);
@@ -139,6 +142,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         LoadingDialog.show(getActivity(), false);
         getPresenter().update();
 
+        //设置图片加载器
+//        mBanner.setImageLoader(new GlideImageLoader());
+//        //设置图片集合
+//        mBanner.setImages(images);
+//        //banner设置方法全部调用完毕时最后调用
+//        mBanner.start();
+
     }
 
     @Override
@@ -154,10 +164,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onHiddenChanged(hidden);
         if (!hidden) {
             getPresenter().addressList(LeApplication.mUserInfo.phone);
+            getPresenter().homeThreeNotice();
+            mBanner.startAutoPlay();
+        } else {
+            mBanner.stopAutoPlay();
         }
     }
 
-    @OnClick({R.id.home_announcement_more_rl, R.id.home_top_key_img})
+    @OnClick({R.id.home_announcement_more_rl, R.id.home_top_key_img, R.id.new_lock_view})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_announcement_more_rl:
@@ -166,9 +180,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             case R.id.home_top_key_img:
                 AddressListActivity.newIntent(getActivity(), mAddressList, mAddress, 100);
                 break;
+            case R.id.new_lock_view:
+                showUnlockDialog();
+                break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 显示开锁弹出对话框
+     */
+    private void showUnlockDialog() {
     }
 
     @Override
@@ -184,11 +207,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onSuccessLock(final IsOkData isOkData) {
-//        if (isOkData.isOk()) {
-//            mNewLockView.update(LockView.STATE_SUCCESS);
-//        } else {
-//            mNewLockView.update(LockView.STATE_FAILURE);
-//        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -204,7 +222,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onFailureLock(String code, String msg) {
-//        mNewLockView.update(LockView.STATE_FAILURE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -363,6 +380,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         } catch (Exception e) {
             e.printStackTrace();
             return "1.0.0";
+        }
+    }
+
+    public class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            //Glide 加载图片简单用法
+            Glide.with(context).load(path).into(imageView);
         }
     }
 }

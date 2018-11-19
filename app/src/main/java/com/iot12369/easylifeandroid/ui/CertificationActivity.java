@@ -71,8 +71,7 @@ public class CertificationActivity extends BaseActivity<PersonInfoPresenter> imp
         mProperView.setText(R.string.my_pro);
         mProperView.setGoneTxt();
         LoginData userInfo = LeApplication.mUserInfo;
-        String openid = SharePrefrenceUtil.getString("config", "openid");
-        if (TextUtils.isEmpty(openid)) {
+        if (TextUtils.isEmpty(userInfo.appId)) {
             mImgStatus.setImageResource(R.mipmap.icon_not_bind);
         } else {
             mImgStatus.setImageResource(R.mipmap.icon_binded);

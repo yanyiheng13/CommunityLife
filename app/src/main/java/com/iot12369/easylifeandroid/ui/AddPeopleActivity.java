@@ -69,6 +69,10 @@ public class AddPeopleActivity extends BaseActivity<AddPeoplePresenter> implemen
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone)) {
             return;
         }
+        if (!phone.startsWith("1") || phone.length() != 11) {
+            ToastUtil.toast(this, "请输入正确手机号");
+            return;
+        }
         LoadingDialog.show(this, false);
         FamilVo familVo = new FamilVo();
         familVo.level = mLever;

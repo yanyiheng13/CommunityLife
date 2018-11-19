@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.iot12369.easylifeandroid"
         multiDexEnabled true
@@ -48,43 +47,45 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(include: ['*.jar'], dir: 'libs')
     //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     //        exclude group: 'com.android.support', module: 'support-annotations'
     //        exclude group: 'com.google.result.findbugs'
     //    })
     testCompile 'junit:junit:4.12'
-    compile deps.glide
-    compile deps.okhttp
-    compile(
+    api deps.glide
+    api deps.okhttp
+    api(
             deps.appcompat_v7,
             deps.support_design,
     )
-    compile deps.butterknife
-    apt deps.butterknifeCompiler
-//    compile deps.wechat_login
-    compile deps.rxjava
-    compile deps.rxandroid
+    api deps.butterknife
+    annotationProcessor  'com.jakewharton:butterknife-compiler:8.4.0'
+//    apt deps.butterknifeCompiler
+    api deps.rxjava
+    api deps.rxandroid
 
-    compile deps.recyclerview_adapter
-    compile project(':library')
-    compile project(':libframework')
-    compile project(':picture_library')
-    compile files('libs/alipaySdk-20161222.jar')
-    compile files('libs/libmmsdk.jar')
+    api deps.recyclerview_adapter
+    api project(':library')
+    api project(':libframework')
+    api project(':picture_library')
+//    compile files('libs/alipaySdk-20161222.jar')
+//    compile files('libs/libmmsdk.jar')
     //    compile(name: 'facesdk-release', ext: 'aar')
 
-    compile(name: 'lkl-pay-sdk-release', ext: 'aar')
-    compile(name: 'libimagecapture-release', ext: 'aar')
-    compile(name: 'libcamera-release', ext: 'aar')
-    compile(name: 'libidcardcaptor-release', ext: 'aar')
-    compile(name: 'liblivenessdetector2-release', ext: 'aar')
-    compile(name: 'liblivenessdetectionview2-release', ext: 'aar')
-    compile(name: 'libcommon-release', ext: 'aar')
+    api(name: 'lkl-pay-sdk-release', ext: 'aar')
+    api(name: 'libimagecapture-release', ext: 'aar')
+    api(name: 'libcamera-release', ext: 'aar')
+    api(name: 'libidcardcaptor-release', ext: 'aar')
+    api(name: 'liblivenessdetector2-release', ext: 'aar')
+    api(name: 'liblivenessdetectionview2-release', ext: 'aar')
+    api(name: 'libcommon-release', ext: 'aar')
+    api 'com.youth.banner:banner:1.4.10'
     //noinspection GradleCompatible
     //    compile 'com.android.support:percent:23.1.0'
-    compile files('libs/paymax.jar')
+    api files('libs/paymax.jar')
 }

@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid.ui.view;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -72,6 +73,7 @@ public class NewLockView extends RelativeLayout{
         this(context, attrs, 0);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public NewLockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.view_new_lock, this);

@@ -9,18 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.youth.banner.Banner
             android:id="@+id/home_top_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/icon_home_top" />
+            android:layout_height="200dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="36dp">
+            android:layout_marginTop="30dp">
 
             <ImageView
                 android:id="@+id/home_top_key_img"
@@ -52,21 +51,26 @@
                 android:background="@mipmap/icon_home_top_bg"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:paddingBottom="6dp"
+                android:paddingBottom="3dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="16dp"
-                android:paddingTop="6dp"
+                android:paddingTop="3dp"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_15"
                 tools:text="北京市昌平区东小口镇小辛庄村生源公演9-3-210" />
         </RelativeLayout>
-
+        <TextView
+            android:id="@+id/line_banner_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#3fda1c"
+            android:layout_below="@id/home_top_img"/>
         <RelativeLayout
             android:id="@+id/home_announcement_more_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/home_top_img"
+            android:layout_below="@id/line_banner_bottom"
             android:background="@mipmap/icon_home_two">
 
             <ImageView
