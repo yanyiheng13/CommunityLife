@@ -35,35 +35,29 @@ import butterknife.ButterKnife;
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
 
-public class NewLockView extends RelativeLayout{
+public class NewLockView extends RelativeLayout {
     public static final int  STATE_NORMAL = 1;
     public static final int  STATE_SUCCESS = 2;
     public static final int  STATE_FAILURE = 3;
     public static final int  STATE_ING = 4;
 
-    public static int mCurrentStatus = 1;
-    public static int mTab = 0;
+    private boolean isDialogShow;
 
-    @BindView(R.id.img_lock_left)
-    ImageView mImgLeft;
-    @BindView(R.id.img_lock_right)
-    ImageView mImgRight;
-    @BindView(R.id.tv_lock_bottom)
-    TextView mTvBottom;
-    @BindView(R.id.img_lock_left_top)
-    ImageView mImgTopLeft;
-    @BindView(R.id.img_lock_right_top)
-    ImageView mImgTopRight;
-    @BindView(R.id.img_lock_animal)
-    ImageView mImgAnimal;
-
-    private boolean isAddAdress;
-
-    private Long mStartTime;
     public List<AddressVo> mListAddress;
 
-    private CountDownTimer mTimer;
+    private MyDialog myDialogUnlock;
+    private ImageView mImgAd;
+    private ImageView mImgUnlockOne;
+    private ImageView mImgUnlockTwo;
+
+    private TextView mTvTipOne;
+    private TextView mTvTipTwo;
+
     private CountDownTimer mTimer1;
+    private CountDownTimer mTimer2;
+    private int mWidth;
+    private int mImageHeight;
+    private int mImageWidth;
 
     public NewLockView(Context context) {
         this(context, null);
@@ -81,38 +75,8 @@ public class NewLockView extends RelativeLayout{
         //获取屏幕宽高
         WindowManager wm = (WindowManager) getContext()
                 .getSystemService(Context.WINDOW_SERVICE);
-        int width = wm.getDefaultDisplay().getWidth();
-        //获取紫色部分LayoutParams
-        RelativeLayout.LayoutParams paramsLeft = (LayoutParams) mImgLeft.getLayoutParams();
-        RelativeLayout.LayoutParams paramsRight = (LayoutParams) mImgRight.getLayoutParams();
-        //left: 135 * 347  bottom 1080*301  240-387 540
-        double bottomHeight = width * (301 / 1080.00);//底部圆弧高度
-        if (paramsLeft != null && paramsRight != null) {
-            double leftWidth = width * 135.00 / 1080;
-            paramsLeft.width = (int) leftWidth;
-            paramsRight.width = (int) leftWidth;
-            double leftHeight = leftWidth * 347 / 135;
-            paramsLeft.height = (int) leftHeight;
-            paramsRight.height = (int) leftHeight;
-        }
-        RelativeLayout.LayoutParams paramsAnimal = (LayoutParams) mImgAnimal.getLayoutParams();
-        RelativeLayout.LayoutParams paramsBottom = (LayoutParams) mTvBottom.getLayoutParams();
-        if (paramsBottom != null) {
-            paramsAnimal.width = width;
-            paramsAnimal.height = (int) bottomHeight;
-            paramsBottom.width = width;
-            paramsBottom.height = (int) bottomHeight;
-        }
-        double topHeight = width / 2.00 * (387 / 540.00);
-        double marginHeight = (topHeight * (240.00 / 387.00 - 1.00) + bottomHeight);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) (width / 2.00), (int) topHeight);
-        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams((int) (width / 2.00), (int) topHeight);
-        params.setMargins(0, 0, 0, (int) marginHeight);
-        params1.setMargins(0, 0, 0, (int) marginHeight);
-        params1.addRule(RelativeLayout.ALIGN_PARENT_END);
-        mImgTopLeft.setLayoutParams(params);
-        mImgTopRight.setLayoutParams(params1);
-        mTimer = new CountDownTimer(2000, 1000) {
+        mWidth = wm.getDefaultDisplay().getWidth();
+        mTimer1 = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -120,10 +84,10 @@ public class NewLockView extends RelativeLayout{
 
             @Override
             public void onFinish() {
-                update(STATE_NORMAL);
+                update(STATE_NORMAL, 1);
             }
         };
-        mTimer1 = new CountDownTimer(1000, 1000) {
+        mTimer2 = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -131,72 +95,26 @@ public class NewLockView extends RelativeLayout{
 
             @Override
             public void onFinish() {
-                update(STATE_ING);
+                update(STATE_NORMAL, 2);
             }
         };
-        mImgTopLeft.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mTab = 1;
-                myTouchListener(event);
-                return true;
-            }
-        });
-        mImgTopRight.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mTab = 2;
-                myTouchListener(event);
-                return true;
-            }
-        });
-        mTvBottom.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
     }
 
-    public void myTouchListener(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (!isAlreadyCertification(mListAddress)) {
-                    isAddAdress = true;
-                    getPopupWindow().show();
-                    break;
-                }
-                mTvBottom.setText("长按上方按钮开锁");
-                mImgAnimal.setVisibility(View.VISIBLE);
-                ((AnimationDrawable) mImgAnimal.getDrawable()).start();
-                mStartTime = System.currentTimeMillis();
-                if (mTab == 1) {
-                    mImgTopLeft.setImageResource(R.mipmap.lock_left_top_press);
-                } else {
-                    mImgTopRight.setImageResource(R.mipmap.lock_right_top_press);
-                }
-                mTimer1.start();
-                break;
-            case MotionEvent.ACTION_UP:
-                if (isAddAdress) {
-                    isAddAdress = false;
-                    break;
-                }
-                if (mTab == 1) {
-                    mImgTopLeft.setImageResource(R.mipmap.lock_left_top);
-                } else {
-                    mImgTopRight.setImageResource(R.mipmap.lock_right_top);
-                }
-                if ((System.currentTimeMillis() - mStartTime) / 1000 < 1) {
-                    ToastUtil.toastLong(getContext(), "请长按开锁按钮1秒开锁");
-                    update(STATE_NORMAL);
-                    mTimer1.cancel();
-                    break;
-                }
-                break;
-            default:
-                break;
+    public void onClickKind(int kind) {
+        if (!isAlreadyCertification(mListAddress)) {
+            getPopupWindow().show();
+            return;
         }
+        if (!isDialogShow || mImgUnlockOne == null || mImgUnlockTwo == null) {
+            return;
+        }
+        if (mImageWidth == 0) {
+            mImageWidth = mImgUnlockOne.getLayoutParams().width;
+        }
+        if (mImageHeight == 0) {
+            mImageHeight = mImgUnlockOne.getLayoutParams().height;
+        }
+        update(STATE_ING, kind);
     }
 
     public Dialog getPopupWindow() {
@@ -204,7 +122,6 @@ public class NewLockView extends RelativeLayout{
         TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
         TextView close = (TextView) contentView.findViewById(R.id.close);
         final MyDialog  popWnd = new MyDialog(getContext());
-//        popWnd.set
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         popWnd.setCancelable(true);
         popWnd.setCanceledOnTouchOutside(true);
@@ -224,7 +141,47 @@ public class NewLockView extends RelativeLayout{
         return popWnd;
     }
 
-    public void setAddAdress(List<AddressVo> listAddress) {
+    public MyDialog  createLockDialog() {
+        if (myDialogUnlock == null) {
+            myDialogUnlock = new MyDialog(getContext());
+        }
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_unlock, null);
+        mImgAd = (ImageView) contentView.findViewById(R.id.img_unlock_ad);
+        mImgUnlockOne = (ImageView) contentView.findViewById(R.id.img_community_door);
+        mImgUnlockTwo = (ImageView) contentView.findViewById(R.id.img_unit_door);
+        mTvTipOne = (TextView) contentView.findViewById(R.id.tv_community_door);
+        mTvTipTwo = (TextView) contentView.findViewById(R.id.tv_unit_door);
+        ImageView imgClose = (ImageView) contentView.findViewById(R.id.img_close);
+        if (mImgAd.getLayoutParams() != null) {
+            mImgAd.getLayoutParams().height = (int)((662 / 1080.00) * (mWidth - 100));
+        }
+        myDialogUnlock.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        myDialogUnlock.setCancelable(false);
+        myDialogUnlock.setCanceledOnTouchOutside(false);
+        imgClose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialogUnlock.dismiss();
+                isDialogShow = false;
+            }
+        });
+        mImgUnlockOne.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickKind(1);
+            }
+        });
+        mImgUnlockTwo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickKind(2);
+            }
+        });
+        isDialogShow = true;
+        return myDialogUnlock;
+    }
+
+    public void setAddAddress(List<AddressVo> listAddress) {
         mListAddress = listAddress;
     }
     public boolean isAlreadyCertification(List<AddressVo> addressData) {
@@ -243,35 +200,90 @@ public class NewLockView extends RelativeLayout{
         return isAlready;
     }
 
-    public void update(int status) {
+    public void update(int status, int kind) { // tab 1: 小区门  2: 单元门
         switch (status) {
             case STATE_NORMAL:
-                mImgAnimal.setVisibility(View.GONE);
-                ((AnimationDrawable) mImgAnimal.getDrawable()).stop();
-                mTvBottom.setText("长按上方按钮开锁");
+                if (!isDialogShow) { //弹窗已经关闭
+                    break;
+                }
+                if (kind == 1) {
+                    if (mImgUnlockOne.getLayoutParams() != null) {
+                        mImgUnlockOne.getLayoutParams().height = mImageHeight;
+                        mImgUnlockOne.getLayoutParams().width = mImageWidth;
+                    }
+                    mTvTipOne.setText("");
+                } else if (kind == 2) {
+                    if (mImgUnlockTwo.getLayoutParams() != null) {
+                        mImgUnlockTwo.getLayoutParams().height = mImageHeight;
+                        mImgUnlockTwo.getLayoutParams().width = mImageWidth;
+                    }
+                    mTvTipTwo.setText("");
+                }
                 break;
             case STATE_SUCCESS:
-                mImgAnimal.setVisibility(View.GONE);
-                ((AnimationDrawable) mImgAnimal.getDrawable()).stop();
-                mTvBottom.setText("开锁成功");
-                mTimer.start();
+                if (!isDialogShow) { //弹窗已经关闭
+                    break;
+                }
+                if (kind == 1) {
+                    if (mImgUnlockOne.getLayoutParams() != null) {
+                        mImgUnlockOne.getLayoutParams().height = mImageHeight;
+                        mImgUnlockOne.getLayoutParams().width = mImageWidth;
+                    }
+                    mTvTipOne.setText("开锁成功");
+                    mTimer1.start();
+                } else if (kind == 2) {
+                    if (mImgUnlockTwo.getLayoutParams() != null) {
+                        mImgUnlockTwo.getLayoutParams().height = mImageHeight;
+                        mImgUnlockTwo.getLayoutParams().width = mImageWidth;
+                    }
+                    mTvTipTwo.setText("开锁成功");
+                    mTimer2.start();
+                }
                 break;
             case STATE_FAILURE:
-                mImgAnimal.setVisibility(View.GONE);
-                ((AnimationDrawable) mImgAnimal.getDrawable()).stop();
-                mTimer.start();
-                mTvBottom.setText("开锁失败");
+                if (!isDialogShow) { //弹窗已经关闭
+                    break;
+                }
+                if (kind == 1) {
+                    if (mImgUnlockOne.getLayoutParams() != null) {
+                        mImgUnlockOne.getLayoutParams().height = mImageHeight;
+                        mImgUnlockOne.getLayoutParams().width = mImageWidth;
+                    }
+                    mTvTipOne.setText("开锁失败");
+                    mTimer1.start();
+                } else if (kind == 2) {
+                    if (mImgUnlockTwo.getLayoutParams() != null) {
+                        mImgUnlockTwo.getLayoutParams().height = mImageHeight;
+                        mImgUnlockTwo.getLayoutParams().width = mImageWidth;
+                    }
+                    mTvTipTwo.setText("开锁失败");
+                    mTimer2.start();
+                }
                 break;
             case STATE_ING:
-                mTvBottom.setText("开锁中...");
+                if (!isDialogShow) { //弹窗已经关闭
+                    break;
+                }
+                if (kind == 1) {
+                    if (mImgUnlockOne.getLayoutParams() != null) {
+                        mImgUnlockOne.getLayoutParams().height = (int)(mImageHeight * 0.9);
+                        mImgUnlockOne.getLayoutParams().width = (int)(mImageWidth * 0.9);
+                    }
+                    mTvTipOne.setText("开锁中...");
+                } else if (kind == 2) {
+                    if (mImgUnlockTwo.getLayoutParams() != null) {
+                        mImgUnlockTwo.getLayoutParams().height = (int)(mImageHeight * 0.9);
+                        mImgUnlockTwo.getLayoutParams().width = (int)(mImageWidth * 0.9);
+                    }
+                    mTvTipTwo.setText("开锁中...");
+                }
                 if (listener != null) {
-                    listener.onStatusChange(STATE_ING, mTab);
+                    listener.onStatusChange(status, kind);
                 }
                 break;
             default:
                 break;
         }
-        mCurrentStatus = status;
     }
 
     public OnStatusChangeListener listener;

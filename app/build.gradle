@@ -15,16 +15,16 @@ android {
         buildConfigField "String", "app_id", "\"${APP_ID}\""
         buildConfigField "String", "app_secret", "\"${APP_SECRET}\""
 
-        ndk {
-            //根据需要 自行选择添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
-        }
-
-        manifestPlaceholders = [
-                XG_ACCESS_ID:"233333333323",
-                XG_ACCESS_KEY : "233333333333333333333",
-        ]
+//        ndk {
+//            //根据需要 自行选择添加的对应cpu类型的.so库。
+//            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+//            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+//        }
+//
+//        manifestPlaceholders = [
+//                XG_ACCESS_ID:"233333333323",
+//                XG_ACCESS_KEY : "233333333333333333333",
+//        ]
 
     }
 
@@ -50,6 +50,7 @@ android {
         }
 
         debug {
+            minifyEnabled false
             signingConfig signingConfigs.release
         }
     }
@@ -76,7 +77,7 @@ dependencies {
             deps.support_design,
     )
     api deps.butterknife
-    annotationProcessor  'com.jakewharton:butterknife-compiler:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 //    apt deps.butterknifeCompiler
     api deps.rxjava
     api deps.rxandroid
@@ -102,12 +103,11 @@ dependencies {
     api files('libs/paymax.jar')
 
     //信鸽jar，包含厂商通道(此版本已经集成厂商通道，无需另外导入厂商依赖包)
-    compile 'com.tencent.xinge:xinge:4.0.3-otherpush-Release'
-    //compile 'com.tencent.xinge:xinge:4.2.0-otherpush-Beta'
-    //jg包
-    compile'com.tencent.jg:jg:1.1'
-    //wup包
-    compile 'com.tencent.wup:wup:1.0.0.E-release'
-    //mid包
-    compile 'com.tencent.mid:mid:4.0.7'
+//    compile 'com.tencent.xinge:xinge:4.0.3-otherpush-Release'
+//    //jg包
+//    compile'com.tencent.jg:jg:1.1'
+//    //wup包
+//    compile 'com.tencent.wup:wup:1.0.0.E-release'
+//    //mid包
+//    compile 'com.tencent.mid:mid:4.0.7'
 }

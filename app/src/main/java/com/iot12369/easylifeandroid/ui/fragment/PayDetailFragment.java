@@ -31,18 +31,29 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
     @BindView(R.id.pay_detail_tv_amount)
     TextView mTvPayMoney;
 
+    @BindView(R.id.tvDesWuye)
+    TextView mTvDesWuye;
+    @BindView(R.id.tvDesCar)
+    TextView mTvDesCar;
+    @BindView(R.id.view_line_money1)
+    View mLineOne;
+    @BindView(R.id.view_line_money2)
+    View mLineTwo;
+
     private int channel = PaymaxSDK.CHANNEL_ALIPAY;
     public String money;
+    public String des;
 
     @Override
     public int inflateId() {
         return R.layout.fragment_detail;
     }
 
-    public static Fragment newIntent(Context context,String money) {
+    public static Fragment newIntent(Context context,String money, String des) {
         Fragment fragment = new PayDetailFragment();
         Bundle b = new Bundle();
         b.putString("money", money);
+        b.putString("des", des);
         fragment.setArguments(b);
         return fragment;
     }
@@ -58,8 +69,10 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
             money = getArguments().getString("money");
+            des = getArguments().getString("des");
         } else {
             money = savedInstanceState.getString("money");
+            des = savedInstanceState.getString("des");
         }
         mTvPayMoney.setText(money + "元");
         mBtnGo.setCanClick();
@@ -88,6 +101,7 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("money", money);
+        outState.putString("des", des);
     }
 
     @OnClick({R.id.pay_detail_rl_bank, R.id.close_rl})

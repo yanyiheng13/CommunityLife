@@ -1,9 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--广告展示界面-->
+<?xml version="1.0" encoding="utf-8"?><!--广告展示界面-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ImageView
+        android:id="@+id/ad_img_top"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="300dp"
+        android:background="@mipmap/ad_top" />
+
+    <LinearLayout
+        android:id="@+id/ad_bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ad_img_top"
+        android:background="#06e558"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ad_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="生活·绿色·简单·智慧"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_24" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ad_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#5e000000"
+        android:padding="5dp"
+        android:text="广告(3秒)"
+        android:textColor="@color/white" />
 </RelativeLayout>

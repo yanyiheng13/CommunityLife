@@ -12,7 +12,8 @@
         <com.youth.banner.Banner
             android:id="@+id/home_top_img"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,6 +30,13 @@
                 android:layout_centerVertical="true"
                 android:alpha="0.8"
                 android:background="@mipmap/icon_key" />
+
+            <ImageView
+                android:id="@+id/imgDotAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_dot"
+                android:layout_alignParentRight="true"/>
 
             <ImageView
                 android:id="@+id/home_top_change_img"
@@ -51,10 +59,10 @@
                 android:background="@mipmap/icon_home_top_bg"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:paddingBottom="3dp"
+                android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="16dp"
-                android:paddingTop="3dp"
+                android:paddingTop="5dp"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_15"
@@ -69,19 +77,20 @@
         <RelativeLayout
             android:id="@+id/home_announcement_more_rl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_below="@id/line_banner_bottom"
             android:background="@mipmap/icon_home_two">
 
             <ImageView
                 android:id="@+id/icon_announcement_img"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="28dp"
+                android:layout_height="18dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="25dp"
-                android:background="@mipmap/icon_notice_dark" />
+                android:background="@mipmap/icon_notice" />
 
             <TextView
+                android:id="@+id/tvMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -90,19 +99,26 @@
                 android:text="@string/announcement"
                 android:textColor="@color/colorLoginTxt"
                 android:textSize="@dimen/font_18"
-                android:textStyle="bold" />
+                 />
+
+            <ImageView
+                android:id="@+id/imgDotMessage"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:src="@mipmap/icon_dot"
+                android:layout_marginTop="2dp"
+                android:layout_alignRight="@id/tvMessage"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="25dp"
-                android:paddingBottom="5dp"
+                android:layout_centerVertical="true"
                 android:text="@string/more"
                 android:textColor="@color/colorLoginTxt"
                 android:textSize="@dimen/font_14"
-                android:textStyle="bold" />
+                 />
         </RelativeLayout>
 
         <LinearLayout
@@ -135,7 +151,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_14"
+                    android:textSize="@dimen/font_16"
                     tools:text="物业公司接管后,完成小区封闭管理的目标" />
             </LinearLayout>
 
@@ -161,7 +177,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_14"
+                    android:textSize="@dimen/font_16"
                     tools:text="物业公司接管后,完成小区封闭管理的目标" />
             </LinearLayout>
 
@@ -187,7 +203,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="25dp"
                     android:textColor="@color/colorLoginTxt"
-                    android:textSize="@dimen/font_14"
+                    android:textSize="@dimen/font_16"
                     tools:text="物业公司接管后,完成小区封闭管理的目标" />
             </LinearLayout>
         </LinearLayout>

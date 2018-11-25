@@ -31,7 +31,7 @@ import butterknife.OnClick;
  * @date： 17-8-29
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class AddPeopleActivity extends BaseActivity<AddPeoplePresenter> implements AddPeopleContract.View {
+public class    AddPeopleActivity extends BaseActivity<AddPeoplePresenter> implements AddPeopleContract.View {
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
     @BindView(R.id.add_people_name_et)

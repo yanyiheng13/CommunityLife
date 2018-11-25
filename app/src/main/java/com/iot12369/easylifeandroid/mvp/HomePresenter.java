@@ -29,7 +29,7 @@ import okhttp3.RequestBody;
  */
 public class HomePresenter extends BasePresenter<Repository, HomeContract.View> {
 
-    public void lock(String memberid, String phone, String _comment, String kind) {
+    public void lock(String memberid, String phone, String _comment, final String kind) {
         LockData data = new LockData();
         data.memberid = memberid;
         data.phone = phone;
@@ -40,13 +40,12 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
                 .CallBackAdapter<BaseBean<IsOkData>>() {
             @Override
             public void onSuccess(String response, BaseBean<IsOkData> result) {
-                getRootView().onSuccessLock(result.data);
+                getRootView().onSuccessLock(result.data, kind);
             }
-//
             @Override
             public void onFailure(String error) {
                 super.onFailure(error);
-                getRootView().onFailureLock(error, error);
+                getRootView().onFailureLock(error, error, kind);
             }
         }).start();
     }

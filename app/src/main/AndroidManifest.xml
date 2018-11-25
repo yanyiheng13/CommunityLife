@@ -91,6 +91,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.ImageBrowerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="com.iot12369.easylifeandroid.ui.AdActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".wxapi.WXEntryActivity" android:exported="true"
             android:theme="@style/Theme.Transparent"/>
         <activity

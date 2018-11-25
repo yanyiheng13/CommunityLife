@@ -46,6 +46,7 @@ public class PayInfoData implements Serializable {
     public String communityCarSpace;
     public String communityHouse;
     public String money;
+    public String moneyCar;
     public String estateAuditStatus;
     public String communityRawAddress;
     public String name;

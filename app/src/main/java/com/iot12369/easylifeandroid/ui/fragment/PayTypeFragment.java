@@ -56,17 +56,17 @@ public class PayTypeFragment extends LePayFragment {
         syncContentViewHeight();
 //        channel = PaymaxSDK.CHANNEL_ALIPAY;
         if (channel == PaymaxSDK.CHANNEL_ALIPAY) {
-            ibAlipay.setBackgroundResource(R.drawable.selected);
-            ibWechat.setBackgroundResource(R.drawable.unselected);
-            ibLKL.setBackgroundResource(R.drawable.unselected);
+            ibAlipay.setBackgroundResource(R.mipmap.selected);
+            ibWechat.setBackgroundResource(R.mipmap.unselected);
+            ibLKL.setBackgroundResource(R.mipmap.unselected);
         } else if (channel == PaymaxSDK.CHANNEL_WX) {
-            ibAlipay.setBackgroundResource(R.drawable.unselected);
-            ibWechat.setBackgroundResource(R.drawable.selected);
-            ibLKL.setBackgroundResource(R.drawable.unselected);
+            ibAlipay.setBackgroundResource(R.mipmap.unselected);
+            ibWechat.setBackgroundResource(R.mipmap.selected);
+            ibLKL.setBackgroundResource(R.mipmap.unselected);
         } else {
-            ibAlipay.setBackgroundResource(R.drawable.unselected);
-            ibWechat.setBackgroundResource(R.drawable.unselected);
-            ibLKL.setBackgroundResource(R.drawable.selected);
+            ibAlipay.setBackgroundResource(R.mipmap.unselected);
+            ibWechat.setBackgroundResource(R.mipmap.unselected);
+            ibLKL.setBackgroundResource(R.mipmap.selected);
         }
 
     }

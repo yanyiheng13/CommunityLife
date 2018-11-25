@@ -1,324 +1,544 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <com.iot12369.easylifeandroid.ui.view.IconTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"/>
+        android:layout_height="@dimen/title_height" />
+
     <ScrollView
-        android:layout_below="@id/title_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/title_view"
         android:background="@color/main_bg">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-               android:background="@android:color/white">
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:paddingLeft="16dp"
-                   android:paddingRight="16dp">
-                   <TextView
-                       android:id="@+id/pay_money_left_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_15"
-                       android:text="@string/pay_money"/>
-                   <TextView
-                       android:id="@+id/pay_money_right_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_14"
-                       android:textColor="#ababab"
-                       android:layout_alignParentRight="true"
-                       android:layout_marginRight="16dp"
-                       android:visibility="invisible"
-                       android:text="@string/origin_money"/>
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="45dp"
-                       android:layout_marginLeft="10dp"
-                       android:layout_marginRight="10dp"
-                       android:layout_marginTop="10dp"
-                       android:layout_marginBottom="10dp"
-                       android:layout_toLeftOf="@id/pay_money_right_tv"
-                       android:layout_toRightOf="@id/pay_money_left_tv"
-                       android:background="@drawable/border_bg">
-                       <TextView
-                           android:id="@+id/tv_money"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_centerVertical="true"
-                           android:paddingLeft="10dp"
-                           android:layout_marginRight="5dp"
-                           android:textColor="@color/colorLoginTxt"
-                           tools:text="请重新点击点击缴费获取"
-                           android:textSize="@dimen/font_16"
-                           />
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_alignParentRight="true"
-                       android:layout_centerVertical="true"
-                       android:layout_marginRight="10dp"
-                       android:textColor="@color/colorLoginTxt"
-                       android:text="@string/yuan"
-                       android:textSize="@dimen/font_14"
-                       />
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
-                   </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                >
 
-               </RelativeLayout>
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   android:paddingLeft="16dp"
-                   android:paddingRight="16dp"
-                  >
-                   <TextView
-                       android:id="@+id/pay_much_left_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_gravity="center_vertical"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_15"
-                       android:text="@string/pay_much"/>
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:orientation="horizontal"
-                       android:layout_marginLeft="10dp"
-                       >
-                       <TextView
-                           android:id="@+id/pay_time_month_tv"
-                           android:layout_width="0dp"
-                           android:layout_weight="1"
-                           android:gravity="center"
-                           android:text="@string/pay_time_month"
-                           android:layout_height="45dp"
-                           android:background="@drawable/pay_time_bg"
-                           android:textColor="@drawable/pay_time_color"/>
-                       <TextView
-                           android:id="@+id/pay_time_quarter_tv"
-                           android:layout_width="0dp"
-                           android:layout_weight="1"
-                           android:gravity="center"
-                           android:layout_marginLeft="10dp"
-                           android:text="@string/pay_time_quarter"
-                           android:layout_height="45dp"
-                           android:background="@drawable/pay_time_bg"
-                           android:textColor="@drawable/pay_time_color"/>
-                       <TextView
-                           android:id="@+id/pay_time_year_tv"
-                           android:layout_width="0dp"
-                           android:layout_weight="1"
-                           android:gravity="center"
-                           android:layout_marginLeft="10dp"
-                           android:text="@string/pay_time_year"
-                           android:layout_height="45dp"
-                           android:background="@drawable/pay_time_bg"
-                           android:textColor="@drawable/pay_time_color"/>
-                   </LinearLayout>
-               </LinearLayout>
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:textSize="@dimen/font_10"
-                   android:textColor="#ff7a4b"
-                   android:gravity="center_horizontal"
-                   android:layout_marginTop="3dp"
-                   android:paddingBottom="8dp"
-                   android:visibility="gone"
-                   android:text="优惠信息：一次性缴费1年，优惠2个月"/>
-               <View
-                   android:layout_width="match_parent"
-                   android:layout_height="1px"
-                   android:background="@color/line_color"/>
+                <RelativeLayout
+                    android:id="@+id/rlWuyeCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    >
 
-               <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
-                   android:id="@+id/pay_property_address"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   />
-               <View
-                   android:layout_width="match_parent"
-                   android:layout_height="1px"
-                   android:background="@color/line_color"/>
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:background="@android:color/white"
-                   android:paddingLeft="16dp"
-                   android:paddingRight="16dp"
-                   android:paddingTop="10dp"
-                   android:paddingBottom="10dp"
-                   >
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:text="@string/name"/>
-                   <TextView
-                       android:id="@+id/pay_name_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:layout_alignParentRight="true"
-                       android:text="~~"/>
-               </RelativeLayout>
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:background="@android:color/white"
-                   android:paddingLeft="16dp"
-                   android:paddingRight="16dp"
-                   android:paddingTop="10dp"
-                   android:paddingBottom="10dp"
-                   >
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:text="@string/construction_area"/>
-                   <TextView
-                       android:id="@+id/pay_square_meters_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:layout_alignParentRight="true"
-                       android:text="@string/square_meters"/>
-               </RelativeLayout>
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:background="@android:color/white"
-                   android:paddingLeft="16dp"
-                   android:paddingRight="16dp"
-                   android:paddingTop="10dp"
-                   android:paddingBottom="10dp"
-                   >
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:text="物业费单价"/>
-                   <TextView
-                       android:id="@+id/pay_money_unit_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:layout_alignParentRight="true"
-                       android:text="@string/by_square_meters"/>
-               </RelativeLayout>
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:background="@android:color/white"
-                   android:paddingLeft="16dp"
-                   android:paddingRight="16dp"
-                   android:paddingTop="10dp"
-                   android:paddingBottom="10dp"
-                   >
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:text="@string/property_money_date"/>
-                   <TextView
-                       android:id="@+id/pay_money_date_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:layout_centerVertical="true"
-                       android:textSize="@dimen/font_16"
-                       android:layout_alignParentRight="true"
-                       android:text="2017-08-12"/>
-               </RelativeLayout>
-               <View
-                   android:layout_width="match_parent"
-                   android:layout_height="1px"
-                   android:layout_marginTop="20dp"
-                   android:background="@color/line_color"/>
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:background="@android:color/white"
-                   android:paddingLeft="16dp"
-                   android:paddingRight="16dp"
-                   android:paddingBottom="15dp"
-                   android:orientation="horizontal"
-                   >
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:textSize="@dimen/font_13"
-                       android:text="@string/maintain_phone"/>
-                   <com.iot12369.easylifeandroid.ui.view.NoLineTextView
-                       android:id="@+id/pay_phone_num_tv"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textColor="@color/colorLoginTxt"
-                       android:textSize="@dimen/font_13"
-                       android:paddingTop="5dp"
-                       android:paddingBottom="10dp"
-                       android:autoLink="phone"
-                       android:visibility="gone"
-                       android:text="@string/phone_num"/>
-               </LinearLayout>
+                    <CheckBox
+                        android:id="@+id/pay_wuye_checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:checked="true" />
 
-           </LinearLayout>
+                    <TextView
+                        android:id="@+id/pay_money_left_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/pay_wuye_checkBox"
+                        android:text="物业费"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/pay_money_right_tv"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:text="@string/origin_money"
+                        android:textColor="#ababab"
+                        android:textSize="@dimen/font_14"
+                        android:visibility="invisible" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toLeftOf="@id/pay_money_right_tv"
+                        android:layout_toRightOf="@id/pay_money_left_tv">
+
+                        <TextView
+                            android:id="@+id/tvYuan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/yuan"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/font_14" />
+
+                        <TextView
+                            android:id="@+id/tv_money"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="5dp"
+                            android:layout_toLeftOf="@id/tvYuan"
+                            android:gravity="right"
+                            android:paddingLeft="10dp"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/font_18"
+                            tools:text="100" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llWuyeCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/pay_much_left_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/pay_much"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_15" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/pay_time_month_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/pay_time_bg"
+                            android:gravity="center"
+                            android:text="@string/pay_time_month"
+                            android:textColor="@drawable/pay_time_color" />
+
+                        <TextView
+                            android:id="@+id/pay_time_quarter_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/pay_time_bg"
+                            android:gravity="center"
+                            android:text="@string/pay_time_quarter"
+                            android:textColor="@drawable/pay_time_color" />
+
+                        <TextView
+                            android:id="@+id/pay_time_year_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/pay_time_bg"
+                            android:gravity="center"
+                            android:text="@string/pay_time_year"
+                            android:textColor="@drawable/pay_time_color" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    >
+
+                    <RelativeLayout
+                        android:id="@+id/rLCarCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        >
+
+                        <CheckBox
+                            android:id="@+id/pay_car_checkBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:checked="true" />
+
+                        <TextView
+                            android:id="@+id/pay_car_left_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/pay_car_checkBox"
+                            android:text="车位费"
+                            android:textColor="@color/colorLoginTxt"
+                            android:textSize="@dimen/font_15" />
+
+                        <TextView
+                            android:id="@+id/pay_car_right_tv"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dp"
+                            android:text="@string/origin_money"
+                            android:textColor="#ababab"
+                            android:textSize="@dimen/font_14"
+                            android:visibility="invisible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_toLeftOf="@id/pay_car_right_tv"
+                            android:layout_toRightOf="@id/pay_car_left_tv">
+
+                            <TextView
+                                android:id="@+id/tvYuanCar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="10dp"
+                                android:text="@string/yuan"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/font_14" />
+
+                            <TextView
+                                android:id="@+id/tv_moneyCar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="5dp"
+                                android:layout_toLeftOf="@id/tvYuanCar"
+                                android:gravity="right"
+                                android:paddingLeft="10dp"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/font_18"
+                                tools:text="100" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lLCarCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/pay_car_left_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/pay_much"
+                            android:textColor="@color/colorLoginTxt"
+                            android:textSize="@dimen/font_15" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/pay_car_month_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="45dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/pay_time_bg"
+                                android:gravity="center"
+                                android:text="@string/pay_time_month"
+                                android:textColor="@drawable/pay_time_color" />
+
+                            <TextView
+                                android:id="@+id/pay_car_quarter_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="45dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/pay_time_bg"
+                                android:gravity="center"
+                                android:text="@string/pay_time_quarter"
+                                android:textColor="@drawable/pay_time_color" />
+
+                            <TextView
+                                android:id="@+id/pay_car_year_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="45dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/pay_time_bg"
+                                android:gravity="center"
+                                android:text="@string/pay_time_year"
+                                android:textColor="@drawable/pay_time_color" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center_horizontal"
+                        android:paddingBottom="8dp"
+                        android:text="优惠信息：一次性缴费1年，优惠2个月"
+                        android:textColor="#ff7a4b"
+                        android:textSize="@dimen/font_10"
+                        android:visibility="gone" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="25dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="本次缴费总额"
+                            android:textColor="@color/colorLoginTxt"
+                            android:textSize="@dimen/font_20"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/font_22"
+                            android:textColor="#333333"
+                            android:layout_marginLeft="20dp"
+                            android:text="@string/yuan_yuan"/>
+                        <TextView
+                            android:id="@+id/tvTotalAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/font_22"
+                            android:textColor="#333333"
+                            android:layout_marginLeft="20dp"
+                            />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/line_color" />
+                </LinearLayout>
+
+                <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
+                    android:id="@+id/pay_property_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/name"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+
+                    <TextView
+                        android:id="@+id/pay_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="~~"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/construction_area"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+
+                    <TextView
+                        android:id="@+id/pay_square_meters_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/square_meters"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="物业费单价"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+
+                    <TextView
+                        android:id="@+id/pay_money_unit_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/by_square_meters"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/property_money_date"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+
+                    <TextView
+                        android:id="@+id/pay_money_date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16"
+                        tools:text="2017-08-12" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/maintain_phone"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_13" />
+
+                    <com.iot12369.easylifeandroid.ui.view.NoLineTextView
+                        android:id="@+id/pay_phone_num_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoLink="phone"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/phone_num"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_13"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/pay_next_tv"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@drawable/bg_wechat_login"
-                android:textSize="@dimen/font_20"
-                android:gravity="center"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:textColor="@android:color/white"
                 android:layout_marginTop="30dp"
+                android:background="@drawable/bg_wechat_login"
+                android:gravity="center"
                 android:text="@string/next_step"
-                />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_20" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
         </LinearLayout>
     </ScrollView>
+
     <FrameLayout
         android:id="@+id/pay_fragment_contain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

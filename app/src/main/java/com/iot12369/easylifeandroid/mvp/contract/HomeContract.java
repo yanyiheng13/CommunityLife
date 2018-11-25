@@ -19,8 +19,8 @@ import com.sai.framework.mvp.MvpView;
 public class HomeContract {
 
     public interface View extends MvpView {
-        void onSuccessLock(IsOkData isOkData);
-        void onFailureLock(String code, String msg);
+        void onSuccessLock(IsOkData isOkData, String kind);
+        void onFailureLock(String code, String msg, String kind);
 
         void onSuccessAddressList(AddressData addressData);
         void onFailureAddressList(String code, String msg);

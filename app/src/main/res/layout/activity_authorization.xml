@@ -45,8 +45,7 @@
         android:id="@+id/property_address_view_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-    </com.iot12369.easylifeandroid.ui.view.PropertyAddressView>
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"

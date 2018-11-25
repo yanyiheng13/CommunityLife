@@ -2,57 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/icon_home_bottom"
     >
-
     <ImageView
-        android:id="@+id/img_lock_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:src="@mipmap/lock_left" />
-
-    <TextView
-        android:id="@+id/tv_lock_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@mipmap/lock_bottom"
-        android:textSize="@dimen/font_16"
-        android:textColor="@color/white"
-        android:paddingTop="10dp"
-        android:gravity="center"
-        android:text="长按上方按钮开锁"/>
-
-    <ImageView
-        android:id="@+id/img_lock_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@mipmap/lock_right" />
-
-    <ImageView
-        android:id="@+id/img_lock_left_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:src="@drawable/lock_left_top_d" />
-
-    <ImageView
-        android:id="@+id/img_lock_right_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="50dp"
-        android:src="@drawable/lock_right_top_d" />
-
-    <ImageView
-        android:id="@+id/img_lock_animal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/imgClickLock"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/new_lock_rotate" />
+
+         />
 </RelativeLayout>

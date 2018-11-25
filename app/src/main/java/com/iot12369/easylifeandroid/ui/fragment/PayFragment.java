@@ -7,6 +7,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.LeApplication;
@@ -25,7 +29,9 @@ import com.iot12369.easylifeandroid.ui.view.IconTitleView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
+import com.iot12369.easylifeandroid.util.BigDecimalBuilder;
 import com.iot12369.easylifeandroid.util.CommonUtil;
+import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import java.util.List;
 
@@ -48,13 +54,41 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     @BindView(R.id.pay_property_address)
     PropertyAddressView mPropertyView;
 
-    //按什么支付三个按钮
+    // 物业费三个按钮
     @BindView(R.id.pay_time_month_tv)
     TextView mTvByMonth;
     @BindView(R.id.pay_time_quarter_tv)
     TextView mTvByQuarter;
     @BindView(R.id.pay_time_year_tv)
     TextView mTvByYear;
+
+    // 停车费三个按钮
+    @BindView(R.id.pay_car_month_tv)
+    TextView mTvCarByMonth;
+    @BindView(R.id.pay_car_quarter_tv)
+    TextView mTvCarByQuarter;
+    @BindView(R.id.pay_car_year_tv)
+    TextView mTvCarByYear;
+
+    // 物业费是否选中
+    @BindView(R.id.pay_wuye_checkBox)
+    CheckBox mCheckBox;
+
+    // 停车费是否选中
+    @BindView(R.id.pay_car_checkBox)
+    CheckBox mCheckBoxCar;
+
+    // 物业缴费数据
+    @BindView(R.id.llWuyeCount)
+    RelativeLayout mRlWuyeCount;
+    @BindView(R.id.llWuyeCount)
+    LinearLayout mLlWuyeCount;
+
+    // 停车费缴费数据
+    @BindView(R.id.rLCarCount)
+    RelativeLayout mRlCarCount;
+    @BindView(R.id.lLCarCount)
+    LinearLayout mLlCarCount;
 
     //业主姓名
     @BindView(R.id.pay_name_tv)
@@ -71,10 +105,15 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
     @BindView(R.id.tv_money)
     TextView mTvMoney;
+    @BindView(R.id.tv_moneyCar)
+    TextView mTvMoneyCar;
+    @BindView(R.id.tvTotalAmount)
+    TextView mTvTotalAmount;
 
     private PayInfoData mPayInfo;
     public AddressData mAddressData;
     public String time = "物业费-12个月";
+    public String time1 = "停车费-12个月";
 
     @Override
     public int inflateId() {
@@ -99,6 +138,18 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 getPresenter().setDefaultAdress(memberid, LeApplication.mUserInfo.phone);
             }
         });
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                setTotalAmount();
+            }
+        });
+        mCheckBoxCar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                setTotalAmount();
+            }
+        });
     }
 
     @Override
@@ -117,7 +168,8 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         }
     }
 
-    @OnClick({R.id.pay_next_tv, R.id.pay_time_month_tv, R.id.pay_time_quarter_tv, R.id.pay_time_year_tv})
+    @OnClick({R.id.pay_next_tv, R.id.pay_time_month_tv, R.id.pay_time_quarter_tv, R.id.pay_time_year_tv,
+                R.id.pay_car_month_tv, R.id.pay_car_quarter_tv, R.id.pay_car_year_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             //下一步按钮
@@ -129,15 +181,26 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 if (mPayInfo == null) {
                     break;
                 }
+                if (!mCheckBox.isChecked() && !mCheckBoxCar.isChecked()) {
+                    ToastUtil.toastLong(getContext(), "物业费和停车费最少需要选择一个");
+                    return;
+                }
                 String money = mTvMoney.getText().toString();
                 PayRequest payVo = new PayRequest();
-                payVo.amountShow = money;//这个是支付飞传字段  在结果页显示使用
-                payVo.communityRawAddress = mPayInfo.communityRawAddress;//这个是支付飞传字段  在结果页显示使用
+                payVo.amountShow = money;//这个是支付非传字段  在结果页显示使用
+                payVo.communityRawAddress = mPayInfo.communityRawAddress;//这个是支付非传字段  在结果页显示使用
 
                 payVo.amount = money.replace(",", "");
                 payVo.order_no = mPayInfo.orderno;
                 payVo.body = mPayInfo.body;
-                payVo.subject = time;
+                String subject = "";
+                if (mCheckBox.isChecked()) {
+                    subject = time;
+                }
+                if (mCheckBoxCar.isChecked()) {
+                    subject = time + "," + time1;  // 这个英文逗号用于后续分割描述显示在界面上的
+                }
+                payVo.subject = subject;
                 payVo.description = mPayInfo.description;
 
                 PayManngeActivity.newIntent(getContext(), payVo);
@@ -151,6 +214,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                     double month = Long.valueOf(mPayInfo.money) / 12.00;
                     mTvMoney.setText(CommonUtil.formatAmountByAutomation(Math.ceil(month) + ""));
                 }
+                setTotalAmount();
                 break;
             case R.id.pay_time_quarter_tv:
                 time = "物业费-3个月";
@@ -161,6 +225,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                     double quarter = Long.valueOf(mPayInfo.money) / 4.00;
                     mTvMoney.setText(CommonUtil.formatAmountByAutomation(Math.ceil(quarter) + ""));
                 }
+                setTotalAmount();
                 break;
             case R.id.pay_time_year_tv:
                 time = "物业费-12个月";
@@ -170,10 +235,66 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 if (mPayInfo != null && !TextUtils.isEmpty(mPayInfo.money)) {
                     mTvMoney.setText(CommonUtil.formatAmountByAutomation(mPayInfo.money));
                 }
+                setTotalAmount();
+                break;
+            case R.id.pay_car_month_tv: //停车费 1个月
+                time1 = "停车费-1个月";
+                mTvCarByYear.setSelected(false);
+                mTvCarByQuarter.setSelected(false);
+                mTvCarByMonth.setSelected(true);
+                if (mPayInfo != null && !TextUtils.isEmpty(mPayInfo.moneyCar)) {
+                    double quarter = Long.valueOf(mPayInfo.moneyCar) / 12.00;
+                    mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(Math.ceil(quarter) + ""));
+                }
+                setTotalAmount();
+                break;
+            case R.id.pay_car_quarter_tv: //停车费 3个月
+                time1 = "停车费-3个月";
+                mTvCarByYear.setSelected(false);
+                mTvCarByQuarter.setSelected(true);
+                mTvCarByMonth.setSelected(false);
+                if (mPayInfo != null && !TextUtils.isEmpty(mPayInfo.moneyCar)) {
+                    double quarter = Long.valueOf(mPayInfo.moneyCar) / 4.00;
+                    mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(Math.ceil(quarter) + ""));
+                }
+                setTotalAmount();
+                break;
+            case R.id.pay_car_year_tv: //停车费 1年
+                time1 = "停车费-12个月";
+                mTvCarByYear.setSelected(true);
+                mTvCarByQuarter.setSelected(false);
+                mTvCarByMonth.setSelected(false);
+                if (mPayInfo != null && !TextUtils.isEmpty(mPayInfo.moneyCar)) {
+                    mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(mPayInfo.moneyCar));
+                }
+                setTotalAmount();
                 break;
             default:
                 break;
         }
+    }
+
+    private void setTotalAmount() {
+        if (mPayInfo == null) {
+            return;
+        }
+        String amount = mTvMoney.getText().toString().trim();
+        String amountCar = mTvMoneyCar.getText().toString().trim();
+        if (TextUtils.isEmpty(amount)) {
+            amount = "0";
+        }
+        if (TextUtils.isEmpty(amountCar)) {
+            amountCar = "0";
+        }
+        String amountTotal = "0";
+        if (mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
+            amountTotal = new BigDecimalBuilder(amount.replace(",", "")).add(amountCar.replace(",", "")).getValue().toString();
+        } else if (mCheckBox.isChecked() && !mCheckBoxCar.isChecked()) {
+            amountTotal = amount.replace(",", "");
+        } else if (!mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
+            amountTotal = amountCar.replace(",", "");
+        }
+        mTvTotalAmount.setText(CommonUtil.formatAmountByAutomation(CommonUtil.yuanToCent(amountTotal)));
     }
 
 
@@ -237,8 +358,28 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             mTvUnitMoney.setText(String.format(getString(R.string.by_square_meters), CommonUtil.formatAmountByAutomation(mPayInfo.estateServiceUnitprice)));
         }
         if (!TextUtils.isEmpty(mPayInfo.money)) {
+            mCheckBox.setChecked(true);
+            mLlWuyeCount.setVisibility(View.VISIBLE);
+            mRlWuyeCount.setVisibility(View.VISIBLE);
             onClick(mTvByYear);
             mTvMoney.setText(CommonUtil.formatAmountByAutomation(mPayInfo.money));
+        } else {
+            // 停车费缴费数据
+            mLlWuyeCount.setVisibility(View.GONE);
+            mRlWuyeCount.setVisibility(View.GONE);
+            mCheckBox.setChecked(false);
+
+        }
+        if (!TextUtils.isEmpty(mPayInfo.moneyCar)) {
+            mCheckBoxCar.setChecked(true);
+            mRlCarCount.setVisibility(View.VISIBLE);
+            mLlCarCount.setVisibility(View.VISIBLE);
+            onClick(mTvMoneyCar);
+            mTvMoney.setText(CommonUtil.formatAmountByAutomation(mPayInfo.money));
+        } else {
+            mCheckBoxCar.setChecked(false);
+            mRlCarCount.setVisibility(View.GONE);
+            mLlCarCount.setVisibility(View.GONE);
         }
     }
 

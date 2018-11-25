@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +43,10 @@ import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.NewLockView;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -86,8 +89,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @BindView(R.id.home_top_address_tv)
     TextView mTvTopAddress;
-//    @BindView(R.id.lock_view)
-//    LockView mNewLockView;
     @BindView(R.id.new_lock_view)
     NewLockView mNewLockView;
     private AddressVo mAddress;
@@ -110,7 +111,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         int width = wm.getDefaultDisplay().getWidth();
         //设置顶部banner的宽高
         if (mBanner.getLayoutParams() != null) {
-            mBanner.getLayoutParams().height = (int) (1161 / 1620.0 * width);
+            mBanner.getLayoutParams().height = (int) (662 / 1080.0 * width);
         }
         if (mRlMore.getLayoutParams() != null) {
             mRlMore.getLayoutParams().height = (int) (161 / 1620.0 * width);
@@ -122,7 +123,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             @Override
             public void onStatusChange(int status, final int tab) {
                 switch (status) {
-                    case LockView.STATE_ING:
+                    case NewLockView.STATE_ING:
                         if (mAddress != null) {
                             LoginData data = LeApplication.mUserInfo;
                             getPresenter().lock(mAddress.memberId, data.phone, null,tab +"");
@@ -131,8 +132,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 }
             }
         });
+        mNewLockView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mNewLockView.createLockDialog().show();
+            }
+        });
         RelativeLayout.LayoutParams paramsNewLockView = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                (int)(width * (250 / 460.00)));
         int marginTop =  - ((int)(width * (90 / 540.00)) - 8);
         paramsNewLockView.setMargins(0, marginTop, 0, 0);
         paramsNewLockView.addRule(RelativeLayout.BELOW, R.id.home_announcement_brief_ll);
@@ -142,12 +149,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         LoadingDialog.show(getActivity(), false);
         getPresenter().update();
 
+        List<String> listData = new ArrayList<>();
+        listData.add("file:///android_asset/icon_banner.png");
         //设置图片加载器
-//        mBanner.setImageLoader(new GlideImageLoader());
-//        //设置图片集合
-//        mBanner.setImages(images);
-//        //banner设置方法全部调用完毕时最后调用
-//        mBanner.start();
+        mBanner.setImageLoader(new GlideImageLoader());
+        mBanner.setDelayTime(1500);
+        //设置指示器位置（当banner模式中有指示器时）
+        mBanner.setIndicatorGravity(BannerConfig.CENTER);
+        //banner设置方法全部调用完毕时最后调用
+        //设置图片集合
+        mBanner.setImages(listData);
+        //banner设置方法全部调用完毕时最后调用
+        mBanner.start();
 
     }
 
@@ -156,6 +169,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onResume();
         if (isResumed() && LeApplication.mCurrentTag == LeApplication.TAG_HOME) {
             getPresenter().addressList(LeApplication.mUserInfo.phone);
+            mBanner.startAutoPlay();
         }
     }
 
@@ -181,7 +195,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 AddressListActivity.newIntent(getActivity(), mAddressList, mAddress, 100);
                 break;
             case R.id.new_lock_view:
-                showUnlockDialog();
+//                showUnlockDialog();
                 break;
             default:
                 break;
@@ -206,14 +220,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void onSuccessLock(final IsOkData isOkData) {
+    public void onSuccessLock(final IsOkData isOkData, final String kind) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (isOkData.isOk()) {
-                    mNewLockView.update(LockView.STATE_SUCCESS);
+                    mNewLockView.update(LockView.STATE_SUCCESS, Integer.parseInt(kind));
                 } else {
-                    mNewLockView.update(LockView.STATE_FAILURE);
+                    mNewLockView.update(LockView.STATE_FAILURE, Integer.parseInt(kind));
                 }
             }
         }, 500);
@@ -221,11 +235,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void onFailureLock(String code, String msg) {
+    public void onFailureLock(String code, String msg, final String kind) {
+        Log.d("vivi","msg==" + msg + "kind==" + kind);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mNewLockView.update(LockView.STATE_FAILURE);
+                mNewLockView.update(LockView.STATE_FAILURE, Integer.parseInt(kind));
             }
         }, 500);
     }
@@ -233,7 +248,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onSuccessAddressList(AddressData addressData) {
         mAddressList = addressData.list;
-        mNewLockView.setAddAdress(mAddressList);
+        mNewLockView.setAddAddress(mAddressList);
         if (!isAlreadyCertification(addressData)) {
             mTvTopAddress.setText("暂无通过认证的物业");
             return;
@@ -381,6 +396,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             e.printStackTrace();
             return "1.0.0";
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBanner.stopAutoPlay();
     }
 
     public class GlideImageLoader extends ImageLoader {

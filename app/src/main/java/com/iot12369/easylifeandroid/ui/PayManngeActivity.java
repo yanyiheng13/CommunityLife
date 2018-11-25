@@ -81,7 +81,7 @@ public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements T
             mPayRequest = (PayRequest) savedInstanceState.getSerializable("payVo");
         }
         setContentView(R.layout.activity_lepay_manager);
-        setCurrentTab("1", PayDetailFragment.newIntent(this, mPayRequest.amountShow));
+        setCurrentTab("1", PayDetailFragment.newIntent(this, mPayRequest.amountShow, mPayRequest.subject));
     }
 
     public static void newIntent(Context context, PayRequest payVo) {
