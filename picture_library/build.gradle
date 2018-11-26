@@ -26,15 +26,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(include: ['*.jar'], dir: 'libs')
 //    compile project(':ucrop')
-    compile(
+    api(
             deps.appcompat_v7,
             deps.support_design
     )
-    compile(name: 'ucrop', ext: 'aar')
-    compile deps.glide
-    compile deps.photoview
-    compile deps.rxjava
-    compile deps.rxandroid
+    api(name: 'ucrop', ext: 'aar')
+    api deps.glide
+    api deps.photoview
+    api deps.rxjava
+    api deps.rxandroid
 }

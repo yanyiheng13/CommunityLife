@@ -19,13 +19,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api(
             deps.support_v4,
             deps.appcompat_v7,
             deps.support_design
     )
-    compile(
+    api(
             deps.rxjava,
             deps.rxandroid,
             deps.rxlifecycle,

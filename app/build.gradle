@@ -10,21 +10,9 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "api_url", "\"${API_URL}\""
         buildConfigField "String", "app_id", "\"${APP_ID}\""
         buildConfigField "String", "app_secret", "\"${APP_SECRET}\""
-
-//        ndk {
-//            //根据需要 自行选择添加的对应cpu类型的.so库。
-//            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-//            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
-//        }
-//
-//        manifestPlaceholders = [
-//                XG_ACCESS_ID:"233333333323",
-//                XG_ACCESS_KEY : "233333333333333333333",
-//        ]
 
     }
 
@@ -54,6 +42,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
@@ -65,11 +58,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-    //        exclude group: 'com.android.support', module: 'support-annotations'
-    //        exclude group: 'com.google.result.findbugs'
-    //    })
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     api deps.glide
     api deps.okhttp
     api(
@@ -78,18 +67,13 @@ dependencies {
     )
     api deps.butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-//    apt deps.butterknifeCompiler
+    //    apt deps.butterknifeCompiler
     api deps.rxjava
     api deps.rxandroid
-
     api deps.recyclerview_adapter
     api project(':library')
     api project(':libframework')
     api project(':picture_library')
-//    compile files('libs/alipaySdk-20161222.jar')
-//    compile files('libs/libmmsdk.jar')
-    //    compile(name: 'facesdk-release', ext: 'aar')
-
     api(name: 'lkl-pay-sdk-release', ext: 'aar')
     api(name: 'libimagecapture-release', ext: 'aar')
     api(name: 'libcamera-release', ext: 'aar')
@@ -98,16 +82,11 @@ dependencies {
     api(name: 'liblivenessdetectionview2-release', ext: 'aar')
     api(name: 'libcommon-release', ext: 'aar')
     api 'com.youth.banner:banner:1.4.10'
-    //noinspection GradleCompatible
-    //    compile 'com.android.support:percent:23.1.0'
     api files('libs/paymax.jar')
-
     //信鸽jar，包含厂商通道(此版本已经集成厂商通道，无需另外导入厂商依赖包)
-//    compile 'com.tencent.xinge:xinge:4.0.3-otherpush-Release'
-//    //jg包
-//    compile'com.tencent.jg:jg:1.1'
-//    //wup包
-//    compile 'com.tencent.wup:wup:1.0.0.E-release'
-//    //mid包
-//    compile 'com.tencent.mid:mid:4.0.7'
+    //    api 'com.tencent.xinge:xinge:4.0.3-otherpush-Release'
+    //    api'com.tencent.jg:jg:1.1'
+    //    api 'com.tencent.wup:wup:1.0.0.E-release'
+    //    api 'com.tencent.mid:mid:4.0.7'
+    implementation files('libs/mid-core-sdk-4.0.7.jar')
 }

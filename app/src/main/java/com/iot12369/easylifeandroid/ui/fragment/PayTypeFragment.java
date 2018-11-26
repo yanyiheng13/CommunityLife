@@ -90,9 +90,9 @@ public class PayTypeFragment extends LePayFragment {
         switch (v.getId()) {
             case R.id.linearLayoutCenter3:
                 channel = PaymaxSDK.CHANNEL_ALIPAY;
-                ibAlipay.setBackgroundResource(R.drawable.selected);
-                ibWechat.setBackgroundResource(R.drawable.unselected);
-                ibLKL.setBackgroundResource(R.drawable.unselected);
+                ibAlipay.setBackgroundResource(R.mipmap.selected);
+                ibWechat.setBackgroundResource(R.mipmap.unselected);
+                ibLKL.setBackgroundResource(R.mipmap.unselected);
                 if (mListener != null) {
                     mListener.OnPayTypeSelected(channel);
                 }
@@ -100,9 +100,9 @@ public class PayTypeFragment extends LePayFragment {
 
             case R.id.linearLayoutCenter2:
                 channel = PaymaxSDK.CHANNEL_WX;
-                ibAlipay.setBackgroundResource(R.drawable.unselected);
-                ibWechat.setBackgroundResource(R.drawable.selected);
-                ibLKL.setBackgroundResource(R.drawable.unselected);
+                ibAlipay.setBackgroundResource(R.mipmap.unselected);
+                ibWechat.setBackgroundResource(R.mipmap.selected);
+                ibLKL.setBackgroundResource(R.mipmap.unselected);
                 if (mListener != null) {
                     mListener.OnPayTypeSelected(channel);
                 }
@@ -110,9 +110,9 @@ public class PayTypeFragment extends LePayFragment {
 
             case R.id.linearLayoutCenter4:
                 channel = PaymaxSDK.CHANNEL_LKL;
-                ibAlipay.setBackgroundResource(R.drawable.unselected);
-                ibWechat.setBackgroundResource(R.drawable.unselected);
-                ibLKL.setBackgroundResource(R.drawable.selected);
+                ibAlipay.setBackgroundResource(R.mipmap.unselected);
+                ibWechat.setBackgroundResource(R.mipmap.unselected);
+                ibLKL.setBackgroundResource(R.mipmap.selected);
                 if (mListener != null) {
                     mListener.OnPayTypeSelected(channel);
                 }

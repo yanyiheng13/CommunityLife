@@ -79,7 +79,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     CheckBox mCheckBoxCar;
 
     // 物业缴费数据
-    @BindView(R.id.llWuyeCount)
+    @BindView(R.id.rlWuyeCount)
     RelativeLayout mRlWuyeCount;
     @BindView(R.id.llWuyeCount)
     LinearLayout mLlWuyeCount;

@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    compile deps.appcompat_v7
-    compile deps.support_design
-    compile deps.glide
+    api deps.appcompat_v7
+    api deps.support_design
+    api deps.glide
 }
