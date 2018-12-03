@@ -43,7 +43,6 @@ public class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
         PaymentRequest paymentRequest = pr[0];
         String data = null;
         String json = new Gson().toJson(paymentRequest);
-        Log.d("PaymaxSDK", "json=" + json);
         try {
 
             // 向 PaymaxSDK Server SDK请求数据

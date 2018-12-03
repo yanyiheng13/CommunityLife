@@ -35,7 +35,7 @@ public interface RemoteService {
 
 
     //首页支付信息
-    @GET("estate/cost/v1")
+    @GET("estate/cost/v2")
     Flowable<ResponseBody> home(@Query("phone") String phone, @Query("memberid") String memberid);
     //
     @FormUrlEncoded

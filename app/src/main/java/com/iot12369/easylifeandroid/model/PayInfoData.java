@@ -1,5 +1,7 @@
 package com.iot12369.easylifeandroid.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -46,6 +48,7 @@ public class PayInfoData implements Serializable {
     public String communityCarSpace;
     public String communityHouse;
     public String money;
+    @SerializedName("moneyOfParkingPlace")
     public String moneyCar;
     public String estateAuditStatus;
     public String communityRawAddress;

@@ -192,6 +192,10 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
                 payVo.amount = money.replace(",", "");
                 payVo.order_no = mPayInfo.orderno;
+
+                Paybody paybody = new Paybody();
+                Paybody.EstateItem e = new Paybody.EstateItem();
+                paybody.e
                 payVo.body = mPayInfo.body;
                 String subject = "";
                 if (mCheckBox.isChecked()) {
@@ -271,6 +275,21 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 break;
             default:
                 break;
+        }
+    }
+
+    public class Paybody {
+        public EstateItem e;
+        public ParkingPlaceItem p;
+        public String i;
+        public String t;
+        public class EstateItem {
+            public String n;
+            public String m;
+        }
+        public class ParkingPlaceItem {
+            public String n;
+            public String m;
         }
     }
 
