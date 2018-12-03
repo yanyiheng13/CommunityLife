@@ -38,6 +38,4 @@ dependencies {
             deps.okhttp_log,
             deps.butterknife,
     )
-//    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-//    compile project(':libtool')
 }

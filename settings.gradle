@@ -1,1 +1,1 @@
-include ':app', ':libframework', ':picture_library', ':library'
+include ':app', ':libframework', ':picture_library', ':library', 'jiaozivideoplayer'

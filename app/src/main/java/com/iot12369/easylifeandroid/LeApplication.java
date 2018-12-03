@@ -2,7 +2,9 @@ package com.iot12369.easylifeandroid;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,6 +12,10 @@ import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.lkl.pay.app.application.ApplicationController;
+import com.tencent.android.otherPush.StubAppUtils;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -51,13 +57,34 @@ public class LeApplication extends Application {
 //            mUserInfo = null;
 //            SharePrefrenceUtil.setString("config", "user", "");
 //        }
+        XGPushConfig.enableDebug(this,true);
+        XGPushConfig.enableOtherPush(getApplicationContext(), true);
+        XGPushConfig.setHuaweiDebug(true);
+        XGPushConfig.setMiPushAppId(getApplicationContext(), "APPID");
+        XGPushConfig.setMiPushAppKey(getApplicationContext(), "APPKEY");
+        XGPushConfig.setMzPushAppId(this, "APPID");
+        XGPushConfig.setMzPushAppKey(this, "APPKEY");
 
+        XGPushManager.registerPush(this, new XGIOperateCallback() {
+            @Override
+            public void onSuccess(Object data, int flag) {
+                //token在设备卸载重装的时候有可能会变
+                Log.d("TPush", "注册成功，设备token为：" + data);
+            }
+            @Override
+            public void onFail(Object data, int errCode, String msg) {
+                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+            }
+        });
+        XGPushManager.bindAccount(getApplicationContext(), "XINGE");
+        XGPushManager.setTag(this,"XINGE");
     }
 
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-//        MultiDex.install(base);
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        StubAppUtils.attachBaseContext(context);
+        MultiDex.install(context);
     }
 
     public static boolean isLogin() {

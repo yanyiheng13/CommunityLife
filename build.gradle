@@ -26,10 +26,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 ext {
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.2'
-    supportLibraryVersion = '25.3.1'
-    minSdkVersion = 19
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
+    supportLibraryVersion = '27.1.0'
+    minSdkVersion = 20
     targetSdkVersion = 22
     butterknife = '8.5.1'
 
@@ -67,7 +67,6 @@ ext.deps = [
         umeng_analytics    : 'com.umeng.analytics:analytics:6.0.3',
         photoview          : 'com.github.chrisbanes.photoview:library:1.2.4',
         recyclerview_adapter : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.4',
-//        wechat_login       : 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 
 ]
 
