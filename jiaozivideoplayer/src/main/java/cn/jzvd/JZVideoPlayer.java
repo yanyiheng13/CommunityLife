@@ -804,7 +804,7 @@ public abstract class JZVideoPlayer extends FrameLayout implements View.OnClickL
 
     public void initTextureView() {
         removeTextureView();
-        JZMediaManager.textureView = new JZResizeTextureView(getContext());
+        JZMediaManager.textureView = new JZResizeTextureView(getContext().getApplicationContext());
         JZMediaManager.textureView.setSurfaceTextureListener(JZMediaManager.instance());
     }
 

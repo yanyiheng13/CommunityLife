@@ -190,19 +190,32 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 payVo.amountShow = money;//这个是支付非传字段  在结果页显示使用
                 payVo.communityRawAddress = mPayInfo.communityRawAddress;//这个是支付非传字段  在结果页显示使用
 
-                payVo.amount = money.replace(",", "");
+//                payVo.amount = money.replace(",", "");
+                payVo.amount = "0.01";
                 payVo.order_no = mPayInfo.orderno;
 
                 Paybody paybody = new Paybody();
-                Paybody.EstateItem e = new Paybody.EstateItem();
-                paybody.e
+                EstateItem e = new EstateItem();
+
+                ParkingPlaceItem p = new ParkingPlaceItem();
+                e.n = "1";
+                e.m = "0.01";
+
+                p.n = "1";
+                p.m = "0.01";
+                paybody.e = e;
+                paybody.p = p;
+                paybody.i = LeApplication.mUserInfo.communityId;
+                paybody.t = "0.02";
+
                 payVo.body = mPayInfo.body;
                 String subject = "";
-                if (mCheckBox.isChecked()) {
+                if (mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
+                    subject = time + "," + time1;
+                } else if (mCheckBox.isChecked() && !mCheckBoxCar.isChecked()) {
                     subject = time;
-                }
-                if (mCheckBoxCar.isChecked()) {
-                    subject = time + "," + time1;  // 这个英文逗号用于后续分割描述显示在界面上的
+                } else if (!mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
+                    subject = time1;
                 }
                 payVo.subject = subject;
                 payVo.description = mPayInfo.description;
@@ -210,7 +223,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 PayManngeActivity.newIntent(getContext(), payVo);
                 break;
             case R.id.pay_time_month_tv:
-                time = "物业费一个月";
+                time = "物业费-1个月";
                 mTvByMonth.setSelected(true);
                 mTvByQuarter.setSelected(false);
                 mTvByYear.setSelected(false);
@@ -283,14 +296,16 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         public ParkingPlaceItem p;
         public String i;
         public String t;
-        public class EstateItem {
-            public String n;
-            public String m;
-        }
-        public class ParkingPlaceItem {
-            public String n;
-            public String m;
-        }
+    }
+
+    public class EstateItem {
+        public String n;
+        public String m;
+    }
+
+    public class ParkingPlaceItem {
+        public String n;
+        public String m;
     }
 
     private void setTotalAmount() {
