@@ -140,8 +140,8 @@
 
                         <TextView
                             android:id="@+id/pay_time_quarter_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/pay_time_bg"
@@ -436,12 +436,40 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="物业费单价"
+                        android:text="物业费"
                         android:textColor="@color/colorLoginTxt"
                         android:textSize="@dimen/font_16" />
 
                     <TextView
                         android:id="@+id/pay_money_unit_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/by_square_meters"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="车位费"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+
+                    <TextView
+                        android:id="@+id/pay_money_car_unitTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -478,6 +506,35 @@
                         android:textSize="@dimen/font_16"
                         tools:text="2017-08-12" />
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="车位费到期日"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16" />
+
+                    <TextView
+                        android:id="@+id/pay_money_car_dateTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/colorLoginTxt"
+                        android:textSize="@dimen/font_16"
+                        tools:text="2017-08-12" />
+                </RelativeLayout>
+
 
                 <View
                     android:layout_width="match_parent"

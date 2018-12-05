@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
@@ -33,6 +34,7 @@ import com.iot12369.easylifeandroid.util.BigDecimalBuilder;
 import com.iot12369.easylifeandroid.util.CommonUtil;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -99,9 +101,13 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     //单价
     @BindView(R.id.pay_money_unit_tv)
     TextView mTvUnitMoney;
+    @BindView(R.id.pay_money_car_unitTv)
+    TextView mTvCarUnitMoney;
     //最后支付日期
     @BindView(R.id.pay_money_date_tv)
     TextView mTvTime;
+    @BindView(R.id.pay_money_car_dateTv)
+    TextView mTvCarTime;
 
     @BindView(R.id.tv_money)
     TextView mTvMoney;
@@ -191,10 +197,10 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 payVo.communityRawAddress = mPayInfo.communityRawAddress;//这个是支付非传字段  在结果页显示使用
 
 //                payVo.amount = money.replace(",", "");
-                payVo.amount = "0.01";
+                payVo.amount = "0.02";
                 payVo.order_no = mPayInfo.orderno;
 
-                Paybody paybody = new Paybody();
+                PayBody paybody = new PayBody();
                 EstateItem e = new EstateItem();
 
                 ParkingPlaceItem p = new ParkingPlaceItem();
@@ -205,10 +211,10 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 p.m = "0.01";
                 paybody.e = e;
                 paybody.p = p;
-                paybody.i = LeApplication.mUserInfo.communityId;
+                paybody.i = LeApplication.mUserInfo.memberId;
                 paybody.t = "0.02";
 
-                payVo.body = mPayInfo.body;
+                payVo.body = new Gson().toJson(paybody);
                 String subject = "";
                 if (mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
                     subject = time + "," + time1;
@@ -291,19 +297,19 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         }
     }
 
-    public class Paybody {
+    public class PayBody implements Serializable {
         public EstateItem e;
         public ParkingPlaceItem p;
         public String i;
         public String t;
     }
 
-    public class EstateItem {
+    public class EstateItem implements Serializable{
         public String n;
         public String m;
     }
 
-    public class ParkingPlaceItem {
+    public class ParkingPlaceItem implements Serializable {
         public String n;
         public String m;
     }
