@@ -20,6 +20,7 @@ import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.PayInfoData;
+import com.iot12369.easylifeandroid.model.PayOtherInfo;
 import com.iot12369.easylifeandroid.model.PayRequest;
 import com.iot12369.easylifeandroid.mvp.PayPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.PayContract;
@@ -115,11 +116,18 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     TextView mTvMoneyCar;
     @BindView(R.id.tvTotalAmount)
     TextView mTvTotalAmount;
+    /**
+     * 当前已经认证的地址，如果地址不变 不请求缴费信息
+     */
+    private AddressVo mAddressVo;
 
     private PayInfoData mPayInfo;
     public AddressData mAddressData;
     public String time = "物业费-12个月";
     public String time1 = "停车费-12个月";
+
+    public String monthWuye = "12";
+    public String monthCar = "12";
 
     @Override
     public int inflateId() {
@@ -132,6 +140,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         mTitleView.setText(R.string.title_home).setImageResource(R.mipmap.nav_home);
         mPropertyView.goneIcon();
         mTvByYear.setSelected(true);
+        mTvCarByYear.setSelected(true);
         mTvName.setText("~~");
         mTvSquareMeters.setText(String.format(getString(R.string.square_meters), "~~"));
         mTvUnitMoney.setText(String.format(getString(R.string.by_square_meters), "~~"));
@@ -191,42 +200,60 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                     ToastUtil.toastLong(getContext(), "物业费和停车费最少需要选择一个");
                     return;
                 }
-                String money = mTvMoney.getText().toString();
+                String totalMoney = mTvTotalAmount.getText().toString();
+                String wuyeMoney = mTvMoney.getText().toString();
+                String carMoney = mTvMoneyCar.getText().toString();
                 PayRequest payVo = new PayRequest();
-                payVo.amountShow = money;//这个是支付非传字段  在结果页显示使用
-                payVo.communityRawAddress = mPayInfo.communityRawAddress;//这个是支付非传字段  在结果页显示使用
 
-//                payVo.amount = money.replace(",", "");
-                payVo.amount = "0.02";
+                payVo.amount = totalMoney.replace(",", "");
                 payVo.order_no = mPayInfo.orderno;
+
+                String room = "";
+                if (LeApplication.mAddressVo != null) {
+                    room = LeApplication.mAddressVo.communityHouse;
+                }
+                String subject = "";
+                String type = "";
+                if (mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
+                    subject = room + "|" + time + "," + time1;
+                    type = "1";
+                } else if (mCheckBox.isChecked() && !mCheckBoxCar.isChecked()) {
+                    subject = room + "|" + room + time;
+                    carMoney = "0";
+                    monthCar = "0";
+                    type = "2";
+                } else if (!mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
+                    subject = room + "|" + time1;
+                    wuyeMoney = "0";
+                    monthWuye = "0";
+                    type = "3";
+                }
+                payVo.subject = subject;
+                payVo.description = mPayInfo.description;
 
                 PayBody paybody = new PayBody();
                 EstateItem e = new EstateItem();
 
                 ParkingPlaceItem p = new ParkingPlaceItem();
-                e.n = "1";
-                e.m = "0.01";
+                e.n = monthWuye;
+                e.m = wuyeMoney.replace(",", "");
 
-                p.n = "1";
-                p.m = "0.01";
+                p.n = monthCar;
+                p.m = carMoney.replace(",", "");
                 paybody.e = e;
                 paybody.p = p;
                 paybody.i = LeApplication.mUserInfo.memberId;
-                paybody.t = "0.02";
-
+                paybody.t = totalMoney.replace(",", "");
                 payVo.body = new Gson().toJson(paybody);
-                String subject = "";
-                if (mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
-                    subject = time + "," + time1;
-                } else if (mCheckBox.isChecked() && !mCheckBoxCar.isChecked()) {
-                    subject = time;
-                } else if (!mCheckBox.isChecked() && mCheckBoxCar.isChecked()) {
-                    subject = time1;
-                }
-                payVo.subject = subject;
-                payVo.description = mPayInfo.description;
 
-                PayManngeActivity.newIntent(getContext(), payVo);
+                PayOtherInfo payOtherInfo = new PayOtherInfo();
+                payOtherInfo.time = time;
+                payOtherInfo.time1 = time1;
+                payOtherInfo.type = type;
+                payOtherInfo.amountShow = totalMoney;//这个是支付非传字段  在结果页显示使用
+                payOtherInfo.communityRawAddress = mPayInfo.communityRawAddress;//这个是支付非传字段  在结果页显示使用
+
+                PayManngeActivity.newIntent(getContext(), payVo, payOtherInfo);
                 break;
             case R.id.pay_time_month_tv:
                 time = "物业费-1个月";
@@ -237,6 +264,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                     double month = Long.valueOf(mPayInfo.money) / 12.00;
                     mTvMoney.setText(CommonUtil.formatAmountByAutomation(Math.ceil(month) + ""));
                 }
+                monthWuye = "1";
                 setTotalAmount();
                 break;
             case R.id.pay_time_quarter_tv:
@@ -248,6 +276,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                     double quarter = Long.valueOf(mPayInfo.money) / 4.00;
                     mTvMoney.setText(CommonUtil.formatAmountByAutomation(Math.ceil(quarter) + ""));
                 }
+                monthWuye = "3";
                 setTotalAmount();
                 break;
             case R.id.pay_time_year_tv:
@@ -258,6 +287,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 if (mPayInfo != null && !TextUtils.isEmpty(mPayInfo.money)) {
                     mTvMoney.setText(CommonUtil.formatAmountByAutomation(mPayInfo.money));
                 }
+                monthWuye = "12";
                 setTotalAmount();
                 break;
             case R.id.pay_car_month_tv: //停车费 1个月
@@ -269,6 +299,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                     double quarter = Long.valueOf(mPayInfo.moneyCar) / 12.00;
                     mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(Math.ceil(quarter) + ""));
                 }
+                monthCar = "1";
                 setTotalAmount();
                 break;
             case R.id.pay_car_quarter_tv: //停车费 3个月
@@ -280,6 +311,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                     double quarter = Long.valueOf(mPayInfo.moneyCar) / 4.00;
                     mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(Math.ceil(quarter) + ""));
                 }
+                monthCar = "3";
                 setTotalAmount();
                 break;
             case R.id.pay_car_year_tv: //停车费 1年
@@ -290,6 +322,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 if (mPayInfo != null && !TextUtils.isEmpty(mPayInfo.moneyCar)) {
                     mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(mPayInfo.moneyCar));
                 }
+                monthCar = "12";
                 setTotalAmount();
                 break;
             default:
@@ -340,8 +373,8 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
     public Dialog getPopupWindow() {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
-        TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
-        TextView close = (TextView) contentView.findViewById(R.id.close);
+        TextView txtCer = contentView.findViewById(R.id.cer_tv);
+        TextView close = contentView.findViewById(R.id.close);
         final MyDialog popWnd = new MyDialog(getContext());
 //        popWnd.set
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -408,7 +441,6 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             mLlWuyeCount.setVisibility(View.GONE);
             mRlWuyeCount.setVisibility(View.GONE);
             mCheckBox.setChecked(false);
-
         }
         if (!TextUtils.isEmpty(mPayInfo.moneyCar)) {
             mCheckBoxCar.setChecked(true);
@@ -421,6 +453,10 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             mRlCarCount.setVisibility(View.GONE);
             mLlCarCount.setVisibility(View.GONE);
         }
+        mTvByYear.setSelected(true);
+        mTvCarByYear.setSelected(true);
+        monthCar = "12";
+        monthWuye = "12";
     }
 
     @Override
@@ -435,9 +471,15 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         if (mPropertyView.isAlreadyCertification(addressData)) {
             LoginData data = LeApplication.mUserInfo;
             AddressVo addressVo = mPropertyView.getCurrentAddress(addressData);
-            if (addressVo != null) {
+            if (mAddressVo == null) {
                 getPresenter().home(data.phone, addressVo.memberId);
+            } else {
+                if (TextUtils.isEmpty(mAddressVo.memberId) || TextUtils.isEmpty(addressVo.memberId) || !addressVo.memberId.equals(mAddressVo.memberId)) {
+                    getPresenter().home(data.phone, addressVo.memberId);
+                }
             }
+            mAddressVo = addressVo;
+            mPayInfo = null;
         }
         LeApplication.mAddressVo = mPropertyView.getCurrentAddress(addressData);
     }

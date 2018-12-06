@@ -67,6 +67,9 @@ public class JZVideoPlayerStandard extends JZVideoPlayer {
     public static long LAST_GET_BATTERYLEVEL_TIME = 0;
     public static int LAST_GET_BATTERYLEVEL_PERCENT = 70;
 
+    public LinearLayout mLlWechatLogin;
+    public LinearLayout mLlPhoneLogin;
+
     private BroadcastReceiver battertReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -92,6 +95,8 @@ public class JZVideoPlayerStandard extends JZVideoPlayer {
     @Override
     public void init(Context context) {
         super.init(context);
+        mLlWechatLogin = findViewById(R.id.ll_login_wechat);
+        mLlPhoneLogin = findViewById(R.id.ll_login_phone);
         batteryTimeLayout = findViewById(R.id.battery_time_layout);
         bottomProgressBar = findViewById(R.id.bottom_progress);
         titleTextView = findViewById(R.id.title);
@@ -114,6 +119,30 @@ public class JZVideoPlayerStandard extends JZVideoPlayer {
         mRetryBtn.setOnClickListener(this);
 
         bottomProgressBar.setVisibility(View.GONE);
+        mLlWechatLogin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnLoginListener != null) {
+                    mOnLoginListener.onLogin(1);
+                }
+            }
+        });
+        mLlPhoneLogin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnLoginListener != null) {
+                    mOnLoginListener.onLogin(2);
+                }
+            }
+        });
+    }
+
+    private OnLoginListener mOnLoginListener;
+    public interface OnLoginListener {
+        void onLogin(int type);
+    }
+    public void setOnLoginListener(OnLoginListener listener) {
+        this.mOnLoginListener = listener;
     }
 
     public void setUp(Object[] dataSourceObjects, int defaultUrlMapIndex, int screen, Object... objects) {

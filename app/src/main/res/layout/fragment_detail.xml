@@ -54,7 +54,7 @@
         android:layout_height="90dp"
         android:layout_below="@id/v_line"
         android:gravity="center"
-        android:text="0.01元"
+        tools:text="0.01元"
         android:textColor="@color/colorDarkRed"
         android:textSize="38sp" />
 

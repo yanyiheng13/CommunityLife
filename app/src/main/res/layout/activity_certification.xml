@@ -179,7 +179,7 @@
                 android:id="@+id/certification_add_address_tv"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@drawable/bg_wechat_login"
+                android:background="@drawable/wechat_login"
                 android:textSize="@dimen/font_20"
                 android:gravity="center"
                 android:layout_marginLeft="16dp"

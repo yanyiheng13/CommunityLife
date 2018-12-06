@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.PayOtherInfo;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayDetailEventListener;
 import com.iot12369.easylifeandroid.ui.behavior.OnPayToDetailEventListener;
@@ -41,19 +42,17 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
     View mLineTwo;
 
     private int channel = PaymaxSDK.CHANNEL_ALIPAY;
-    public String money;
-    public String des;
+    public PayOtherInfo mPayOtherInfo;
 
     @Override
     public int inflateId() {
         return R.layout.fragment_detail;
     }
 
-    public static Fragment newIntent(Context context,String money, String des) {
+    public static Fragment newIntent(Context context, PayOtherInfo payOtherInfo) {
         Fragment fragment = new PayDetailFragment();
         Bundle b = new Bundle();
-        b.putString("money", money);
-        b.putString("des", des);
+        b.putSerializable("payOtherInfo", payOtherInfo);
         fragment.setArguments(b);
         return fragment;
     }
@@ -68,13 +67,23 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
-            money = getArguments().getString("money");
-            des = getArguments().getString("des");
+            mPayOtherInfo = (PayOtherInfo) getArguments().getSerializable("payOtherInfo");
         } else {
-            money = savedInstanceState.getString("money");
-            des = savedInstanceState.getString("des");
+            mPayOtherInfo = (PayOtherInfo) savedInstanceState.getSerializable("payOtherInfo");
         }
-        mTvPayMoney.setText(money + "元");
+        if ("1".equals(mPayOtherInfo.type)) {
+            mTvDesWuye.setText(mPayOtherInfo.time);
+            mTvDesCar.setText(mPayOtherInfo.time1);
+        } else if ("2".equals(mPayOtherInfo.type)) {
+            mTvDesWuye.setText(mPayOtherInfo.time);
+            mTvDesCar.setVisibility(View.GONE);
+            mLineTwo.setVisibility(View.GONE);
+        } else if ("3".equals(mPayOtherInfo.type)) {
+            mTvDesCar.setText(mPayOtherInfo.time1);
+            mTvDesWuye.setVisibility(View.GONE);
+            mLineOne.setVisibility(View.GONE);
+        }
+        mTvPayMoney.setText(mPayOtherInfo.amountShow + "元");
         mBtnGo.setCanClick();
         mBtnGo.setOnSubmitClickListener(new ProgressButton.OnSubmitClickListener() {
             @Override
@@ -100,8 +109,7 @@ public class PayDetailFragment extends LePayFragment implements OnPayToDetailEve
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("money", money);
-        outState.putString("des", des);
+       outState.putSerializable("payOtherInfo", mPayOtherInfo);
     }
 
     @OnClick({R.id.pay_detail_rl_bank, R.id.close_rl})

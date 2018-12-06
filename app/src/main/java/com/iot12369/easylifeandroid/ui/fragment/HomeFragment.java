@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.BuildConfig;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
@@ -94,8 +95,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private AddressVo mAddress;
     private List<AddressVo> mAddressList;
 
-    public String version = "1.0.0";
-
     @Override
     public int inflateId() {
         return R.layout.fragment_home;
@@ -144,7 +143,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         paramsNewLockView.setMargins(0, marginTop, 0, 0);
         paramsNewLockView.addRule(RelativeLayout.BELOW, R.id.home_announcement_brief_ll);
         mNewLockView.setLayoutParams(paramsNewLockView);
-        version = getVersion();
         getPresenter().homeThreeNotice();
         LoadingDialog.show(getActivity(), false);
         getPresenter().update();
@@ -236,7 +234,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onFailureLock(String code, String msg, final String kind) {
-        Log.d("vivi","msg==" + msg + "kind==" + kind);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -337,7 +334,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         TextView txtUpdate = (TextView) contentView.findViewById(R.id.cer_update);
         TextView txtNoUpdate = (TextView) contentView.findViewById(R.id.cer_no_update);
         TextView tip = (TextView) contentView.findViewById(R.id.txt_version);
-        tip.setText("版本提示：" + "当前版本" + version + "最新版本" + updateData.latestVersion);
+        tip.setText("版本提示：" + "当前版本" + BuildConfig.VERSION_NAME + "最新版本" + updateData.latestVersion);
         final MyDialog popWnd = new MyDialog(getContext());
 //        popWnd.set
         popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -370,8 +367,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onSuccessUpdateData(UpdateData updateData) {
         LoadingDialog.hide();
-        if (!TextUtils.isEmpty(version) && !TextUtils.isEmpty(updateData.latestVersion)) {
-            String versionString = version.replace(".", "");
+        if (!TextUtils.isEmpty(BuildConfig.VERSION_NAME) && !TextUtils.isEmpty(updateData.latestVersion)) {
+            String versionString = BuildConfig.VERSION_NAME.replace(".", "");
             String latesVersion = updateData.latestVersion.replace(".", "");
             int vers = Integer.valueOf(versionString);
             int lates = Integer.valueOf(latesVersion);

@@ -17,7 +17,6 @@ public class PayRequest implements Serializable {
 
     public String order_no;
     public String amount;
-    public String amountShow;
     public String subject;
     public String body;
     public String description;
@@ -26,6 +25,4 @@ public class PayRequest implements Serializable {
     public String app = "app_A09bYsi7615j8QWq";
     public String currency = "CNY";
 
-
-    public String communityRawAddress;
 }

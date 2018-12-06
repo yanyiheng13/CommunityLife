@@ -3,11 +3,11 @@ package com.iot12369.easylifeandroid.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +23,6 @@ import com.iot12369.easylifeandroid.ui.view.EmptyView;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 import com.iot12369.easylifeandroid.util.CommonUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -83,8 +82,18 @@ public class TransactionRecordsActivity extends BaseActivity<TransactionPresente
                 helper.setText(R.id.transaction_item_date_tv, item.recordCreateTime);//设置时间
                 helper.setText(R.id.transaction_item_order_tv, "订单号" + item.orderNo);//设置订单号
                 helper.setText(R.id.transaction_item_money, String.format(getString(R.string.yuan_s), CommonUtil.formatAmountByKeepTwo(item.amount)));//金额
-                helper.setText(R.id.transaction_item_goods_name, item.title);
-                helper.setText(R.id.transaction_item_address, item.body);//金额
+                String title = item.title;
+                String[] titles = null;
+                if (!TextUtils.isEmpty(title)) {
+                    titles = title.split("|");
+                }
+                if (titles == null || titles.length == 1) {
+                    helper.setText(R.id.transaction_item_goods_name, item.title);
+                    helper.setText(R.id.transaction_item_address, item.body);//金额
+                } else if (titles.length == 2) {
+                    helper.setText(R.id.transaction_item_goods_name, titles[1]);
+                    helper.setText(R.id.transaction_item_address, titles[0]);//金额
+                }
                 ImageView img = helper.getView(R.id.img_pay_type);
                 if ("1".equals(item.chargeType)) {
                     img.setVisibility(View.VISIBLE);

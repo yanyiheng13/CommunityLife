@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,8 +24,9 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import java.util.UUID;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  * 功能说明： 选择威信登录还是手机账号登录
@@ -40,6 +40,8 @@ import butterknife.OnClick;
 public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implements WeChatLoginContract.View {
     public static String uuid = null;
     private WeChatUser mUser;
+    @BindView(R.id.jzVideo)
+    private JZVideoPlayerStandard mJzVideo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +57,25 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         ButterKnife.bind(this);
         uuid = UUID.randomUUID().toString();
         askWechat();
-
+        mJzVideo.setOnLoginListener(new JZVideoPlayerStandard.OnLoginListener() {
+            @Override
+            public void onLogin(int type) {
+                if (type == 1) {
+                    String openid = SharePrefrenceUtil.getString("config", "openid");
+                    if (!LeApplication.api.isWXAppInstalled()) {
+                        Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    LoadingDialog.show(LoginSelectActivity.this, false);
+                    final SendAuth.Req req = new SendAuth.Req();
+                    req.scope = "snsapi_userinfo";
+                    req.state = "diandi_wx_login";
+                    LeApplication.api.sendReq(req);
+                } else {
+                    LoginActivity.newIntent(LoginSelectActivity.this);
+                }
+            }
+        });
     }
 
     @Override
@@ -109,33 +129,6 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         return false;
     }
 
-    @OnClick({R.id.ll_login_phone, R.id.ll_login_wechat})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ll_login_wechat:
-                String openid = SharePrefrenceUtil.getString("config", "openid");
-                if (!LeApplication.api.isWXAppInstalled()) {
-                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
-                    return;
-                }
-//                if (!TextUtils.isEmpty(openid)) {
-//                    LoadingDialog.show(this, false);
-//                    getPresenter().wechatLogin(openid);
-//                    break;
-//                }
-                LoadingDialog.show(this, false);
-                final SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "diandi_wx_login";
-                LeApplication.api.sendReq(req);
-                break;
-            case R.id.ll_login_phone:
-                LoginActivity.newIntent(this);
-                break;
-            default:
-                break;
-        }
-    }
 
     @Override
     protected void onStop() {
@@ -172,7 +165,6 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
             if (mUser != null && !TextUtils.isEmpty(mUser.openid)) {
                 SharePrefrenceUtil.setString("config", "openid", mUser.openid);
                 loginData.nickName = mUser.nickname;
-//                loginData.headimgurl = mUser.headimgurl;
                 if (TextUtils.isEmpty(loginData.phone)) {
                     LoginActivity.newIntent(LoginSelectActivity.this, LoginActivity.TYPE_BIND, loginData);
                     finish();

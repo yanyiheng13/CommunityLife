@@ -18,6 +18,7 @@ import com.iot12369.easylifeandroid.PaymentRequest;
 import com.iot12369.easylifeandroid.PaymentTask;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.PayData;
+import com.iot12369.easylifeandroid.model.PayOtherInfo;
 import com.iot12369.easylifeandroid.model.PayRequest;
 import com.iot12369.easylifeandroid.mvp.ToPayPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.ToPayContract;
@@ -71,22 +72,26 @@ public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements T
     protected static final String CHANNEL_LKL = "lakala_app";
 
     private PayRequest mPayRequest;
+    private PayOtherInfo mPayOtherInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             mPayRequest = (PayRequest) getIntent().getSerializableExtra("payVo");
+            mPayOtherInfo = (PayOtherInfo) getIntent().getSerializableExtra("payOtherInfo");
         } else {
             mPayRequest = (PayRequest) savedInstanceState.getSerializable("payVo");
+            mPayOtherInfo = (PayOtherInfo) savedInstanceState.getSerializable("payOtherInfo");
         }
         setContentView(R.layout.activity_lepay_manager);
-        setCurrentTab("1", PayDetailFragment.newIntent(this, mPayRequest.amountShow, mPayRequest.subject));
+        setCurrentTab("1", PayDetailFragment.newIntent(this, mPayOtherInfo));
     }
 
-    public static void newIntent(Context context, PayRequest payVo) {
+    public static void newIntent(Context context, PayRequest payVo, PayOtherInfo payOtherInfo) {
         Intent intent = new Intent(context, PayManngeActivity.class);
         intent.putExtra("payVo", payVo);
+        intent.putExtra("payOtherInfo", payOtherInfo);
         context.startActivity(intent);
     }
 
@@ -224,8 +229,8 @@ public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements T
                     stringBuilder.append(":");
                     stringBuilder.append(mMinute);
                     payResult.message = message;
-                    payResult.orderAddress = mPayRequest.communityRawAddress;
-                    payResult.orderAmount = mPayRequest.amountShow;
+                    payResult.orderAddress = mPayOtherInfo.communityRawAddress;
+                    payResult.orderAmount = mPayOtherInfo.amountShow;
                     payResult.orderName = mPayRequest.subject;
                     payResult.orderNum = mPayRequest.order_no;
                     payResult.orderTime = stringBuilder.toString();
@@ -406,5 +411,6 @@ public class PayManngeActivity extends BaseActivity<ToPayPresenter> implements T
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("payVo", mPayRequest);
+        outState.putSerializable("payOtherInfo", mPayOtherInfo);
     }
 }

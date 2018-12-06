@@ -68,7 +68,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_wechat_login"
+                android:background="@drawable/wechat_login"
                 android:gravity="center"
                 android:minEms="5"
                 android:text="更　新"
