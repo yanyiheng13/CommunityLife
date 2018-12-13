@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 //apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.iot12369.easylifeandroid"
         multiDexEnabled true
@@ -65,7 +66,7 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
-    buildToolsVersion '27.0.3'
+
 }
 
 dependencies {
@@ -86,7 +87,6 @@ dependencies {
     api project(':libframework')
     api project(':picture_library')
     api project(':jiaozivideoplayer')
-    api(name: 'lkl-pay-sdk-release', ext: 'aar')
     api(name: 'libimagecapture-release', ext: 'aar')
     api(name: 'libcamera-release', ext: 'aar')
     api(name: 'libidcardcaptor-release', ext: 'aar')

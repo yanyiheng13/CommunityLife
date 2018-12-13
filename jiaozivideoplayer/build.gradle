@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '28.0.3'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 22
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 82
         versionName "6.2.12"
     }
@@ -24,8 +24,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    compileOnly 'com.android.support:appcompat-v7:27.1.1'
-    api 'com.danikula:videocache:2.7.0'
+    api deps.appcompat_v7
+    implementation 'com.danikula:videocache:2.7.0'
 }
 
 //apply from: '../gradle/maven_push.gradle'

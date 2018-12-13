@@ -5,17 +5,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.MainActivity;
 import com.iot12369.easylifeandroid.R;
-import com.iot12369.easylifeandroid.model.PersonData;
+import com.iot12369.easylifeandroid.model.AdData;
+import com.iot12369.easylifeandroid.model.LoginData;
+import com.iot12369.easylifeandroid.model.UserInfo;
 import com.iot12369.easylifeandroid.mvp.AdPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AdContract;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +52,8 @@ public class AdActivity extends BaseActivity<AdPresenter> implements AdContract.
     @BindView(R.id.ad_time)
     TextView mTvTime;
 
+    private AdData mAdData;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,15 @@ public class AdActivity extends BaseActivity<AdPresenter> implements AdContract.
         if (mLlBottom.getLayoutParams() != null) {
             mLlBottom.getLayoutParams().height = height - topHeight;
         }
+        String ad = SharePrefrenceUtil.getString("config", "adData");
+        if (!TextUtils.isEmpty(ad) && ad.length() > 10) {
+            mAdData = new Gson().fromJson(ad, new TypeToken<AdData>(){}.getType());
+            if (mAdData != null && !TextUtils.isEmpty(mAdData.index_1)) {
+                Glide.with(this).load(mAdData.index_1).into(mImageTop);
+            }
+        }
+        LoginData userInfo = LeApplication.mUserInfo;
+        getPresenter().getAdlist(userInfo == null ? "" : userInfo.communityId);
         countDownTimer.start();
     }
 
@@ -105,8 +123,20 @@ public class AdActivity extends BaseActivity<AdPresenter> implements AdContract.
      * @param data
      */
     @Override
-    public void onSuccessAd(PersonData data) {
+    public void onSuccessAd(AdData data) {
+        if (data != null) {
+            SharePrefrenceUtil.setString("config", "adData", new Gson().toJson(data));
+            if (!isDestroyed()) {
+                if (mAdData == null) {
+                    Glide.with(this).load(data.index_1).into(mImageTop);
+                } else {
+                    if (!TextUtils.isEmpty(mAdData.index_1) && !mAdData.index_1.equals(data.index_1)) {
+                        Glide.with(this).load(data.index_1).into(mImageTop);
+                    }
+                }
 
+            }
+        }
     }
 
     @Override

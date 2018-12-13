@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iot12369.easylifeandroid.BuildConfig;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.AnnouncementVo;
@@ -46,6 +47,7 @@ import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
+import com.youth.banner.transformer.FlipHorizontalTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +96,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     NewLockView mNewLockView;
     private AddressVo mAddress;
     private List<AddressVo> mAddressList;
+
+    private AdData mAdData;
 
     @Override
     public int inflateId() {
@@ -147,13 +151,31 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         LoadingDialog.show(getActivity(), false);
         getPresenter().update();
 
+        String ad = SharePrefrenceUtil.getString("config", "adData");
+        if (!TextUtils.isEmpty(ad) && ad.length() > 10) {
+            mAdData = new Gson().fromJson(ad, new TypeToken<AdData>(){}.getType());
+        }
         List<String> listData = new ArrayList<>();
-        listData.add("file:///android_asset/icon_banner.png");
+        if (mAdData != null) {
+            if (!TextUtils.isEmpty(mAdData.index_3_1)) {
+                listData.add(mAdData.index_3_1);
+            }
+            if (!TextUtils.isEmpty(mAdData.index_3_2)) {
+                listData.add(mAdData.index_3_2);
+            }
+            if (!TextUtils.isEmpty(mAdData.index_3_3)) {
+                listData.add(mAdData.index_3_3);
+            }
+        }
+        if (listData.size() == 0) {
+            listData.add("file:///android_asset/icon_banner.png");
+        }
         //设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
-        mBanner.setDelayTime(1500);
+        mBanner.setDelayTime(5000);
         //设置指示器位置（当banner模式中有指示器时）
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
+        mBanner.setBannerAnimation(FlipHorizontalTransformer.class);
         //banner设置方法全部调用完毕时最后调用
         //设置图片集合
         mBanner.setImages(listData);

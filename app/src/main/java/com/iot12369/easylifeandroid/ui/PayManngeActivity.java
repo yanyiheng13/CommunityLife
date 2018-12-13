@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.PaymentRequest;
 import com.iot12369.easylifeandroid.PaymentTask;
 import com.iot12369.easylifeandroid.R;

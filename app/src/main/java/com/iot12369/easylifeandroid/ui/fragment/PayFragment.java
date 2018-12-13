@@ -448,7 +448,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             mRlCarCount.setVisibility(View.VISIBLE);
             mLlCarCount.setVisibility(View.VISIBLE);
             onClick(mTvMoneyCar);
-            mTvMoney.setText(CommonUtil.formatAmountByAutomation(mPayInfo.money));
+            mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(mPayInfo.moneyCar));
         } else {
             mCheckBoxCar.setChecked(false);
             mRlCarCount.setVisibility(View.GONE);
@@ -473,14 +473,15 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             LoginData data = LeApplication.mUserInfo;
             AddressVo addressVo = mPropertyView.getCurrentAddress(addressData);
             if (mAddressVo == null) {
+                mPayInfo = null;
                 getPresenter().home(data.phone, addressVo.memberId);
             } else {
                 if (TextUtils.isEmpty(mAddressVo.memberId) || TextUtils.isEmpty(addressVo.memberId) || !addressVo.memberId.equals(mAddressVo.memberId)) {
+                    mPayInfo = null;
                     getPresenter().home(data.phone, addressVo.memberId);
                 }
             }
             mAddressVo = addressVo;
-            mPayInfo = null;
         }
         LeApplication.mAddressVo = mPropertyView.getCurrentAddress(addressData);
     }

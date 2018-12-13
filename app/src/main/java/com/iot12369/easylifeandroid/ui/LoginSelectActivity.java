@@ -60,7 +60,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         uuid = UUID.randomUUID().toString();
         askWechat();
         final String url = "http://xuanyiapi2.iot12369.com:8989/images/2018/12/88000692.mp4";
-        mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL , "");
+        mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN , "");
         Glide.with(this).load(R.drawable.login_bg).into(mJzVideo.getBgImg());
         mJzVideo.setOnCompleteListener(new JZVideoPlayerStandard.OnCompleteListener() {
             @Override
@@ -71,7 +71,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
 
             @Override
             public void onPlayError() {
-                mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+                mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN, "");
                 mJzVideo.startVideo();
             }
         });

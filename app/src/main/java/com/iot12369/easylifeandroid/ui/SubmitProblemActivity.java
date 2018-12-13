@@ -36,12 +36,9 @@ import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.mr.http.util.ToastUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -317,7 +314,7 @@ public class SubmitProblemActivity extends BaseActivity<UpLoadPresenter> impleme
     @Override
     public void onUpSuccess(IsOkData isOkData) {
         LoadingDialog.hide();
-        ToastUtils.show(this, "提交成功");
+        ToastUtil.toast(this, "提交成功");
         finish();
     }
 

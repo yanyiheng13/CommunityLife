@@ -814,7 +814,7 @@ public abstract class JZVideoPlayer extends FrameLayout implements View.OnClickL
                 new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                        Gravity.CENTER);
         textureViewContainer.addView(JZMediaManager.textureView, layoutParams);
     }
 

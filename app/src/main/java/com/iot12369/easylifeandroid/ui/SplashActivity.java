@@ -10,6 +10,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.iot12369.easylifeandroid.R;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +34,11 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        XGPushClickedResult click = XGPushManager.onActivityStarted(this);
+        if (click != null) {
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         mAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate);

@@ -1,19 +1,11 @@
 package com.iot12369.easylifeandroid.mvp;
 
-import com.google.gson.Gson;
-import com.iot12369.easylifeandroid.LeApplication;
-import com.iot12369.easylifeandroid.model.AddressData;
-import com.iot12369.easylifeandroid.model.AddressVo;
+import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.BaseBean;
-import com.iot12369.easylifeandroid.model.PersonData;
-import com.iot12369.easylifeandroid.model.RequestData;
 import com.iot12369.easylifeandroid.mvp.contract.AdContract;
-import com.iot12369.easylifeandroid.mvp.contract.PersonInfoContract;
 import com.iot12369.easylifeandroid.net.Repository;
 import com.iot12369.easylifeandroid.net.rx.RxHelper;
 import com.sai.framework.mvp.BasePresenter;
-
-import okhttp3.RequestBody;
 
 /**
  * 功能说明： 个人信息
@@ -26,12 +18,12 @@ import okhttp3.RequestBody;
  */
 public class AdPresenter extends BasePresenter<Repository, AdContract.View> {
 
-   public void personInfo(String version, String appkey, String token) {
-       new RxHelper().view(getRootView()).load(getModel().getRemote().personInfo(version, appkey, token)).callBack(new RxHelper
-               .CallBackAdapter<BaseBean<PersonData>>() {
+   public void getAdlist(String communityId) {
+       new RxHelper().view(getRootView()).load(getModel().getRemote().getAdlist(communityId)).callBack(new RxHelper
+               .CallBackAdapter<BaseBean<AdData>>() {
 
            @Override
-           public void onSuccess(String response, BaseBean<PersonData> data) {
+           public void onSuccess(String response, BaseBean<AdData> data) {
                getRootView().onSuccessAd(data.data);
            }
 

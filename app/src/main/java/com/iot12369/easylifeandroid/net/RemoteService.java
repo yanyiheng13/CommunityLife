@@ -120,7 +120,7 @@ public interface RemoteService {
     Flowable<ResponseBody> addressList(@Query("phone") String phone);
 
     //获取广告列表
-    @GET("ad/v1/getAdList")
+    @GET("http://xuanyiapi.iot12369.com:8989/api/ad/v1/getAdList")
     Flowable<ResponseBody> getAdlist(@Query("ad_community_id") String ad_community_id);
 
     //家庭成员及租客列表

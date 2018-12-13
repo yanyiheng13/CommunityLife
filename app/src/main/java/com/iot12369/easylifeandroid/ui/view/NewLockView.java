@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
 import com.iot12369.easylifeandroid.util.ToastUtil;
@@ -58,6 +61,8 @@ public class NewLockView extends RelativeLayout {
     private int mWidth;
     private int mImageHeight;
     private int mImageWidth;
+
+    private AdData mAdData;
 
     public NewLockView(Context context) {
         this(context, null);
@@ -151,6 +156,9 @@ public class NewLockView extends RelativeLayout {
         mImgUnlockTwo = (ImageView) contentView.findViewById(R.id.img_unit_door);
         mTvTipOne = (TextView) contentView.findViewById(R.id.tv_community_door);
         mTvTipTwo = (TextView) contentView.findViewById(R.id.tv_unit_door);
+        if (mAdData != null && !TextUtils.isEmpty(mAdData.index_4)) {
+            Glide.with(getContext()).load(mAdData.index_4).into(mImgUnlockOne);
+        }
         ImageView imgClose = (ImageView) contentView.findViewById(R.id.img_close);
         if (mImgAd.getLayoutParams() != null) {
             mImgAd.getLayoutParams().height = (int)((662 / 1080.00) * (mWidth - 100));
@@ -168,12 +176,18 @@ public class NewLockView extends RelativeLayout {
         mImgUnlockOne.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mAdData != null && !TextUtils.isEmpty(mAdData.index_4)) {
+                    Glide.with(getContext()).load(mAdData.index_4).into(mImgUnlockOne);
+                }
                 onClickKind(1);
             }
         });
         mImgUnlockTwo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mAdData != null && !TextUtils.isEmpty(mAdData.index_5)) {
+                    Glide.with(getContext()).load(mAdData.index_5).into(mImgUnlockTwo);
+                }
                 onClickKind(2);
             }
         });
@@ -198,6 +212,10 @@ public class NewLockView extends RelativeLayout {
             }
         }
         return isAlready;
+    }
+
+    public void setData(AdData adData) {
+        this.mAdData = adData;
     }
 
     public void update(int status, int kind) { // tab 1: 小区门  2: 单元门
