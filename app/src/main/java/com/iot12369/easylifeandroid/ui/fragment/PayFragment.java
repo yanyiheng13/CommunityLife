@@ -423,6 +423,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         }
         if (!TextUtils.isEmpty(mPayInfo.cutoffdate)) {
             mTvTime.setText(mPayInfo.cutoffdate);
+            mTvCarTime.setText(mPayInfo.cutoffdate);
         }
         if (!TextUtils.isEmpty(mPayInfo.communityHouseArea)) {
             mTvSquareMeters.setText(String.format(getString(R.string.square_meters), CommonUtil.formatAmountByAutomation(mPayInfo.communityHouseArea)));
@@ -506,6 +507,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             }
             mPropertyView.updateData(mAddressData, false);
             if (currentVo != null) {
+                mPayInfo = null;
                 getPresenter().home(LeApplication.mUserInfo.phone, currentVo.memberId);
             }
         }

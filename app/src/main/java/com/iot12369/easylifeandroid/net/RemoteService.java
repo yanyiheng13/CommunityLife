@@ -119,6 +119,10 @@ public interface RemoteService {
     @GET("member/v1/estate")
     Flowable<ResponseBody> addressList(@Query("phone") String phone);
 
+    //获取广告列表
+    @GET("ad/v1/getAdList")
+    Flowable<ResponseBody> getAdlist(@Query("ad_community_id") String ad_community_id);
+
     //家庭成员及租客列表
     @GET("authorization/v1/member")
     Flowable<ResponseBody> familyList(@Query("phone") String phone, @Query("memberid") String memberid);

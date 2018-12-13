@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.BuildConfig;
 import com.iot12369.easylifeandroid.LeApplication;
@@ -26,6 +27,7 @@ import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
 /**
@@ -41,7 +43,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     public static String uuid = null;
     private WeChatUser mUser;
     @BindView(R.id.jzVideo)
-    private JZVideoPlayerStandard mJzVideo;
+    JZVideoPlayerStandard mJzVideo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +59,23 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         ButterKnife.bind(this);
         uuid = UUID.randomUUID().toString();
         askWechat();
+        final String url = "http://xuanyiapi2.iot12369.com:8989/images/2018/12/88000692.mp4";
+        mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL , "");
+        Glide.with(this).load(R.drawable.login_bg).into(mJzVideo.getBgImg());
+        mJzVideo.setOnCompleteListener(new JZVideoPlayerStandard.OnCompleteListener() {
+            @Override
+            public void onPlayComplete() {
+                mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN , "");
+                mJzVideo.startVideo();
+            }
+
+            @Override
+            public void onPlayError() {
+                mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+                mJzVideo.startVideo();
+            }
+        });
+        mJzVideo.startVideo();
         mJzVideo.setOnLoginListener(new JZVideoPlayerStandard.OnLoginListener() {
             @Override
             public void onLogin(int type) {

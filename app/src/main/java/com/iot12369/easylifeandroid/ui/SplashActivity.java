@@ -45,6 +45,7 @@ public class SplashActivity extends BaseActivity {
              @Override
              public void run() {
                  AdActivity.newIntent(SplashActivity.this);
+                 finish();
              }
          }, 1000);
     }
