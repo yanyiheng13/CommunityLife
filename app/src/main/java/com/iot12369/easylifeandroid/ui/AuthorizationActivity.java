@@ -14,7 +14,6 @@ import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.FamilyData;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
-import com.iot12369.easylifeandroid.model.PersonData;
 import com.iot12369.easylifeandroid.mvp.AuthorizationPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AuthorizationContract;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
@@ -80,10 +79,21 @@ public class AuthorizationActivity extends BaseActivity<AuthorizationPresenter> 
         });
         mPeopleView.setOnPeopleItemClickListener(new PropertyAddressView.OnPeopleItemClickListener() {
             @Override
-            public void onItemClick(String memberid) {
+            public void onItemClick(String memberid, String status, String level) {
                 LoadingDialog.show(AuthorizationActivity.this, false);
                 getPresenter().removePeople(addressVo.memberId, memberid);
             }
+
+            @Override
+            public void onItemAcceptClick(String memberid) {
+
+            }
+
+            @Override
+            public void onItemRejectClick(String memberid) {
+
+            }
+
         });
     }
 

@@ -39,7 +39,7 @@
     <string name="maintain_progress">维修进度</string>
     <string name="maintain_complete">维修完成</string>
     <string name="feedback_progress">反馈进度</string>
-    <string name="tip_maintain">维修价格请参考物业公告</string>
+    <string name="tip_maintain">维修价格请参考物业消息</string>
     <string name="maintain_phone">如有疑问请联系物业管理公司</string>
     <string name="phone_num">022-26145896</string>
     <string name="cant_resolve">无法解决</string>
@@ -51,7 +51,7 @@
     <string name="profile">简介:</string>
     <string name="sssssss">据xx市纪委、市委组织部、市人事局、市监察局、市维护稳定及综治办 等5部门联合制订的《关于加强私人出租屋业主监督管理的若干意见(试 行)》规定，凡在xx市范围内从事房屋租赁经营的个人，在租赁关系确立 后10天内，应自觉在房屋所在地租赁管理所办理合同登记或备案手续。 逾期没有登记或者备案的，由租赁管理部门一次性处以合同期租金总额 20%的罚款，并追缴租赁管理费、代征税款和滞纳金。 房屋出租人有协助有关部门做好社会治安综合治理工作的义务，租赁关 系确立后，应在3日内督促、协助承租人到出租屋综合管理机关办理租住 人员信息登记，否则，由主管部门处以月租金额一倍的罚款。 管理处诚 请承租人能主动向花城社区警务室登记人员信息，出租人能督促、协助 承租人办理登记备案手续。 目前该规定意见征集期已过，不久就会和市民见面</string>
     <string name="profile_content">　　邑智家APP为物业公司提供便捷的线上管理运营模式，智能硬件、软件相结合，达到增加物业公司办事效率，节省人力；提高业主对物业公司的满意度的效果。可以对小区情况实时监控、对小区数据的统计和查询，还能满足小区业主的服务需求。\n
-业主服务功能：为业主提供线上缴费、公告通知、申诉、维修、社交等便捷服务。
+业主服务功能：为业主提供线上缴费、消息通知、申诉、维修、社交等便捷服务。
 　　智能门禁系统：出入无须携带门禁卡，提供手机APP、门禁卡两种开启方式，可远程控制。\n
 　　加强安防：门禁搭载访客系统，业主可直接发送密码至访客手机，访客在门禁上输入密码即可进入。\n
 　　梯控一键呼叫：使用手机APP开启单元门后无须再次操作直接呼叫电梯。\n
@@ -70,8 +70,8 @@
     <string name="yuan">元</string>
     <string name="yuan_s">%s元</string>
     <string name="yuan_yuan">¥ </string>
-    <string name="system_announcement">系统公告</string>
-    <string name="community_announcement">小区公告</string>
+    <string name="system_announcement">系统消息</string>
+    <string name="community_announcement">小区消息</string>
 
     <string name="pay_money">缴费金额</string>
     <string name="pay_money_no">缴费单号</string>
@@ -84,6 +84,7 @@
     <string name="unit_price">单价</string>
     <string name="property_money_date">物业费到期日</string>
     <string name="square_meters">%s平米</string>
+    <string name="square_meters_unit">%s月</string>
     <string name="by_square_meters">%s元/平米</string>
     <string name="next_step">下一步</string>
     <string name="phone_num_txt">手机号</string>

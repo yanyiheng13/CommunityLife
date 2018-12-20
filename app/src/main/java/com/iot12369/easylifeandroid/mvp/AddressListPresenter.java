@@ -50,9 +50,9 @@ public class AddressListPresenter extends BasePresenter<Repository, AddressListC
         requestData.phone = phone;
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(requestData));
         new RxHelper().view(getRootView()).load(getModel().getRemote().setDefaultAdress(body)).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<AddressData>>() {
+                .CallBackAdapter<BaseBean<AddressVo>>() {
             @Override
-            public void onSuccess(String response, BaseBean<AddressData> result) {
+            public void onSuccess(String response, BaseBean<AddressVo> result) {
                 getRootView().onSuccessAddress(result.data);
             }
 

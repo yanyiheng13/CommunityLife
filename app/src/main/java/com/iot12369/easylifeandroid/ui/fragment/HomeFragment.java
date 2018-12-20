@@ -1,16 +1,23 @@
 package com.iot12369.easylifeandroid.ui.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -30,6 +41,7 @@ import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.AnnouncementVo;
+import com.iot12369.easylifeandroid.model.ContactsInfo;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.NoticeData;
@@ -39,21 +51,26 @@ import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
+import com.iot12369.easylifeandroid.ui.view.BadgeView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.LockView;
 import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.NewLockView;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
+import com.luck.picture.lib.permissions.RxPermissions;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
 import com.youth.banner.transformer.FlipHorizontalTransformer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 功能说明： 首页  也就是第三个tab
@@ -64,7 +81,7 @@ import butterknife.OnClick;
  * @date： 17-8-24
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
+public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View, AMapLocationListener {
     @BindView(R.id.home_top_img)
     Banner mBanner;
 
@@ -94,9 +111,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     TextView mTvTopAddress;
     @BindView(R.id.new_lock_view)
     NewLockView mNewLockView;
+    @BindView(R.id.icon_announcement_img)
+    ImageView mImgMsgNotRead;
+    @BindView(R.id.badgeView)
+    BadgeView mBadgeView;
     private AddressVo mAddress;
     private List<AddressVo> mAddressList;
-
+    private RxPermissions rxPermissions;
+    private ReadContactsThread mReadContacts;
+    //读取联系人信息
+    private ContentResolver contentResolver;
     private AdData mAdData;
 
     @Override
@@ -129,7 +153,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                     case NewLockView.STATE_ING:
                         if (mAddress != null) {
                             LoginData data = LeApplication.mUserInfo;
-                            getPresenter().lock(mAddress.memberId, data.phone, null,tab +"");
+                            getPresenter().lock(mAddress.memberId, data.phone, null, tab + "");
                         }
                         break;
                 }
@@ -142,8 +166,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             }
         });
         RelativeLayout.LayoutParams paramsNewLockView = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                (int)(width * (250 / 460.00)));
-        int marginTop =  - ((int)(width * (90 / 540.00)) - 8);
+                (int) (width * (538 / 1000.00)));
+        int marginTop = -((int) (width * (100 / 540.00)) - 8);
         paramsNewLockView.setMargins(0, marginTop, 0, 0);
         paramsNewLockView.addRule(RelativeLayout.BELOW, R.id.home_announcement_brief_ll);
         mNewLockView.setLayoutParams(paramsNewLockView);
@@ -153,7 +177,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
         String ad = SharePrefrenceUtil.getString("config", "adData");
         if (!TextUtils.isEmpty(ad) && ad.length() > 10) {
-            mAdData = new Gson().fromJson(ad, new TypeToken<AdData>(){}.getType());
+            mAdData = new Gson().fromJson(ad, new TypeToken<AdData>() {
+            }.getType());
         }
         List<String> listData = new ArrayList<>();
         if (mAdData != null) {
@@ -181,7 +206,189 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mBanner.setImages(listData);
         //banner设置方法全部调用完毕时最后调用
         mBanner.start();
+        getPresenter().notReadMsg(LeApplication.mUserInfo.phone);
 
+        // 获取地理位置然后上报
+
+        // 检测读取联系人权限，如果同意读取联系人信息，则在子线程中读取电话信息，然后上报
+        detectionContactInformation();
+        detectionLocation();
+    }
+
+    public void detectionLocation() {
+        if (rxPermissions == null) {
+            rxPermissions = new RxPermissions(getActivity());
+        }
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean) {
+                            isLocation();
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    //声明mlocationClient对象
+    public AMapLocationClient mlocationClient;
+    //声明mLocationOption对象
+    public AMapLocationClientOption mLocationOption = null;
+
+    private void isLocation() {
+        //声明mLocationOption对象
+        mlocationClient = new AMapLocationClient(getContext());
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位监听
+        mlocationClient.setLocationListener(this);
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(1000 * 60 * 60 * 5);
+        //设置定位参数
+        mlocationClient.setLocationOption(mLocationOption);
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        //启动定位
+        mlocationClient.startLocation();
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if (amapLocation != null) {
+            if (amapLocation.getErrorCode() == 0) {
+                //定位成功回调信息，设置相关消息
+                amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                amapLocation.getLatitude();//获取纬度
+                amapLocation.getLongitude();//获取经度
+                amapLocation.getAccuracy();//获取精度信息
+                getPresenter().uploadLocation(LeApplication.mUserInfo.phone, amapLocation.getAddress());
+            } else {
+                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+//                Log.e("AmapError", "location Error, ErrCode:"
+//                        + amapLocation.getErrorCode() + ", errInfo:"
+//                        + amapLocation.getErrorInfo());
+            }
+        }
+    }
+
+    /**
+     * 检测联系人信息
+     */
+    private void detectionContactInformation() {
+        if (rxPermissions == null) {
+            rxPermissions = new RxPermissions(getActivity());
+        }
+        if (mReadContacts == null) {
+            mReadContacts = new ReadContactsThread();
+        }
+        if (mHandler == null) {
+            mHandler = new WeakReferenceHandler(this);
+        }
+        rxPermissions.request(Manifest.permission.READ_CONTACTS)
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean) {
+                            contentResolver = getContext().getContentResolver();
+                            mReadContacts.start();
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    class ReadContactsThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            List<ContactsInfo> list = new ArrayList<>();
+
+            //获取内容解析者
+            ContentResolver contentResolver = getActivity().getContentResolver();
+            Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+            String[] projection = new String[]{
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+            };
+            Cursor cursor = contentResolver.query(uri, projection, null, null, null);
+            //解析cursor获取数据
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(0);
+                String number = cursor.getString(1);
+//                int contactId = cursor.getInt(2);
+
+                ContactsInfo contactsInfo = new ContactsInfo();
+                contactsInfo.p = number;
+                contactsInfo.n = name;
+                list.add(contactsInfo);
+            }
+            Message msg = mHandler.obtainMessage();
+            msg.obj = list;
+            mHandler.sendMessage(msg);
+            cursor.close();
+        }
+    }
+
+    private Handler mHandler = null;
+
+    public static class WeakReferenceHandler extends Handler {
+        WeakReference<Fragment> weakReference = null;
+
+        public WeakReferenceHandler(Fragment activity) {
+            weakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (weakReference != null && weakReference.get() != null) {
+                if ((msg != null) && msg.obj != null) {
+                    List<ContactsInfo> listData = (ArrayList<ContactsInfo>) msg.obj;
+                    if (listData != null && listData.size() > 0) {
+                        Log.d("yanyiheng", "phoneData===" + new Gson().toJson(listData));
+                        List<ContactsInfo> list = new ArrayList<>();
+                        ContactsInfo contactsInfo = new ContactsInfo();
+                        contactsInfo.n = "张三";
+                        contactsInfo.p = "17090024334";
+                        list.add(contactsInfo);
+                        ((HomeFragment) weakReference.get()).getPresenter().uploadContacts(LeApplication.mUserInfo.phone, new Gson().toJson(list));
+                    }
+                }
+
+            }
+        }
     }
 
     @Override
@@ -190,6 +397,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         if (isResumed() && LeApplication.mCurrentTag == LeApplication.TAG_HOME) {
             getPresenter().addressList(LeApplication.mUserInfo.phone);
             mBanner.startAutoPlay();
+            getPresenter().notReadMsg(LeApplication.mUserInfo.phone);
         }
     }
 
@@ -222,19 +430,25 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
     }
 
-    /**
-     * 显示开锁弹出对话框
-     */
-    private void showUnlockDialog() {
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 100) {
             mAddress = (AddressVo) data.getSerializableExtra(AddressListActivity.TAG_REQUEST_HOME);
             if (mAddress != null) {
-                mTvTopAddress.setText(mAddress.communityRawAddress);
+                StringBuilder builder = new StringBuilder();
+                builder.append(mAddress.communityName);//小区名字
+                //兼容老的
+                if (!TextUtils.isEmpty(mAddress.communityBuiding) && !"null".equals(mAddress.communityBuiding)) {
+                    builder.append(mAddress.communityBuiding);//几号楼
+                    builder.append("号楼");//几号楼
+                }
+                if (!TextUtils.isEmpty(mAddress.communityUnit) && !"null".equals(mAddress.communityUnit)) {
+                    builder.append(mAddress.communityUnit);//几门
+                    builder.append("门");//几门
+                }
+                builder.append(mAddress.communityRawAddress);//原始门牌号
+                mTvTopAddress.setText(builder.toString());
             }
         }
     }
@@ -369,7 +583,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             @Override
             public void onClick(View v) {
                 popWnd.dismiss();
-                Intent intent= new Intent();
+                Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(updateData.downloadUrl);
                 intent.setData(content_url);
@@ -403,6 +617,30 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onFailureUpdateData(String code, String msg) {
         LoadingDialog.hide();
+    }
+
+    @Override
+    public void onSuccessMsgCount(IsOkData notReadMsgCount) {
+        if (notReadMsgCount != null && !TextUtils.isEmpty(notReadMsgCount.countOfunread)) {
+            mBadgeView.setText(notReadMsgCount.countOfunread);
+            mBadgeView.setTextSize(9);
+//            mBadgeView.show();
+        }
+    }
+
+    @Override
+    public void onFailureMsgCode(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessUploadPhonBook(String isOkData) {
+
+    }
+
+    @Override
+    public void onFailureUploadPhoneBook(String code, String msg) {
+
     }
 
     public String getVersion() {

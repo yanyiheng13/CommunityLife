@@ -87,7 +87,16 @@
                 android:layout_height="18dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="25dp"
-                android:background="@mipmap/icon_notice" />
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_notice" />
+            <com.iot12369.easylifeandroid.ui.view.BadgeView
+                android:id="@+id/badgeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_announcement_img"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginTop="8dp"
+                />
 
             <TextView
                 android:id="@+id/tvMessage"
@@ -95,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/icon_announcement_img"
+                android:layout_toRightOf="@id/badgeView"
                 android:text="@string/announcement"
                 android:textColor="@color/colorLoginTxt"
                 android:textSize="@dimen/font_18"
@@ -107,6 +116,7 @@
                 android:layout_height="7dp"
                 android:src="@mipmap/icon_dot"
                 android:layout_marginTop="2dp"
+                android:visibility="gone"
                 android:layout_alignRight="@id/tvMessage"/>
 
             <TextView

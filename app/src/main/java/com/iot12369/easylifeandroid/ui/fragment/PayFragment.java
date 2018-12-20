@@ -423,36 +423,39 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         }
         if (!TextUtils.isEmpty(mPayInfo.cutoffdate)) {
             mTvTime.setText(mPayInfo.cutoffdate);
-            mTvCarTime.setText(mPayInfo.cutoffdate);
         }
+        mTvCarTime.setText(mPayInfo.parkingplaceCutoffdate);
         if (!TextUtils.isEmpty(mPayInfo.communityHouseArea)) {
             mTvSquareMeters.setText(String.format(getString(R.string.square_meters), CommonUtil.formatAmountByAutomation(mPayInfo.communityHouseArea)));
         }
         if (!TextUtils.isEmpty(mPayInfo.estateServiceUnitprice)) {
             mTvUnitMoney.setText(String.format(getString(R.string.by_square_meters), CommonUtil.formatAmountByAutomation(mPayInfo.estateServiceUnitprice)));
         }
-        if (!TextUtils.isEmpty(mPayInfo.money)) {
-            mCheckBox.setChecked(true);
-            mLlWuyeCount.setVisibility(View.VISIBLE);
-            mRlWuyeCount.setVisibility(View.VISIBLE);
-            onClick(mTvByYear);
-            mTvMoney.setText(CommonUtil.formatAmountByAutomation(mPayInfo.money));
-        } else {
-            // 停车费缴费数据
-            mLlWuyeCount.setVisibility(View.GONE);
-            mRlWuyeCount.setVisibility(View.GONE);
-            mCheckBox.setChecked(false);
+        if (!TextUtils.isEmpty(mPayInfo.communityParkingPlacePrice)) {
+            mTvCarUnitMoney.setText(String.format(getString(R.string.square_meters_unit), CommonUtil.formatAmountByAutomation(mPayInfo.communityParkingPlacePrice)));
         }
         if (!TextUtils.isEmpty(mPayInfo.moneyCar)) {
             mCheckBoxCar.setChecked(true);
             mRlCarCount.setVisibility(View.VISIBLE);
             mLlCarCount.setVisibility(View.VISIBLE);
-            onClick(mTvMoneyCar);
             mTvMoneyCar.setText(CommonUtil.formatAmountByAutomation(mPayInfo.moneyCar));
+            onClick(mTvMoneyCar);
         } else {
             mCheckBoxCar.setChecked(false);
             mRlCarCount.setVisibility(View.GONE);
             mLlCarCount.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(mPayInfo.money)) {
+            mCheckBox.setChecked(true);
+            mLlWuyeCount.setVisibility(View.VISIBLE);
+            mRlWuyeCount.setVisibility(View.VISIBLE);
+            mTvMoney.setText(CommonUtil.formatAmountByAutomation(mPayInfo.money));
+            onClick(mTvByYear);
+        } else {
+            // 停车费缴费数据
+            mLlWuyeCount.setVisibility(View.GONE);
+            mRlWuyeCount.setVisibility(View.GONE);
+            mCheckBox.setChecked(false);
         }
         mTvByYear.setSelected(true);
         mTvCarByYear.setSelected(true);

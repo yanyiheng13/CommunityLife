@@ -90,7 +90,7 @@ public class RxHelper {
         }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RXSubscriber<Object>(mvpView, clsType) {
             @Override
             protected void onHandleSuccess(String response, Object o) {
-                if (callBack != null) {
+                if (callBack != null && mvpView != null) {
                     callBack.onSuccess(response, o);
                 }
             }
@@ -98,7 +98,7 @@ public class RxHelper {
             @Override
             protected void onHandleListSuccess(String response, List<Object> list) {
                 super.onHandleListSuccess(response, list);
-                if (callBack != null) {
+                if (callBack != null && mvpView != null) {
                     callBack.onSuccess(response, list);
                 }
             }
@@ -106,7 +106,7 @@ public class RxHelper {
             @Override
             protected void onHandleError(String code, String msg) {
                 super.onHandleError(code, msg);
-                if (callBack != null) {
+                if (callBack != null && mvpView != null) {
                     callBack.onFailure(msg);
                 }
             }

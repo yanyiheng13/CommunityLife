@@ -28,7 +28,7 @@ public class LeApplication extends Application {
     public static IWXAPI api;
     public static boolean isExit;
 
-    public static int TAG_HOME =2;
+    public static int TAG_HOME = 2;
     public static int TAG_MINE = 4;
     public static int TAG_PAY = 0;
     public static int TAG_MAINTAIN = 1;
@@ -40,49 +40,43 @@ public class LeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Log.LOG = true;
-//        QueuedWork.isUseThreadPool = false;
         mApplication = this;
         api = WXAPIFactory.createWXAPI(this, BuildConfig.app_id);
         api.registerApp(BuildConfig.app_id);
         String str = SharePrefrenceUtil.getString("config", "loginType");
-//        if ("wechat".equals(str)) {
-            String json = SharePrefrenceUtil.getString("config", "user");
-            if (!TextUtils.isEmpty(json) || json.length() > 10) {
-                mUserInfo = new Gson().fromJson(json, new TypeToken<LoginData>(){}.getType());
-            }
-//        } else {
-//            mUserInfo = null;
-//            SharePrefrenceUtil.setString("config", "user", "");
-//        }
-        XGPushConfig.enableDebug(this,true);
+        String json = SharePrefrenceUtil.getString("config", "user");
+        if (!TextUtils.isEmpty(json) || json.length() > 10) {
+            mUserInfo = new Gson().fromJson(json, new TypeToken<LoginData>() {}.getType());
+        }
+        XGPushConfig.enableDebug(this, true);
         XGPushConfig.enableOtherPush(getApplicationContext(), true);
         XGPushConfig.setHuaweiDebug(true);
-        XGPushConfig.setMiPushAppId(getApplicationContext(), "APPID");
-        XGPushConfig.setMiPushAppKey(getApplicationContext(), "APPKEY");
-        XGPushConfig.setMzPushAppId(this, "APPID");
-        XGPushConfig.setMzPushAppKey(this, "APPKEY");
-
+        XGPushConfig.setMiPushAppId(getApplicationContext(), "2882303761517681516");
+        XGPushConfig.setMiPushAppKey(getApplicationContext(), "5951768191516");
+        XGPushConfig.setMzPushAppId(this, "6fa9f2d0210a42dc95cbc46597316b1f");
+        XGPushConfig.setMzPushAppKey(this, "9218b5d379fd455796197c57af1b237f");
         XGPushManager.registerPush(this, new XGIOperateCallback() {
             @Override
             public void onSuccess(Object data, int flag) {
                 //token在设备卸载重装的时候有可能会变
                 Log.d("TPush", "注册成功，设备token为：" + data);
             }
+
             @Override
             public void onFail(Object data, int errCode, String msg) {
                 Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
             }
         });
         XGPushManager.bindAccount(getApplicationContext(), "XINGE");
-        XGPushManager.setTag(this,"XINGE");
+        XGPushManager.setTag(this, "XINGE");
+        JZProxyConfig.getInstance().init(this);
     }
 
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
-        StubAppUtils.attachBaseContext(context);
         MultiDex.install(context);
+        StubAppUtils.attachBaseContext(context);
     }
 
     public static boolean isLogin() {

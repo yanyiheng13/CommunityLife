@@ -13,11 +13,12 @@ import java.io.Serializable;
 
 public class AnnouncementVo implements Serializable {
 
-    public String createTime;
+    public String ctime;
     public String modifyTime;
     public String noticeId;
     public String noticeTitle;
     public String noticeContent;
     public String noticeCommunityId;
     public String noticeCreateUserid;
+    public String readState;// 消息是否已读
 }

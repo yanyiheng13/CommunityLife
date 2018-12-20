@@ -14,6 +14,7 @@ import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AnnouncementData;
 import com.iot12369.easylifeandroid.model.AnnouncementVo;
+import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.mvp.AnnouncementPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AnnouncementContract;
 import com.iot12369.easylifeandroid.ui.AnnounceDetailActivity;
@@ -71,12 +72,19 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
             @Override
             protected void convert(BaseViewHolder helper, final AnnouncementVo item) {
 
-                helper.setText(R.id.announcement_item_date_tv, item.createTime);//设置时间
-                helper.setText(R.id.announcement_item_des_tv, item.noticeTitle);//设置描述
+                helper.setText(R.id.announcement_item_date_tv, item.ctime);//设置时间
+                helper.setText(R.id.announcement_item_des_tv, item.noticeTitle);//
+                helper.setVisible(R.id.imgDotMessage, "0".equals(item.readState));
+
 
                 helper.getView(R.id.view_announcement_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if ("0".equals(item.readState)) {
+                            getPresenter().uploadMsgRead(LeApplication.mUserInfo.phone, item.noticeId);
+                            item.readState = "1";
+                            mAdapter.notifyDataSetChanged();
+                        }
                         AnnounceDetailActivity.newIntent(getContext(), item);
                     }
                 });
@@ -87,7 +95,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         mEmptyView.setOnDataLoadStatusListener(this);
         mEmptyView.onStart();
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "20");
+            getPresenter().announcementSystem("0", "20", LeApplication.mUserInfo.phone);
         } else {
             getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }
@@ -102,7 +110,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         isRefresh = true;
         isLoadMore = false;
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "20");
+            getPresenter().announcementSystem("0", "20", LeApplication.mUserInfo.phone);
         } else {
             getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }
@@ -117,7 +125,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         isLoadMore = true;
         isRefresh = false;
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "20");
+            getPresenter().announcementSystem("0", "20", LeApplication.mUserInfo.phone);
         } else {
             getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }
@@ -157,9 +165,19 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
     }
 
     @Override
+    public void onSuccessUploadMsg(String isOkData) {
+
+    }
+
+    @Override
+    public void onErrorUploadMsg(String code, String msg) {
+
+    }
+
+    @Override
     public void onDataLoadAgain() {
         if (mTag == 1) {
-            getPresenter().announcementSystem("0", "20");
+            getPresenter().announcementSystem("0", "20", LeApplication.mUserInfo.phone);
         } else {
             getPresenter().announcementCommunity("0", "20", LeApplication.mUserInfo.phone);
         }

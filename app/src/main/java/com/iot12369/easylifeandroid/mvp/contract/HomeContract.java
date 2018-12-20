@@ -30,5 +30,11 @@ public class HomeContract {
 
         void onSuccessUpdateData(UpdateData noticeData);
         void onFailureUpdateData(String code, String msg);
+
+        void onSuccessMsgCount(IsOkData notReadMsgCount);
+        void onFailureMsgCode(String code, String msg);
+
+        void onSuccessUploadPhonBook(String isOkData);
+        void onFailureUploadPhoneBook(String code, String msg);
     }
 }

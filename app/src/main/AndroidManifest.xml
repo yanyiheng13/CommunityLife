@@ -8,8 +8,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--获取地理位置权限-->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
 
-    <!-- 拉卡拉 -->
+    <!--获取联系人权限-->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -24,9 +29,30 @@
 
     <!--人脸识别-->
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!--用于访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--用于写入缓存数据到扩展存储卡-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
         android:name="com.iot12369.easylifeandroid.LeApplication"
@@ -37,8 +63,9 @@
         tools:replace="android:allowBackup"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
+        android:networkSecurityConfig="@xml/xg_network_security_config"
         >
-
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -49,7 +76,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="b3d86078d8ea8f7c71f4737f5eaed8a4"/>
 
         <activity android:name="com.iot12369.easylifeandroid.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -131,55 +160,23 @@
             android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <!-- alipay sdk end -->
+        <!-- 高德定位 -->
+        <service android:name="com.amap.api.location.APSService"></service>
 
-        <!-- 以下为商户APP对接SDK时需要注册的页面 -->
-        <activity
-            android:name="com.lkl.pay.ui.activity.SDK_StartJarActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent" />
-        <activity
-            android:name="com.lkl.pay.ui.activity.SDK_LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.lkl.pay.ui.activity.SDK_MsgLoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.lkl.pay.ui.activity.cardPay.BindCreditCardActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.lkl.pay.ui.activity.cardPay.BindDebitCardActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.lkl.pay.ui.activity.cardPay.HtmlProtocolActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.lkl.pay.ui.activity.cardPay.InputCardNoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.lkl.pay.ui.activity.cardPay.InputMessageCodeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.lkl.pay.ui.activity.forget.FindLoginPwdActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.lkl.pay.ui.activity.forget.SetLoginPwdActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.lkl.pay.ui.activity.register.SetPayPwdActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.lkl.pay.ui.activity.payResult.SuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.lkl.pay.ui.activity.payResult.FailureActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="cn.cloudcore.iprotect.plugin.CKbdActivity"
-            android:launchMode="singleTask"
-            android:configChanges="orientation"
-            android:theme="@android:style/Theme.Translucent" />
-        <!-- 拉卡拉-->
-         <receiver android:name=".receiver.MessageReceiver"/>
+        <receiver
+            android:exported="true"
+            android:name=".receiver.XiaoMiPushReceiver">
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

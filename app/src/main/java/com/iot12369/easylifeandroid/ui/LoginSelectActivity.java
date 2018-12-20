@@ -3,32 +3,40 @@ package com.iot12369.easylifeandroid.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.SurfaceHolder;
+import android.view.View;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iot12369.easylifeandroid.BuildConfig;
+import com.iot12369.easylifeandroid.JZProxyConfig;
 import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.MainActivity;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.WeChatUser;
 import com.iot12369.easylifeandroid.mvp.WechatLoginPresent;
 import com.iot12369.easylifeandroid.mvp.contract.WeChatLoginContract;
+import com.iot12369.easylifeandroid.ui.view.CustomSurfaceView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.iot12369.easylifeandroid.util.UiTitleBarUtil;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import butterknife.OnClick;
 
 /**
  * 功能说明： 选择威信登录还是手机账号登录
@@ -42,8 +50,10 @@ import cn.jzvd.JZVideoPlayerStandard;
 public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implements WeChatLoginContract.View {
     public static String uuid = null;
     private WeChatUser mUser;
-    @BindView(R.id.jzVideo)
-    JZVideoPlayerStandard mJzVideo;
+    @BindView(R.id.surfaceView)
+    CustomSurfaceView mSurfaceView;
+    private MediaPlayer player;
+    private SurfaceHolder holder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,43 +69,60 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         ButterKnife.bind(this);
         uuid = UUID.randomUUID().toString();
         askWechat();
-        final String url = "http://xuanyiapi2.iot12369.com:8989/images/2018/12/88000692.mp4";
-        mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN , "");
-        Glide.with(this).load(R.drawable.login_bg).into(mJzVideo.getBgImg());
-        mJzVideo.setOnCompleteListener(new JZVideoPlayerStandard.OnCompleteListener() {
-            @Override
-            public void onPlayComplete() {
-                mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN , "");
-                mJzVideo.startVideo();
-            }
+        mSurfaceView = findViewById(R.id.surfaceView);
+        player = new MediaPlayer();
 
-            @Override
-            public void onPlayError() {
-                mJzVideo.setUp(url, JZVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN, "");
-                mJzVideo.startVideo();
-            }
-        });
-        mJzVideo.startVideo();
-        mJzVideo.setOnLoginListener(new JZVideoPlayerStandard.OnLoginListener() {
-            @Override
-            public void onLogin(int type) {
-                if (type == 1) {
-                    String openid = SharePrefrenceUtil.getString("config", "openid");
-                    if (!LeApplication.api.isWXAppInstalled()) {
-                        Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    LoadingDialog.show(LoginSelectActivity.this, false);
-                    final SendAuth.Req req = new SendAuth.Req();
-                    req.scope = "snsapi_userinfo";
-                    req.state = "diandi_wx_login";
-                    LeApplication.api.sendReq(req);
-                } else {
-                    LoginActivity.newIntent(LoginSelectActivity.this);
+        AdData mAdData = null;
+        String ad = SharePrefrenceUtil.getString("config", "adData");
+        if (TextUtils.isEmpty(ad) && ad.length() <= 10) {
+            return;
+        }
+        try {
+            mAdData = new Gson().fromJson(ad, new TypeToken<AdData>(){}.getType());
+        } catch (Exception e) {
+
+        }
+
+        if (mAdData == null || TextUtils.isEmpty(mAdData.index_2)) {
+            return;
+        }
+        try {
+            mSurfaceView.setZOrderOnTop(true);
+            mSurfaceView.setZOrderMediaOverlay(true);
+            mSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);   // 设置画布  背景透明
+            player.setDataSource(this, Uri.parse(JZProxyConfig.getInstance().getProxy().getProxyUrl(mAdData.index_2)));
+            player.setLooping(true);
+            holder = mSurfaceView.getHolder();
+            holder.addCallback(new MyCallBack());
+            player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    player.start();
                 }
-            }
-        });
+            });
+            player.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    private class MyCallBack implements SurfaceHolder.Callback {
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            player.setDisplay(holder);
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -148,6 +175,33 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         return false;
     }
 
+    @OnClick({R.id.ll_login_phone, R.id.ll_login_wechat})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_login_wechat:
+                String openid = SharePrefrenceUtil.getString("config", "openid");
+                if (!LeApplication.api.isWXAppInstalled()) {
+                    Toast.makeText(LoginSelectActivity.this, "未安装微信客户端，请先下载", Toast.LENGTH_LONG).show();
+                    return;
+                }
+//                if (!TextUtils.isEmpty(openid)) {
+//                    LoadingDialog.show(this, false);
+//                    getPresenter().wechatLogin(openid);
+//                    break;
+//                }
+                LoadingDialog.show(this, false);
+                final SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "diandi_wx_login";
+                LeApplication.api.sendReq(req);
+                break;
+            case R.id.ll_login_phone:
+                LoginActivity.newIntent(this);
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
     protected void onStop() {
@@ -184,6 +238,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
             if (mUser != null && !TextUtils.isEmpty(mUser.openid)) {
                 SharePrefrenceUtil.setString("config", "openid", mUser.openid);
                 loginData.nickName = mUser.nickname;
+//                loginData.headimgurl = mUser.headimgurl;
                 if (TextUtils.isEmpty(loginData.phone)) {
                     LoginActivity.newIntent(LoginSelectActivity.this, LoginActivity.TYPE_BIND, loginData);
                     finish();
@@ -204,5 +259,15 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
     public void onFailureWeChatRegister(String code, String msg) {
         LoadingDialog.hide();
         mUser = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (player.isPlaying()) {
+            player.release();
+            player = null;
+            mSurfaceView = null;
+        }
     }
 }

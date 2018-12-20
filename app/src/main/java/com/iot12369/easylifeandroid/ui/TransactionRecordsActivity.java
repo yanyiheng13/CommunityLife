@@ -85,7 +85,7 @@ public class TransactionRecordsActivity extends BaseActivity<TransactionPresente
                 String title = item.title;
                 String[] titles = null;
                 if (!TextUtils.isEmpty(title)) {
-                    titles = title.split("|");
+                    titles = title.split("\\|");
                 }
                 if (titles == null || titles.length == 1) {
                     helper.setText(R.id.transaction_item_goods_name, item.title);

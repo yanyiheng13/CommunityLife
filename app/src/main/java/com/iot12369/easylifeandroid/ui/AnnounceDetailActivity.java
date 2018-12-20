@@ -50,7 +50,7 @@ public class AnnounceDetailActivity extends BaseActivity<AnnouncementDetailPrese
         mTitleView.setText(R.string.announce_detail);
 //        mTvContent.setText(mAnnouncementVo.noticeContent);
         mWebView.loadDataWithBaseURL(null, mAnnouncementVo.noticeContent, "text/html", "utf-8", null);
-        mTvDate.setText(mAnnouncementVo.createTime);
+        mTvDate.setText(mAnnouncementVo.ctime);
         mTvDescrip.setText(mAnnouncementVo.noticeTitle);
 //        getPresenter().announcementDetail(mAnnouncementId);
     }
@@ -63,7 +63,7 @@ public class AnnounceDetailActivity extends BaseActivity<AnnouncementDetailPrese
 
     @Override
     public void onSuccessAnnouncement(AnnouncementVo announcementVo) {
-        mTvDate.setText(announcementVo.createTime);
+        mTvDate.setText(announcementVo.ctime);
         mTvDescrip.setText(announcementVo.noticeContent);
     }
 

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="52dp"
-    android:background="@color/main_bg"
-    >
-
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/main_bg">
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
     <TextView
         android:id="@+id/property_name_tv"
         android:layout_width="wrap_content"
@@ -28,7 +31,7 @@
         android:paddingBottom="10dp"
         android:textSize="@dimen/font_14"
         android:textColor="#838383"
-        android:text="137********"
+        tools:text="137********"
         android:lineSpacingExtra="5dp"
         android:layout_marginLeft="42dp"
         android:ellipsize="end"
@@ -75,8 +78,33 @@
         android:layout_alignParentRight="true"
         android:background="#e8641b"/>
     <View
+        android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/colorLine"
         android:layout_below="@id/property_address_delete"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/llAcceptAndDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/rl_top"
+        android:paddingTop="15dp"
+        android:gravity="center_horizontal"
+        android:paddingBottom="15dp"
+        android:background="#A4A4A4"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/btnAccept"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/btn_acsept"/>
+        <ImageView
+            android:id="@+id/btnReject"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="50dp"
+            android:background="@mipmap/btn_reject"/>
+    </LinearLayout>
 </RelativeLayout>

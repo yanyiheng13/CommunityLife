@@ -24,6 +24,7 @@ import com.iot12369.easylifeandroid.mvp.contract.AddressListContract;
 import com.iot12369.easylifeandroid.ui.view.EmptyView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
+import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
                     builder.append("门");//几门
                 }
                 builder.append(item.communityRawAddress);//原始门牌号
-                helper.setText(R.id.address_item_tv,  builder.toString());//设置时间
+                helper.setText(R.id.address_item_tv,  builder.toString());
                 RelativeLayout rl = helper.getView(R.id.address_item_rl);
                 View rootView = helper.getView(R.id.view_item_root);
                 if ("2".equals(item.estateAuditStatus)) {
@@ -157,7 +158,11 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
     }
 
     @Override
-    public void onSuccessAddress(AddressData addressData) {
+    public void onSuccessAddress(AddressVo addressData) {
+        if (addressData == null || !"1".equals(addressData.currentEstate)) {
+            ToastUtil.toast(this, "设置默认地址失败");
+            return;
+        }
         LoadingDialog.hide();
         Intent intent = new Intent();
         intent.putExtra(TAG_REQUEST_HOME, mAddressData);

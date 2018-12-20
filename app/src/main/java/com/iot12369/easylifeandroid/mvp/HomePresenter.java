@@ -88,6 +88,67 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
         }).application(LeApplication.mApplication).start();
     }
 
+    /**
+     * 未读消息
+     */
+    public void notReadMsg(String phone) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().getNotReadMsg(phone)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<IsOkData>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<IsOkData> result) {
+                getRootView().onSuccessMsgCount(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureMsgCode(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    /**
+     * 上报联系人信息
+     */
+    public void uploadContacts(String member_phone, String telephonebook) {
+        RequestBody member_phone1 = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), member_phone);
+        RequestBody telephonebook1 = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), telephonebook);
+        new RxHelper().view(getRootView()).load(getModel().getRemote().uploadContacts(member_phone1, telephonebook1)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<String>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<String> result) {
+                getRootView().onSuccessUploadPhonBook(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureUploadPhoneBook(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    /**
+     * 上报位置信息
+     */
+    public void uploadLocation(String member_phone, String member_location_desc) {
+        RequestBody member_phone1 = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), member_phone);
+        RequestBody member_location_desc1 = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), member_location_desc);
+        new RxHelper().view(getRootView()).load(getModel().getRemote().uploadLocation(member_phone1, member_location_desc1)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<String>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<String> result) {
+                getRootView().onSuccessUploadPhonBook(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureUploadPhoneBook(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
     public void update() {
         new RxHelper().view(getRootView()).load(getModel().getRemote().update()).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<UpdateData>>() {
@@ -109,5 +170,10 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
         public String phone;
         public String _comment;
         public String kind;//1 是小区锁  2是单元门锁
+    }
+
+    public class PhoneData implements Serializable {
+        public String member_phone;
+        public String telephonebook;
     }
 }

@@ -281,7 +281,7 @@ public class PropertyAddressView extends LinearLayout {
         return address;
     }
 
-    public PropertyAddressView updateData(String level, FamilyData familyData) {
+    public PropertyAddressView updateData(final String level, FamilyData familyData) {
         mListView.clear();
         mLlAddressContain.removeAllViews();
         List<FamilVo> list = familyData.list;
@@ -298,8 +298,25 @@ public class PropertyAddressView extends LinearLayout {
             TextView tvName = (TextView) view.findViewById(R.id.property_name_tv);
             TextView tvPhone = (TextView) view.findViewById(R.id.property_phone_tv);
             ImageView imgStatus = (ImageView) view.findViewById(R.id.property_address_status_img);//R.mipmap.icon_binded  R.mipmap.icon_not_bind
+            LinearLayout llAcceptAndDelete = view.findViewById(R.id.llAcceptAndDelete);//R.mipmap.icon_binded  R.mipmap.icon_not_bind
             final TextView imgDelete = (TextView) view.findViewById(R.id.property_address_delete);//R.mipmap.icon_binded  R.mipmap.icon_not_bind
             final ImageView imgArrow = (ImageView) view.findViewById(R.id.property_arrow_img);
+            final ImageView btnAccept = (ImageView) view.findViewById(R.id.btnAccept);
+            final ImageView btnRejct = (ImageView) view.findViewById(R.id.btnReject);
+
+
+            // 当前 是家庭成员的时候
+            if ("2".equals(familVo.level)) {
+                if ("已授权".equals(familVo.state)) {
+                    llAcceptAndDelete.setVisibility(View.GONE);
+                    imgArrow.setBackgroundResource(R.mipmap.icon_shouquan);
+                } else {
+                    llAcceptAndDelete.setVisibility(View.VISIBLE);
+                    imgArrow.setBackgroundResource(R.mipmap.icon_noshouquan);
+                }
+            } else {
+                imgArrow.setBackgroundResource(R.mipmap.icon_shouquan);
+            }
             tvName.setText(familVo.name);
             tvPhone.setText(familVo.phone);
             view.setOnClickListener(new OnClickListener() {
@@ -317,7 +334,23 @@ public class PropertyAddressView extends LinearLayout {
                 @Override
                 public void onClick(View v) {
                     if (mPeopleListener != null) {
-                        mPeopleListener.onItemClick(familVo.memberId);
+                        mPeopleListener.onItemClick(familVo.memberId, familVo.state, level);
+                    }
+                }
+            });
+            btnAccept.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPeopleListener != null) {
+                        mPeopleListener.onItemAcceptClick(familVo.memberId);
+                    }
+                }
+            });
+            btnRejct.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPeopleListener != null) {
+                        mPeopleListener.onItemRejectClick(familVo.memberId);
                     }
                 }
             });
@@ -389,7 +422,9 @@ public class PropertyAddressView extends LinearLayout {
 
     public OnPeopleItemClickListener mPeopleListener;
     public interface OnPeopleItemClickListener {
-        void onItemClick(String memberid);
+        void onItemClick(String memberid, String status, String level);
+        void onItemAcceptClick(String memberid);
+        void onItemRejectClick(String memberid);
     }
     public void setOnPeopleItemClickListener(OnPeopleItemClickListener listener) {
         mPeopleListener = listener;

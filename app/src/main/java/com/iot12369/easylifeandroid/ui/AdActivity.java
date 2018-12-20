@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能说明：广告展示界面
@@ -103,6 +105,14 @@ public class AdActivity extends BaseActivity<AdPresenter> implements AdContract.
             }
         }
     };
+
+    @OnClick(R.id.ad_time)
+    public void onClick(View view) {
+        countDownTimer.cancel();
+        if (!isDestroyed()) {
+            judgeJump();
+        }
+    }
 
     private void judgeJump() {
         if (LeApplication.isLogin()) {

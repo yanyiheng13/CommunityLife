@@ -1,6 +1,7 @@
 package com.iot12369.easylifeandroid.ui;
 
 
+import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,11 +11,14 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.iot12369.easylifeandroid.R;
+import com.luck.picture.lib.permissions.RxPermissions;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 功能说明： 启动页
@@ -30,6 +34,7 @@ public class SplashActivity extends BaseActivity {
     ImageView mImageLoading;
     //旋转动画
     private Animation mAnimation;
+    private RxPermissions rxPermissions;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +62,34 @@ public class SplashActivity extends BaseActivity {
          }, 1000);
     }
 
+    public  void judgePermission() {
+        if (rxPermissions == null) {
+            rxPermissions = new RxPermissions(this);
+        }
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
 
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean) {
+
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
 
     @Override

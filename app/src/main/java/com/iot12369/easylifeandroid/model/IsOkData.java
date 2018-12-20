@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 public class IsOkData implements Serializable {
     public String status;
+    public String countOfunread;
 
     public boolean isOk() {
         return "1".equals(status);

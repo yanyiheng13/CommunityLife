@@ -3,6 +3,7 @@ package com.iot12369.easylifeandroid.mvp.contract;
 
 import com.iot12369.easylifeandroid.model.AnnouncementData;
 import com.iot12369.easylifeandroid.model.AnnouncementVo;
+import com.iot12369.easylifeandroid.model.IsOkData;
 import com.sai.framework.mvp.MvpView;
 
 /**
@@ -19,5 +20,8 @@ public class AnnouncementContract {
     public interface View extends MvpView {
         void onSuccessAnnouncement(AnnouncementData announcementData);
         void onErrorAnnouncement(String code, String msg);
+
+        void onSuccessUploadMsg(String isOkData);
+        void onErrorUploadMsg(String code, String msg);
     }
 }

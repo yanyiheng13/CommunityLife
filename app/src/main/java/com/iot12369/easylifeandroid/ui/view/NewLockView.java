@@ -52,6 +52,7 @@ public class NewLockView extends RelativeLayout {
     private ImageView mImgAd;
     private ImageView mImgUnlockOne;
     private ImageView mImgUnlockTwo;
+    private ImageView mImgLockView;
 
     private TextView mTvTipOne;
     private TextView mTvTipTwo;
@@ -77,10 +78,20 @@ public class NewLockView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.view_new_lock, this);
         ButterKnife.bind(this, this);
+        mImgLockView = findViewById(R.id.imgClickLock);
         //获取屏幕宽高
         WindowManager wm = (WindowManager) getContext()
                 .getSystemService(Context.WINDOW_SERVICE);
         mWidth = wm.getDefaultDisplay().getWidth();
+        RelativeLayout.LayoutParams params = (LayoutParams) mImgLockView.getLayoutParams();
+        if (params != null) {
+            params.height = (int) (mWidth / 3.5);
+            params.width = (int) (mWidth / 3.5);
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            params.topMargin = (int) (mWidth / 10.5);
+        }
+
+        mImgLockView.setLayoutParams(params);
         mTimer1 = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

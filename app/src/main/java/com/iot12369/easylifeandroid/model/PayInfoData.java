@@ -60,4 +60,6 @@ public class PayInfoData implements Serializable {
     public String estateServiceUnitprice;
     public String cutoffdate;
     public String memberId;
+    public String parkingplaceCutoffdate;
+    public String communityParkingPlacePrice;
 }

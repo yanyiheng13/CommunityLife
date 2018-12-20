@@ -33,8 +33,8 @@ ext {
     targetSdkVersion = 28
     butterknife = '8.5.1'
 
-    versionCode = 123
-    versionName = '1.2.3'
+    versionCode = 200
+    versionName = '2.0.0'
 }
 ext.deps = [
         support_v4         : "com.android.support:support-v4:$rootProject.supportLibraryVersion",

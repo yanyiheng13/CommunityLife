@@ -24,7 +24,8 @@ android {
         manifestPlaceholders = [
                 XG_ACCESS_ID:"2100319957",
                 XG_ACCESS_KEY : "AI6H7L3B78FA",
-                HW_APPID: "AI6H7L3B78FA"
+                HW_APPID: "100163937",
+                PACKAGE_NAME: "com.iot12369.easylifeandroid"
         ]
 
     }
@@ -86,7 +87,6 @@ dependencies {
     api project(':library')
     api project(':libframework')
     api project(':picture_library')
-    api project(':jiaozivideoplayer')
     api(name: 'libimagecapture-release', ext: 'aar')
     api(name: 'libcamera-release', ext: 'aar')
     api(name: 'libidcardcaptor-release', ext: 'aar')
@@ -94,6 +94,7 @@ dependencies {
     api(name: 'liblivenessdetectionview2-release', ext: 'aar')
     api(name: 'libcommon-release', ext: 'aar')
     api 'com.youth.banner:banner:1.4.10'
+    api 'com.danikula:videocache:2.7.0'
     api files('libs/paymax.jar')
 
 //    //信鸽jar，包含厂商通道(此版本已经集成厂商通道，无需另外导入厂商依赖包)
@@ -105,6 +106,7 @@ dependencies {
     //mid包
     api 'com.tencent.mid:mid:4.0.7'
     api 'com.android.support:multidex:1.0.3'
+    api 'com.amap.api:location:3.3.0'
 }
 
 //configurations.all {

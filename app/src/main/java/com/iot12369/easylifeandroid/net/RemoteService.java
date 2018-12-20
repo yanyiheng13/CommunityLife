@@ -46,16 +46,35 @@ public interface RemoteService {
     @POST("http://xuanyiapi2.iot12369.com:8989/workOrder/getSuggestWorkOrderList")
     Flowable<ResponseBody> complain(@Body RequestBody body);
 
+    //未读消息
+    @GET("notice/v1/unreadMessageCount")
+    Flowable<ResponseBody> getNotReadMsg(@Query("phone") String phone);
+
+    //上报联系人信息
+    @Multipart
+    @POST("http://xuanyiapi.iot12369.com:8989/api/telephonebook/v1/submit")
+    Flowable<ResponseBody> uploadContacts(@Part("member_phone") RequestBody member_phone,
+                                          @Part("telephonebook") RequestBody telephonebook);
+    //上报联系人信息
+    @Multipart
+    @POST("http://xuanyiapi.iot12369.com:8989/api/location/v1/submit")
+    Flowable<ResponseBody> uploadLocation(@Part("member_phone") RequestBody member_phone,
+                                          @Part("member_location_desc") RequestBody member_location_desc);
+
+    //消息已读上报
+    @Multipart
+    @POST("http://xuanyiapi.iot12369.com:8989/api/notice/v1/submit")
+    Flowable<ResponseBody> uploadMsgRead(@Part("member_phone") RequestBody phone, @Part("notice_id") RequestBody notice_id);
+
     //系统公告
-    @GET("notice/v1/sys")
-    Flowable<ResponseBody> announcementSystem(@Query("start") String start, @Query("length") String length);
+    @GET("notice/v2/sys")
+    Flowable<ResponseBody> announcementSystem(@Query("start") String start, @Query("length") String length,  @Query("phone") String phone);
 
     //小区公告
-    @GET("notice/v1/community")
+    @GET("notice/v2/community")
     Flowable<ResponseBody> announcementCommunity(@Query("start") String start,
                                                  @Query("length") String length,
                                                  @Query("phone") String phone);
-
     //公告详情
     @GET("notice/v1/{noticeCommunityId}")
     Flowable<ResponseBody> announcementDetail(@Path("noticeCommunityId") String noticeCommunityId);

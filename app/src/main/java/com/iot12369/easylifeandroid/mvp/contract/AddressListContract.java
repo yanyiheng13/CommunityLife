@@ -16,7 +16,7 @@ import com.sai.framework.mvp.MvpView;
 public class AddressListContract {
 
     public interface View extends MvpView {
-        void onSuccessAddress(AddressData addressData);
+        void onSuccessAddress(AddressVo addressData);
         void onFailureAddress(String code, String msg);
     }
 }
