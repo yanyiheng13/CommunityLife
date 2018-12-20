@@ -2,9 +2,13 @@ package com.iot12369.easylifeandroid.ui;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -56,8 +60,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
              @Override
              public void run() {
-                 AdActivity.newIntent(SplashActivity.this);
-                 finish();
+                judgePermission();
              }
          }, 1000);
     }
@@ -75,9 +78,31 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         if (aBoolean) {
-
+                            AdActivity.newIntent(SplashActivity.this);
+                            finish();
                         } else {
+                            new AlertDialog.Builder(SplashActivity.this)
+                                    .setMessage("需要开启内存卡读写权限才能使用此功能")
+                                    .setPositiveButton("设置", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //引导用户到设置中去进行设置
+                                            Intent intent = new Intent();
+                                            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                            intent.setData(Uri.fromParts("package", getPackageName(), null));
+                                            startActivity(intent);
+                                            finish();
 
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
                         }
                     }
 

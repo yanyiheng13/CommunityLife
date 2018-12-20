@@ -30,5 +30,8 @@ public class AuthorizationContract {
 
         void onSuccessFamilyList(FamilyData familyData);
         void onFailureFamilyList(String code, String msg);
+
+        void onSuccessAsk(String str);
+        void onFailureAsk(String code, String msg);
     }
 }

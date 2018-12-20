@@ -66,6 +66,21 @@ public interface RemoteService {
     @POST("http://xuanyiapi.iot12369.com:8989/api/notice/v1/submit")
     Flowable<ResponseBody> uploadMsgRead(@Part("member_phone") RequestBody phone, @Part("notice_id") RequestBody notice_id);
 
+    //账号授权拒绝
+    @Multipart
+    @POST("http://xuanyiapi.iot12369.com:8989/api/audit/v1/app/reject")
+    Flowable<ResponseBody> accountReject(@Part("memberId") RequestBody memberId);
+
+    //账号授权接受
+    @Multipart
+    @POST("http://xuanyiapi.iot12369.com:8989/api/audit/v1/app")
+    Flowable<ResponseBody> accountAccept(@Part("memberId") RequestBody memberId);
+
+    //账号授权接受拒绝删除
+    @Multipart
+    @POST("http://xuanyiapi.iot12369.com:8989/api/audit/v1/app/reject")
+    Flowable<ResponseBody> accountDelete(@Part("memberId") RequestBody memberId);
+
     //系统公告
     @GET("notice/v2/sys")
     Flowable<ResponseBody> announcementSystem(@Query("start") String start, @Query("length") String length,  @Query("phone") String phone);
