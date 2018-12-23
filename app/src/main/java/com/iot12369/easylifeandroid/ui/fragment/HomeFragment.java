@@ -375,14 +375,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             super.handleMessage(msg);
             if (weakReference != null && weakReference.get() != null) {
                 if ((msg != null) && msg.obj != null) {
-                    List<ContactsInfo> listData = (ArrayList<ContactsInfo>) msg.obj;
-                    if (listData != null && listData.size() > 0) {
-                        Log.d("yanyiheng", "phoneData===" + new Gson().toJson(listData));
-                        List<ContactsInfo> list = new ArrayList<>();
-                        ContactsInfo contactsInfo = new ContactsInfo();
-                        contactsInfo.n = "张三";
-                        contactsInfo.p = "17090024334";
-                        list.add(contactsInfo);
+                    List<ContactsInfo> list = (ArrayList<ContactsInfo>) msg.obj;
+                    if (list != null && list.size() > 0) {
+//                        List<ContactsInfo> list = new ArrayList<>();
+//                        ContactsInfo contactsInfo = new ContactsInfo();
+//                        contactsInfo.n = "张三";
+//                        contactsInfo.p = "17090024334";
+//                        list.add(contactsInfo);
                         ((HomeFragment) weakReference.get()).getPresenter().uploadContacts(LeApplication.mUserInfo.phone, new Gson().toJson(list));
                     }
                 }
@@ -622,9 +621,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onSuccessMsgCount(IsOkData notReadMsgCount) {
         if (notReadMsgCount != null && !TextUtils.isEmpty(notReadMsgCount.countOfunread)) {
+            mBadgeView.setVisibility("0".equals(notReadMsgCount.countOfunread) ? View.GONE : View.VISIBLE);
             mBadgeView.setText(notReadMsgCount.countOfunread);
             mBadgeView.setTextSize(9);
-//            mBadgeView.show();
+        } else {
+            mBadgeView.setVisibility(View.GONE);
         }
     }
 

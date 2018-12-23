@@ -109,6 +109,63 @@ public class AuthorizationPresenter extends BasePresenter<Repository, Authorizat
         }).application(LeApplication.mApplication).start();
     }
 
+    /**
+     * 拒绝
+     */
+    public void accountReject(String memberId) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().accountReject(memberId)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<String>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<String> result) {
+                getRootView().onSuccessAsk(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureAsk(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    /**
+     * 接受
+     */
+    public void accountAccept(String memberId) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().accountAccept(memberId)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<String>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<String> result) {
+                getRootView().onSuccessAsk(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureAsk(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    /**
+     * 删除
+     */
+    public void accountDelete(String memberId) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().accountDelete(memberId)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<String>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<String> result) {
+                getRootView().onSuccessAsk(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureAsk(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
     public class  RemoveData {
         public String phone;
         public String origMemberid;
