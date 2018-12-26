@@ -2,98 +2,115 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/title_height" />
 
-        <TextView
-            android:id="@+id/authorization_family_title_tv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="@dimen/font_18"
-            android:text="@string/families"
-            android:gravity="center"
-            android:background="@drawable/authorization_title_bg"
-            android:textColor="@drawable/color_authorization_title"
-            />
-        <TextView
-            android:id="@+id/authorization_tenants_title_tv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="@dimen/font_18"
-            android:text="@string/tenant"
-            android:gravity="center"
-            android:background="@drawable/authorization_title_bg"
-            android:textColor="@drawable/color_authorization_title"
-            />
-    </LinearLayout>
-    <View
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/main_bg"/>
-    <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
-        android:id="@+id/property_address_view_two"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/main_bg"/>
-    <TextView
-        android:id="@+id/authorization_identity_tv"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:textColor="@color/colorLoginTxt"
-        android:textSize="16sp"
-        android:gravity="center_vertical"
-        android:text="@string/families"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/white"
-        android:paddingLeft="16dp"/>
-    <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
-        android:id="@+id/property_address_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/main_bg"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorLine"/>
-    <LinearLayout
-        android:id="@+id/authorization_list_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
-    <TextView
-        android:id="@+id/authorization_add_people_tv"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/wechat_login"
-        android:textSize="@dimen/font_20"
-        android:gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="60dp"
-        android:text="@string/add_peoples"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@android:color/transparent"/>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/authorization_family_title_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/authorization_title_bg"
+                    android:gravity="center"
+                    android:text="@string/families"
+                    android:textColor="@drawable/color_authorization_title"
+                    android:textSize="@dimen/font_18" />
+
+                <TextView
+                    android:id="@+id/authorization_tenants_title_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/authorization_title_bg"
+                    android:gravity="center"
+                    android:text="@string/tenant"
+                    android:textColor="@drawable/color_authorization_title"
+                    android:textSize="@dimen/font_18" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/main_bg" />
+
+            <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
+                android:id="@+id/property_address_view_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/main_bg" />
+
+            <TextView
+                android:id="@+id/authorization_identity_tv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="@string/families"
+                android:textColor="@color/colorLoginTxt"
+                android:textSize="16sp" />
+
+            <com.iot12369.easylifeandroid.ui.view.PropertyAddressView
+                android:id="@+id/property_address_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/main_bg" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorLine" />
+
+            <LinearLayout
+                android:id="@+id/authorization_list_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/authorization_add_people_tv"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/wechat_login"
+                android:gravity="center"
+                android:text="@string/add_peoples"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_20" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>
