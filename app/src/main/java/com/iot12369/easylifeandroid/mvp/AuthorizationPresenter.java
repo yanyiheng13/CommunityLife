@@ -113,8 +113,7 @@ public class AuthorizationPresenter extends BasePresenter<Repository, Authorizat
      * 拒绝
      */
     public void accountReject(String memberId) {
-        RequestBody memberId1 = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), memberId);
-        new RxHelper().view(getRootView()).load(getModel().getRemote().accountReject(memberId1)).callBack(new RxHelper
+        new RxHelper().view(getRootView()).load(getModel().getRemote().accountReject(memberId)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<String>>() {
             @Override
             public void onSuccess(String response, BaseBean<String> result) {
@@ -133,8 +132,7 @@ public class AuthorizationPresenter extends BasePresenter<Repository, Authorizat
      * 接受
      */
     public void accountAccept(String memberId) {
-        RequestBody memberId1 = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), memberId);
-        new RxHelper().view(getRootView()).load(getModel().getRemote().accountAccept(memberId1)).callBack(new RxHelper
+        new RxHelper().view(getRootView()).load(getModel().getRemote().accountAccept(memberId)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<String>>() {
             @Override
             public void onSuccess(String response, BaseBean<String> result) {
@@ -153,8 +151,7 @@ public class AuthorizationPresenter extends BasePresenter<Repository, Authorizat
      * 删除
      */
     public void accountDelete(String memberId) {
-        RequestBody memberId1 = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), memberId);
-        new RxHelper().view(getRootView()).load(getModel().getRemote().accountDelete(memberId1)).callBack(new RxHelper
+        new RxHelper().view(getRootView()).load(getModel().getRemote().accountDelete(memberId)).callBack(new RxHelper
                 .CallBackAdapter<BaseBean<String>>() {
             @Override
             public void onSuccess(String response, BaseBean<String> result) {

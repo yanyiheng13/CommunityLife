@@ -90,6 +90,21 @@ public interface RemoteService {
     Flowable<ResponseBody> announcementCommunity(@Query("start") String start,
                                                  @Query("length") String length,
                                                  @Query("phone") String phone);
+    //账号授权拒绝
+    @FormUrlEncoded
+    @POST("http://xuanyiapi.iot12369.com/api/audit/v1/app/reject")
+    Flowable<ResponseBody> accountReject(@Field("memberId") String memberId);
+
+    //账号授权接受
+    @FormUrlEncoded
+    @POST("http://xuanyiapi.iot12369.com/api/audit/app/v1")
+    Flowable<ResponseBody> accountAccept(@Field("memberId") String memberId);
+
+    //账号授权接受拒绝删除
+    @FormUrlEncoded
+    @POST("http://xuanyiapi.iot12369.com/api/audit/v1/app/reject")
+    Flowable<ResponseBody> accountDelete(@Field("memberId") String memberId);
+
     //公告详情
     @GET("notice/v1/{noticeCommunityId}")
     Flowable<ResponseBody> announcementDetail(@Path("noticeCommunityId") String noticeCommunityId);

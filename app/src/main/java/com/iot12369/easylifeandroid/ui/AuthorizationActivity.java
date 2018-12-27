@@ -154,7 +154,6 @@ public class AuthorizationActivity extends BaseActivity<AuthorizationPresenter> 
     public void onSuccessRemove(IsOkData data) {
         LoadingDialog.hide();
         if (data.isOk()) {
-            ToastUtil.toast(this, "移除成功");
             LoginData loginData = LeApplication.mUserInfo;
             getPresenter().familyList(loginData.phone, addressVo.memberId);
         }
@@ -167,6 +166,7 @@ public class AuthorizationActivity extends BaseActivity<AuthorizationPresenter> 
 
     @Override
     public void onSuccessAddressList(AddressData addressData) {
+        LoadingDialog.hide();
         this.addressData = addressData;
         mAddressView.updateData(addressData, false);
         addressVo = mAddressView.getCurrentAddress(addressData);
@@ -178,7 +178,7 @@ public class AuthorizationActivity extends BaseActivity<AuthorizationPresenter> 
 
     @Override
     public void onFailureAddressList(String code, String msg) {
-
+        LoadingDialog.hide();
     }
 
     @Override

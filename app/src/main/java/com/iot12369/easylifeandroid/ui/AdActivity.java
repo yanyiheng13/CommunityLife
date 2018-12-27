@@ -69,7 +69,7 @@ public class AdActivity extends BaseActivity<AdPresenter> implements AdContract.
         //设置顶部banner的宽高
         int topHeight = 0;
         if (mImageTop.getLayoutParams() != null) {
-            topHeight = (int) (762 / 525.00 * width);
+            topHeight = (int) (740 / 525.00 * width);
             mImageTop.getLayoutParams().height = topHeight;
         }
         //设置下面部分的高度，完成适配

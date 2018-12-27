@@ -94,7 +94,7 @@
             <LinearLayout
                 android:id="@+id/mine_account_certification_ll"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
@@ -120,7 +120,7 @@
             <LinearLayout
                 android:id="@+id/mine_account_authorise_ll"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
@@ -146,7 +146,7 @@
             <LinearLayout
                 android:id="@+id/mine_pay_record_ll"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
@@ -172,7 +172,7 @@
             <LinearLayout
                 android:id="@+id/mine_about_us_ll"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"

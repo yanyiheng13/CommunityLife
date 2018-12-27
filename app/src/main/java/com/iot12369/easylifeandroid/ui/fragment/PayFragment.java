@@ -479,7 +479,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
                 mPayInfo = null;
                 getPresenter().home(data.phone, addressVo.memberId);
             } else {
-                if (TextUtils.isEmpty(mAddressVo.memberId) || TextUtils.isEmpty(addressVo.memberId) || !addressVo.memberId.equals(mAddressVo.memberId)) {
+                if (mPayInfo == null || TextUtils.isEmpty(mAddressVo.memberId) || TextUtils.isEmpty(addressVo.memberId) || !addressVo.memberId.equals(mAddressVo.memberId)) {
                     mPayInfo = null;
                     getPresenter().home(data.phone, addressVo.memberId);
                 }

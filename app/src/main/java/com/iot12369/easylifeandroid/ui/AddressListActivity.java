@@ -159,11 +159,11 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
 
     @Override
     public void onSuccessAddress(AddressVo addressData) {
+        LoadingDialog.hide();
         if (addressData == null || !"1".equals(addressData.currentEstate)) {
             ToastUtil.toast(this, "设置默认地址失败");
             return;
         }
-        LoadingDialog.hide();
         Intent intent = new Intent();
         intent.putExtra(TAG_REQUEST_HOME, mAddressData);
         setResult(Activity.RESULT_OK, intent);
