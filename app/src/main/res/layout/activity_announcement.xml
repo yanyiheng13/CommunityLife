@@ -2,71 +2,93 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"/>
+        android:layout_height="@dimen/title_height" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:orientation="horizontal"
+        android:background="@color/main_bg"
         android:gravity="center_horizontal"
-        android:background="@color/main_bg">
+        android:orientation="horizontal">
+
         <RelativeLayout
             android:id="@+id/announcement_system_rl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">
+
             <TextView
                 android:id="@+id/announcement_system_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#2e2e2e"
-                android:textSize="16sp"
                 android:text="@string/system_announcement"
-                />
+                android:textColor="#2e2e2e"
+                android:textSize="16sp" />
+
             <View
                 android:id="@+id/announcement_system_view"
                 android:layout_width="wrap_content"
                 android:layout_height="3dp"
-                android:layout_below="@id/announcement_system_tv"
                 android:layout_alignLeft="@id/announcement_system_tv"
                 android:layout_alignRight="@id/announcement_system_tv"
+                android:layout_below="@id/announcement_system_tv"
                 android:layout_marginTop="3dp"
-                android:background="@color/colorWeChatLoginBg"/>
+                android:background="@color/colorWeChatLoginBg" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/announcement_community_rl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="40dp">
+
             <TextView
                 android:id="@+id/announcement_community_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#2e2e2e"
-                android:textSize="16sp"
                 android:text="@string/community_announcement"
-                />
+                android:textColor="#2e2e2e"
+                android:textSize="16sp" />
+
             <View
                 android:id="@+id/announcement_community_view"
                 android:layout_width="wrap_content"
                 android:layout_height="3dp"
-                android:layout_below="@id/announcement_community_tv"
                 android:layout_alignLeft="@id/announcement_community_tv"
                 android:layout_alignRight="@id/announcement_community_tv"
+                android:layout_below="@id/announcement_community_tv"
                 android:layout_marginTop="3dp"
-                android:visibility="gone"
-                android:background="@color/colorWeChatLoginBg"/>
+                android:background="@color/colorWeChatLoginBg"
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
+    <com.iot12369.easylifeandroid.ui.view.SegmentControl
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/segment_control"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        app:textColors="@color/texts_color"
+        app:backgroundColors="@color/background_color"
+        app:selectedColor="@color/colorTextSelect"
+        app:cornerRadius="5dp"
+        app:separatorWidth="2dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:boundWidth="2dp"
+        app:texts="系统消息| 小区消息"
+        app:verticalGap="10dp"
+        app:horizonGap="10dp"
+        />
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       />
+        android:layout_height="match_parent" />
 </LinearLayout>

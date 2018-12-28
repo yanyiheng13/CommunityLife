@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.ui.fragment.AnnouncementFragment;
+import com.iot12369.easylifeandroid.ui.view.SegmentControl;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 
 import butterknife.BindView;
@@ -34,6 +35,8 @@ public class AnnouncementActivity extends BaseActivity {
     View mSystemLine;
     @BindView(R.id.announcement_community_view)
     View mCommunityLine;
+    @BindView(R.id.segment_control)
+    SegmentControl mSegmentControl;
 
     private Fragment oldFragment;
 
@@ -46,6 +49,12 @@ public class AnnouncementActivity extends BaseActivity {
         ButterKnife.bind(this);
         mTitleView.setText(R.string.announcement).setImageResource(R.mipmap.icon_notice_light);
         setCurrentTab(0);
+        mSegmentControl.setOnSegmentControlClickListener(new SegmentControl.OnSegmentControlClickListener() {
+            @Override
+            public void onSegmentControlClick(int index) {
+
+            }
+        });
     }
 
     @OnClick({R.id.announcement_system_rl, R.id.announcement_community_rl})

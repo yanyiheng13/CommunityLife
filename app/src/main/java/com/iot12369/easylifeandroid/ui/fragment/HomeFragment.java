@@ -206,6 +206,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mBanner.setImages(listData);
         //banner设置方法全部调用完毕时最后调用
         mBanner.start();
+        mBadgeView.hide();
         getPresenter().notReadMsg(LeApplication.mUserInfo.phone);
 
         // 获取地理位置然后上报
@@ -213,6 +214,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         // 检测读取联系人权限，如果同意读取联系人信息，则在子线程中读取电话信息，然后上报
         detectionContactInformation();
         detectionLocation();
+
+        String jsonString = SharePrefrenceUtil.getString("config", "list");
+        AddressData addressData = null;
+        if (!TextUtils.isEmpty(jsonString) && jsonString.length() > 10) {
+            addressData = new Gson().fromJson(jsonString, new TypeToken<AddressData>(){}.getType());
+            if (addressData != null) {
+                onSuccessAddressList(addressData);
+            }
+        }
     }
 
     public void detectionLocation() {
@@ -625,7 +635,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             mBadgeView.setText(notReadMsgCount.countOfunread);
             mBadgeView.setTextSize(9);
         } else {
-            mBadgeView.setVisibility(View.GONE);
+            mBadgeView.hide();
         }
     }
 
