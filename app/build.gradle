@@ -107,6 +107,8 @@ dependencies {
     api 'com.tencent.mid:mid:4.0.7'
     api 'com.android.support:multidex:1.0.3'
     api 'com.amap.api:location:3.3.0'
+    api  'com.umeng.umsdk:analytics:7.5.4'
+    api  'com.umeng.umsdk:common:1.5.4'
 }
 
 //configurations.all {

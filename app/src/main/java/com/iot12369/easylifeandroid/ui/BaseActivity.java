@@ -10,6 +10,7 @@ import com.iot12369.easylifeandroid.util.UiTitleBarUtil;
 import com.sai.framework.base.SaiActivity;
 import com.sai.framework.mvp.BasePresenter;
 import com.sai.framework.mvp.MvpModel;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 功能说明：
@@ -39,6 +40,18 @@ public class BaseActivity<P extends BasePresenter> extends SaiActivity<P> {
         }
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

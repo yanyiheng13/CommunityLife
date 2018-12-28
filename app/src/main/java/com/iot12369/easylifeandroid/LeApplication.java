@@ -17,6 +17,7 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.commonsdk.UMConfigure;
 
 
 public class LeApplication extends Application {
@@ -70,6 +71,7 @@ public class LeApplication extends Application {
         XGPushManager.bindAccount(getApplicationContext(), "XINGE");
         XGPushManager.setTag(this, "XINGE");
         JZProxyConfig.getInstance().init(this);
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
     }
 
     @Override

@@ -81,7 +81,6 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         } catch (Exception e) {
 
         }
-
         if (mAdData == null || TextUtils.isEmpty(mAdData.index_2)) {
             return;
         }

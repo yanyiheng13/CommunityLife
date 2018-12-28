@@ -131,7 +131,7 @@
                         <TextView
                             android:id="@+id/pay_time_month_tv"
                             android:layout_width="0dp"
-                            android:layout_height="45dp"
+                            android:layout_height="42dp"
                             android:layout_weight="1"
                             android:background="@drawable/pay_time_bg"
                             android:gravity="center"
@@ -141,7 +141,7 @@
                         <TextView
                             android:id="@+id/pay_time_quarter_tv"
                             android:layout_width="0dp"
-                            android:layout_height="45dp"
+                            android:layout_height="42dp"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/pay_time_bg"
@@ -152,7 +152,7 @@
                         <TextView
                             android:id="@+id/pay_time_year_tv"
                             android:layout_width="0dp"
-                            android:layout_height="45dp"
+                            android:layout_height="42dp"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/pay_time_bg"
@@ -280,7 +280,7 @@
                             <TextView
                                 android:id="@+id/pay_car_month_tv"
                                 android:layout_width="0dp"
-                                android:layout_height="45dp"
+                                android:layout_height="42dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/pay_time_bg"
                                 android:gravity="center"
@@ -290,7 +290,7 @@
                             <TextView
                                 android:id="@+id/pay_car_quarter_tv"
                                 android:layout_width="0dp"
-                                android:layout_height="45dp"
+                                android:layout_height="42dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/pay_time_bg"
@@ -301,7 +301,7 @@
                             <TextView
                                 android:id="@+id/pay_car_year_tv"
                                 android:layout_width="0dp"
-                                android:layout_height="45dp"
+                                android:layout_height="42dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/pay_time_bg"
@@ -452,6 +452,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rlCarMoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -508,6 +509,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rlCar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"

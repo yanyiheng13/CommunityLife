@@ -63,7 +63,6 @@
         tools:replace="android:allowBackup"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        android:networkSecurityConfig="@xml/xg_network_security_config"
         >
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <provider
@@ -193,7 +192,8 @@
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
-
+        <meta-data android:value="5c264ce0b465f5c33200029c" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

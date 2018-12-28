@@ -109,7 +109,10 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
     TextView mTvTime;
     @BindView(R.id.pay_money_car_dateTv)
     TextView mTvCarTime;
-
+    @BindView(R.id.rlCarMoney)
+    RelativeLayout mRlCarMoney;
+    @BindView(R.id.rlCar)
+    RelativeLayout mRlCarDate;
     @BindView(R.id.tv_money)
     TextView mTvMoney;
     @BindView(R.id.tv_moneyCar)
@@ -210,7 +213,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
 
                 String room = "";
                 if (LeApplication.mAddressVo != null) {
-                    room = LeApplication.mAddressVo.communityHouse;
+                    room = LeApplication.mAddressVo.communityRawAddress;
                 }
                 String subject = "";
                 String type = "";
@@ -424,17 +427,25 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
         if (!TextUtils.isEmpty(mPayInfo.cutoffdate)) {
             mTvTime.setText(mPayInfo.cutoffdate);
         }
-        mTvCarTime.setText(mPayInfo.parkingplaceCutoffdate);
+        if (!TextUtils.isEmpty(mPayInfo.parkingplaceCutoffdate)) {
+            mTvCarTime.setText(mPayInfo.parkingplaceCutoffdate);
+            mRlCarDate.setVisibility(View.VISIBLE);
+        } else {
+            mRlCarDate.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(mPayInfo.communityHouseArea)) {
             mTvSquareMeters.setText(String.format(getString(R.string.square_meters), CommonUtil.formatAmountByAutomation(mPayInfo.communityHouseArea)));
         }
         if (!TextUtils.isEmpty(mPayInfo.estateServiceUnitprice)) {
             mTvUnitMoney.setText(String.format(getString(R.string.by_square_meters), CommonUtil.formatAmountByAutomation(mPayInfo.estateServiceUnitprice)));
         }
-        if (!TextUtils.isEmpty(mPayInfo.communityParkingPlacePrice)) {
+        if (!TextUtils.isEmpty(mPayInfo.communityParkingPlacePrice) && !"0".equals(mPayInfo.communityParkingPlacePrice)) {
             mTvCarUnitMoney.setText(String.format(getString(R.string.square_meters_unit), CommonUtil.formatAmountByAutomation(mPayInfo.communityParkingPlacePrice)));
+            mRlCarMoney.setVisibility(View.VISIBLE);
+        } else {
+            mRlCarMoney.setVisibility(View.GONE);
         }
-        if (!TextUtils.isEmpty(mPayInfo.moneyCar)) {
+        if (!TextUtils.isEmpty(mPayInfo.moneyCar) && !"0".equals(mPayInfo.moneyCar)) {
             mCheckBoxCar.setChecked(true);
             mRlCarCount.setVisibility(View.VISIBLE);
             mLlCarCount.setVisibility(View.VISIBLE);
@@ -445,7 +456,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             mRlCarCount.setVisibility(View.GONE);
             mLlCarCount.setVisibility(View.GONE);
         }
-        if (!TextUtils.isEmpty(mPayInfo.money)) {
+        if (!TextUtils.isEmpty(mPayInfo.money) && !"0".equals(mPayInfo.money)) {
             mCheckBox.setChecked(true);
             mLlWuyeCount.setVisibility(View.VISIBLE);
             mRlWuyeCount.setVisibility(View.VISIBLE);
