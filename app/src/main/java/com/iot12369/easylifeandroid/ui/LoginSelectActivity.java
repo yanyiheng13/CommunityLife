@@ -68,7 +68,6 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
         setContentView(R.layout.activity_login_selsect);
         ButterKnife.bind(this);
         uuid = UUID.randomUUID().toString();
-        askWechat();
         mSurfaceView = findViewById(R.id.surfaceView);
         player = new MediaPlayer();
 
@@ -197,6 +196,7 @@ public class LoginSelectActivity extends BaseActivity<WechatLoginPresent> implem
                 break;
             case R.id.ll_login_phone:
                 LoginActivity.newIntent(this);
+                finish();
                 break;
             default:
                 break;

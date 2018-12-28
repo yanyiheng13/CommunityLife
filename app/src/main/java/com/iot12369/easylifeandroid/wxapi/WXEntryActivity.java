@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid.wxapi;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -188,6 +189,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         });
     }
 
+    @SuppressLint("HandlerLeak")
     public Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {

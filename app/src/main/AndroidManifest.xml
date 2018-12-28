@@ -82,50 +82,65 @@
 
         <activity android:name="com.iot12369.easylifeandroid.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="com.iot12369.easylifeandroid.ui.LoginSelectActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             />
 
         <activity android:name="com.iot12369.easylifeandroid.ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.AnnounceDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="com.iot12369.easylifeandroid.ui.SubmitProblemActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="com.iot12369.easylifeandroid.ui.ProgressActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.AnnouncementActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.CertificationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="com.iot12369.easylifeandroid.ui.AboutUsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.TransactionRecordsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.AddAddressActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.AuthorizationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.AddPeopleActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.AddressListActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.PayDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.ImageBrowerActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.iot12369.easylifeandroid.ui.AdActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".wxapi.WXEntryActivity" android:exported="true"
-            android:theme="@style/Theme.Transparent"/>
+            android:theme="@style/Theme.Transparent"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.PayManngeActivity"
             android:screenOrientation="portrait"
@@ -133,7 +148,8 @@
         </activity>
         <activity
             android:name="com.iot12369.easylifeandroid.ui.SplashActivity"
-            android:theme="@style/splash_style">
+            android:theme="@style/splash_style"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -144,6 +160,7 @@
         <activity
             android:name="com.swwx.paymax.PaymentActivity"
             android:launchMode="singleTop"
+
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity-alias
