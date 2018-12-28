@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.ui.fragment.AnnouncementFragment;
@@ -15,7 +14,6 @@ import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 功能说明： 公告列表
@@ -31,11 +29,7 @@ public class AnnouncementActivity extends BaseActivity {
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
 
-    @BindView(R.id.announcement_system_view)
-    View mSystemLine;
-    @BindView(R.id.announcement_community_view)
-    View mCommunityLine;
-    @BindView(R.id.segment_control)
+    @BindView(R.id.segment)
     SegmentControl mSegmentControl;
 
     private Fragment oldFragment;
@@ -47,32 +41,14 @@ public class AnnouncementActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announcement);
         ButterKnife.bind(this);
-        mTitleView.setText(R.string.announcement).setImageResource(R.mipmap.icon_notice_light);
-        setCurrentTab(0);
-        mSegmentControl.setOnSegmentControlClickListener(new SegmentControl.OnSegmentControlClickListener() {
+        mTitleView.setText(R.string.announcement).setImageResource2(R.mipmap.icon_notice_new);
+        mSegmentControl.setOnSegmentChangedListener(new SegmentControl.OnSegmentChangedListener() {
             @Override
-            public void onSegmentControlClick(int index) {
-
+            public void onSegmentChanged(int newSelectedIndex) {
+                setCurrentTab(newSelectedIndex);
             }
         });
-    }
-
-    @OnClick({R.id.announcement_system_rl, R.id.announcement_community_rl})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.announcement_system_rl:
-                mSystemLine.setVisibility(View.VISIBLE);
-                mCommunityLine.setVisibility(View.INVISIBLE);
-                setCurrentTab(0);
-                break;
-            case R.id.announcement_community_rl:
-                mCommunityLine.setVisibility(View.VISIBLE);
-                mSystemLine.setVisibility(View.INVISIBLE);
-                setCurrentTab(1);
-                break;
-            default:
-                break;
-        }
+        setCurrentTab(0);
     }
 
     /**

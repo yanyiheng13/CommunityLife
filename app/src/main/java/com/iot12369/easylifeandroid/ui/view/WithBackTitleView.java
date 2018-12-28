@@ -69,6 +69,25 @@ public class WithBackTitleView extends LinearLayout {
         return this;
     }
 
+    public WithBackTitleView setImageResource2(int drawableId) {
+        if (drawableId != 0) {
+            mImageIcon.setVisibility(VISIBLE);
+            if (mImageIcon.getLayoutParams() != null) {
+                mImageIcon.getLayoutParams().height = dp2px(23);
+                mImageIcon.getLayoutParams().width = dp2px(38);
+            }
+            mImageIcon.setImageResource(drawableId);
+        } else {
+            mImageIcon.setVisibility(View.GONE);
+        }
+        return this;
+    }
+
+    public int dp2px(float dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (dp * density + 0.5f);
+    }
+
     @OnClick(R.id.rl_title_back)
     public void onClick() {
         ((Activity)getContext()).finish();

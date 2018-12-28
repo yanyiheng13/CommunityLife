@@ -1,525 +1,668 @@
 package com.iot12369.easylifeandroid.ui.view;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
-import android.os.Build;
+import android.graphics.RectF;
+import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 
 import com.iot12369.easylifeandroid.R;
 
+import java.lang.reflect.Field;
+
 /**
- * Created by 7heaven on 15/4/22.
+ * Created by tang on 2018/2/25.
  */
+
 public class SegmentControl extends View {
 
-    private String[] mTexts;
-    private Rect[] mCacheBounds;
-    private Rect[] mTextBounds;
-
-    private RadiusDrawable mBackgroundDrawable;
-    private RadiusDrawable mSelectedDrawable;
-
-    private int mCurrentIndex;
-
-    private int mTouchSlop;
-    private boolean inTapRegion;
-    private float mStartX;
-    private float mStartY;
-    private float mCurrentX;
-    private float mCurrentY;
-
-    private int mHorizonGap;
-    private int mVerticalGap;
-
-    /** 外边框的width */
-    private int mBoundWidth = 4;
-    /** 内边框的width */
-    private int mSeparatorWidth = mBoundWidth / 2;
-
-    private int mSingleChildWidth;
-    private int mSingleChildHeight;
-
-    private Paint mPaint;
-
-    private int mTextSize;
-    private ColorStateList mBackgroundColors;
-    private ColorStateList mTextColors;
-    private int mCornerRadius;
-
-    private int DEFAULT_SELECTED_COLOR = 0xFF32ADFF;
-    private int DEFAULT_NORMAL_COLOR = 0xFFFFFFFF;
-
-    private Paint.FontMetrics mCachedFM;
-
-    public enum Direction {
-        HORIZONTAL(0), VERTICAL(1);
-
-        int value;
-
-        Direction(int v) {
-            value = v;
-        }
+    /**
+     * onSegmentChanged function will be triggered if segment changed
+     */
+    public interface OnSegmentChangedListener{
+        void onSegmentChanged(int newSelectedIndex);
     }
 
-    private Direction mDirection;
+    private static final float TOUCHED_BACKGROUND_DARK_COEFFICIENT = 0.95F;
+
+    private static final int COLOR_PRIMARY_NORMAL = 0XFFFFFFFF;
+    private static final int COLOR_PRIMARY_SELECTED = 0XFF2CA99F;
+
+    private static final int DEFAULT_COLOR_BACKGROUND_SELECTED = COLOR_PRIMARY_SELECTED;
+    private static final int DEFAULT_COLOR_BACKGROUND_NORMAL = COLOR_PRIMARY_NORMAL;
+    private static final int DEFAULT_COLOR_TEXT_SELECTED = COLOR_PRIMARY_NORMAL;
+    private static final int DEFAULT_COLOR_TEXT_NORMAL = COLOR_PRIMARY_SELECTED;
+    private static final int DEFAULT_COLOR_FRAME = COLOR_PRIMARY_SELECTED;
+    private static final int DEFAULT_TEXT_SIZE_SP = 16;
+    private static final int DEFAULT_FRAME_WIDTH_PX = 2;
+    private static final int DEFAULT_FRAME_CORNER_RADIUS_PX = 0;
+    private static final int DEFAULT_SELECTED_INDEX = 0;
+    private static final int DEFAULT_SEGMENT_PADDING_HORIZONTAL = 16;
+    private static final int DEFAULT_SEGMENT_PADDING_VERTICAL = 12;
+    private static final boolean DEFAULT_IS_GRADIENT = false;
+
+    private String[] mTexts = null;
+
+    private int mColorBackgroundSelected = DEFAULT_COLOR_BACKGROUND_SELECTED;
+    private int mColorBackgroundNormal = DEFAULT_COLOR_BACKGROUND_NORMAL;
+    private int mColorTextSelected = DEFAULT_COLOR_TEXT_SELECTED;
+    private int mColorTextNormal = DEFAULT_COLOR_TEXT_NORMAL;
+    private int mColorFrame = DEFAULT_COLOR_FRAME;
+    private int mFrameWidth = DEFAULT_FRAME_WIDTH_PX;
+    private int mFrameCornerRadius = DEFAULT_FRAME_CORNER_RADIUS_PX;
+
+    private int mTextSize = 0;
+    private int mSelectedIndex = DEFAULT_SELECTED_INDEX;
+
+    //used in wrap_content mode
+    private int mSegmentPaddingHorizontal = DEFAULT_SEGMENT_PADDING_HORIZONTAL;
+    private int mSegmentPaddingVertical = DEFAULT_SEGMENT_PADDING_VERTICAL;
+
+    private boolean mIsGradient = DEFAULT_IS_GRADIENT;
+    private OnSegmentChangedListener mOnSegmentChangedListener;
+
+    private float unitWidth = 0;
+    private Paint paintText;        //painter of the text
+    private Paint paintBackground;  //painter of the background
+    private Paint paintFrame;       //painter of the frame
+    private RectF rectF;
+    private RectF rectFArc;
+    private Path pathFrame;
+
+    private float textCenterYOffset;
+
+    private int preTouchedIndex = -1;
+    private int curTouchedIndex = -1;
+
+    private ViewPager viewPager;
 
     public SegmentControl(Context context) {
-        this(context, null);
+        super(context);
+        init();
     }
-
     public SegmentControl(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        initAttr(context, attrs);
+        init();
+    }
+    public SegmentControl(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initAttr(context, attrs);
+        init();
     }
 
-    public SegmentControl(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SegmentControl);
-
-        String textArray = ta.getString(R.styleable.SegmentControl_texts);
-        if (textArray != null) {
-            mTexts = textArray.split("\\|");
+    private void initAttr(Context context, AttributeSet attrs) {
+        if (attrs == null) {
+            return;
         }
 
-        mTextSize = ta.getDimensionPixelSize(R.styleable.SegmentControl_android_textSize, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, context.getResources().getDisplayMetrics()));
-        mCornerRadius = ta.getDimensionPixelSize(R.styleable.SegmentControl_cornerRadius, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics()));
-        mDirection = Direction.values()[ta.getInt(R.styleable.SegmentControl_android_orientation, 0)];
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SegmentControl);
 
-        mHorizonGap = ta.getDimensionPixelSize(R.styleable.SegmentControl_horizonGap, 0);
-        mVerticalGap = ta.getDimensionPixelSize(R.styleable.SegmentControl_verticalGap, 0);
-
-        int gap = ta.getDimensionPixelSize(R.styleable.SegmentControl_gaps, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
-
-        if(mHorizonGap == 0) {
-            mHorizonGap = gap;
+        int n = a.getIndexCount();
+        for (int i = 0; i < n; i++) {
+            int attr = a.getIndex(i);
+            if(attr == R.styleable.SegmentControl_scv_BackgroundSelectedColor){
+                mColorBackgroundSelected = a.getColor(attr, DEFAULT_COLOR_BACKGROUND_SELECTED);
+            }else if(attr == R.styleable.SegmentControl_scv_BackgroundNormalColor){
+                mColorBackgroundNormal = a.getColor(attr, DEFAULT_COLOR_BACKGROUND_NORMAL);
+            }else if(attr == R.styleable.SegmentControl_scv_TextSelectedColor){
+                mColorTextSelected = a.getColor(attr, DEFAULT_COLOR_TEXT_SELECTED);
+            }else if(attr == R.styleable.SegmentControl_scv_TextNormalColor){
+                mColorTextNormal = a.getColor(attr, DEFAULT_COLOR_TEXT_NORMAL);
+            }else if(attr == R.styleable.SegmentControl_scv_FrameColor){
+                mColorFrame = a.getColor(attr, DEFAULT_COLOR_FRAME);
+            }else if(attr == R.styleable.SegmentControl_scv_TextSize){
+                mTextSize = a.getDimensionPixelSize(attr, sp2px(getContext(), DEFAULT_TEXT_SIZE_SP));
+            }else if(attr == R.styleable.SegmentControl_scv_TextArray){
+                mTexts = convertCharSequenceToString(a.getTextArray(attr));
+            }else if(attr == R.styleable.SegmentControl_scv_FrameWidth){
+                mFrameWidth = a.getDimensionPixelSize(attr, DEFAULT_FRAME_WIDTH_PX);
+            }else if(attr == R.styleable.SegmentControl_scv_FrameCornerRadius){
+                mFrameCornerRadius = a.getDimensionPixelSize(attr, DEFAULT_FRAME_CORNER_RADIUS_PX);
+            }else if(attr == R.styleable.SegmentControl_scv_SelectedIndex){
+                mSelectedIndex = a.getInteger(attr, DEFAULT_SELECTED_INDEX);
+            }else if(attr == R.styleable.SegmentControl_scv_SegmentPaddingHorizontal){
+                mSegmentPaddingHorizontal = a.getDimensionPixelSize(attr, DEFAULT_SEGMENT_PADDING_HORIZONTAL);
+            }else if(attr == R.styleable.SegmentControl_scv_SegmentPaddingVertical){
+                mSegmentPaddingVertical = a.getDimensionPixelSize(attr, DEFAULT_SEGMENT_PADDING_VERTICAL);
+            }else if(attr == R.styleable.SegmentControl_scv_Gradient){
+                mIsGradient = a.getBoolean(attr, DEFAULT_IS_GRADIENT);
+            }
         }
-        if(mVerticalGap == 0) {
-            mVerticalGap = gap;
-        }
-
-        mBackgroundDrawable = new RadiusDrawable(mCornerRadius, true);
-        mBackgroundDrawable.setStrokeWidth(2);
-
-        DEFAULT_NORMAL_COLOR = ta.getColor(R.styleable.SegmentControl_normalColor, DEFAULT_NORMAL_COLOR);
-        DEFAULT_SELECTED_COLOR = ta.getColor(R.styleable.SegmentControl_selectedColor, DEFAULT_SELECTED_COLOR);
-
-        mBackgroundColors = ta.getColorStateList(R.styleable.SegmentControl_backgroundColors);
-        mTextColors = ta.getColorStateList(R.styleable.SegmentControl_textColors);
-        if (mBackgroundColors == null) {
-            mBackgroundColors = new ColorStateList(new int[][]{{android.R.attr.state_selected}, {-android.R.attr.state_selected}}, new int[]{DEFAULT_SELECTED_COLOR, DEFAULT_NORMAL_COLOR});
-        }
-
-        if(mTextColors == null){
-            mTextColors = new ColorStateList(new int[][]{{android.R.attr.state_selected}, {-android.R.attr.state_selected}}, new int[]{DEFAULT_NORMAL_COLOR, DEFAULT_SELECTED_COLOR});
-        }
-
-        mBoundWidth = ta.getDimensionPixelSize(R.styleable.SegmentControl_boundWidth, mBoundWidth);
-        mSeparatorWidth = ta.getDimensionPixelSize(R.styleable.SegmentControl_separatorWidth, mSeparatorWidth);
-
-        ta.recycle();
-
-        mBackgroundDrawable = new RadiusDrawable(mCornerRadius, true);
-        mBackgroundDrawable.setStrokeWidth(mBoundWidth);
-        mBackgroundDrawable.setStrokeColor(getSelectedBGColor());
-        mBackgroundDrawable.setFillColor(getNormalBGColor());
-
-        if (Build.VERSION.SDK_INT < 16) {
-            setBackgroundDrawable(mBackgroundDrawable);
-        } else {
-            setBackground(mBackgroundDrawable);
-        }
-
-        mSelectedDrawable = new RadiusDrawable(false);
-        mSelectedDrawable.setFillColor(getSelectedBGColor());
-
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setTextSize(mTextSize);
-        mCachedFM = mPaint.getFontMetrics();
-
-        int touchSlop = 0;
-        if (context == null) {
-            touchSlop = ViewConfiguration.getTouchSlop();
-        } else {
-            final ViewConfiguration config = ViewConfiguration.get(context);
-            touchSlop = config.getScaledTouchSlop();
-        }
-        mTouchSlop = touchSlop * touchSlop;
-        inTapRegion = false;
+        a.recycle();
     }
 
-    public void setText(String... texts) {
-        mTexts = texts;
-        if (mTexts != null) {
-            requestLayout();
-        }
-    }
+    private void init(){
+        rectF = new RectF();
+        rectFArc = new RectF();
+        pathFrame = new Path();
 
-    /**
-     * 设置文字颜色
-     *
-     * @param color 需要设置的颜色
-     */
-    public void setSelectedTextColors(ColorStateList color) {
-        mTextColors = color;
-        invalidate();
-    }
+        if(mTextSize == 0)
+            mTextSize = sp2px(getContext(), DEFAULT_TEXT_SIZE_SP);
 
-    /**
-     * 设置背景颜色
-     *
-     * @param colors 颜色
-     */
-    public void setColors(ColorStateList colors) {
-        mBackgroundColors = colors;
+        paintText = new Paint();
+        paintText.setAntiAlias(true);
+        paintText.setTextAlign(Paint.Align.CENTER);
+        paintText.setTextSize(mTextSize);
 
-        if (mBackgroundDrawable != null) {
-            mBackgroundDrawable.setStrokeColor(getSelectedBGColor());
-            mBackgroundDrawable.setFillColor(getNormalBGColor());
-        }
+        paintBackground = new Paint();
+        paintBackground.setAntiAlias(true);
+        paintBackground.setStyle(Paint.Style.FILL);
 
-        if (mSelectedDrawable != null) {
-            mSelectedDrawable.setFillColor(getSelectedBGColor());
-        }
+        paintFrame = new Paint();
+        paintFrame.setAntiAlias(true);
+        paintFrame.setStyle(Paint.Style.STROKE);
+        paintFrame.setStrokeWidth(mFrameWidth);
+        paintFrame.setColor(mColorFrame);
 
-        invalidate();
-    }
-
-    public void setCornerRadius(int cornerRadius) {
-        mCornerRadius = cornerRadius;
-
-        if (mBackgroundDrawable != null) {
-            mBackgroundDrawable.setRadius(cornerRadius);
-        }
-
-        invalidate();
-    }
-
-    public void setDirection(Direction direction) {
-        Direction tDirection = mDirection;
-
-        mDirection = direction;
-
-        if (tDirection != direction) {
-            requestLayout();
-            invalidate();
-        }
-    }
-
-    public void setTextSize(int textSize_sp) {
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize_sp);
-    }
-
-    public void setTextSize(int unit, int textSize) {
-        mPaint.setTextSize((int) (TypedValue.applyDimension(unit, textSize, getContext().getResources().getDisplayMetrics())));
-
-        if (textSize != mTextSize) {
-            mTextSize = textSize;
-            mCachedFM = mPaint.getFontMetrics();
-
-            requestLayout();
-        }
-    }
-
-    public void setSelectedIndex(int index) {
-        mCurrentIndex = index;
-
-        if(mOnSegmentControlClickListener != null) {
-            mOnSegmentControlClickListener.onSegmentControlClick(index);
-        }
-
-        invalidate();
+        textCenterYOffset = getTextCenterYOffset(paintText.getFontMetrics());
+        this.setClickable(true);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(measureWidth(widthMeasureSpec, paintText),
+                measureHeight(heightMeasureSpec, paintText));
+    }
 
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
 
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        rectF.left = getPaddingLeft();
+        rectF.top = getPaddingTop();
+        rectF.right = w - getPaddingRight();
+        rectF.bottom = h - getPaddingBottom();
+        float inset = (float)Math.ceil(mFrameWidth / 2);
+        rectF.inset(inset, inset);
 
-        int width = 0;
-        int height = 0;
-
-        if (mTexts != null && mTexts.length > 0) {
-
-            mSingleChildHeight = 0;
-            mSingleChildWidth = 0;
-
-            if (mCacheBounds == null || mCacheBounds.length != mTexts.length) {
-                mCacheBounds = new Rect[mTexts.length];
-            }
-
-            if (mTextBounds == null || mTextBounds.length != mTexts.length) {
-                mTextBounds = new Rect[mTexts.length];
-            }
-
-            for (int i = 0; i < mTexts.length; i++) {
-                String text = mTexts[i];
-
-                if(text != null){
-
-                    if(mTextBounds[i] == null) {
-                        mTextBounds[i] = new Rect();
-                    }
-
-                    mPaint.getTextBounds(text, 0, text.length(), mTextBounds[i]);
-
-                    if(mSingleChildWidth < mTextBounds[i].width() + mHorizonGap * 2) {
-                        mSingleChildWidth = mTextBounds[i].width() + mHorizonGap * 2;
-                    }
-                    if(mSingleChildHeight < mTextBounds[i].height() + mVerticalGap * 2) {
-                        mSingleChildHeight = mTextBounds[i].height() + mVerticalGap * 2;
-                    }
-                }
-            }
-
-            switch (widthMode) {
-                case MeasureSpec.AT_MOST:
-                    if (mDirection == Direction.HORIZONTAL) {
-                        if (widthSize <= mSingleChildWidth * mTexts.length) {
-                            mSingleChildWidth = widthSize / mTexts.length;
-                            width = widthSize;
-                        } else {
-                            width = mSingleChildWidth * mTexts.length;
-                        }
-                    } else {
-                        width = widthSize <= mSingleChildWidth ? widthSize : mSingleChildWidth;
-                    }
-                    break;
-                case MeasureSpec.EXACTLY:
-                    width = widthSize;
-                    break;
-                case MeasureSpec.UNSPECIFIED:
-                default:
-                    if (mDirection == Direction.HORIZONTAL) {
-                        width = mSingleChildWidth * mTexts.length;
-                    } else {
-                        width = mSingleChildWidth;
-                    }
-                    break;
-            }
-
-            switch (heightMode) {
-                case MeasureSpec.AT_MOST:
-                    if (mDirection == Direction.VERTICAL) {
-                        if (heightSize <= mSingleChildHeight * mTexts.length) {
-                            mSingleChildHeight = heightSize / mTexts.length;
-                            height = heightSize;
-                        } else {
-                            height = mSingleChildHeight * mTexts.length;
-                        }
-                    } else {
-                        height = heightSize <= mSingleChildHeight ? heightSize : mSingleChildHeight;
-                    }
-                    break;
-                case MeasureSpec.EXACTLY:
-                    height = heightSize;
-                    break;
-                case MeasureSpec.UNSPECIFIED:
-                default:
-                    if (mDirection == Direction.VERTICAL) {
-                        height = mSingleChildHeight * mTexts.length;
-                    } else {
-                        height = mSingleChildHeight;
-                    }
-
-                    break;
-            }
-
-            switch (mDirection) {
-                case HORIZONTAL:
-                    if (mSingleChildWidth != width / mTexts.length) {
-                        mSingleChildWidth = width / mTexts.length;
-                    }
-                    mSingleChildHeight = height;
-                    break;
-                case VERTICAL:
-                    if(mSingleChildHeight != height / mTexts.length) {
-                        mSingleChildHeight = height / mTexts.length;
-                    }
-                    mSingleChildWidth = width;
-                    break;
-                default:
-                    break;
-            }
-
-            for (int i = 0; i < mTexts.length; i++) {
-
-                if (mCacheBounds[i] == null) {
-                    mCacheBounds[i] = new Rect();
-                }
-
-                if (mDirection == Direction.HORIZONTAL) {
-                    mCacheBounds[i].left = i * mSingleChildWidth;
-                    mCacheBounds[i].top = 0;
-                } else {
-                    mCacheBounds[i].left = 0;
-                    mCacheBounds[i].top = i * mSingleChildHeight;
-                }
-
-                mCacheBounds[i].right = mCacheBounds[i].left + mSingleChildWidth;
-                mCacheBounds[i].bottom = mCacheBounds[i].top + mSingleChildHeight;
-            }
-        } else {
-            width = widthMode == MeasureSpec.UNSPECIFIED ? 0 : widthSize;
-            height = heightMode == MeasureSpec.UNSPECIFIED ? 0 : heightSize;
+        if(mTexts!= null && mTexts.length > 0){
+            unitWidth = rectF.width() / mTexts.length;
         }
 
-        setMeasuredDimension(width, height);
+        rectFArc.left = 0;
+        rectFArc.top = 0;
+        rectFArc.right = 2 * mFrameCornerRadius;
+        rectFArc.bottom = 2 * mFrameCornerRadius;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if(!isStringArrayEmpty(mTexts)){
+            drawBackgroundAndFrameAndText(canvas);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+        preTouchedIndex = curTouchedIndex;
+        switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                inTapRegion = true;
-
-                mStartX = event.getX();
-                mStartY = event.getY();
+                curTouchedIndex = getTouchedIndex(event.getX(), event.getY());
+                if(preTouchedIndex != curTouchedIndex){
+                    invalidate();
+                }
                 break;
-
             case MotionEvent.ACTION_MOVE:
-                mCurrentX = event.getX();
-                mCurrentY = event.getY();
-
-                int dx = (int) (mCurrentX - mStartX);
-                int dy = (int) (mCurrentY - mStartY);
-
-                int distance = dx * dx + dy * dy;
-
-                if (distance > mTouchSlop) {
-                    inTapRegion = false;
+                curTouchedIndex = getTouchedIndex(event.getX(), event.getY());
+                if(preTouchedIndex != curTouchedIndex){
+                    invalidate();
                 }
                 break;
-
             case MotionEvent.ACTION_UP:
-                if (inTapRegion) {
-                    int index = 0;
-                    if (mDirection == Direction.HORIZONTAL) {
-                        index = (int) (mStartX / mSingleChildWidth);
-                    } else {
-                        index = (int) (mStartY / mSingleChildHeight);
+                curTouchedIndex = getTouchedIndex(event.getX(), event.getY());
+                if(curTouchedIndex != -1){
+                    if(mOnSegmentChangedListener != null && mSelectedIndex != curTouchedIndex){
+                        mOnSegmentChangedListener.onSegmentChanged(curTouchedIndex);
                     }
+                    mSelectedIndex = curTouchedIndex;
+                }
+                curTouchedIndex = -1;
+                if(mIsGradient && checkViewPagerOnPageChangeListener(this.viewPager)){
 
-                    setSelectedIndex(index);
+                }else{
+                    invalidate();
                 }
                 break;
-            default:
+            case MotionEvent.ACTION_CANCEL:
+                curTouchedIndex = -1;
+                invalidate();
                 break;
         }
-        return true;
+        return super.onTouchEvent(event);
     }
 
-    private int getSelectedTextColor(){
-        return mTextColors.getColorForState(new int[]{android.R.attr.state_selected}, DEFAULT_NORMAL_COLOR);
+    public void setTextSize(int textSize){
+        if(this.mTextSize != textSize){
+            this.mTextSize = textSize;
+            paintText.setTextSize(textSize);
+            textCenterYOffset = getTextCenterYOffset(paintText.getFontMetrics());
+            requestLayout();
+            invalidate();
+        }
     }
 
-    private int getNormalTextColor(){
-        return mTextColors.getColorForState(new int[]{-android.R.attr.state_selected}, DEFAULT_SELECTED_COLOR);
+    public int getSelectedIndex(){
+        return mSelectedIndex;
     }
 
-    private int getSelectedBGColor(){
-        return mBackgroundColors.getColorForState(new int[]{android.R.attr.state_selected}, DEFAULT_SELECTED_COLOR);
-    }
-
-    private int getNormalBGColor(){
-        return mBackgroundColors.getColorForState(new int[]{-android.R.attr.state_selected}, DEFAULT_NORMAL_COLOR);
-    }
-
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        if (mTexts != null && mTexts.length > 0) {
-
-            for (int i = 0; i < mTexts.length; i++) {
-
-                //draw separate lines
-                if (i < mTexts.length - 1) {
-                    mPaint.setColor(getSelectedBGColor());
-                    mPaint.setStrokeWidth(mSeparatorWidth);
-                    if (mDirection == Direction.HORIZONTAL) {
-                        canvas.drawLine(mCacheBounds[i].right, 0, mCacheBounds[i].right, getHeight(), mPaint);
-                    } else {
-                        canvas.drawLine(mCacheBounds[i].left, mSingleChildHeight * (i + 1), mCacheBounds[i].right, mSingleChildHeight * (i + 1), mPaint);
-                    }
-                }
-
-                //draw selected drawable
-                if (i == mCurrentIndex && mSelectedDrawable != null) {
-                    int topLeftRadius = 0;
-                    int topRightRadius = 0;
-                    int bottomLeftRadius = 0;
-                    int bottomRightRadius = 0;
-
-                    if(mTexts.length == 1){
-                        topLeftRadius = mCornerRadius;
-                        bottomLeftRadius = mCornerRadius;
-                        topRightRadius = mCornerRadius;
-                        bottomRightRadius = mCornerRadius;
-                    }else{
-                        if (mDirection == Direction.HORIZONTAL) {
-                            if (i == 0) {
-                                topLeftRadius = mCornerRadius;
-                                bottomLeftRadius = mCornerRadius;
-                            } else if (i == mTexts.length - 1) {
-                                topRightRadius = mCornerRadius;
-                                bottomRightRadius = mCornerRadius;
-                            }
-                        } else {
-                            if (i == 0) {
-                                topLeftRadius = mCornerRadius;
-                                topRightRadius = mCornerRadius;
-                            } else if (i == mTexts.length - 1) {
-                                bottomLeftRadius = mCornerRadius;
-                                bottomRightRadius = mCornerRadius;
-                            }
-                        }
-                    }
-
-                    mSelectedDrawable.setRadius(topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius);
-                    mSelectedDrawable.setBounds(mCacheBounds[i]);
-                    mSelectedDrawable.draw(canvas);
-
-                    mPaint.setColor(getSelectedTextColor());
-                } else {
-                    mPaint.setColor(getNormalTextColor());
-                }
-
-                //draw texts
-
-                float baseline = mCacheBounds[i].top + ((mSingleChildHeight - mCachedFM.ascent + mCachedFM.descent) / 2) - mCachedFM.descent;
-                canvas.drawText(mTexts[i], mCacheBounds[i].left + (mSingleChildWidth - mTextBounds[i].width()) / 2, baseline, mPaint);
-
+    public void setSelectedIndex(int selectedIndex){
+        if(mSelectedIndex != selectedIndex){
+            mSelectedIndex = selectedIndex;
+            if(mOnSegmentChangedListener != null){
+                mOnSegmentChangedListener.onSegmentChanged(mSelectedIndex);
+            }
+//          invalidate();
+            if(mIsGradient && checkViewPagerOnPageChangeListener(this.viewPager)){
+            }else{
+                invalidate();
             }
         }
     }
 
-    // =========================================================
-    // OnSegmentControlClickListener
-    // =========================================================
-    private OnSegmentControlClickListener mOnSegmentControlClickListener;
-
-    public void setOnSegmentControlClickListener(OnSegmentControlClickListener listener) {
-        mOnSegmentControlClickListener = listener;
+    public void setTextColor(int textColorNormal, int textColorSelected){
+        this.mColorTextNormal = textColorNormal;
+        this.mColorTextSelected = textColorSelected;
+        invalidate();
     }
 
-    public OnSegmentControlClickListener getOnSegmentControlClicklistener() {
-        return mOnSegmentControlClickListener;
+    public void setBackgroundColor(int backgroundColorNormal, int backgroundColorSelected){
+        this.mColorBackgroundNormal = backgroundColorNormal;
+        this.mColorBackgroundSelected = backgroundColorSelected;
+        invalidate();
     }
 
-    public interface OnSegmentControlClickListener {
-        void onSegmentControlClick(int index);
+    public void setFrameColor(int frameColor){
+        this.mColorFrame = frameColor;
+        invalidate();
+    }
+
+    public void setFrameWidth(int frameWidth){
+        this.mFrameWidth = frameWidth;
+        requestLayout();
+        invalidate();
+    }
+
+    public void setTexts(String[] texts){
+        assertTextsValid(texts);
+        if(texts == null || texts.length < 2){
+            throw new IllegalArgumentException("SegmentControlView's content text array'length should larger than 1");
+        }
+        if(checkIfEqual(this.mTexts, texts)){
+            return;
+        }
+        this.mTexts = texts;
+        unitWidth = rectF.width() / texts.length;
+        requestLayout();
+        invalidate();
+    }
+
+    public int getCount(){
+        if(mTexts == null) return 0;
+        return mTexts.length;
+    }
+
+    /**
+     * setViewPager(viewpager) to response to the change of ViewPager
+     * @param viewPager the viewPager you want segmentcontrolview to respond with
+     */
+    public void setViewPager(ViewPager viewPager) {
+        this.viewPager = viewPager;
+        if (viewPager != null) {
+            viewPager.setOnPageChangeListener(new InternalViewPagerListener());
+        }
+    }
+
+    /**
+     * set if this view has the Gradient effect when segment changed
+     * @param gradient set if you want gradient effect
+     */
+    public void setGradient(boolean gradient){
+        if(mIsGradient != gradient){
+            mIsGradient = gradient;
+        }
+    }
+
+    public boolean getGradient(){
+        return mIsGradient;
+    }
+
+    /**
+     * when segment changed,
+     * mOnSegmentChangedListener.onSegmentChanged(newSelectedIndex) will be triggered
+     * @param listener OnSegmentChangedListener
+     */
+    public void setOnSegmentChangedListener(OnSegmentChangedListener listener){
+        mOnSegmentChangedListener = listener;
+    }
+
+    public void update(){
+        invalidate();
+    }
+
+    private float getTextCenterYOffset(Paint.FontMetrics fontMetrics){
+        if(fontMetrics == null) return 0;
+        return Math.abs(fontMetrics.top + fontMetrics.bottom)/2;
+    }
+
+    private String[] convertCharSequenceToString(CharSequence[] csArray){
+        if(csArray == null) return null;
+        String[] sArray = new String[csArray.length];
+        for(int i = 0; i < csArray.length; i++){
+            sArray[i] = csArray[i].toString();
+        }
+        return sArray;
+    }
+
+    private void assertTextsValid(String[] texts){
+        if(texts == null || texts.length < 2){
+            throw new IllegalArgumentException("SegmentControlView's content text array'length should larger than 1");
+        }
+    }
+
+    private boolean checkViewPagerOnPageChangeListener(ViewPager viewPager){
+        if(viewPager == null) return false;
+        Field field = null;
+        try {
+            field = ViewPager.class.getDeclaredField("mOnPageChangeListener");
+            if(field == null) return false;
+            field.setAccessible(true);
+            Object o = field.get(viewPager);
+            if(o != null && o instanceof InternalViewPagerListener){
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    private int getTouchedIndex(float x, float y){
+
+        if(!rectF.contains(x, y)){
+            return -1;
+        }
+        for(int i = 0; i < mTexts.length; i++){
+            if(rectF.left + i * unitWidth <= x && x < rectF.left + (i + 1) * unitWidth){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean checkIfEqual(String[] a, String[] b){
+        if(a == null && b == null){
+            return true;
+        }
+        if(a != null){
+            if(b == null){
+                return false;
+            }
+            if(a.length != b.length){
+                return false;
+            }
+            for(int i = 0; i < a.length; i++){
+                if(a[i] == null && b[i] == null){
+                    continue;
+                }
+                if(a[i] != null && a[i].equals(b[i])){
+                    continue;
+                }else{
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private int measureWidth(int measureSpec, Paint paint) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        } else {
+            int maxWidth = 0;
+            int maxWidthItem = getMaxWidthOfTextArray(mTexts, paint);
+            maxWidth = (maxWidthItem + 2 * mSegmentPaddingHorizontal + 2 * mFrameWidth) * mTexts.length;
+
+            if(maxWidth < 2 * mFrameCornerRadius){
+                maxWidth = 2 * mFrameCornerRadius;
+            }
+
+            result = this.getPaddingLeft() + this.getPaddingRight() + maxWidth;//MeasureSpec.UNSPECIFIED
+            if (specMode == MeasureSpec.AT_MOST) {
+                result = Math.min(result, specSize);
+            }
+        }
+        return result;
+    }
+
+    private int measureHeight(int measureSpec, Paint paint) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        } else {
+            int maxHeight = 0;
+            int maxHeightItem = getMaxHeightOfTextArray(mTexts, paint);
+
+            maxHeight = maxHeightItem + 2 * mSegmentPaddingVertical + 2 * mFrameWidth;
+
+            if(maxHeight < 2 * mFrameCornerRadius){
+                maxHeight = 2 * mFrameCornerRadius;
+            }
+
+            result = this.getPaddingTop() + this.getPaddingBottom() + maxHeight;//MeasureSpec.UNSPECIFIED
+            if (specMode == MeasureSpec.AT_MOST) {
+                result = Math.min(result, specSize);
+            }
+        }
+        return result;
+    }
+
+    private int getMaxWidthOfTextArray(String[] array, Paint paint){
+        if(array == null){
+            return 0;
+        }
+        int maxWidth = 0;
+        for(String item : array){
+            if(item != null){
+                int itemWidth = getTextWidth(item, paint);
+                maxWidth = Math.max(itemWidth, maxWidth);
+            }
+        }
+        return maxWidth;
+    }
+
+    private int getMaxHeightOfTextArray(String[] array, Paint paint){
+        if(array == null){
+            return 0;
+        }
+        int maxHeight = 0;
+        for(String item : array){
+            if(item != null){
+                int itemHeight = getTextHeight(item, paint);
+                maxHeight = Math.max(itemHeight, maxHeight);
+            }
+        }
+        return maxHeight;
+    }
+
+    private void drawBackgroundAndFrameAndText(Canvas canvas){
+        int curBackgroundColor = 0;
+        int curTextColor = 0;
+        for(int i = 0; i < mTexts.length; i++){
+            float left = rectF.left + unitWidth * i;
+            pathFrame.reset();
+            if(i == 0){
+                pathFrame.moveTo(rectF.left, rectF.top + mFrameCornerRadius);
+                rectFArc.offsetTo(rectF.left, rectF.top);
+                pathFrame.arcTo(rectFArc, 180, 90);
+                pathFrame.lineTo(rectF.left + unitWidth, rectF.top);
+                pathFrame.lineTo(rectF.left + unitWidth, rectF.bottom);
+                pathFrame.lineTo(rectF.left + mFrameCornerRadius, rectF.bottom);
+                rectFArc.offsetTo(rectF.left, rectF.bottom - 2 * mFrameCornerRadius);
+                pathFrame.arcTo(rectFArc, 90, 90);
+            }else if(i == (mTexts.length - 1)){
+                pathFrame.moveTo(rectF.left + i * unitWidth, rectF.top);
+                pathFrame.lineTo(rectF.right - mFrameCornerRadius, rectF.top);
+                rectFArc.offsetTo(rectF.right - 2 * mFrameCornerRadius, rectF.top);
+                pathFrame.arcTo(rectFArc, 270, 90);
+                pathFrame.lineTo(rectF.right, rectF.bottom - mFrameCornerRadius);
+                rectFArc.offsetTo(rectF.right - 2 * mFrameCornerRadius, rectF.bottom - 2 * mFrameCornerRadius);
+                pathFrame.arcTo(rectFArc, 0, 90);
+                pathFrame.lineTo(rectF.left + i * unitWidth, rectF.bottom);
+            }else{
+                pathFrame.moveTo(left, rectF.top);
+                pathFrame.lineTo(left + unitWidth, rectF.top);
+                pathFrame.lineTo(left + unitWidth, rectF.bottom);
+                pathFrame.lineTo(left, rectF.bottom);
+            }
+            pathFrame.close();
+
+            if(!mIsGradient){
+                if(i == mSelectedIndex){
+                    curBackgroundColor = mColorBackgroundSelected;
+                    curTextColor = mColorTextSelected;
+                }else{
+                    curBackgroundColor = mColorBackgroundNormal;
+                    curTextColor = mColorTextNormal;
+                }
+            }
+            if(mIsGradient){
+                if(viewPagerPositionOffset != 0f){
+                    if(i == viewPagerPosition){
+                        curBackgroundColor = getEvaluateColor(viewPagerPositionOffset, mColorBackgroundSelected, mColorBackgroundNormal);
+                        curTextColor = getEvaluateColor(viewPagerPositionOffset, mColorTextSelected, mColorTextNormal);
+                    }else if(i == viewPagerPosition + 1){
+                        curBackgroundColor = getEvaluateColor(viewPagerPositionOffset, mColorBackgroundNormal, mColorBackgroundSelected);
+                        curTextColor = getEvaluateColor(viewPagerPositionOffset, mColorTextNormal, mColorTextSelected);
+                    }else{
+                        curBackgroundColor = mColorBackgroundNormal;
+                        curTextColor = mColorTextNormal;
+                    }
+                }else{
+                    if(i == mSelectedIndex){
+                        curBackgroundColor = mColorBackgroundSelected;
+                        curTextColor = mColorTextSelected;
+                    }else{
+                        curBackgroundColor = mColorBackgroundNormal;
+                        curTextColor = mColorTextNormal;
+                    }
+                }
+            }
+            paintBackground.setColor(curBackgroundColor);
+
+            if(curTouchedIndex == i){
+                paintBackground.setColor(getDarkColor(curBackgroundColor, TOUCHED_BACKGROUND_DARK_COEFFICIENT));
+            }
+            canvas.drawPath(pathFrame, paintBackground);
+            canvas.drawPath(pathFrame, paintFrame);
+
+            paintText.setColor(curTextColor);
+            canvas.drawText(mTexts[i], left + unitWidth / 2,rectF.centerY() + textCenterYOffset, paintText);
+        }
+    }
+
+    private int viewPagerPosition = -1;
+    private float viewPagerPositionOffset = 0f;
+    private class InternalViewPagerListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if(mIsGradient){
+                mSelectedIndex = position;
+                viewPagerPosition = position;
+                viewPagerPositionOffset = positionOffset;
+                invalidate();
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if(mIsGradient){
+            }else{
+                SegmentControl.this.setSelectedIndex(position);
+            }
+        }
+    }
+
+    private int getDarkColor(int color, float darkCoefficient){
+
+        int a = (color & 0xff000000) >>> 24;
+        int r = (color & 0x00ff0000) >>> 16;
+        int g = (color & 0x0000ff00) >>> 8;
+        int b = (color & 0x000000ff) >>> 0;
+
+        r = (int)(r * darkCoefficient);
+        g = (int)(g * darkCoefficient);
+        b = (int)(b * darkCoefficient);
+
+        return a << 24 | r << 16 | g << 8 | b;
+    }
+
+    private int getEvaluateColor(float fraction, int startColor, int endColor){
+
+        int a, r, g, b;
+
+        int sA = (startColor & 0xff000000) >>> 24;
+        int sR = (startColor & 0x00ff0000) >>> 16;
+        int sG = (startColor & 0x0000ff00) >>> 8;
+        int sB = (startColor & 0x000000ff) >>> 0;
+
+        int eA = (endColor & 0xff000000) >>> 24;
+        int eR = (endColor & 0x00ff0000) >>> 16;
+        int eG = (endColor & 0x0000ff00) >>> 8;
+        int eB = (endColor & 0x000000ff) >>> 0;
+
+        a = (int)(sA + (eA - sA) * fraction);
+        r = (int)(sR + (eR - sR) * fraction);
+        g = (int)(sG + (eG - sG) * fraction);
+        b = (int)(sB + (eB - sB) * fraction);
+
+        return a << 24 | r << 16 | g << 8 | b;
+    }
+
+    private boolean isStringArrayEmpty(String[] array){
+        return (array == null || array.length == 0);
+    }
+
+    private static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    private int getTextWidth(String text, Paint paint){
+        if(!TextUtils.isEmpty(text)){
+            return (int)(paint.measureText(text) + 0.5f);
+        }
+        return -1;
+    }
+
+    private int getTextHeight(String text, Paint paint){
+        if(!TextUtils.isEmpty(text)){
+            Rect textBounds = new Rect();
+            paint.getTextBounds(text, 0, text.length(), textBounds);
+            return textBounds.height();
+        }
+        return -1;
     }
 }
