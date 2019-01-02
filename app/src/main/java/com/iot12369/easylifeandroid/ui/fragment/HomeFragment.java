@@ -162,7 +162,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mNewLockView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mNewLockView.createLockDialog().show();
+                if (mNewLockView.judge()) {
+                    mNewLockView.createLockDialog().show();
+                    return;
+                }
             }
         });
         RelativeLayout.LayoutParams paramsNewLockView = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,

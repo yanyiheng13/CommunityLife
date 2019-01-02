@@ -32,6 +32,7 @@ import com.iot12369.easylifeandroid.ui.fragment.MineFragment;
 import com.iot12369.easylifeandroid.ui.fragment.HomeFragment;
 import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
+import com.iot12369.easylifeandroid.util.ToastUtil;
 import com.iot12369.easylifeandroid.util.UiTitleBarUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -202,7 +203,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     private void setTabTextIcon(int position) {
         if (position == 0 || position == 1 || position == 3) {
             String json = SharePrefrenceUtil.getString("config", "list");
-            if (TextUtils.isEmpty(json)) {
+            if (TextUtils.isEmpty(json) || json.length() < 10) {
                 selectTab(this.position);
                 getPopupWindow().show();
                 return;
@@ -211,6 +212,11 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
             if (!isAlreadyCertification(data != null ? data.list : null)) {
                 selectTab(this.position);
                 getPopupWindow().show();
+                return;
+            }
+            if (LeApplication.mAddressVo == null) {
+                selectTab(this.position);
+                ToastUtil.toast(this, "数据异常，当前暂无默认地址");
                 return;
             }
         }

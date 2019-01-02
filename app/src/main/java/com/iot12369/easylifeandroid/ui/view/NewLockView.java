@@ -117,10 +117,10 @@ public class NewLockView extends RelativeLayout {
     }
 
     public void onClickKind(int kind) {
-        if (!isAlreadyCertification(mListAddress)) {
-            getPopupWindow().show();
-            return;
-        }
+//        if (!isAlreadyCertification(mListAddress)) {
+//            getPopupWindow().show();
+//            return;
+//        }
         if (!isDialogShow || mImgUnlockOne == null || mImgUnlockTwo == null) {
             return;
         }
@@ -131,6 +131,14 @@ public class NewLockView extends RelativeLayout {
             mImageHeight = mImgUnlockOne.getLayoutParams().height;
         }
         update(STATE_ING, kind);
+    }
+
+    public boolean judge() {
+        if (!isAlreadyCertification(mListAddress)) {
+            getPopupWindow().show();
+            return false;
+        }
+        return true;
     }
 
     public Dialog getPopupWindow() {

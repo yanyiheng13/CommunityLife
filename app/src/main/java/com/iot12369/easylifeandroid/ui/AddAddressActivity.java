@@ -33,6 +33,7 @@ import com.iot12369.easylifeandroid.model.ProvinceModel;
 import com.iot12369.easylifeandroid.mvp.AddAddressPresenter;
 import com.iot12369.easylifeandroid.mvp.contract.AddAddressContract;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
+import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
@@ -146,7 +147,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                     String province = mTvProvince.getText().toString();
                     String city = mTvCity.getText().toString();
                     String area = mTvQu.getText().toString();
-                    if ("市区".equals(area)) {
+                    if ("其他".equals(area)) {
                         area = "";
                     }
                     getPresenter().communityList(province, city, area);
@@ -170,7 +171,7 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
                 LoginData data = LeApplication.mUserInfo;
                 getPresenter().addAddress(data.opopenId, data.memberId, data.phone, mEtName.getText().toString(),
                         mEtCertificationNum.getText().toString(), mEtLocation.getText().toString(),
-                        mEtAddress.getText().toString(), mTvQu.getText().toString(), communityId, mBudingDoorId);
+                        mEtAddress.getText().toString(), mTvProvince.getText().toString(), mTvCity.getText().toString(), mTvQu.getText().toString(), communityId, mBudingDoorId);
                 break;
             case R.id.ssss:
                 getPopCity().showAtLocation(mTitleView, Gravity.BOTTOM,0, 0);
@@ -197,10 +198,44 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
     @Override
     public void onSuccessAddress(AddressVo addressData) {
         LoadingDialog.hide();
-        if (!TextUtils.isEmpty(addressData.memberId)) {
-            ToastUtil.toast(this, "提交成功,等待物业审核");
-            finish();
+        if (addressData == null) {
+            ToastUtil.toast(this, "提交失败");
+        } else {
+            if (!TextUtils.isEmpty(addressData.memberId)) {
+                ToastUtil.toast(this, "提交成功,等待物业审核");
+                finish();
+            } else {
+                getPopupWindow().show();
+            }
         }
+
+    }
+
+    public Dialog getPopupWindow() {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_certi, null);
+        TextView txtCer = (TextView) contentView.findViewById(R.id.cer_tv);
+        TextView txt = (TextView) contentView.findViewById(R.id.txt);
+        txtCer.setText("知道了");
+        txt.setText("已通知业主进行审核，请耐心等待!");
+        TextView close = (TextView) contentView.findViewById(R.id.close);
+        final MyDialog popWnd = new MyDialog(getContext());
+        popWnd.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        popWnd.setCancelable(true);
+        popWnd.setCanceledOnTouchOutside(true);
+        txtCer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+                AddAddressActivity.newIntent(getContext());
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWnd.dismiss();
+            }
+        });
+        return popWnd;
     }
 
     public Dialog getPopupWindow(final String[] data) {

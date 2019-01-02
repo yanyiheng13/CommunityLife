@@ -26,7 +26,7 @@ import okhttp3.RequestBody;
 public class AddAddressPresenter extends BasePresenter<Repository, AddAddressContract.View> {
 
     public void addAddress(String openid, String memberid, String phone, String memberName,
-                           String memberIdCard, String communityName, String communityRawAddress, String qu,
+                           String memberIdCard, String communityName, String communityRawAddress, String province, String city, String qu,
                            String communityId, String budingDoorId) {
         RequestData data = new RequestData();
         data.openid = openid;
@@ -36,8 +36,8 @@ public class AddAddressPresenter extends BasePresenter<Repository, AddAddressCon
         data.memberIdCard = memberIdCard;
         data.communityName = communityName;
         data.communityRawAddress = communityRawAddress;
-        data.communityProvince = "天津";
-        data.communityCity = "天津市";
+        data.communityProvince = province;
+        data.communityCity = city;
         data.communityArea = qu;
         data.communityId = communityId;
         data.budingDoorId = budingDoorId;

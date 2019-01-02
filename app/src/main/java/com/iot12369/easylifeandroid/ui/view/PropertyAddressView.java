@@ -282,6 +282,9 @@ public class PropertyAddressView extends LinearLayout {
     }
 
     public PropertyAddressView updateData(final String level, FamilyData familyData) {
+        if (familyData == null) {
+            return this;
+        }
         mListView.clear();
         mLlAddressContain.removeAllViews();
         List<FamilVo> list = familyData.list;
