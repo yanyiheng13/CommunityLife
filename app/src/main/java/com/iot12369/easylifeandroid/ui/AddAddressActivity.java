@@ -226,7 +226,6 @@ public class AddAddressActivity extends BaseActivity<AddAddressPresenter> implem
             @Override
             public void onClick(View v) {
                 popWnd.dismiss();
-                AddAddressActivity.newIntent(getContext());
             }
         });
         close.setOnClickListener(new View.OnClickListener() {
