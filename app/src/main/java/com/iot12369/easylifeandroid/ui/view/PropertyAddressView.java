@@ -13,12 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.FamilVo;
 import com.iot12369.easylifeandroid.model.FamilyData;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import org.w3c.dom.Text;
@@ -256,6 +259,9 @@ public class PropertyAddressView extends LinearLayout {
         for (int i = 0; i < size; i++) {
             AddressVo addressVo = list.get(i);
             if ("2".equals(addressVo.estateAuditStatus)) {
+                if (LeApplication.mAddressVo == null || TextUtils.isEmpty(LeApplication.mAddressVo.communityId)) {
+                    SharePrefrenceUtil.setString("config", "communityId", addressVo.communityId);
+                }
                 isAlready = true;
                 break;
             }
@@ -273,6 +279,14 @@ public class PropertyAddressView extends LinearLayout {
         for (int i = 0; i < size; i++) {
             AddressVo addressVo = list.get(i);
             if ("1".equals(addressVo.currentEstate)) {
+                if (LeApplication.mAddressVo != null && !TextUtils.isEmpty(LeApplication.mAddressVo.communityId) && !LeApplication.mAddressVo.communityId.equals(addressVo.communityId)) {
+                    SharePrefrenceUtil.setString("config", "communityId", addressVo.communityId);
+                } else {
+                    if (LeApplication.mAddressVo != null) {
+                        LeApplication.mAddressVo.communityId = addressVo.communityId;
+                        SharePrefrenceUtil.setString("config", "user", new Gson().toJson(LeApplication.mAddressVo));
+                    }
+                }
                 address = addressVo;
                 break;
             }

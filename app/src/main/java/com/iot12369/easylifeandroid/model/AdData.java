@@ -16,4 +16,11 @@ public class AdData extends BaseBean implements Serializable {
     public String index_3_3;
     public String index_4;
     public String index_5;
+
+    public String index_1_target_url;
+    public String index_3_1_target_url;
+    public String index_3_2_target_url;
+    public String index_3_3_target_url;
+    public String index_4_target_url;
+    public String index_5_target_url;
 }

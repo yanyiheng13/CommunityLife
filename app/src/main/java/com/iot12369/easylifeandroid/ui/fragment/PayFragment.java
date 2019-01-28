@@ -33,6 +33,7 @@ import com.iot12369.easylifeandroid.ui.view.MyDialog;
 import com.iot12369.easylifeandroid.ui.view.PropertyAddressView;
 import com.iot12369.easylifeandroid.util.BigDecimalBuilder;
 import com.iot12369.easylifeandroid.util.CommonUtil;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import java.io.Serializable;
@@ -498,6 +499,9 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             mAddressVo = addressVo;
         }
         LeApplication.mAddressVo = mPropertyView.getCurrentAddress(addressData);
+//        if (LeApplication.mAddressVo != null && !TextUtils.isEmpty(LeApplication.mAddressVo.communityId)) {
+//            SharePrefrenceUtil.setString("config", "communityId", LeApplication.mAddressVo.communityId);
+//        }
     }
 
     @Override

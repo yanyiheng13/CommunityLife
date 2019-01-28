@@ -21,6 +21,7 @@ import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
+import com.iot12369.easylifeandroid.ui.WebViewActivity;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class NewLockView extends RelativeLayout {
     private int mImageWidth;
 
     private AdData mAdData;
+    private String mUrl;
 
     public NewLockView(Context context) {
         this(context, null);
@@ -73,7 +75,7 @@ public class NewLockView extends RelativeLayout {
         this(context, attrs, 0);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+//    @SuppressLint("ClickableViewAccessibility")
     public NewLockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.view_new_lock, this);
@@ -169,6 +171,9 @@ public class NewLockView extends RelativeLayout {
         if (myDialogUnlock == null) {
             myDialogUnlock = new MyDialog(getContext());
         }
+        if (mAdData != null) {
+            mUrl = mAdData.index_4_target_url;
+        }
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_unlock, null);
         mImgAd = (ImageView) contentView.findViewById(R.id.img_unlock_ad);
         mImgUnlockOne = (ImageView) contentView.findViewById(R.id.img_community_door);
@@ -176,12 +181,20 @@ public class NewLockView extends RelativeLayout {
         mTvTipOne = (TextView) contentView.findViewById(R.id.tv_community_door);
         mTvTipTwo = (TextView) contentView.findViewById(R.id.tv_unit_door);
         if (mAdData != null && !TextUtils.isEmpty(mAdData.index_4)) {
-            Glide.with(getContext()).load(mAdData.index_4).into(mImgUnlockOne);
+            Glide.with(getContext()).load(mAdData.index_4).into(mImgAd);
         }
         ImageView imgClose = (ImageView) contentView.findViewById(R.id.img_close);
         if (mImgAd.getLayoutParams() != null) {
             mImgAd.getLayoutParams().height = (int)((662 / 1080.00) * (mWidth - 100));
         }
+        mImgAd.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(mUrl)) {
+                    WebViewActivity.newIntent(getContext(), mUrl);
+                }
+            }
+        });
         myDialogUnlock.setContentView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         myDialogUnlock.setCancelable(false);
         myDialogUnlock.setCanceledOnTouchOutside(false);
@@ -195,17 +208,20 @@ public class NewLockView extends RelativeLayout {
         mImgUnlockOne.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mAdData != null && !TextUtils.isEmpty(mAdData.index_4)) {
-                    Glide.with(getContext()).load(mAdData.index_4).into(mImgUnlockOne);
+                if (mAdData != null && !TextUtils.isEmpty(mAdData.index_5)) {
+                    Glide.with(getContext()).load(mAdData.index_5).into(mImgAd);
                 }
                 onClickKind(1);
+                if (mAdData != null) {
+                    mUrl = mAdData.index_5_target_url;
+                }
             }
         });
         mImgUnlockTwo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mAdData != null && !TextUtils.isEmpty(mAdData.index_5)) {
-                    Glide.with(getContext()).load(mAdData.index_5).into(mImgUnlockTwo);
+//                    Glide.with(getContext()).load(mAdData.index_5).into(mImgUnlockTwo);
                 }
                 onClickKind(2);
             }
@@ -275,6 +291,10 @@ public class NewLockView extends RelativeLayout {
                     }
                     mTvTipTwo.setText("开锁成功");
                     mTimer2.start();
+                    if (myDialogUnlock != null && myDialogUnlock.isShowing()) {
+                        myDialogUnlock.dismiss();
+                        isDialogShow = false;
+                    }
                 }
                 break;
             case STATE_FAILURE:

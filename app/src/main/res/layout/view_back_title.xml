@@ -39,4 +39,16 @@
         tools:text="@string/login"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="16dp"/>
+    <TextView
+        android:id="@+id/title_txt_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:textSize="@dimen/font_14"
+        android:text="关闭"
+        android:visibility="gone"
+        android:layout_gravity="right"
+        android:textColor="@color/white"
+        android:gravity="center"/>
 </merge>

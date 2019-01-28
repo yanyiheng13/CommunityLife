@@ -3,6 +3,7 @@ package com.iot12369.easylifeandroid.mvp;
 
 import com.google.gson.Gson;
 import com.iot12369.easylifeandroid.LeApplication;
+import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
@@ -28,6 +29,24 @@ import okhttp3.RequestBody;
  * @Copyright (c) 2017. 闫毅恒 Inc. All rights reserved.
  */
 public class HomePresenter extends BasePresenter<Repository, HomeContract.View> {
+
+    public void getAdlist(String communityId) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().getAdlist(communityId)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<AdData>>() {
+
+            @Override
+            public void onSuccess(String response, BaseBean<AdData> data) {
+                getRootView().onSuccessAd(data.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureAd(error, error);
+            }
+        }).start();
+    }
+
 
     public void lock(String memberid, String phone, String _comment, final String kind) {
         LockData data = new LockData();

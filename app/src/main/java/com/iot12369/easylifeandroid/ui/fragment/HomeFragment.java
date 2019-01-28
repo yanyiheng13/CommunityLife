@@ -51,6 +51,7 @@ import com.iot12369.easylifeandroid.mvp.contract.HomeContract;
 import com.iot12369.easylifeandroid.ui.AddressListActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.BaseFragment;
+import com.iot12369.easylifeandroid.ui.WebViewActivity;
 import com.iot12369.easylifeandroid.ui.view.BadgeView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.LockView;
@@ -60,6 +61,7 @@ import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 import com.youth.banner.transformer.FlipHorizontalTransformer;
 
@@ -183,6 +185,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             mAdData = new Gson().fromJson(ad, new TypeToken<AdData>() {
             }.getType());
         }
+        mNewLockView.setData(mAdData);
         List<String> listData = new ArrayList<>();
         if (mAdData != null) {
             if (!TextUtils.isEmpty(mAdData.index_3_1)) {
@@ -203,12 +206,30 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mBanner.setDelayTime(5000);
         //设置指示器位置（当banner模式中有指示器时）
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
-        mBanner.setBannerAnimation(FlipHorizontalTransformer.class);
+//        mBanner.setBannerAnimation(FlipHorizontalTransformer.class);
         //banner设置方法全部调用完毕时最后调用
         //设置图片集合
         mBanner.setImages(listData);
         //banner设置方法全部调用完毕时最后调用
         mBanner.start();
+        mBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if (position == 0) {
+                    if (mAdData != null && !TextUtils.isEmpty(mAdData.index_3_1_target_url) && mAdData.index_3_1_target_url.startsWith("http")) {
+                        WebViewActivity.newIntent(getContext(), mAdData.index_3_1_target_url);
+                    }
+                } else if (position == 1) {
+                    if (mAdData != null && !TextUtils.isEmpty(mAdData.index_3_2_target_url) && mAdData.index_3_2_target_url.startsWith("http")) {
+                        WebViewActivity.newIntent(getContext(), mAdData.index_3_2_target_url);
+                    }
+                } else if (position == 2) {
+                    if (mAdData != null && !TextUtils.isEmpty(mAdData.index_3_3_target_url) && mAdData.index_3_3_target_url.startsWith("http")) {
+                        WebViewActivity.newIntent(getContext(), mAdData.index_3_3_target_url);
+                    }
+                }
+            }
+        });
         mBadgeView.hide();
         getPresenter().notReadMsg(LeApplication.mUserInfo.phone);
 
@@ -226,6 +247,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 onSuccessAddressList(addressData);
             }
         }
+        LoginData userInfo = LeApplication.mUserInfo;
+        getPresenter().getAdlist(userInfo == null ? "" : userInfo.communityId);
     }
 
     public void detectionLocation() {
@@ -407,6 +430,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void onResume() {
         super.onResume();
         if (isResumed() && LeApplication.mCurrentTag == LeApplication.TAG_HOME) {
+            String communityId = SharePrefrenceUtil.getString("config", "communityId");
+            if (!TextUtils.isEmpty(communityId)) {
+               getPresenter().getAdlist(communityId);
+            }
             getPresenter().addressList(LeApplication.mUserInfo.phone);
             mBanner.startAutoPlay();
             getPresenter().notReadMsg(LeApplication.mUserInfo.phone);
@@ -545,6 +572,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         for (int i = 0; i < size; i++) {
             AddressVo addressVo = list.get(i);
             if ("1".equals(addressVo.currentEstate)) {
+                if (LeApplication.mAddressVo != null && !TextUtils.isEmpty(LeApplication.mAddressVo.communityId) && !LeApplication.mAddressVo.communityId.equals(addressVo.communityId)) {
+                    SharePrefrenceUtil.setString("config", "communityId", addressVo.communityId);
+                } else {
+                    if (LeApplication.mAddressVo != null) {
+                        LeApplication.mAddressVo.communityId = addressVo.communityId;
+                        SharePrefrenceUtil.setString("config", "user", new Gson().toJson(LeApplication.mAddressVo));
+                    }
+                }
                 address = addressVo;
                 break;
             }
@@ -654,6 +689,38 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onFailureUploadPhoneBook(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessAd(AdData data) {
+        mAdData = data;
+        mNewLockView.setData(mAdData);
+        List<String> listData = new ArrayList<>();
+        mBanner.update(listData);
+        if (mAdData != null) {
+            if (!TextUtils.isEmpty(mAdData.index_3_1)) {
+                listData.add(mAdData.index_3_1);
+            }
+            if (!TextUtils.isEmpty(mAdData.index_3_2)) {
+                listData.add(mAdData.index_3_2);
+            }
+            if (!TextUtils.isEmpty(mAdData.index_3_3)) {
+                listData.add(mAdData.index_3_3);
+            }
+        }
+        if (listData.size() == 0) {
+            listData.add("file:///android_asset/icon_banner.png");
+        }
+        mBanner.update(listData);
+        if (data != null) {
+            SharePrefrenceUtil.setString("config", "adData", new Gson().toJson(data));
+        }
+        SharePrefrenceUtil.setString("config", "communityId", "");
+    }
+
+    @Override
+    public void onFailureAd(String code, String msg) {
 
     }
 

@@ -55,6 +55,8 @@ public class AdActivity extends BaseActivity<AdPresenter> implements AdContract.
     TextView mTvTime;
 
     private AdData mAdData;
+    private boolean isIntoHome = false;
+    private boolean isIntoAd = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,10 +103,30 @@ public class AdActivity extends BaseActivity<AdPresenter> implements AdContract.
         @Override
         public void onFinish() {
             if (!isDestroyed()) {
+                if (isIntoAd) {
+                    return;
+                }
+                isIntoHome = true;
                 judgeJump();
             }
         }
     };
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        judgeJump();
+    }
+
+    @OnClick(R.id.ad_img_top)
+    public void onClickAd() {
+        if (mAdData == null || TextUtils.isEmpty(mAdData.index_1_target_url) || !mAdData.index_1_target_url.startsWith("http") || isIntoHome) {
+            return;
+        }
+        isIntoAd = true;
+        countDownTimer.cancel();
+        WebViewActivity.newIntent(this, mAdData.index_1_target_url);
+    }
 
     @OnClick(R.id.ad_time)
     public void onClick(View view) {

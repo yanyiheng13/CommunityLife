@@ -35,6 +35,8 @@ public class WithBackTitleView extends LinearLayout {
     ImageView mImageIcon;
     @BindView(R.id.view_line)
     View mViewLine;
+    @BindView(R.id.title_txt_right)
+    TextView mTvRight;
 
     public WithBackTitleView(Context context) {
         this(context, null);
@@ -58,6 +60,7 @@ public class WithBackTitleView extends LinearLayout {
         }
         return this;
     }
+
 
     public WithBackTitleView setImageResource(int drawableId) {
         if (drawableId != 0) {
@@ -96,5 +99,14 @@ public class WithBackTitleView extends LinearLayout {
     public void goneBackAndLine() {
         mRlBack.setVisibility(View.GONE);
         mViewLine.setVisibility(View.GONE);
+    }
+
+    public void setRightVisible() {
+        mTvRight.setVisibility(VISIBLE);
+    }
+
+    @OnClick(R.id.title_txt_right)
+    public void onRightClickListener() {
+        ((Activity)getContext()).finish();
     }
 }

@@ -20,7 +20,7 @@
     <string name="mine_wechat_nick">电话号码:%s</string>
     <string name="wechat_nick">微信昵称:%s</string>
     <string name="wechat_num">微信公众号:宣邑科技</string>
-    <string name="version">版本:%s</string>
+    <string name="version">版本:v%s</string>
     <string name="current_property">当前物业</string>
     <string name="property_address">物业地址</string>
     <string name="property_amount">缴费物业</string>
@@ -112,6 +112,7 @@
     <string name="sure_to_logout">是否退出账号</string>
     <string name="app_cancel">取消</string>
     <string name="app_logout">退出</string>
+    <string name="content_detail">内容详情</string>
     <string name="app_copy">Copyright © 2017 邑智家版权所有</string>
 
 

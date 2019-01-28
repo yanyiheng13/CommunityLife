@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.iot12369.easylifeandroid.MainActivity;
+import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
+import com.iot12369.easylifeandroid.ui.AuthorizationActivity;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -118,13 +121,35 @@ public class MessageReceiver extends XGPushBaseReceiver {
 				Toast.LENGTH_SHORT).show();
 		// 获取自定义key-value
 		String customContent = message.getCustomContent();
+		Log.d("yanyiheng", "====" + customContent);
 		if (customContent != null && customContent.length() != 0) {
 			try {
 				JSONObject obj = new JSONObject(customContent);
 				// key1为前台配置的key
-				if (!obj.isNull("key")) {
-					String value = obj.getString("key");
+				if (!obj.isNull("actionType")) {
+					String value = obj.getString("actionType");
+//					String value = "authorizationPage";
 					Log.d(LogTag, "get custom value:" + value);
+					if ("homePage".equals(value)) {
+						Intent intent = new Intent(context, MainActivity.class);
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						context.startActivity(intent);
+					} else if ("messagePage".equals(value)) {
+						Intent intent = new Intent(context, AnnouncementActivity.class);
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						context.startActivity(intent);
+					} else if ("payPage".equals(value)) {
+						Intent intent = new Intent(context, MainActivity.class);
+						intent.putExtra("tab", "pay");
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						context.startActivity(intent);
+					} else if ("authorizationPage".equals(value)) {
+						Intent intent = new Intent(context, AuthorizationActivity.class);
+						intent.putExtra("tab", "pay");
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						context.startActivity(intent);
+					}
+
 				}
 				// ...
 			} catch (JSONException e) {

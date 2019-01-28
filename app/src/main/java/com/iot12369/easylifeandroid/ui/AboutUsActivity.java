@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
+import com.iot12369.easylifeandroid.BuildConfig;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.ui.view.NoLineTextView;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
@@ -52,7 +53,7 @@ public class AboutUsActivity extends BaseActivity {
     }
 
     private void init() {
-        mTvVersion.setText(String.format(getString(R.string.version), "V1.0.0"));
+        mTvVersion.setText(String.format(getString(R.string.version), BuildConfig.VERSION_NAME));
 //        mTvWeChatNum.setText(String.format(getString(R.string.wechat_num), "10000eerss"));
     }
 

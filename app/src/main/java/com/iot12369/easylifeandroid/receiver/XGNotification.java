@@ -5,6 +5,7 @@ public class XGNotification {
 	private Long msg_id;
 	private String title;
 	private String content;
+	public String custom_content;
 	private String activity;
 	private int notificationActionType;
 	private String update_time;
@@ -14,7 +15,7 @@ public class XGNotification {
 	}
 
 	public XGNotification(Integer id, Long msg_id, String title,
-			String content, String activity, int notificationActionType, String update_time) {
+			String content, String activity, int notificationActionType, String update_time, String custom_content) {
 		super();
 		this.id = id;
 		this.msg_id = msg_id;
@@ -23,6 +24,7 @@ public class XGNotification {
 		this.activity = activity;
 		this.notificationActionType = notificationActionType;
 		this.update_time = update_time;
+		this.custom_content = custom_content;
 	}
 
 	public Integer getId() {

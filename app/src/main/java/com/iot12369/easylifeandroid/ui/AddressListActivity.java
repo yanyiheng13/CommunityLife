@@ -24,6 +24,7 @@ import com.iot12369.easylifeandroid.mvp.contract.AddressListContract;
 import com.iot12369.easylifeandroid.ui.view.EmptyView;
 import com.iot12369.easylifeandroid.ui.view.LoadingDialog;
 import com.iot12369.easylifeandroid.ui.view.WithBackTitleView;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.iot12369.easylifeandroid.util.ToastUtil;
 
 import java.io.Serializable;
@@ -164,6 +165,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter> impl
             ToastUtil.toast(this, "设置默认地址失败");
             return;
         }
+        SharePrefrenceUtil.setString("config", "communityId", addressData.communityId);
         Intent intent = new Intent();
         intent.putExtra(TAG_REQUEST_HOME, mAddressData);
         setResult(Activity.RESULT_OK, intent);

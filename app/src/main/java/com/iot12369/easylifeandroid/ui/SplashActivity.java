@@ -45,8 +45,10 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         XGPushClickedResult click = XGPushManager.onActivityStarted(this);
         if (click != null) {
-            finish();
-            return;
+            if (!isTaskRoot()) {
+                finish();
+                return;
+            }
         }
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);

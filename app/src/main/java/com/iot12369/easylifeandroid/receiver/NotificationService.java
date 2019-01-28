@@ -32,6 +32,7 @@ public class NotificationService {
 		values.put("activity", notification.getActivity());
 		values.put("notificationActionType", notification.getNotificationActionType());
 		values.put("update_time", notification.getUpdate_time());
+		values.put("custom_content", notification.custom_content);
 		db.insert("notification", null, values);
 	}
 
@@ -54,6 +55,7 @@ public class NotificationService {
 		values.put("activity", notification.getActivity());
 		values.put("notificationActionType", notification.getNotificationActionType());
 		values.put("update_time", notification.getUpdate_time());
+		values.put("custom_content", notification.custom_content);
 		db.update("notification", values, "id=?", new String[] { notification
 				.getId().toString() });
 	}
@@ -74,7 +76,8 @@ public class NotificationService {
 						.getColumnIndex("content")), cursor.getString(cursor
 						.getColumnIndex("activity")), cursor.getInt(cursor
 						.getColumnIndex("notificationActionType")), cursor.getString(cursor
-						.getColumnIndex("update_time")));
+						.getColumnIndex("update_time")), cursor.getString(cursor
+				        .getColumnIndex("custom_content")));
 			}
 			return null;
 		} finally {
@@ -111,7 +114,8 @@ public class NotificationService {
 						.getColumnIndex("content")), cursor.getString(cursor
 						.getColumnIndex("activity")), cursor.getInt(cursor
 						.getColumnIndex("notificationActionType")), cursor.getString(cursor
-						.getColumnIndex("update_time"))));
+						.getColumnIndex("update_time")), cursor.getString(cursor
+						.getColumnIndex("custom_content"))));
 			}
 			return notifications;
 		} finally {

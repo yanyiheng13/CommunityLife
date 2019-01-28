@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid.mvp.contract;
 
+import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.IsOkData;
@@ -36,5 +37,8 @@ public class HomeContract {
 
         void onSuccessUploadPhonBook(String isOkData);
         void onFailureUploadPhoneBook(String code, String msg);
+
+        void onSuccessAd(AdData data);
+        void onFailureAd(String code, String msg);
     }
 }
