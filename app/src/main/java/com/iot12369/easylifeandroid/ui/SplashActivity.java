@@ -9,12 +9,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import com.iot12369.easylifeandroid.MainActivity;
 import com.iot12369.easylifeandroid.R;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
@@ -43,13 +46,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        XGPushClickedResult click = XGPushManager.onActivityStarted(this);
-        if (click != null) {
-            if (!isTaskRoot()) {
-                finish();
-                return;
-            }
-        }
+        SharePrefrenceUtil.setString("config", "actionTypeFlag", "haspush");
+//        Log.d("yanyiheng", "启动了");
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         mAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate);
@@ -58,7 +56,17 @@ public class SplashActivity extends BaseActivity {
         mAnimation.setInterpolator(new LinearInterpolator());
         mAnimation.setDuration(800);
         mImageLoading.startAnimation(mAnimation);
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isTaskRoot()) {
+//                    Log.d("yanyiheng", "跳转了");
+                    pushJump();
+                    finish();
+                    return;
+                }
+            }
+        }, 300);
         new Handler().postDelayed(new Runnable() {
              @Override
              public void run() {
@@ -67,7 +75,29 @@ public class SplashActivity extends BaseActivity {
          }, 1000);
     }
 
+    private void pushJump() {
+        String value = SharePrefrenceUtil.getString("config", "actionType");
+        if ("homePage".equals(value)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if ("messagePage".equals(value)) {
+            Intent intent = new Intent(this, AnnouncementActivity.class);
+            startActivity(intent);
+        } else if ("payPage".equals(value)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("tab", "pay");
+            startActivity(intent);
+        } else if ("authorizationPage".equals(value)) {
+            Intent intent = new Intent(this, AuthorizationActivity.class);
+            this.startActivity(intent);
+        }
+        SharePrefrenceUtil.setString("config", "actionType", "");
+    }
+
     public  void judgePermission() {
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
         if (rxPermissions == null) {
             rxPermissions = new RxPermissions(this);
         }

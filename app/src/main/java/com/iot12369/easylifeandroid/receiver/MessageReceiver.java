@@ -8,12 +8,15 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.iot12369.easylifeandroid.MainActivity;
 import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
 import com.iot12369.easylifeandroid.ui.AuthorizationActivity;
+import com.iot12369.easylifeandroid.ui.SplashActivity;
+import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -107,49 +110,36 @@ public class MessageReceiver extends XGPushBaseReceiver {
 			return;
 		}
 		String text = "";
-		if (message.getActionType() == XGPushClickedResult.NOTIFACTION_CLICKED_TYPE) {
+		if (message.getActionType() != XGPushClickedResult.NOTIFACTION_CLICKED_TYPE) {
 			// 通知在通知栏被点击啦。。。。。
 			// APP自己处理点击的相关动作
 			// 这个动作可以在activity的onResume也能监听，请看第3点相关内容
-			text = "通知被打开 :" + message;
-		} else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {
-			// 通知被清除啦。。。。
-			// APP自己处理通知被清除后的相关动作
-			text = "通知被清除 :" + message;
+            return;
 		}
-		Toast.makeText(context, "广播接收到通知被点击:" + message.toString(),
-				Toast.LENGTH_SHORT).show();
+//		else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {
+//			// 通知被清除啦。。。。
+//			// APP自己处理通知被清除后的相关动作
+//			text = "通知被清除 :" + message;
+//			return;
+//		}
 		// 获取自定义key-value
 		String customContent = message.getCustomContent();
-		Log.d("yanyiheng", "====" + customContent);
 		if (customContent != null && customContent.length() != 0) {
 			try {
 				JSONObject obj = new JSONObject(customContent);
 				// key1为前台配置的key
 				if (!obj.isNull("actionType")) {
 					String value = obj.getString("actionType");
-//					String value = "authorizationPage";
-					Log.d(LogTag, "get custom value:" + value);
-					if ("homePage".equals(value)) {
-						Intent intent = new Intent(context, MainActivity.class);
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						context.startActivity(intent);
-					} else if ("messagePage".equals(value)) {
-						Intent intent = new Intent(context, AnnouncementActivity.class);
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						context.startActivity(intent);
-					} else if ("payPage".equals(value)) {
-						Intent intent = new Intent(context, MainActivity.class);
-						intent.putExtra("tab", "pay");
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						context.startActivity(intent);
-					} else if ("authorizationPage".equals(value)) {
-						Intent intent = new Intent(context, AuthorizationActivity.class);
-						intent.putExtra("tab", "pay");
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						context.startActivity(intent);
-					}
-
+                    SharePrefrenceUtil.setString("config", "actionType", value);
+                    String pushFlag = SharePrefrenceUtil.getString("config", "actionTypeFlag");
+//                    Log.d("yanyiheng", "我是通知 ==" +  pushFlag);
+					String brand = android.os.Build.BRAND;
+					if (TextUtils.isEmpty(pushFlag)) {
+//                        Intent intent = new Intent(context, SplashActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(intent);
+                    }
+                    SharePrefrenceUtil.setString("config", "actionTypeFlag", "");
 				}
 				// ...
 			} catch (JSONException e) {

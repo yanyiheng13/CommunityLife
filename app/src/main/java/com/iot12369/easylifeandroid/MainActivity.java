@@ -24,6 +24,8 @@ import com.google.gson.reflect.TypeToken;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.ui.AddAddressActivity;
+import com.iot12369.easylifeandroid.ui.AnnouncementActivity;
+import com.iot12369.easylifeandroid.ui.AuthorizationActivity;
 import com.iot12369.easylifeandroid.ui.BaseActivity;
 import com.iot12369.easylifeandroid.ui.fragment.ComplainFragment;
 import com.iot12369.easylifeandroid.ui.fragment.PayFragment;
@@ -80,6 +82,15 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         init();
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null && "pay".equals(intent.getStringExtra("tab"))) {
+            selectTab(0);
+        }
     }
 
     /**
@@ -93,8 +104,32 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         mStatusBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mStatausBarHeight));
         mStatusBar.setVisibility(View.GONE);
         selectTab(2);
-//        setTabTextIcon(2);
+        pushJump();
     }
+    private void pushJump() {
+        String value = SharePrefrenceUtil.getString("config", "actionType");
+        if ("homePage".equals(value)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if ("messagePage".equals(value)) {
+            Intent intent = new Intent(this, AnnouncementActivity.class);
+            startActivity(intent);
+        } else if ("payPage".equals(value)) {
+          mBottomView.postDelayed(new Runnable() {
+              @Override
+              public void run() {
+                  selectTab(0);
+              }
+          }, 2000);
+        } else if ("authorizationPage".equals(value)) {
+            Intent intent = new Intent(this, AuthorizationActivity.class);
+            intent.putExtra("tab", "pay");
+            this.startActivity(intent);
+        }
+        SharePrefrenceUtil.setString("config", "actionTypeFlag", "");
+        SharePrefrenceUtil.setString("config", "actionType", "");
+    }
+
 
     private static Handler mHandler = new Handler() {
         @Override

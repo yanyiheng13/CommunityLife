@@ -152,6 +152,7 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
     @Override
     public void onSuccessLogin(LoginData loginData) {
         LeApplication.mUserInfo = loginData;
+        SharePrefrenceUtil.setString("config", "list", "");
         SharePrefrenceUtil.setString("config", "user", new Gson().toJson(loginData));
         LoadingDialog.hide();
         MainActivity.newIntent(this);

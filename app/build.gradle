@@ -97,8 +97,11 @@ dependencies {
     api 'com.danikula:videocache:2.7.0'
     api files('libs/paymax.jar')
 
-//    //信鸽jar，包含厂商通道(此版本已经集成厂商通道，无需另外导入厂商依赖包)
-    api 'com.tencent.xinge:xinge:4.0.3-otherpush-Release'
+    //信鸽普通版本jar，不包含厂商通道
+    api  'com.tencent.xinge:xinge:4.0.5-release'
+    api 'com.tencent.xinge:xghw:3.2.8-Release'
+    api 'com.tencent.xinge:mipush:3.2.8-release'
+    api 'com.tencent.xinge:xgmz:3.2.8-release'
     //jg包
     api'com.tencent.jg:jg:1.1'
     //wup包

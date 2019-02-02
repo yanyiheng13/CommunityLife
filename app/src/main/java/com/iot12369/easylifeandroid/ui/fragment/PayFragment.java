@@ -499,6 +499,7 @@ public class PayFragment extends BaseFragment<PayPresenter> implements PayContra
             mAddressVo = addressVo;
         }
         LeApplication.mAddressVo = mPropertyView.getCurrentAddress(addressData);
+        SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
 //        if (LeApplication.mAddressVo != null && !TextUtils.isEmpty(LeApplication.mAddressVo.communityId)) {
 //            SharePrefrenceUtil.setString("config", "communityId", LeApplication.mAddressVo.communityId);
 //        }

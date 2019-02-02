@@ -89,12 +89,21 @@
                 android:minHeight="68dp">
 
             </com.iot12369.easylifeandroid.ui.view.PropertyAddressView>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                android:background="@color/white">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/line_color"/>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/mine_account_certification_ll"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="55dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp">
@@ -115,12 +124,21 @@
                     android:textColor="@color/color_mine_txt"
                     android:textSize="@dimen/font_16" />
             </LinearLayout>
-
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:orientation="horizontal"
+               android:background="@color/white">
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="1dp"
+                   android:layout_marginLeft="20dp"
+                   android:background="@color/line_color"/>
+           </LinearLayout>
             <LinearLayout
                 android:id="@+id/mine_account_authorise_ll"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="55dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp">
@@ -145,7 +163,7 @@
             <LinearLayout
                 android:id="@+id/mine_pay_record_ll"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
@@ -171,7 +189,7 @@
             <LinearLayout
                 android:id="@+id/mine_about_us_ll"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
@@ -200,7 +218,7 @@
                 android:layout_height="46dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_exit_login"
                 android:gravity="center"
                 android:text="@string/exit_login"

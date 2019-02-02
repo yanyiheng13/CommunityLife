@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.util.SharePrefrenceUtil;
-import com.tencent.android.otherPush.StubAppUtils;
+//import com.tencent.android.otherPush.StubAppUtils;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -49,9 +49,9 @@ public class LeApplication extends Application {
         if (!TextUtils.isEmpty(json) || json.length() > 10) {
             mUserInfo = new Gson().fromJson(json, new TypeToken<LoginData>() {}.getType());
         }
-        XGPushConfig.enableDebug(this, true);
+        XGPushConfig.enableDebug(this, false);
         XGPushConfig.enableOtherPush(getApplicationContext(), true);
-        XGPushConfig.setHuaweiDebug(true);
+        XGPushConfig.setHuaweiDebug(false);
         XGPushConfig.setMiPushAppId(getApplicationContext(), "2882303761517681516");
         XGPushConfig.setMiPushAppKey(getApplicationContext(), "5951768191516");
         XGPushConfig.setMzPushAppId(this, "6fa9f2d0210a42dc95cbc46597316b1f");
@@ -78,7 +78,7 @@ public class LeApplication extends Application {
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
         MultiDex.install(context);
-        StubAppUtils.attachBaseContext(context);
+//        StubAppUtils.attachBaseContext(context);
     }
 
     public static boolean isLogin() {
