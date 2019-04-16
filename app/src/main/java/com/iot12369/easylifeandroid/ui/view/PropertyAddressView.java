@@ -284,7 +284,7 @@ public class PropertyAddressView extends LinearLayout {
                 } else {
                     if (LeApplication.mAddressVo != null) {
                         LeApplication.mAddressVo.communityId = addressVo.communityId;
-                        SharePrefrenceUtil.setString("config", "user", new Gson().toJson(LeApplication.mAddressVo));
+                        SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
                     }
                 }
                 address = addressVo;

@@ -42,6 +42,7 @@ import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.AnnouncementVo;
 import com.iot12369.easylifeandroid.model.ContactsInfo;
+import com.iot12369.easylifeandroid.model.DeviceTokenRequest;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.LoginData;
 import com.iot12369.easylifeandroid.model.NoticeData;
@@ -124,6 +125,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     //读取联系人信息
     private ContentResolver contentResolver;
     private AdData mAdData;
+
+    private String mCountMsg;
 
     @Override
     public int inflateId() {
@@ -249,6 +252,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
         LoginData userInfo = LeApplication.mUserInfo;
         getPresenter().getAdlist(userInfo == null ? "" : userInfo.communityId);
+
+        if (!TextUtils.isEmpty(LeApplication.deviceToken) && userInfo != null) {
+            DeviceTokenRequest deviceToken = new DeviceTokenRequest();
+            deviceToken.phone = userInfo.phone;
+            deviceToken.token = LeApplication.deviceToken;
+            getPresenter().uploadDeviceToken(deviceToken);
+        }
+
     }
 
     public void detectionLocation() {
@@ -456,7 +467,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_announcement_more_rl:
-                AnnouncementActivity.newIntent(getContext());
+                AnnouncementActivity.newIntent(getContext(), mCountMsg);
                 break;
             case R.id.home_top_key_img:
                 AddressListActivity.newIntent(getActivity(), mAddressList, mAddress, 100);
@@ -577,7 +588,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 } else {
                     if (LeApplication.mAddressVo != null) {
                         LeApplication.mAddressVo.communityId = addressVo.communityId;
-                        SharePrefrenceUtil.setString("config", "user", new Gson().toJson(LeApplication.mAddressVo));
+                        SharePrefrenceUtil.setString("config", "list", new Gson().toJson(addressData));
                     }
                 }
                 address = addressVo;
@@ -672,7 +683,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             mBadgeView.setVisibility("0".equals(notReadMsgCount.countOfunread) ? View.GONE : View.VISIBLE);
             mBadgeView.setText(notReadMsgCount.countOfunread);
             mBadgeView.setTextSize(9);
+            LeApplication.msgCount = Integer.valueOf(notReadMsgCount.countOfunread);
         } else {
+            LeApplication.msgCount = 0;
             mBadgeView.hide();
         }
     }
@@ -721,6 +734,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onFailureAd(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSucceesDeviceToken(String str) {
+
+    }
+
+    @Override
+    public void onFailureDeviceToken(String code, String msg) {
 
     }
 

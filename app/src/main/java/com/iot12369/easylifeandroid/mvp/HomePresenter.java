@@ -7,6 +7,7 @@ import com.iot12369.easylifeandroid.model.AdData;
 import com.iot12369.easylifeandroid.model.AddressData;
 import com.iot12369.easylifeandroid.model.AddressVo;
 import com.iot12369.easylifeandroid.model.BaseBean;
+import com.iot12369.easylifeandroid.model.DeviceTokenRequest;
 import com.iot12369.easylifeandroid.model.IsOkData;
 import com.iot12369.easylifeandroid.model.NoticeData;
 import com.iot12369.easylifeandroid.model.UpdateData;
@@ -180,6 +181,23 @@ public class HomePresenter extends BasePresenter<Repository, HomeContract.View> 
             public void onFailure(String error) {
                 super.onFailure(error);
                 getRootView().onFailureUpdateData(error, error);
+            }
+        }).application(LeApplication.mApplication).start();
+    }
+
+    public void uploadDeviceToken(DeviceTokenRequest deviceTokenRequest) {
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(deviceTokenRequest));
+        new RxHelper().view(getRootView()).load(getModel().getRemote().uploadDeviceToken(body)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<String>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<String> result) {
+                getRootView().onSucceesDeviceToken(result.data);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                super.onFailure(error);
+                getRootView().onFailureDeviceToken(error, error);
             }
         }).application(LeApplication.mApplication).start();
     }

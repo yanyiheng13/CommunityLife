@@ -26,6 +26,7 @@ public class LeApplication extends Application {
      */
     public static LeApplication mApplication;
     public static LoginData mUserInfo;
+    public static String deviceToken;
     public static IWXAPI api;
     public static boolean isExit;
 
@@ -34,6 +35,7 @@ public class LeApplication extends Application {
     public static int TAG_PAY = 0;
     public static int TAG_MAINTAIN = 1;
     public static int TAG_COMPLAIN = 3;
+    public static int msgCount;
 
     public static int mCurrentTag;
     public static AddressVo mAddressVo;
@@ -46,7 +48,7 @@ public class LeApplication extends Application {
         api.registerApp(BuildConfig.app_id);
         String str = SharePrefrenceUtil.getString("config", "loginType");
         String json = SharePrefrenceUtil.getString("config", "user");
-        if (!TextUtils.isEmpty(json) || json.length() > 10) {
+        if (!TextUtils.isEmpty(json) && json.length() > 8) {
             mUserInfo = new Gson().fromJson(json, new TypeToken<LoginData>() {}.getType());
         }
         XGPushConfig.enableDebug(this, false);
@@ -60,12 +62,13 @@ public class LeApplication extends Application {
             @Override
             public void onSuccess(Object data, int flag) {
                 //token在设备卸载重装的时候有可能会变
-                Log.d("TPush", "注册成功，设备token为：" + data);
+//                Log.d("TPush", "注册成功，设备token为：" + data);
+                LeApplication.deviceToken = (String) data;
             }
 
             @Override
             public void onFail(Object data, int errCode, String msg) {
-                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+//                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
             }
         });
         XGPushManager.bindAccount(getApplicationContext(), "XINGE");

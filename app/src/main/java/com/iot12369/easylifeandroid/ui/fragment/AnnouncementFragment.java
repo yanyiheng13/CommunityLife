@@ -1,5 +1,6 @@
 package com.iot12369.easylifeandroid.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -44,7 +45,7 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
     EmptyView mEmptyView;
 
     private BaseQuickAdapter<AnnouncementVo, BaseViewHolder> mAdapter;
-
+    List<AnnouncementVo> list;
     private int mTag;
     private boolean isLoadMore, isRefresh;
 
@@ -76,14 +77,25 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
                 helper.setText(R.id.announcement_item_des_tv, item.noticeTitle);//
                 helper.setVisible(R.id.imgDotMessage, "0".equals(item.readState));
 
-
                 helper.getView(R.id.view_announcement_item_root).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if ("0".equals(item.readState)) {
                             getPresenter().uploadMsgRead(LeApplication.mUserInfo.phone, item.noticeId);
                             item.readState = "1";
+                            LeApplication.msgCount = LeApplication.msgCount - 1;
                             mAdapter.notifyDataSetChanged();
+                        }
+                        z--;
+                        int notRead = 0;
+                        for (int i = 0; i < list.size(); i++) {
+                            AnnouncementVo announcementVo = list.get(i);
+                            if ("0".equals(announcementVo.readState)) {
+                                notRead++;
+                            }
+                        }
+                        if (listener != null) {
+                            listener.onListener(mTag, notRead);
                         }
                         AnnounceDetailActivity.newIntent(getContext(), item);
                     }
@@ -145,11 +157,26 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         fragment.setArguments(bundle);
         return fragment;
     }
-
+    private int z = 5;
     @Override
     public void onSuccessAnnouncement(AnnouncementData announcementData) {
         if (mSwipeRefreshLayout == null) {
             return;
+        }
+        if (announcementData == null || announcementData.list == null || announcementData.list.size() <= 0) {
+            mEmptyView.onEmpty();
+            return;
+        }
+        list = announcementData.list;
+        int notRead = 0;
+        for (int i = 0; i < list.size(); i++) {
+            AnnouncementVo announcementVo = list.get(i);
+            if ("0".equals(announcementVo.readState)) {
+                notRead++;
+            }
+        }
+        if (listener != null) {
+            listener.onListener(mTag, notRead);
         }
         mSwipeRefreshLayout.setRefreshing(false);
         mEmptyView.onSuccess();
@@ -157,6 +184,17 @@ public class AnnouncementFragment extends BaseFragment<AnnouncementPresenter> im
         mAdapter.loadMoreEnd(false);
         isRefresh = false;
         isLoadMore = false;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (OnTagListener) context;
+    }
+
+    public  OnTagListener listener;
+    public interface OnTagListener {
+        void onListener(int tag, int count);
     }
 
     @Override

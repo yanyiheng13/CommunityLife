@@ -40,5 +40,8 @@ public class HomeContract {
 
         void onSuccessAd(AdData data);
         void onFailureAd(String code, String msg);
+
+        void onSucceesDeviceToken(String str);
+        void onFailureDeviceToken(String code, String msg);
     }
 }

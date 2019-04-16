@@ -321,6 +321,12 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     }
 
     @Override
+    protected void onDestroy() {
+        LeApplication.msgCount = 0;
+        super.onDestroy();
+    }
+
+    @Override
     protected boolean isCalculateHeight() {
         return true;
     }

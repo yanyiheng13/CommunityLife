@@ -205,6 +205,10 @@ public interface RemoteService {
     Flowable<ResponseBody> update();
 
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @POST("http://xuanyi.iot12369.com:8989/api/push/v1/token")
+    Flowable<ResponseBody> uploadDeviceToken(@Body RequestBody body);
+
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("member/v1/estate")
     Flowable<ResponseBody> addStaff(@Body RequestBody body);
 

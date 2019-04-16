@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.RelativeLayout;
 
+import com.iot12369.easylifeandroid.LeApplication;
 import com.iot12369.easylifeandroid.R;
 import com.iot12369.easylifeandroid.ui.fragment.AnnouncementFragment;
 import com.iot12369.easylifeandroid.ui.view.SegmentControl;
@@ -24,7 +27,7 @@ import butterknife.ButterKnife;
  * @Copyright (c) 2017. Inc. All rights reserved.
  */
 
-public class AnnouncementActivity extends BaseActivity {
+public class AnnouncementActivity extends BaseActivity implements AnnouncementFragment.OnTagListener {
 
     @BindView(R.id.title_view)
     WithBackTitleView mTitleView;
@@ -32,13 +35,22 @@ public class AnnouncementActivity extends BaseActivity {
     @BindView(R.id.segment)
     SegmentControl mSegmentControl;
 
+    @BindView(R.id.rl_dot1)
+    RelativeLayout mRlDot1;
+    @BindView(R.id.rl_dot2)
+    RelativeLayout mRlDot2;
+
     private Fragment oldFragment;
-
-
+    private String mCount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            mCount = getIntent().getStringExtra("count");
+        } else {
+            mCount = savedInstanceState.getString("count");
+        }
         setContentView(R.layout.activity_announcement);
         ButterKnife.bind(this);
         mTitleView.setText(R.string.announcement).setImageResource2(R.mipmap.icon_notice_new);
@@ -77,8 +89,9 @@ public class AnnouncementActivity extends BaseActivity {
         ft.commitAllowingStateLoss();
     }
 
-    public static void newIntent(Context context) {
+    public static void newIntent(Context context, String count) {
         Intent intent = new Intent(context, AnnouncementActivity.class);
+        intent.putExtra("count", count);
         context.startActivity(intent);
     }
 
@@ -88,6 +101,30 @@ public class AnnouncementActivity extends BaseActivity {
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("count", mCount);
 //        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onListener(int tag, int count) {
+        if (tag == 1) {
+            if (count <= 0) {
+                mRlDot1.setVisibility(View.INVISIBLE);
+            } else {
+                mRlDot1.setVisibility(View.VISIBLE);
+            }
+            if (LeApplication.msgCount > count) {
+                mRlDot2.setVisibility(View.VISIBLE);
+            }
+        } else if (tag == 2) {
+            if (count <= 0) {
+                mRlDot2.setVisibility(View.INVISIBLE);
+            } else {
+                mRlDot2.setVisibility(View.VISIBLE);
+            }
+            if (LeApplication.msgCount > count) {
+                mRlDot1.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

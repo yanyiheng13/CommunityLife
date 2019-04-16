@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.iot12369.easylifeandroid.ui.view.WithBackTitleView
@@ -13,13 +13,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <com.iot12369.easylifeandroid.ui.view.SegmentControl
             android:id="@+id/segment"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             app:scv_BackgroundSelectedColor="@color/colorTextSelect"
@@ -27,16 +27,61 @@
             app:scv_FrameCornerRadius="6dp"
             app:scv_FrameWidth="1dp"
             app:scv_Gradient="true"
-            android:layout_centerInParent="true"
             app:scv_SegmentPaddingVertical="5dp"
             app:scv_TextArray="@array/message_array"
-            app:scv_TextNormalColor="@color/black"
-            />
+            app:scv_TextNormalColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_dot1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@mipmap/icon_dot"
+                    android:layout_alignParentEnd="true"
+                    android:scaleType="centerCrop"
+                     />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_dot2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/icon_dot" />
+            </RelativeLayout>
+
+        </LinearLayout>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#A4A4A4"/>
+        android:background="#A4A4A4" />
+
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
